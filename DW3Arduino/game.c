@@ -21,8 +21,6 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->tileMapViewportScreenPos.y = 10;
    game->camPosition.x = 500.0f;
    game->camPosition.y = 500.0f;
-
-
 }
 
 void Game_Tic( Game_t* game )

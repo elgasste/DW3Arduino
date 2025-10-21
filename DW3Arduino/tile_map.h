@@ -10,6 +10,9 @@
 #define TILEMAP_MAX_TILES_X      256
 #define TILEMAP_MAX_TILES_Y      256
 
+#define TILE_GET_TEXTURE_INDEX( tile )   ( ( tile ) & 0x1F )
+#define TILE_GET_IS_PASSABLE( tile )     ( ( ( tile ) >> 5 ) & 0x01 )
+
 typedef struct TileTexture_t
 {
    u8 paletteIndexes[TILE_SIZE * TILE_SIZE];
@@ -20,8 +23,9 @@ typedef struct TileMap_t
 {
    TileTexture_t tileTextures[TILEMAP_MAX_TEXTURES];
 
-   // bits 0-4: tile texture index
-   // bits 5-15: reserved
+   // bits 0-4:  tile texture index
+   // bit 5:     is passable
+   // bits 6-15: reserved
    u16 tiles[TILEMAP_MAX_TILES_X * TILEMAP_MAX_TILES_Y];
    u32 tilesX;
    u32 tilesY;

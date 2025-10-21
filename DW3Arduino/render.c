@@ -72,7 +72,7 @@ internal void Game_DrawTileMap( Game_t* game )
       for ( col = 0, x = game->tileMapViewportScreenPos.x; col <= (u32)( stopTileX - startTileX ); col++, x += TILE_SIZE )
       {
          Screen_DrawBoundedBuffer8( &game->screen,
-                                    game->tileMap.tileTextures[*tile].paletteIndexes,
+                                    game->tileMap.tileTextures[TILE_GET_TEXTURE_INDEX( *tile )].paletteIndexes,
                                     TILE_SIZE, TILE_SIZE,
                                     x + tileOffsetX, y + tileOffsetY,
                                     game->tileMapViewportScreenPos.x, game->tileMapViewportScreenPos.y,
