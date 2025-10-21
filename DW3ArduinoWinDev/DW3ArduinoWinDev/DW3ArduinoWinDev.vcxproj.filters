@@ -25,6 +25,9 @@
     <ClCompile Include="win_screen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\game_data.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\DW3Arduino\clock.h">

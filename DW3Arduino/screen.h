@@ -7,6 +7,8 @@
 #define SCREEN_HEIGHT                  240
 #define SCREEN_PIXELS                  ( SCREEN_WIDTH * SCREEN_HEIGHT )
 
+#define SCREEN_PALETTE_SIZE            256
+
 #define COLOR16_BLACK                  0x0000
 #define COLOR16_BLUE                   0x001F
 #define COLOR16_GREEN                  0x07E0
@@ -19,6 +21,7 @@
 typedef struct Screen_t
 {
    u16* buffer;
+   u16 palette[SCREEN_PALETTE_SIZE];
 }
 Screen_t;
 
@@ -26,12 +29,15 @@ Screen_t;
 extern "C" {
 #endif
 
-   void Screen_Init( Screen_t* screen, u16* buffer );
-   void Screen_WipeColor( Screen_t* screen, u16 color );
-   void Screen_DrawBuffer( Screen_t* screen, u16* buffer, u32 bufferWidth, u32 bufferHeight, i32 screenX, i32 screenY );
+void Screen_Init( Screen_t* screen, u16* buffer );
+void Screen_WipeColor( Screen_t* screen, u16 color );
+void Screen_DrawBuffer8( Screen_t* screen, u8* buffer, u32 bufferWidth, u32 bufferHeight, i32 screenX, i32 screenY );
 
-   // platform-specific
-   void Screen_Blit( Screen_t* screen );
+// game.c
+void Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index );
+
+// platform-specific
+void Screen_Blit( Screen_t* screen );
 
 #if defined( __cplusplus )
 }

@@ -17,10 +17,10 @@ void Screen_WipeColor( Screen_t* screen, u16 color )
    }
 }
 
-void Screen_DrawBuffer( Screen_t* screen, u16* buffer, u32 bufferWidth, u32 bufferHeight, i32 screenX, i32 screenY )
+void Screen_DrawBuffer8( Screen_t* screen, u8* buffer, u32 bufferWidth, u32 bufferHeight, i32 screenX, i32 screenY )
 {
    i32 bufferRow, bufferCol, x, y;
-   u16* bufferPos = buffer;
+   u8* bufferPos = buffer;
 
    for ( bufferRow = 0, y = screenY; bufferRow < (i32)bufferHeight; bufferRow++, y++ )
    {
@@ -30,7 +30,7 @@ void Screen_DrawBuffer( Screen_t* screen, u16* buffer, u32 bufferWidth, u32 buff
          {
             if ( x >= 0 && x < SCREEN_WIDTH )
             {
-               screen->buffer[ ( y * SCREEN_WIDTH ) + x ] = *bufferPos;
+               screen->buffer[ ( y * SCREEN_WIDTH ) + x ] = screen->palette[*bufferPos];
             }
 
             bufferPos++;
