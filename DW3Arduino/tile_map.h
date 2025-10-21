@@ -3,14 +3,25 @@
 
 #include "common.h"
 
-#define TILE_SIZE_X              16
+#define TILE_SIZE                16
+
+#define TILEMAP_MAX_TEXTURES     32
+
 #define TILEMAP_MAX_TILES_X      256
 #define TILEMAP_MAX_TILES_Y      256
 
+typedef struct TileTexture_t
+{
+   u8 paletteIndexes[TILE_SIZE * TILE_SIZE];
+}
+TileTexture_t;
+
 typedef struct TileMap_t
 {
-   // bits 0-7: palette index
-   // bits 8-15: reserved
+   TileTexture_t tileTextures[TILEMAP_MAX_TEXTURES];
+
+   // bits 0-4: tile texture index
+   // bits 5-15: reserved
    u16 tiles[TILEMAP_MAX_TILES_X * TILEMAP_MAX_TILES_Y];
    u32 tilesX;
    u32 tilesY;
@@ -24,6 +35,7 @@ extern "C" {
 void TileMap_Init( TileMap_t* tileMap );
 
 // game_data.c
+void TileMap_LoadTileTextures( TileMap_t* tileMap );
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index );
 
 #if defined( __cplusplus )

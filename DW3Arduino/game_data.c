@@ -19,6 +19,20 @@ void Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index )
    screen->palette[6]  = COLOR16_CYAN;
 }
 
+void TileMap_LoadTileTextures( TileMap_t* tileMap )
+{
+   u32 i, j;
+
+   // we can just use solid-colored textures for now
+   for ( i = 0; i < 7; i++ )
+   {
+      for ( j = 0; j < TILE_SIZE * TILE_SIZE; j++ )
+      {
+         tileMap->tileTextures[i].paletteIndexes[j] = (u8)i;
+      }
+   }
+}
+
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
 {
    u32 row, col;

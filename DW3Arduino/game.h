@@ -6,6 +6,7 @@
 #include "screen.h"
 #include "input.h"
 #include "tile_map.h"
+#include "vector.h"
 
 typedef struct Game_t
 {
@@ -13,6 +14,8 @@ typedef struct Game_t
    Screen_t screen;
    Input_t input;
    TileMap_t tileMap;
+   Vector4i32_t tileMapViewport;
+   Vector2u32_t tileMapViewportScreenPos;
 }
 Game_t;
 
@@ -22,6 +25,9 @@ extern "C" {
 
 void Game_Init( Game_t* game, u16* screenBuffer );
 void Game_Tic( Game_t* game );
+
+// render.c
+void Game_Draw( Game_t* game );
 
 #if defined( __cplusplus )
 }
