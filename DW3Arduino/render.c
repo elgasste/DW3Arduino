@@ -1,11 +1,13 @@
 #include "game.h"
 
 internal void Game_DrawTileMap( Game_t* game );
+internal void Game_DrawPlayer( Game_t* game );
 
 void Game_Draw( Game_t* game )
 {
    Screen_WipeColor( &game->screen, COLOR16_BLACK );
    Game_DrawTileMap( game );
+   Game_DrawPlayer( game );
    Screen_Blit( &game->screen );
 }
 
@@ -101,4 +103,14 @@ internal void Game_DrawTileMap( Game_t* game )
       *(screenPos + ( game->tileMapViewport.w - 1 ) ) = COLOR16_MAGENTA;
       screenPos += SCREEN_WIDTH;
    }*/
+}
+
+internal void Game_DrawPlayer( Game_t* game )
+{
+   Screen_DrawRect( &game->screen,
+                    ( (i32)( game->playerEntity.hitBox.x ) - game->tileMapViewport.x ) + game->tileMapViewportScreenPos.x,
+                    ( (i32)( game->playerEntity.hitBox.y ) - game->tileMapViewport.y ) + game->tileMapViewportScreenPos.y,
+                    (i32)( game->playerEntity.hitBox.w ),
+                    (i32)( game->playerEntity.hitBox.h ),
+                    COLOR16_YELLOW );
 }

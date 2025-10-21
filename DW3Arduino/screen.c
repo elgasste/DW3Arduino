@@ -17,6 +17,25 @@ void Screen_WipeColor( Screen_t* screen, u16 color )
    }
 }
 
+void Screen_DrawRect( Screen_t* screen, i32 x, i32 y, i32 w, i32 h, u16 color )
+{
+   u32 row, col;
+
+   for ( row = 0; row < (u32)h; row++ )
+   {
+      if ( row >= 0 && row < SCREEN_HEIGHT )
+      {
+         for ( col = 0; col < (u32)w; col++ )
+         {
+            if ( col >= 0 && col < SCREEN_WIDTH )
+            {
+               screen->buffer[( ( y + row ) * SCREEN_WIDTH ) + ( x + col )] = color;
+            }
+         }
+      }
+   }
+}
+
 void Screen_DrawBuffer8( Screen_t* screen, u8* buffer, u32 bufferWidth, u32 bufferHeight, i32 screenX, i32 screenY )
 {
    Screen_DrawBoundedBuffer8( screen, buffer, bufferWidth, bufferHeight,

@@ -1,14 +1,14 @@
 #if !defined( GAME_H )
 #define GAME_H
 
-#define CAM_VELOCITY    64.0f    // pixels per second
+#define PLAYER_MAX_VELOCITY    64.0f    // pixels per second
 
 #include "common.h"
 #include "clock.h"
 #include "screen.h"
 #include "input.h"
 #include "tile_map.h"
-#include "vector.h"
+#include "entity.h"
 
 typedef struct Game_t
 {
@@ -18,7 +18,7 @@ typedef struct Game_t
    TileMap_t tileMap;
    Vector4i32_t tileMapViewport;
    Vector2u32_t tileMapViewportScreenPos;
-   Vector2r32_t camPosition;
+   Entity_t playerEntity;
 }
 Game_t;
 
