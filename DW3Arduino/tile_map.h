@@ -2,6 +2,7 @@
 #define TILE_MAP_H
 
 #include "common.h"
+#include "vector.h"
 
 #define TILE_SIZE                16
 
@@ -12,6 +13,8 @@
 
 #define TILE_GET_TEXTURE_INDEX( tile )   ( ( tile ) & 0x1F )
 #define TILE_GET_IS_PASSABLE( tile )     ( ( ( tile ) >> 5 ) & 0x01 )
+
+typedef struct Entity_t Entity_t;
 
 typedef struct TileTexture_t
 {
@@ -29,6 +32,9 @@ typedef struct TileMap_t
    u16 tiles[TILEMAP_MAX_TILES_X * TILEMAP_MAX_TILES_Y];
    u32 tilesX;
    u32 tilesY;
+
+   Vector4i32_t viewport;
+   Vector2u32_t viewportScreenPos;
 }
 TileMap_t;
 
@@ -37,6 +43,7 @@ extern "C" {
 #endif
 
 void TileMap_Init( TileMap_t* tileMap );
+void TileMap_UpdateViewport( TileMap_t* tileMap, Entity_t* anchorEntity );
 
 // game_data.c
 void TileMap_LoadTileTextures( TileMap_t* tileMap );

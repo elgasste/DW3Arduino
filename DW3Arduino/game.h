@@ -16,8 +16,6 @@ typedef struct Game_t
    Screen_t screen;
    Input_t input;
    TileMap_t tileMap;
-   Vector4i32_t tileMapViewport;
-   Vector2u32_t tileMapViewportScreenPos;
    Entity_t playerEntity;
 }
 Game_t;

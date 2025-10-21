@@ -3,7 +3,6 @@
 internal void Game_HandleInput( Game_t* game );
 internal void Game_TicPhysics( Game_t* game );
 internal void Game_ClipPlayerEntity( Game_t* game );
-internal void Game_UpdateTileMapViewport( Game_t* game );
 
 void Game_Init( Game_t* game, u16* screenBuffer )
 {
@@ -16,19 +15,19 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    TileMap_LoadTileTextures( &game->tileMap );
    TileMap_LoadFromIndex( &game->tileMap, 0 );
 
-   game->tileMapViewport.w = 380;
-   game->tileMapViewport.h = 220;
-   game->tileMapViewportScreenPos.x = 20;
-   game->tileMapViewportScreenPos.y = 10;
+   game->tileMap.viewport.w = 380;
+   game->tileMap.viewport.h = 220;
+   game->tileMap.viewportScreenPos.x = 20;
+   game->tileMap.viewportScreenPos.y = 10;
 
    game->playerEntity.hitBox.x = 200.0f;
    game->playerEntity.hitBox.y = 200.0f;
-   game->playerEntity.hitBox.w = 50.0f;
-   game->playerEntity.hitBox.h = 50.0f;
+   game->playerEntity.hitBox.w = 12.0f;
+   game->playerEntity.hitBox.h = 12.0f;
    game->playerEntity.velocity.x = 0.0f;
    game->playerEntity.velocity.y = 0.0f;
 
-   Game_UpdateTileMapViewport( game );
+   TileMap_UpdateViewport( &game->tileMap, &game->playerEntity );
 }
 
 void Game_Tic( Game_t* game )
@@ -67,7 +66,7 @@ internal void Game_TicPhysics( Game_t* game )
    game->playerEntity.velocity.y = 0.0f;
 
    Game_ClipPlayerEntity( game );
-   Game_UpdateTileMapViewport( game );
+   TileMap_UpdateViewport( &game->tileMap, &game->playerEntity );
 }
 
 internal void Game_ClipPlayerEntity( Game_t* game )
@@ -88,48 +87,5 @@ internal void Game_ClipPlayerEntity( Game_t* game )
    else if ( ( game->playerEntity.hitBox.y + game->playerEntity.hitBox.h ) >= ( game->tileMap.tilesY * TILE_SIZE ) )
    {
       game->playerEntity.hitBox.y = (r32)( ( game->tileMap.tilesY * TILE_SIZE ) ) - game->playerEntity.hitBox.h;
-   }
-}
-
-internal void Game_UpdateTileMapViewport( Game_t* game )
-{
-   if ( game->tileMapViewport.w > (i32)( game->tileMap.tilesX * TILE_SIZE ) )
-   {
-      // map is thinner than the viewport, center it horizontally
-      game->tileMapViewport.x = -(i32)( ( game->tileMapViewport.w - ( game->tileMap.tilesX * TILE_SIZE ) ) / 2 );
-   }
-   else
-   {
-      game->tileMapViewport.x = (i32)( game->playerEntity.hitBox.x + ( game->playerEntity.hitBox.w / 2 ) ) - ( game->tileMapViewport.w / 2 );
-
-      // clamp to left or right edges if necessary
-      if ( game->tileMapViewport.x < 0 )
-      {
-         game->tileMapViewport.x = 0;
-      }
-      else if ( ( game->tileMapViewport.x + game->tileMapViewport.w ) >= (i32)( game->tileMap.tilesX * TILE_SIZE ) )
-      {
-         game->tileMapViewport.x = (i32)( ( game->tileMap.tilesX * TILE_SIZE ) - game->tileMapViewport.w );
-      }
-   }
-
-   if ( game->tileMapViewport.h > (i32)( game->tileMap.tilesY * TILE_SIZE ) )
-   {
-      // map is taller than the viewport, center it vertically
-      game->tileMapViewport.y = -(i32)( ( game->tileMapViewport.h - ( game->tileMap.tilesY * TILE_SIZE ) ) / 2 );
-   }
-   else
-   {
-      game->tileMapViewport.y = (i32)( game->playerEntity.hitBox.y + ( game->playerEntity.hitBox.h / 2 ) ) - ( game->tileMapViewport.h / 2 );
-
-      // clamp to left or right edges if necessary
-      if ( game->tileMapViewport.y < 0 )
-      {
-         game->tileMapViewport.y = 0;
-      }
-      else if ( ( game->tileMapViewport.y + game->tileMapViewport.h ) >= (i32)( game->tileMap.tilesY * TILE_SIZE ) )
-      {
-         game->tileMapViewport.y = (i32)( ( game->tileMap.tilesY * TILE_SIZE ) - game->tileMapViewport.h );
-      }
    }
 }
