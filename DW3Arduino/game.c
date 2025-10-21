@@ -8,8 +8,10 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    Clock_Init( &game->clock );
    Screen_Init( &game->screen, screenBuffer );
    Input_Init( &game->input );
+   TileMap_Init( &game->tileMap );
 
    Screen_LoadPaletteFromIndex( &game->screen, 0 );
+   TileMap_LoadFromIndex( &game->tileMap, 0 );
 }
 
 void Game_Tic( Game_t* game )

@@ -138,6 +138,7 @@
     <ClInclude Include="..\..\DW3Arduino\input.h" />
     <ClInclude Include="..\..\DW3Arduino\screen.h" />
     <ClInclude Include="..\..\DW3Arduino\game.h" />
+    <ClInclude Include="..\..\DW3Arduino\tile_map.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="win_common.h" />
     <ClInclude Include="win_pixel_buffer.h" />
@@ -147,6 +148,7 @@
     <ClCompile Include="..\..\DW3Arduino\game_data.c" />
     <ClCompile Include="..\..\DW3Arduino\input.c" />
     <ClCompile Include="..\..\DW3Arduino\screen.c" />
+    <ClCompile Include="..\..\DW3Arduino\tile_map.c" />
     <ClCompile Include="win_clock.c" />
     <ClCompile Include="win_input.c" />
     <ClCompile Include="win_main.c" />
