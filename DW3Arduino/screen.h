@@ -28,9 +28,10 @@ extern "C" {
 
    void Screen_Init( Screen_t* screen, u16* buffer );
    void Screen_WipeColor( Screen_t* screen, u16 color );
+   void Screen_DrawBuffer( Screen_t* screen, u16* buffer, u32 bufferWidth, u32 bufferHeight, i32 screenX, i32 screenY );
 
    // platform-specific
-   void Screen_BlitBuffer( Screen_t* screen );
+   void Screen_Blit( Screen_t* screen );
 
 #if defined( __cplusplus )
 }

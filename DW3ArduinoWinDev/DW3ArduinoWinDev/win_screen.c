@@ -3,7 +3,7 @@
 
 internal u32 Convert565To32( u16 color );
 
-void Screen_BlitBuffer( Screen_t* screen )
+void Screen_Blit( Screen_t* screen )
 {
    u32 i;
    u16* bufferPos16 = screen->buffer;
