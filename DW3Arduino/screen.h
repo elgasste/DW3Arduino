@@ -32,6 +32,10 @@ extern "C" {
 void Screen_Init( Screen_t* screen, u16* buffer );
 void Screen_WipeColor( Screen_t* screen, u16 color );
 void Screen_DrawBuffer8( Screen_t* screen, u8* buffer, u32 bufferWidth, u32 bufferHeight, i32 screenX, i32 screenY );
+void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
+                                u32 bufferWidth, u32 bufferHeight,
+                                i32 screenX, i32 screenY,
+                                i32 leftBound, i32 topBound, i32 rightBound, i32 bottomBound );
 
 // game.c
 void Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index );

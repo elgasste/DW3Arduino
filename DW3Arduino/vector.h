@@ -19,4 +19,11 @@ typedef struct Vector4i32_t
 }
 Vector4i32_t;
 
+typedef struct Vector2r32_t
+{
+   r32 x;
+   r32 y;
+}
+Vector2r32_t;
+
 #endif

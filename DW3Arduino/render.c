@@ -30,7 +30,7 @@ internal void Game_DrawTileMap( Game_t* game )
 
    stopTileX = ( ( game->tileMapViewport.x + game->tileMapViewport.w ) / TILE_SIZE );
    
-   if ( ( game->tileMapViewport.x + game->tileMapViewport.w ) % TILE_SIZE != 0 )
+   if ( ( ( game->tileMapViewport.x + game->tileMapViewport.w ) % TILE_SIZE ) != 0 )
    {
       stopTileX++;
    }
@@ -54,7 +54,7 @@ internal void Game_DrawTileMap( Game_t* game )
 
    stopTileY = ( ( game->tileMapViewport.y + game->tileMapViewport.h ) / TILE_SIZE );
 
-   if ( ( game->tileMapViewport.y + game->tileMapViewport.w ) % TILE_SIZE != 0 )
+   if ( ( ( game->tileMapViewport.y + game->tileMapViewport.w ) % TILE_SIZE ) != 0 )
    {
       stopTileY++;
    }
@@ -65,25 +65,27 @@ internal void Game_DrawTileMap( Game_t* game )
    }
 
    // drawing
-   tile = game->tileMap.tiles + (startTileY * game->tileMap.tilesX ) + startTileX;
+   tile = game->tileMap.tiles + ( startTileY * game->tileMap.tilesX ) + startTileX;
 
-   for ( row = 0, y = game->tileMapViewportScreenPos.y; row < (u32)( stopTileY - startTileY ); row++, y += TILE_SIZE )
+   for ( row = 0, y = game->tileMapViewportScreenPos.y; row <= (u32)( stopTileY - startTileY ); row++, y += TILE_SIZE )
    {
-      for ( col = 0, x = game->tileMapViewportScreenPos.x; col < (u32)( stopTileX - startTileX ); col++, x += TILE_SIZE )
+      for ( col = 0, x = game->tileMapViewportScreenPos.x; col <= (u32)( stopTileX - startTileX ); col++, x += TILE_SIZE )
       {
-         Screen_DrawBuffer8( &game->screen,
-                             game->tileMap.tileTextures[*tile].paletteIndexes,
-                             TILE_SIZE, TILE_SIZE,
-                             x + tileOffsetX,
-                             y + tileOffsetY );
+         Screen_DrawBoundedBuffer8( &game->screen,
+                                    game->tileMap.tileTextures[*tile].paletteIndexes,
+                                    TILE_SIZE, TILE_SIZE,
+                                    x + tileOffsetX, y + tileOffsetY,
+                                    game->tileMapViewportScreenPos.x, game->tileMapViewportScreenPos.y,
+                                    game->tileMapViewportScreenPos.x + game->tileMapViewport.w,
+                                    game->tileMapViewportScreenPos.y + game->tileMapViewport.h );
          tile++;
       }
 
-      tile += game->tileMap.tilesX - ( stopTileX - startTileX );
+      tile += ( game->tileMap.tilesX - ( stopTileX - startTileX + 1 ) );
    }
 
    // TODO: this can be deleted after testing movement
-   u16* screenPos = game->screen.buffer + ( SCREEN_WIDTH * game->tileMapViewportScreenPos.y ) + game->tileMapViewportScreenPos.x;
+   /*u16* screenPos = game->screen.buffer + ( SCREEN_WIDTH * game->tileMapViewportScreenPos.y ) + game->tileMapViewportScreenPos.x;
    for ( col = 0; col < (u32)( game->tileMapViewport.w ); col++ )
    {
       *screenPos = COLOR16_MAGENTA;
@@ -98,5 +100,5 @@ internal void Game_DrawTileMap( Game_t* game )
       *screenPos = COLOR16_MAGENTA;
       *(screenPos + ( game->tileMapViewport.w - 1 ) ) = COLOR16_MAGENTA;
       screenPos += SCREEN_WIDTH;
-   }
+   }*/
 }
