@@ -149,6 +149,7 @@
     <ClCompile Include="..\..\DW3Arduino\game.c" />
     <ClCompile Include="..\..\DW3Arduino\game_data.c" />
     <ClCompile Include="..\..\DW3Arduino\input.c" />
+    <ClCompile Include="..\..\DW3Arduino\physics.c" />
     <ClCompile Include="..\..\DW3Arduino\render.c" />
     <ClCompile Include="..\..\DW3Arduino\screen.c" />
     <ClCompile Include="..\..\DW3Arduino\tile_map.c" />
