@@ -37,7 +37,7 @@ void loop()
    Clock_EndFrame( &( g_game.clock ) );
 }
 
-void Screen_BlitBuffer( Screen_t* screen )
+void Screen_Blit( Screen_t* screen )
 {
    g_gigaShield.drawScreen();
 }
