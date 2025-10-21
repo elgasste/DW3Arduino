@@ -40,8 +40,8 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
 
    UNUSED_PARAM( index );
 
-   tileMap->tilesX = TILEMAP_MAX_TILES_X;
-   tileMap->tilesY = TILEMAP_MAX_TILES_Y;
+   tileMap->tilesX = 32;
+   tileMap->tilesY = 32;
 
    // checkerboard
    for ( row = 0; row < tileMap->tilesY; row++ )
