@@ -1,14 +1,14 @@
 #if !defined( GAME_H )
 #define GAME_H
 
-#define PLAYER_MAX_VELOCITY    64.0f    // pixels per second
+#define PLAYER_MAX_VELOCITY      64.0f    // pixels per second
+#define PLAYER_ENTITY_INDEX      0
 
 #include "common.h"
 #include "clock.h"
 #include "screen.h"
 #include "input.h"
 #include "tile_map.h"
-#include "entity.h"
 
 typedef struct Game_t
 {
@@ -16,7 +16,7 @@ typedef struct Game_t
    Screen_t screen;
    Input_t input;
    TileMap_t tileMap;
-   Entity_t playerEntity;
+   Entity_t* playerEntity;
 }
 Game_t;
 

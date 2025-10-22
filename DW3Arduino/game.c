@@ -20,14 +20,15 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->tileMap.viewportScreenPos.x = 20;
    game->tileMap.viewportScreenPos.y = 10;
 
-   game->playerEntity.hitBox.x = 24.0f;
-   game->playerEntity.hitBox.y = 24.0f;
-   game->playerEntity.hitBox.w = 12.0f;
-   game->playerEntity.hitBox.h = 12.0f;
-   game->playerEntity.velocity.x = 0.0f;
-   game->playerEntity.velocity.y = 0.0f;
+   game->playerEntity = &game->tileMap.entities[PLAYER_ENTITY_INDEX];
+   game->playerEntity->hitBox.x = 24.0f;
+   game->playerEntity->hitBox.y = 24.0f;
+   game->playerEntity->hitBox.w = 12.0f;
+   game->playerEntity->hitBox.h = 12.0f;
+   game->playerEntity->velocity.x = 0.0f;
+   game->playerEntity->velocity.y = 0.0f;
 
-   TileMap_UpdateViewport( &game->tileMap, &game->playerEntity );
+   TileMap_ClampViewportToEntity( &game->tileMap, game->playerEntity );
 }
 
 void Game_Tic( Game_t* game )
@@ -40,7 +41,7 @@ void Game_Tic( Game_t* game )
 
 internal void Game_HandleInput( Game_t* game )
 {
-   Entity_t* player = &game->playerEntity;
+   Entity_t* player = game->playerEntity;
 
    Bool_t leftIsDown = game->input.buttonStates[InputButton_Left].down;
    Bool_t upIsDown = game->input.buttonStates[InputButton_Up].down;

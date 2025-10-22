@@ -1,13 +1,14 @@
 #include "game.h"
+#include "utility.h"
 
 internal void Game_DrawTileMap( Game_t* game );
-internal void Game_DrawEntity( Game_t* game, Entity_t* entity );
+internal void Game_DrawEntities( Game_t* game );
 
 void Game_Draw( Game_t* game )
 {
    Screen_WipeColor( &game->screen, COLOR16_BLACK );
    Game_DrawTileMap( game );
-   Game_DrawEntity( game, &game->playerEntity );
+   Game_DrawEntities( game );
    Screen_Blit( &game->screen );
 }
 
@@ -87,12 +88,24 @@ internal void Game_DrawTileMap( Game_t* game )
    }
 }
 
-internal void Game_DrawEntity( Game_t* game, Entity_t* entity )
+internal void Game_DrawEntities( Game_t* game )
 {
-   Screen_DrawRect( &game->screen,
-                    ( (i32)( entity->hitBox.x ) - game->tileMap.viewport.x ) + game->tileMap.viewportScreenPos.x,
-                    ( (i32)( entity->hitBox.y ) - game->tileMap.viewport.y ) + game->tileMap.viewportScreenPos.y,
-                    (i32)( entity->hitBox.w ),
-                    (i32)( entity->hitBox.h ),
-                    COLOR16_MAGENTA );
+   u32 i;
+   Entity_t* entity = game->tileMap.entities;
+
+   for ( i = 0; i < game->tileMap.entityCount; i++ )
+   {
+      // TODO: Add a DrawBoundedRect function and use it here
+      if ( Utility_RectsIntersect32i( (i32)entity->hitBox.x, (i32)entity->hitBox.y, (i32)entity->hitBox.w, (i32)entity->hitBox.h,
+                                      game->tileMap.viewport.x, game->tileMap.viewport.y, game->tileMap.viewport.w, game->tileMap.viewport.h ) )
+      {
+         Screen_DrawRect( &game->screen,
+                          ( (i32)( entity->hitBox.x ) - game->tileMap.viewport.x ) + game->tileMap.viewportScreenPos.x,
+                          ( (i32)( entity->hitBox.y ) - game->tileMap.viewport.y ) + game->tileMap.viewportScreenPos.y,
+                          (i32)( entity->hitBox.w ),
+                          (i32)( entity->hitBox.h ),
+                          entity == game->playerEntity ? COLOR16_MAGENTA : COLOR16_YELLOW );
+      }
+      entity++;
+   }
 }

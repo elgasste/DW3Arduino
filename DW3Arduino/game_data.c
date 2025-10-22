@@ -36,7 +36,7 @@ void TileMap_LoadTileTextures( TileMap_t* tileMap )
 
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
 {
-   u32 row, col;
+   u32 row, col, i;
    u16* tilePos = tileMap->tiles;
 
    UNUSED_PARAM( index );
@@ -86,6 +86,21 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          {
             tileMap->tiles[( row * tileMap->tilesX ) + col] = 3 | ( 0x0 << 5 );
          }
+      }
+   }
+
+   tileMap->entityCount = TILEMAP_MAX_ENTITIES;
+
+   for ( i = 0; i < TILEMAP_MAX_ENTITIES; i++ )
+   {
+      if ( i != PLAYER_ENTITY_INDEX )
+      {
+         tileMap->entities[i].hitBox.w = 14.0f;
+         tileMap->entities[i].hitBox.h = 14.0f;
+         tileMap->entities[i].hitBox.x = (r32)( Random_u32( 1, ( tileMap->tilesX - 2 ) * TILE_SIZE ) );
+         tileMap->entities[i].hitBox.y = (r32)( Random_u32( 1, ( tileMap->tilesY - 2 ) * TILE_SIZE ) );
+         tileMap->entities[i].velocity.x = 0.0f;
+         tileMap->entities[i].velocity.y = 0.0f;
       }
    }
 }

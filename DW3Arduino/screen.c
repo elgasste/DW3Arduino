@@ -20,14 +20,15 @@ void Screen_WipeColor( Screen_t* screen, u16 color )
 void Screen_DrawRect( Screen_t* screen, i32 x, i32 y, i32 w, i32 h, u16 color )
 {
    u32 row, col;
+   i32 cx, cy;
 
-   for ( row = 0; row < (u32)h; row++ )
+   for ( row = 0, cy = y; row < (u32)h; row++, cy++ )
    {
-      if ( row >= 0 && row < SCREEN_HEIGHT )
+      if ( cy >= 0 && cy < SCREEN_HEIGHT )
       {
-         for ( col = 0; col < (u32)w; col++ )
+         for ( col = 0, cx = x; col < (u32)w; col++, cx++ )
          {
-            if ( col >= 0 && col < SCREEN_WIDTH )
+            if ( cx >= 0 && cx < SCREEN_WIDTH )
             {
                screen->buffer[( ( y + row ) * SCREEN_WIDTH ) + ( x + col )] = color;
             }
