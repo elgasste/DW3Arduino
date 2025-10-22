@@ -85,24 +85,6 @@ internal void Game_DrawTileMap( Game_t* game )
 
       tile += ( game->tileMap.tilesX - ( endTileX - startTileX + 1 ) );
    }
-
-   // TODO: this can be deleted after testing movement
-   /*u16* screenPos = game->screen.buffer + ( SCREEN_WIDTH * game->tileMap.viewportScreenPos.y ) + game->tileMap.viewportScreenPos.x;
-   for ( col = 0; col < (u32)( game->tileMap.viewport.w ); col++ )
-   {
-      *screenPos = COLOR16_MAGENTA;
-      *(screenPos + ( SCREEN_WIDTH * ( game->tileMap.viewport.h - 1 ) ) ) = COLOR16_MAGENTA;
-
-      screenPos++;
-   }
-
-   screenPos = game->screen.buffer + ( SCREEN_WIDTH * game->tileMap.viewportScreenPos.y ) + game->tileMap.viewportScreenPos.x;
-   for ( row = 0; row < (u32)( game->tileMap.viewport.h ); row++ )
-   {
-      *screenPos = COLOR16_MAGENTA;
-      *(screenPos + ( game->tileMap.viewport.w - 1 ) ) = COLOR16_MAGENTA;
-      screenPos += SCREEN_WIDTH;
-   }*/
 }
 
 internal void Game_DrawPlayer( Game_t* game )

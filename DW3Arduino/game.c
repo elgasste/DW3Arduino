@@ -18,8 +18,8 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->tileMap.viewportScreenPos.x = 20;
    game->tileMap.viewportScreenPos.y = 10;
 
-   game->playerEntity.hitBox.x = 200.0f;
-   game->playerEntity.hitBox.y = 200.0f;
+   game->playerEntity.hitBox.x = 24.0f;
+   game->playerEntity.hitBox.y = 24.0f;
    game->playerEntity.hitBox.w = 12.0f;
    game->playerEntity.hitBox.h = 12.0f;
    game->playerEntity.velocity.x = 0.0f;
