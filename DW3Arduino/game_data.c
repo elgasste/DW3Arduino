@@ -57,7 +57,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
             *tilePos = ( col % 2 == 0 ) ? 2 : 1;
          }
 
-         *tilePos |= 0x0 << 5; // passable
+         *tilePos |= 0x1 << 5; // passable
          tilePos++;
       }
    }
@@ -65,14 +65,14 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
    // top and bottom borders (not passable)
    for ( col = 0; col < tileMap->tilesX; col++ )
    {
-      tileMap->tiles[col] = 3 | ( 0x1 << 5 );
+      tileMap->tiles[col] = 3 | ( 0x0 << 5 );
       tileMap->tiles[( ( tileMap->tilesY - 1 ) * tileMap->tilesX ) + col] = 3;
    }
 
    // left and right borders (not passable)
    for ( row = 0; row < tileMap->tilesY; row++ )
    {
-      tileMap->tiles[row * tileMap->tilesX] = 3 | ( 0x1 << 5 );
+      tileMap->tiles[row * tileMap->tilesX] = 3 | ( 0x0 << 5 );
       tileMap->tiles[( row * tileMap->tilesX ) + ( tileMap->tilesX - 1 )] = 3;
    }
 }

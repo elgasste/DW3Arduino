@@ -61,3 +61,8 @@ void TileMap_UpdateViewport( TileMap_t* tileMap, Entity_t* anchorEntity )
       }
    }
 }
+
+u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, u32 x, u32 y )
+{
+   return ( ( y / TILE_SIZE ) * tileMap->tilesX ) + ( x / TILE_SIZE );
+}

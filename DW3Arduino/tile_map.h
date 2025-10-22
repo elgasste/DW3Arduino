@@ -44,6 +44,7 @@ extern "C" {
 
 void TileMap_Init( TileMap_t* tileMap );
 void TileMap_UpdateViewport( TileMap_t* tileMap, Entity_t* anchorEntity );
+u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, u32 x, u32 y );
 
 // game_data.c
 void TileMap_LoadTileTextures( TileMap_t* tileMap );
