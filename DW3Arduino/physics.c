@@ -1,7 +1,5 @@
 #include "game.h"
 
-#define COLLISION_THETA    0.001f
-
 internal void Game_MoveEntity( Game_t* game, Entity_t* entity );
 
 void Game_TicPhysics( Game_t* game )
@@ -57,7 +55,7 @@ internal void Game_MoveEntity( Game_t* game, Entity_t* entity )
 
             if ( !TILE_GET_IS_PASSABLE( tile ) )
             {
-               newX = ( col * TILE_SIZE ) - entity->hitBox.w - COLLISION_THETA;
+               newX = ( col * TILE_SIZE ) - entity->hitBox.w - 1.0f;
                break;
             }
          }
@@ -99,7 +97,7 @@ internal void Game_MoveEntity( Game_t* game, Entity_t* entity )
 
             if ( !TILE_GET_IS_PASSABLE( tile ) )
             {
-               newY = ( row * TILE_SIZE ) - entity->hitBox.h - COLLISION_THETA;
+               newY = ( row * TILE_SIZE ) - entity->hitBox.h - 1.0f;
                break;
             }
          }
