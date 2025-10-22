@@ -92,18 +92,21 @@ internal void Game_DrawEntities( Game_t* game )
 {
    u32 i;
    Entity_t* entity = game->tileMap.entities;
+   Vector4i32_t* viewport = &game->tileMap.viewport;
+   Vector2u32_t* viewportScreenPos = &game->tileMap.viewportScreenPos;
 
    for ( i = 0; i < game->tileMap.entityCount; i++ )
    {
-      // TODO: Add a DrawBoundedRect function and use it here
       if ( Utility_RectsIntersect32i( (i32)entity->hitBox.x, (i32)entity->hitBox.y, (i32)entity->hitBox.w, (i32)entity->hitBox.h,
-                                      game->tileMap.viewport.x, game->tileMap.viewport.y, game->tileMap.viewport.w, game->tileMap.viewport.h ) )
+                                      viewport->x, viewport->y, viewport->w, viewport->h ) )
       {
-         Screen_DrawRect( &game->screen,
-                          ( (i32)( entity->hitBox.x ) - game->tileMap.viewport.x ) + game->tileMap.viewportScreenPos.x,
-                          ( (i32)( entity->hitBox.y ) - game->tileMap.viewport.y ) + game->tileMap.viewportScreenPos.y,
-                          (i32)( entity->hitBox.w ),
-                          (i32)( entity->hitBox.h ),
+         Screen_DrawBoundedRect( &game->screen,
+                          ( (i32)( entity->hitBox.x ) - viewport->x ) + viewportScreenPos->x,
+                          ( (i32)( entity->hitBox.y ) - viewport->y ) + viewportScreenPos->y,
+                          (i32)( entity->hitBox.w ), (i32)( entity->hitBox.h ),
+                          viewportScreenPos->x, viewportScreenPos->y,
+                          viewportScreenPos->x + viewport->w,
+                          viewportScreenPos->y + viewport->h,
                           entity == game->playerEntity ? COLOR16_MAGENTA : COLOR16_YELLOW );
       }
       entity++;
