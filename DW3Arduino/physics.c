@@ -62,6 +62,8 @@ internal void Game_MoveEntity( Game_t* game, Entity_t* entity )
       }
    }
 
+   entity->hitBox.x = newX;
+
    // clip to unpassable vertical tiles
    if ( newY != entity->hitBox.y )
    {
@@ -104,7 +106,6 @@ internal void Game_MoveEntity( Game_t* game, Entity_t* entity )
       }
    }
 
-   entity->hitBox.x = newX;
    entity->hitBox.y = newY;
 
    // clip to map bounds

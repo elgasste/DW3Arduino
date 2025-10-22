@@ -1,5 +1,7 @@
 #include "game.h"
 
+#define DIAGONAL_SCALAR 0.707f
+
 internal void Game_HandleInput( Game_t* game );
 
 void Game_Init( Game_t* game, u16* screenBuffer )
@@ -38,20 +40,47 @@ void Game_Tic( Game_t* game )
 
 internal void Game_HandleInput( Game_t* game )
 {
-   if ( game->input.buttonStates[InputButton_Left].down )
+   Entity_t* player = &game->playerEntity;
+
+   Bool_t leftIsDown = game->input.buttonStates[InputButton_Left].down;
+   Bool_t upIsDown = game->input.buttonStates[InputButton_Up].down;
+   Bool_t rightIsDown = game->input.buttonStates[InputButton_Right].down;
+   Bool_t downIsDown = game->input.buttonStates[InputButton_Down].down;
+
+   if ( leftIsDown && !rightIsDown )
    {
-      game->playerEntity.velocity.x = -PLAYER_MAX_VELOCITY;
+      player->velocity.x = -PLAYER_MAX_VELOCITY;
+
+      if ( upIsDown || downIsDown )
+      {
+         player->velocity.x *= DIAGONAL_SCALAR;
+      }
    }
-   if ( game->input.buttonStates[InputButton_Right].down )
+   else if ( rightIsDown && !leftIsDown )
    {
-      game->playerEntity.velocity.x = PLAYER_MAX_VELOCITY;
+      player->velocity.x = PLAYER_MAX_VELOCITY;
+
+      if ( upIsDown || downIsDown )
+      {
+         player->velocity.x *= DIAGONAL_SCALAR;
+      }
    }
-   if ( game->input.buttonStates[InputButton_Up].down )
+   if ( upIsDown && !downIsDown )
    {
-      game->playerEntity.velocity.y = -PLAYER_MAX_VELOCITY;
+      player->velocity.y = -PLAYER_MAX_VELOCITY;
+
+      if ( leftIsDown || rightIsDown )
+      {
+         player->velocity.y *= DIAGONAL_SCALAR;
+      }
    }
-   if ( game->input.buttonStates[InputButton_Down].down )
+   else if ( downIsDown && !upIsDown )
    {
-      game->playerEntity.velocity.y = PLAYER_MAX_VELOCITY;
+      player->velocity.y = PLAYER_MAX_VELOCITY;
+
+      if ( leftIsDown || rightIsDown )
+      {
+         player->velocity.y *= DIAGONAL_SCALAR;
+      }
    }
 }
