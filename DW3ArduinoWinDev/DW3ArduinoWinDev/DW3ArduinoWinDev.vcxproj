@@ -137,6 +137,7 @@
     <ClInclude Include="..\..\DW3Arduino\common.h" />
     <ClInclude Include="..\..\DW3Arduino\entity.h" />
     <ClInclude Include="..\..\DW3Arduino\input.h" />
+    <ClInclude Include="..\..\DW3Arduino\random.h" />
     <ClInclude Include="..\..\DW3Arduino\screen.h" />
     <ClInclude Include="..\..\DW3Arduino\game.h" />
     <ClInclude Include="..\..\DW3Arduino\tile_map.h" />
@@ -150,6 +151,7 @@
     <ClCompile Include="..\..\DW3Arduino\game_data.c" />
     <ClCompile Include="..\..\DW3Arduino\input.c" />
     <ClCompile Include="..\..\DW3Arduino\physics.c" />
+    <ClCompile Include="..\..\DW3Arduino\random.c" />
     <ClCompile Include="..\..\DW3Arduino\render.c" />
     <ClCompile Include="..\..\DW3Arduino\screen.c" />
     <ClCompile Include="..\..\DW3Arduino\tile_map.c" />
@@ -157,6 +159,7 @@
     <ClCompile Include="win_input.c" />
     <ClCompile Include="win_main.c" />
     <ClCompile Include="win_pixel_buffer.c" />
+    <ClCompile Include="win_random.c" />
     <ClCompile Include="win_screen.c" />
   </ItemGroup>
   <ItemGroup>

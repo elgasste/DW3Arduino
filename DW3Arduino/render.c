@@ -1,13 +1,13 @@
 #include "game.h"
 
 internal void Game_DrawTileMap( Game_t* game );
-internal void Game_DrawPlayer( Game_t* game );
+internal void Game_DrawEntity( Game_t* game, Entity_t* entity );
 
 void Game_Draw( Game_t* game )
 {
    Screen_WipeColor( &game->screen, COLOR16_BLACK );
    Game_DrawTileMap( game );
-   Game_DrawPlayer( game );
+   Game_DrawEntity( game, &game->playerEntity );
    Screen_Blit( &game->screen );
 }
 
@@ -87,12 +87,12 @@ internal void Game_DrawTileMap( Game_t* game )
    }
 }
 
-internal void Game_DrawPlayer( Game_t* game )
+internal void Game_DrawEntity( Game_t* game, Entity_t* entity )
 {
    Screen_DrawRect( &game->screen,
-                    ( (i32)( game->playerEntity.hitBox.x ) - game->tileMap.viewport.x ) + game->tileMap.viewportScreenPos.x,
-                    ( (i32)( game->playerEntity.hitBox.y ) - game->tileMap.viewport.y ) + game->tileMap.viewportScreenPos.y,
-                    (i32)( game->playerEntity.hitBox.w ),
-                    (i32)( game->playerEntity.hitBox.h ),
-                    COLOR16_YELLOW );
+                    ( (i32)( entity->hitBox.x ) - game->tileMap.viewport.x ) + game->tileMap.viewportScreenPos.x,
+                    ( (i32)( entity->hitBox.y ) - game->tileMap.viewport.y ) + game->tileMap.viewportScreenPos.y,
+                    (i32)( entity->hitBox.w ),
+                    (i32)( entity->hitBox.h ),
+                    COLOR16_MAGENTA );
 }

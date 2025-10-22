@@ -17,21 +17,21 @@ void Game_TicPhysics( Game_t* game )
 internal void Game_MoveEntity( Game_t* game, Entity_t* entity )
 {
    u32 tileRowStart, tileRowEnd, tileColStart, tileColEnd, row, col, tile, tileIndex;
-   Vector2r32_t newPos;
+   r32 newX, newY;
 
-   newPos.x = entity->hitBox.x + ( entity->velocity.x * CLOCK_FRAME_SECONDS );
-   newPos.y = entity->hitBox.y + ( entity->velocity.y * CLOCK_FRAME_SECONDS );
+   newX = entity->hitBox.x + ( entity->velocity.x * CLOCK_FRAME_SECONDS );
+   newY = entity->hitBox.y + ( entity->velocity.y * CLOCK_FRAME_SECONDS );
 
    // clip to unpassable horizontal tiles
-   if ( newPos.x != entity->hitBox.x )
+   if ( newX != entity->hitBox.x )
    {
       tileRowStart = (u32)( entity->hitBox.y / TILE_SIZE );
       tileRowEnd = (u32)( ( entity->hitBox.y + entity->hitBox.h ) / TILE_SIZE );
 
-      if ( newPos.x < entity->hitBox.x )
+      if ( newX < entity->hitBox.x )
       {
          // moving left, check leftward tiles
-         col = (u32)( newPos.x / TILE_SIZE );
+         col = (u32)( newX / TILE_SIZE );
 
          for ( row = tileRowStart; row <= tileRowEnd; row++ )
          {
@@ -40,7 +40,7 @@ internal void Game_MoveEntity( Game_t* game, Entity_t* entity )
 
             if ( !TILE_GET_IS_PASSABLE( tile ) )
             {
-               newPos.x = (r32)( ( ( col + 1 ) * TILE_SIZE ) );
+               newX = (r32)( ( ( col + 1 ) * TILE_SIZE ) );
                break;
             }
          }
@@ -48,7 +48,7 @@ internal void Game_MoveEntity( Game_t* game, Entity_t* entity )
       else
       {
          // moving right, check rightward tiles
-         col = (u32)( ( newPos.x + entity->hitBox.w ) / TILE_SIZE );
+         col = (u32)( ( newX + entity->hitBox.w ) / TILE_SIZE );
 
          for ( row = tileRowStart; row <= tileRowEnd; row++ )
          {
@@ -57,7 +57,7 @@ internal void Game_MoveEntity( Game_t* game, Entity_t* entity )
 
             if ( !TILE_GET_IS_PASSABLE( tile ) )
             {
-               newPos.x = ( col * TILE_SIZE ) - entity->hitBox.w - COLLISION_THETA;
+               newX = ( col * TILE_SIZE ) - entity->hitBox.w - COLLISION_THETA;
                break;
             }
          }
@@ -65,15 +65,15 @@ internal void Game_MoveEntity( Game_t* game, Entity_t* entity )
    }
 
    // clip to unpassable vertical tiles
-   if ( newPos.y != entity->hitBox.y )
+   if ( newY != entity->hitBox.y )
    {
       tileColStart = (u32)( entity->hitBox.x / TILE_SIZE );
       tileColEnd = (u32)( ( entity->hitBox.x + entity->hitBox.w ) / TILE_SIZE );
 
-      if ( newPos.y < entity->hitBox.y )
+      if ( newY < entity->hitBox.y )
       {
          // moving up, check upward tiles
-         row = (u32)( newPos.y / TILE_SIZE );
+         row = (u32)( newY / TILE_SIZE );
 
          for ( col = tileColStart; col <= tileColEnd; col++ )
          {
@@ -82,7 +82,7 @@ internal void Game_MoveEntity( Game_t* game, Entity_t* entity )
 
             if ( !TILE_GET_IS_PASSABLE( tile ) )
             {
-               newPos.y = (r32)( ( ( row + 1 ) * TILE_SIZE ) );
+               newY = (r32)( ( ( row + 1 ) * TILE_SIZE ) );
                break;
             }
          }
@@ -90,7 +90,7 @@ internal void Game_MoveEntity( Game_t* game, Entity_t* entity )
       else
       {
          // moving down, check downward tiles
-         row = (u32)( ( newPos.y + entity->hitBox.h ) / TILE_SIZE );
+         row = (u32)( ( newY + entity->hitBox.h ) / TILE_SIZE );
 
          for ( col = tileColStart; col <= tileColEnd; col++ )
          {
@@ -99,15 +99,15 @@ internal void Game_MoveEntity( Game_t* game, Entity_t* entity )
 
             if ( !TILE_GET_IS_PASSABLE( tile ) )
             {
-               newPos.y = ( row * TILE_SIZE ) - entity->hitBox.h - COLLISION_THETA;
+               newY = ( row * TILE_SIZE ) - entity->hitBox.h - COLLISION_THETA;
                break;
             }
          }
       }
    }
 
-   entity->hitBox.x = newPos.x;
-   entity->hitBox.y = newPos.y;
+   entity->hitBox.x = newX;
+   entity->hitBox.y = newY;
 
    // clip to map bounds
    if ( entity->hitBox.x < 0.0f )

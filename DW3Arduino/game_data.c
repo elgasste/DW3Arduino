@@ -1,4 +1,5 @@
 #include "game.h"
+#include "random.h"
 
 void Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index )
 {
@@ -11,10 +12,10 @@ void Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index )
       screen->palette[i] = COLOR16_BLACK;
    }
 
-   screen->palette[1]  = COLOR16_WHITE;
-   screen->palette[2]  = COLOR16_RED;
-   screen->palette[3]  = COLOR16_BLUE;
-   screen->palette[4]  = COLOR16_YELLOW;
+   screen->palette[1]  = 0x0640;
+   screen->palette[2]  = 0x0420;
+   screen->palette[3]  = 0x0838;
+   screen->palette[4]  = 0x0838;
    screen->palette[5]  = COLOR16_MAGENTA;
    screen->palette[6]  = COLOR16_CYAN;
 }
@@ -74,5 +75,17 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
    {
       tileMap->tiles[row * tileMap->tilesX] = 3 | ( 0x0 << 5 );
       tileMap->tiles[( row * tileMap->tilesX ) + ( tileMap->tilesX - 1 )] = 3;
+   }
+
+   // a bunch of random unpassable tiles
+   for ( row = 1; row < tileMap->tilesY - 1; row++ )
+   {
+      for ( col = 1; col < tileMap->tilesX - 1; col++ )
+      {
+         if ( Random_Percent() <= 5 )
+         {
+            tileMap->tiles[( row * tileMap->tilesX ) + col] = 3 | ( 0x0 << 5 );
+         }
+      }
    }
 }
