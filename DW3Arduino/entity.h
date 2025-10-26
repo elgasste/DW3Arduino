@@ -7,6 +7,7 @@
 typedef struct Entity_t
 {
    Vector4r32_t hitBox;
+   Vector4r32_t prevHitBox;
    Vector2r32_t velocity;
 }
 Entity_t;

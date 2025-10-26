@@ -101,13 +101,13 @@ internal void Game_DrawEntities( Game_t* game )
                                       viewport->x, viewport->y, viewport->w, viewport->h ) )
       {
          Screen_DrawBoundedRect( &game->screen,
-                          ( (i32)( entity->hitBox.x ) - viewport->x ) + viewportScreenPos->x,
-                          ( (i32)( entity->hitBox.y ) - viewport->y ) + viewportScreenPos->y,
-                          (i32)( entity->hitBox.w ), (i32)( entity->hitBox.h ),
-                          viewportScreenPos->x, viewportScreenPos->y,
-                          viewportScreenPos->x + viewport->w,
-                          viewportScreenPos->y + viewport->h,
-                          entity == game->playerEntity ? COLOR16_MAGENTA : COLOR16_YELLOW );
+                                 ( (i32)( entity->hitBox.x ) - viewport->x ) + viewportScreenPos->x,
+                                 ( (i32)( entity->hitBox.y ) - viewport->y ) + viewportScreenPos->y,
+                                 (i32)( entity->hitBox.w ), (i32)( entity->hitBox.h ),
+                                 viewportScreenPos->x, viewportScreenPos->y,
+                                 viewportScreenPos->x + viewport->w,
+                                 viewportScreenPos->y + viewport->h,
+                                 ( entity == game->playerEntity ) ? COLOR16_MAGENTA : COLOR16_YELLOW );
       }
       entity++;
    }
