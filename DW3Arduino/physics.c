@@ -66,16 +66,16 @@ internal void Game_ClipEntityToTileMap( Game_t* game, Entity_t* entity )
    }
 }
 
-internal void Game_ResolveEntityCollision( Entity_t* entity, Vector4r32_t collidingRect )
+internal void Game_ResolveEntityCollision( Entity_t* entity, Vector4r32_t collider )
 {
    Vector4r32_t resolvedPos = entity->hitBox;
    Bool_t movingLeft, movingRight, movingUp, movingDown;
    Bool_t upperLeftCollision, lowerLeftCollision, upperRightCollision, lowerRightCollision;
    Bool_t leftSideCollision, rightSideCollision, topSideCollision, bottomSideCollision;
-   r32 collidingRectR, collidingRectB, resolvedPosR, resolvedPosB;
+   r32 colliderR, colliderB, resolvedPosR, resolvedPosB;
 
    if ( !Utility_RectsIntersect32r( entity->hitBox.x, entity->hitBox.y, entity->hitBox.w, entity->hitBox.h,
-                                    collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h ) )
+                                    collider.x, collider.y, collider.w, collider.h ) )
    {
       return;
    }
@@ -84,19 +84,6 @@ internal void Game_ResolveEntityCollision( Entity_t* entity, Vector4r32_t collid
    movingRight = entity->hitBox.x > entity->prevHitBox.x;
    movingUp = entity->hitBox.y < entity->prevHitBox.y;
    movingDown = entity->hitBox.y > entity->prevHitBox.y;
-
-   collidingRectR = collidingRect.x + collidingRect.w;
-   collidingRectB = collidingRect.y + collidingRect.h;
-   resolvedPosR = entity->hitBox.x + entity->hitBox.w;
-   resolvedPosB = entity->hitBox.y + entity->hitBox.h;
-
-   upperLeftCollision = Utility_PointInRect32r( entity->hitBox.x, entity->hitBox.y, collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h );
-   lowerLeftCollision = Utility_PointInRect32r( entity->hitBox.x, resolvedPosB, collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h );
-   upperRightCollision = Utility_PointInRect32r( resolvedPosR, entity->hitBox.y, collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h );
-   lowerRightCollision = Utility_PointInRect32r( resolvedPosR, resolvedPosB, collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h );
-
-   leftSideCollision = Utility_VerticalLineIntersectsRect32r( entity->hitBox.x, entity->hitBox.y, resolvedPosB, collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h);
-   rightSideCollision = Utility_VerticalLineIntersectsRect32r( resolvedPosR, entity->hitBox.y, resolvedPosB, collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h);
 
    // MUFFINS: make sure to account for the case where the entity entirely eclipses the rect
    //
@@ -109,162 +96,154 @@ internal void Game_ResolveEntityCollision( Entity_t* entity, Vector4r32_t collid
    }
    else
    {
-      // horizontal pass
-      if ( leftSideCollision )
-      {
-         if ( ( upperLeftCollision && lowerLeftCollision ) || ( !upperLeftCollision && !lowerLeftCollision ) )
-         {
-            // entire left side is colliding, resolve based on direction
-            resolvedPos.x = movingLeft
-               ? ( collidingRectR + COLLISION_THETA )
-               : ( collidingRect.x - resolvedPos.w - COLLISION_THETA );
-         }
-         else if ( upperLeftCollision )
-         {
-            if ( !upperRightCollision ) // the upperRightCollision case will be handled in the vertical pass
-            {
-               // only upper-left corner is colliding. if we're moving up, resolve based on collision depth
-               if ( !movingUp || ( ( collidingRectR - resolvedPos.x ) <= ( collidingRectB - resolvedPos.y ) ) )
-               {
-                  resolvedPos.x = collidingRectR + COLLISION_THETA;
-               }
-            }
-         }
-         else if ( lowerLeftCollision )
-         {
-            if ( !lowerRightCollision ) // the lowerRightCollision case will be handled in the vertical pass
-            {
-               // only lower-left corner is colliding. if we're moving down, resolve based on collision depth
-               if ( !movingDown || ( ( collidingRectR - resolvedPos.x ) <= ( resolvedPosB - collidingRect.y ) ) )
-               {
-                  resolvedPos.x = collidingRectR + COLLISION_THETA;
-               }
-            }
-         }
-      }
-      else if ( rightSideCollision )
-      {
-         if ( ( upperRightCollision && lowerRightCollision ) || ( !upperRightCollision && !lowerRightCollision ) )
-         {
-            // entire right side is colliding, resolve based on direction
-            resolvedPos.x = movingLeft
-               ? ( collidingRectR + COLLISION_THETA )
-               : ( collidingRect.x - resolvedPos.w - COLLISION_THETA );
-         }
-         else if ( upperRightCollision )
-         {
-            if ( !upperLeftCollision ) // the upperLeftCollision case will be handled in the vertical pass
-            {
-               // only upper-right corner is colliding. if we're moving up, resolve based on collision depth
-               if ( !movingUp || ( ( resolvedPosR - collidingRect.x ) <= ( collidingRectB - resolvedPos.y ) ) )
-               {
-                  resolvedPos.x = collidingRect.x - resolvedPos.w - COLLISION_THETA;
-               }
-            }
-         }
-         else if ( lowerRightCollision )
-         {
-            if ( !lowerLeftCollision ) // the lowerLeftCollision case will be handled in the vertical pass
-            {
-               // only lower-right corner is colliding. if we're moving down, resolve based on collision depth
-               if ( !movingDown || ( ( resolvedPosR - collidingRect.x ) <= ( resolvedPosB - collidingRect.y ) ) )
-               {
-                  resolvedPos.x = collidingRect.x - resolvedPos.w - COLLISION_THETA;
-               }
-            }
-         }
-      }
-
-      entity->hitBox.x = resolvedPos.x;
-
-      if ( !Utility_RectsIntersect32r( entity->hitBox.x, entity->hitBox.y, entity->hitBox.w, entity->hitBox.h,
-                                       collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h ) )
-      {
-         return;
-      }
-
+      colliderR = collider.x + collider.w;
+      colliderB = collider.y + collider.h;
       resolvedPosR = entity->hitBox.x + entity->hitBox.w;
-      upperLeftCollision = Utility_PointInRect32r( entity->hitBox.x, entity->hitBox.y, collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h );
-      lowerLeftCollision = Utility_PointInRect32r( entity->hitBox.x, resolvedPosB, collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h );
-      upperRightCollision = Utility_PointInRect32r( resolvedPosR, entity->hitBox.y, collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h );
-      lowerRightCollision = Utility_PointInRect32r( resolvedPosR, resolvedPosB, collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h );
-      topSideCollision = Utility_HorizontalLineIntersectsRect32r( entity->hitBox.x, resolvedPosR, entity->hitBox.y, collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h );
-      bottomSideCollision = Utility_HorizontalLineIntersectsRect32r( entity->hitBox.x, resolvedPosR, resolvedPosB, collidingRect.x, collidingRect.y, collidingRect.w, collidingRect.h );
+      resolvedPosB = entity->hitBox.y + entity->hitBox.h;
 
-      // vertical pass
-      if ( topSideCollision )
+      if ( movingLeft || movingRight )
       {
-         if ( ( upperLeftCollision && upperRightCollision ) || ( !upperLeftCollision && !upperRightCollision ) )
+         upperLeftCollision = Utility_PointInRect32r( entity->hitBox.x, entity->hitBox.y, collider.x, collider.y, collider.w, collider.h );
+         lowerLeftCollision = Utility_PointInRect32r( entity->hitBox.x, resolvedPosB, collider.x, collider.y, collider.w, collider.h );
+         upperRightCollision = Utility_PointInRect32r( resolvedPosR, entity->hitBox.y, collider.x, collider.y, collider.w, collider.h );
+         lowerRightCollision = Utility_PointInRect32r( resolvedPosR, resolvedPosB, collider.x, collider.y, collider.w, collider.h );
+
+         leftSideCollision = Utility_VerticalLineIntersectsRect32r( entity->hitBox.x, entity->hitBox.y, resolvedPosB, collider.x, collider.y, collider.w, collider.h);
+         rightSideCollision = Utility_VerticalLineIntersectsRect32r( resolvedPosR, entity->hitBox.y, resolvedPosB, collider.x, collider.y, collider.w, collider.h);
+
+         // horizontal pass
+         if ( leftSideCollision )
          {
-            // entire top side is colliding, resolve based on direction
-            resolvedPos.y = movingUp
-               ? ( collidingRectB + COLLISION_THETA )
-               : ( collidingRect.y - resolvedPos.h - COLLISION_THETA );
+            if ( ( upperLeftCollision && lowerLeftCollision ) || ( !upperLeftCollision && !lowerLeftCollision ) )
+            {
+               // entire left side is colliding, resolve based on direction
+               resolvedPos.x = movingLeft ? colliderR + COLLISION_THETA : ( collider.x - resolvedPos.w - COLLISION_THETA );
+            }
+            else if ( upperLeftCollision )
+            {
+               if ( !upperRightCollision ) // the upperRightCollision case will be handled in the vertical pass
+               {
+                  // only upper-left corner is colliding. if we're moving up, resolve based on collision depth
+                  if ( !movingUp || ( ( colliderR - resolvedPos.x ) <= ( colliderB - resolvedPos.y ) ) )
+                  {
+                     resolvedPos.x = colliderR + COLLISION_THETA;
+                  }
+               }
+            }
+            else if ( lowerLeftCollision )
+            {
+               if ( !lowerRightCollision ) // the lowerRightCollision case will be handled in the vertical pass
+               {
+                  // only lower-left corner is colliding. if we're moving down, resolve based on collision depth
+                  if ( !movingDown || ( ( colliderR - resolvedPos.x ) <= ( resolvedPosB - collider.y ) ) )
+                  {
+                     resolvedPos.x = colliderR + COLLISION_THETA;
+                  }
+               }
+            }
          }
-         else if ( upperLeftCollision )
+         else if ( rightSideCollision )
          {
-            if ( upperRightCollision )
+            if ( ( upperRightCollision && lowerRightCollision ) || ( !upperRightCollision && !lowerRightCollision ) )
+            {
+               // entire right side is colliding, resolve based on direction
+               resolvedPos.x = movingLeft ? colliderR + COLLISION_THETA : ( collider.x - resolvedPos.w - COLLISION_THETA );
+            }
+            else if ( upperRightCollision )
+            {
+               if ( !upperLeftCollision ) // the upperLeftCollision case will be handled in the vertical pass
+               {
+                  // only upper-right corner is colliding. if we're moving up, resolve based on collision depth
+                  if ( !movingUp || ( ( resolvedPosR - collider.x ) <= ( colliderB - resolvedPos.y ) ) )
+                  {
+                     resolvedPos.x = ( collider.x - resolvedPos.w - COLLISION_THETA );
+                  }
+               }
+            }
+            else if ( lowerRightCollision )
+            {
+               if ( !lowerLeftCollision ) // the lowerLeftCollision case will be handled in the vertical pass
+               {
+                  // only lower-right corner is colliding. if we're moving down, resolve based on collision depth
+                  if ( !movingDown || ( ( resolvedPosR - collider.x ) <= ( resolvedPosB - collider.y ) ) )
+                  {
+                     resolvedPos.x = ( collider.x - resolvedPos.w - COLLISION_THETA );
+                  }
+               }
+            }
+         }
+
+         entity->hitBox.x = resolvedPos.x;
+         resolvedPosR = entity->hitBox.x + entity->hitBox.w;
+
+         if ( !Utility_RectsIntersect32r( entity->hitBox.x, entity->hitBox.y, entity->hitBox.w, entity->hitBox.h,
+                                          collider.x, collider.y, collider.w, collider.h ) )
+         {
+            return;
+         }
+      }
+
+      if ( movingUp || movingDown )
+      {
+         upperLeftCollision = Utility_PointInRect32r( entity->hitBox.x, entity->hitBox.y, collider.x, collider.y, collider.w, collider.h );
+         lowerLeftCollision = Utility_PointInRect32r( entity->hitBox.x, resolvedPosB, collider.x, collider.y, collider.w, collider.h );
+         upperRightCollision = Utility_PointInRect32r( resolvedPosR, entity->hitBox.y, collider.x, collider.y, collider.w, collider.h );
+         lowerRightCollision = Utility_PointInRect32r( resolvedPosR, resolvedPosB, collider.x, collider.y, collider.w, collider.h );
+
+         topSideCollision = Utility_HorizontalLineIntersectsRect32r( entity->hitBox.x, resolvedPosR, entity->hitBox.y, collider.x, collider.y, collider.w, collider.h );
+         bottomSideCollision = Utility_HorizontalLineIntersectsRect32r( entity->hitBox.x, resolvedPosR, resolvedPosB, collider.x, collider.y, collider.w, collider.h );
+
+         // vertical pass
+         if ( topSideCollision )
+         {
+            if ( ( upperLeftCollision && upperRightCollision ) || ( !upperLeftCollision && !upperRightCollision ) )
             {
                // entire top side is colliding, resolve based on direction
-               resolvedPos.y = movingUp
-                  ? ( collidingRectB + COLLISION_THETA )
-                  : ( collidingRect.y - resolvedPos.h - COLLISION_THETA );
+               resolvedPos.y = movingUp ? colliderB : ( collider.y - resolvedPos.h - COLLISION_THETA );
             }
-            else
+            else if ( upperLeftCollision )
             {
                // only upper-left corner is colliding. if we're moving left, resolve based on collision depth
-               if ( !movingLeft || ( ( collidingRectR - resolvedPos.x ) > ( collidingRectB - resolvedPos.y ) ) )
+               if ( !movingLeft || ( ( colliderR - resolvedPos.x ) > ( colliderB - resolvedPos.y ) ) )
                {
-                  resolvedPos.y = collidingRectB + COLLISION_THETA;
+                  resolvedPos.y = colliderB + COLLISION_THETA;
+               }
+            }
+            else if ( upperRightCollision )
+            {
+               // only upper-right corner is colliding. if we're moving right, resolve based on collision depth
+               if ( !movingRight || ( ( resolvedPosR - collider.x ) > ( colliderB - resolvedPos.y ) ) )
+               {
+                  resolvedPos.y = colliderB + COLLISION_THETA;
                }
             }
          }
-         else if ( upperRightCollision )
+         else if ( bottomSideCollision )
          {
-            // only upper-right corner is colliding. if we're moving right, resolve based on collision depth
-            if ( !movingRight || ( ( resolvedPosR - collidingRect.x ) > ( collidingRectB - resolvedPos.y ) ) )
-            {
-               resolvedPos.y = collidingRectB + COLLISION_THETA;
-            }
-         }
-      }
-      else if ( bottomSideCollision )
-      {
-         if ( ( lowerLeftCollision && lowerRightCollision ) || ( !lowerLeftCollision && !lowerRightCollision ) )
-         {
-            // entire bottom side is colliding, resolve based on direction
-            resolvedPos.y = movingUp
-               ? ( collidingRectB + COLLISION_THETA )
-               : ( collidingRect.y - resolvedPos.h - COLLISION_THETA );
-         }
-         else if ( lowerLeftCollision )
-         {
-            if ( lowerRightCollision )
+            if ( ( lowerLeftCollision && lowerRightCollision ) || ( !lowerLeftCollision && !lowerRightCollision ) )
             {
                // entire bottom side is colliding, resolve based on direction
-               resolvedPos.y = movingUp
-                  ? ( collidingRectB + COLLISION_THETA )
-                  : ( collidingRect.y - resolvedPos.h - COLLISION_THETA );
+               resolvedPos.y = movingUp ? colliderB : ( collider.y - resolvedPos.h - COLLISION_THETA );
             }
-            else
+            else if ( lowerLeftCollision )
             {
                // only lower-left corner is colliding. if we're moving left, resolve based on collision depth
-               if ( !movingLeft || ( ( collidingRectR - resolvedPos.x ) > ( resolvedPosB - collidingRect.y ) ) )
+               if ( !movingLeft || ( ( colliderR - resolvedPos.x ) > ( resolvedPosB - collider.y ) ) )
                {
-                  resolvedPos.y = collidingRect.y - resolvedPos.h - COLLISION_THETA;
+                  resolvedPos.y = ( collider.y - resolvedPos.h - COLLISION_THETA );
+               }
+            }
+            else if ( lowerRightCollision )
+            {
+               // only lower-right corner is colliding. if we're moving right, resolve based on collision depth
+               if ( !movingRight || ( ( resolvedPosR - collider.x ) > ( resolvedPosB - collider.y ) ) )
+               {
+                  resolvedPos.y = ( collider.y - resolvedPos.h - COLLISION_THETA );
                }
             }
          }
-         else if ( lowerRightCollision )
-         {
-            // only lower-right corner is colliding. if we're moving right, resolve based on collision depth
-            if ( !movingRight || ( ( resolvedPosR - collidingRect.x ) > ( resolvedPosB - collidingRect.y ) ) )
-            {
-               resolvedPos.y = collidingRect.y - resolvedPos.h - COLLISION_THETA;
-            }
-         }
-      }
 
-      entity->hitBox.y = resolvedPos.y;
+         entity->hitBox.y = resolvedPos.y;
+      }
    }
 }
