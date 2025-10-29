@@ -90,6 +90,11 @@ internal void Game_ResolveEntityCollision( Entity_t* entity, Vector4r32_t collid
    // - maybe we don't actually need to account for that? I should never happen, and even if it does,
    //   when the entity moves it'll eventually intersect the collision rect.
 
+   // MUFFINS: TESTING NOTES
+   //
+   // - in this current iteration, moving down and to the left on a wall works fine, but moving up and left
+   //   has issues. Similar things happen on the top side, but not on the right or on the bottom.
+
    if ( !movingLeft && !movingRight && !movingUp && !movingDown )
    {
       // MUFFINS: we're not moving, resolve based on center positions and depth
@@ -117,16 +122,16 @@ internal void Game_ResolveEntityCollision( Entity_t* entity, Vector4r32_t collid
             if ( ( upperLeftCollision && lowerLeftCollision ) || ( !upperLeftCollision && !lowerLeftCollision ) )
             {
                // entire left side is colliding, resolve based on direction
-               resolvedPos.x = movingLeft ? colliderR + COLLISION_THETA : ( collider.x - resolvedPos.w - COLLISION_THETA );
+               resolvedPos.x = movingLeft ? colliderR : ( collider.x - resolvedPos.w );
             }
             else if ( upperLeftCollision )
             {
                if ( !upperRightCollision ) // the upperRightCollision case will be handled in the vertical pass
                {
                   // only upper-left corner is colliding. if we're moving up, resolve based on collision depth
-                  if ( !movingUp || ( ( colliderR - resolvedPos.x ) <= ( colliderB - resolvedPos.y ) ) )
+                  if ( !movingUp || ( ( colliderR - resolvedPos.x ) < ( colliderB - resolvedPos.y ) ) )
                   {
-                     resolvedPos.x = colliderR + COLLISION_THETA;
+                     resolvedPos.x = colliderR;
                   }
                }
             }
@@ -135,9 +140,9 @@ internal void Game_ResolveEntityCollision( Entity_t* entity, Vector4r32_t collid
                if ( !lowerRightCollision ) // the lowerRightCollision case will be handled in the vertical pass
                {
                   // only lower-left corner is colliding. if we're moving down, resolve based on collision depth
-                  if ( !movingDown || ( ( colliderR - resolvedPos.x ) <= ( resolvedPosB - collider.y ) ) )
+                  if ( !movingDown || ( ( colliderR - resolvedPos.x ) < ( resolvedPosB - collider.y ) ) )
                   {
-                     resolvedPos.x = colliderR + COLLISION_THETA;
+                     resolvedPos.x = colliderR;
                   }
                }
             }
@@ -147,16 +152,16 @@ internal void Game_ResolveEntityCollision( Entity_t* entity, Vector4r32_t collid
             if ( ( upperRightCollision && lowerRightCollision ) || ( !upperRightCollision && !lowerRightCollision ) )
             {
                // entire right side is colliding, resolve based on direction
-               resolvedPos.x = movingLeft ? colliderR + COLLISION_THETA : ( collider.x - resolvedPos.w - COLLISION_THETA );
+               resolvedPos.x = movingLeft ? colliderR : ( collider.x - resolvedPos.w );
             }
             else if ( upperRightCollision )
             {
                if ( !upperLeftCollision ) // the upperLeftCollision case will be handled in the vertical pass
                {
                   // only upper-right corner is colliding. if we're moving up, resolve based on collision depth
-                  if ( !movingUp || ( ( resolvedPosR - collider.x ) <= ( colliderB - resolvedPos.y ) ) )
+                  if ( !movingUp || ( ( resolvedPosR - collider.x ) < ( colliderB - resolvedPos.y ) ) )
                   {
-                     resolvedPos.x = ( collider.x - resolvedPos.w - COLLISION_THETA );
+                     resolvedPos.x = ( collider.x - resolvedPos.w );
                   }
                }
             }
@@ -165,9 +170,9 @@ internal void Game_ResolveEntityCollision( Entity_t* entity, Vector4r32_t collid
                if ( !lowerLeftCollision ) // the lowerLeftCollision case will be handled in the vertical pass
                {
                   // only lower-right corner is colliding. if we're moving down, resolve based on collision depth
-                  if ( !movingDown || ( ( resolvedPosR - collider.x ) <= ( resolvedPosB - collider.y ) ) )
+                  if ( !movingDown || ( ( resolvedPosR - collider.x ) < ( resolvedPosB - collider.y ) ) )
                   {
-                     resolvedPos.x = ( collider.x - resolvedPos.w - COLLISION_THETA );
+                     resolvedPos.x = ( collider.x - resolvedPos.w );
                   }
                }
             }
@@ -199,14 +204,14 @@ internal void Game_ResolveEntityCollision( Entity_t* entity, Vector4r32_t collid
             if ( ( upperLeftCollision && upperRightCollision ) || ( !upperLeftCollision && !upperRightCollision ) )
             {
                // entire top side is colliding, resolve based on direction
-               resolvedPos.y = movingUp ? colliderB : ( collider.y - resolvedPos.h - COLLISION_THETA );
+               resolvedPos.y = movingUp ? colliderB : ( collider.y - resolvedPos.h );
             }
             else if ( upperLeftCollision )
             {
                // only upper-left corner is colliding. if we're moving left, resolve based on collision depth
                if ( !movingLeft || ( ( colliderR - resolvedPos.x ) > ( colliderB - resolvedPos.y ) ) )
                {
-                  resolvedPos.y = colliderB + COLLISION_THETA;
+                  resolvedPos.y = colliderB;
                }
             }
             else if ( upperRightCollision )
@@ -214,7 +219,7 @@ internal void Game_ResolveEntityCollision( Entity_t* entity, Vector4r32_t collid
                // only upper-right corner is colliding. if we're moving right, resolve based on collision depth
                if ( !movingRight || ( ( resolvedPosR - collider.x ) > ( colliderB - resolvedPos.y ) ) )
                {
-                  resolvedPos.y = colliderB + COLLISION_THETA;
+                  resolvedPos.y = colliderB;
                }
             }
          }
@@ -223,14 +228,14 @@ internal void Game_ResolveEntityCollision( Entity_t* entity, Vector4r32_t collid
             if ( ( lowerLeftCollision && lowerRightCollision ) || ( !lowerLeftCollision && !lowerRightCollision ) )
             {
                // entire bottom side is colliding, resolve based on direction
-               resolvedPos.y = movingUp ? colliderB : ( collider.y - resolvedPos.h - COLLISION_THETA );
+               resolvedPos.y = movingUp ? colliderB : ( collider.y - resolvedPos.h );
             }
             else if ( lowerLeftCollision )
             {
                // only lower-left corner is colliding. if we're moving left, resolve based on collision depth
                if ( !movingLeft || ( ( colliderR - resolvedPos.x ) > ( resolvedPosB - collider.y ) ) )
                {
-                  resolvedPos.y = ( collider.y - resolvedPos.h - COLLISION_THETA );
+                  resolvedPos.y = ( collider.y - resolvedPos.h );
                }
             }
             else if ( lowerRightCollision )
@@ -238,7 +243,7 @@ internal void Game_ResolveEntityCollision( Entity_t* entity, Vector4r32_t collid
                // only lower-right corner is colliding. if we're moving right, resolve based on collision depth
                if ( !movingRight || ( ( resolvedPosR - collider.x ) > ( resolvedPosB - collider.y ) ) )
                {
-                  resolvedPos.y = ( collider.y - resolvedPos.h - COLLISION_THETA );
+                  resolvedPos.y = ( collider.y - resolvedPos.h );
                }
             }
          }

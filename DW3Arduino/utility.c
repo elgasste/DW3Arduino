@@ -12,15 +12,15 @@ Bool_t Utility_RectsIntersect32r( r32 x1, r32 y1, r32 w1, r32 h1, r32 x2, r32 y2
 
 Bool_t Utility_HorizontalLineIntersectsRect32r( r32 lineX1, r32 lineX2, r32 lineY, r32 rx, r32 ry, r32 rw, r32 rh )
 {
-   return ( lineY >= ry ) && ( lineY < ( ry + rh ) ) && ( lineX1 < ( rx + rw ) ) && ( lineX2 >= rx ) ? True : False;
+   return ( lineY > ry ) && ( lineY < ( ry + rh ) ) && ( lineX1 < ( rx + rw ) ) && ( lineX2 > rx ) ? True : False;
 }
 
 Bool_t Utility_VerticalLineIntersectsRect32r( r32 lineX, r32 lineY1, r32 lineY2, r32 rx, r32 ry, r32 rw, r32 rh )
 {
-   return ( lineX >= rx ) && ( lineX < ( rx + rw ) ) && ( lineY1 < ( ry + rh ) ) && ( lineY2 >= ry ) ? True : False;
+   return ( lineX > rx ) && ( lineX < ( rx + rw ) ) && ( lineY1 < ( ry + rh ) ) && ( lineY2 > ry ) ? True : False;
 }
 
 Bool_t Utility_PointInRect32r( r32 px, r32 py, r32 rx, r32 ry, r32 rw, r32 rh )
 {
-   return ( px >= rx ) && ( px < ( rx + rw ) ) && ( py >= ry ) && py < ( ry + rh ) ? True : False;
+   return ( px > rx ) && ( px < ( rx + rw ) ) && ( py > ry ) && py < ( ry + rh ) ? True : False;
 }
