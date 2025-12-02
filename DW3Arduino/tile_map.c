@@ -28,6 +28,7 @@ void TileMap_Init( TileMap_t* tileMap )
       tileMap->entities[i].hitBox.y = 0.0f;
       tileMap->entities[i].hitBox.w = 0.0f;
       tileMap->entities[i].hitBox.h = 0.0f;
+      tileMap->entities[i].prevHitBox = tileMap->entities[i].hitBox;
    }
 }
 

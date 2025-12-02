@@ -4,6 +4,8 @@
 #include "common.h"
 #include "vector.h"
 
+#define COLLISION_THETA 0.001f
+
 #if defined( __cplusplus )
 extern "C" {
 #endif

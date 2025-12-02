@@ -25,6 +25,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->playerEntity->hitBox.y = 24.0f;
    game->playerEntity->hitBox.w = 12.0f;
    game->playerEntity->hitBox.h = 12.0f;
+   game->playerEntity->prevHitBox = game->playerEntity->hitBox;
    game->playerEntity->velocity.x = 0.0f;
    game->playerEntity->velocity.y = 0.0f;
 
