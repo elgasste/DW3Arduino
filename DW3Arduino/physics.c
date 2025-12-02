@@ -118,6 +118,29 @@ internal void Physics_MoveEntities( Game_t* game )
             }
          }
       }
+
+      // clamp to tile map boundaries
+      if ( entity->pos.x < 0.0f )
+      {
+         entity->pos.x = 0.0f;
+         entity->prevPos.x = 0.0f;
+      }
+      else if ( ( entity->pos.x + entity->pos.w ) >= ( game->tileMap.tilesX * TILE_SIZE ) )
+      {
+         entity->pos.x = ( game->tileMap.tilesX * TILE_SIZE ) - entity->pos.w - 0.01f;
+         entity->prevPos.x = entity->pos.x;
+      }
+
+      if ( entity->pos.y < 0.0f )
+      {
+         entity->pos.y = 0.0f;
+         entity->prevPos.y = 0.0f;
+      }
+      else if ( ( entity->pos.y + entity->pos.h ) >= ( game->tileMap.tilesY * TILE_SIZE ) )
+      {
+         entity->pos.y = ( game->tileMap.tilesY * TILE_SIZE ) - entity->pos.h - 0.01f;
+         entity->prevPos.y = entity->pos.y;
+      }
    }
 }
 
