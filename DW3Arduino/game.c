@@ -1,8 +1,8 @@
 #include "game.h"
 
+#define DIAGONAL_SCALAR 0.707f
+
 internal void Game_HandleInput( Game_t* game );
-internal void Game_ClipCamPosition( Game_t* game );
-internal void Game_UpdateTileMapViewport( Game_t* game );
 
 void Game_Init( Game_t* game, u16* screenBuffer )
 {
@@ -15,69 +15,74 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    TileMap_LoadTileTextures( &game->tileMap );
    TileMap_LoadFromIndex( &game->tileMap, 0 );
 
-   game->tileMapViewport.w = 380;
-   game->tileMapViewport.h = 220;
-   game->tileMapViewportScreenPos.x = 20;
-   game->tileMapViewportScreenPos.y = 10;
-   game->camPosition.x = 500.0f;
-   game->camPosition.y = 500.0f;
+   game->tileMap.viewport.w = 380;
+   game->tileMap.viewport.h = 220;
+   game->tileMap.viewportScreenPos.x = 20;
+   game->tileMap.viewportScreenPos.y = 10;
 
+   game->playerEntity = &game->tileMap.entities[PLAYER_ENTITY_INDEX];
+   game->playerEntity->hitBox.x = 24.0f;
+   game->playerEntity->hitBox.y = 24.0f;
+   game->playerEntity->hitBox.w = 12.0f;
+   game->playerEntity->hitBox.h = 12.0f;
+   game->playerEntity->prevHitBox = game->playerEntity->hitBox;
+   game->playerEntity->velocity.x = 0.0f;
+   game->playerEntity->velocity.y = 0.0f;
 
+   TileMap_ClampViewportToEntity( &game->tileMap, game->playerEntity );
 }
 
 void Game_Tic( Game_t* game )
 {
    Input_Read( &game->input );
    Game_HandleInput( game );
+   Game_TicPhysics( game );
    Game_Draw( game );
 }
 
 internal void Game_HandleInput( Game_t* game )
 {
-   if ( game->input.buttonStates[InputButton_Left].down )
-   {
-      game->camPosition.x -= ( CAM_VELOCITY * CLOCK_FRAME_SECONDS );
-   }
-   if ( game->input.buttonStates[InputButton_Right].down )
-   {
-      game->camPosition.x += ( CAM_VELOCITY * CLOCK_FRAME_SECONDS );
-   }
-   if ( game->input.buttonStates[InputButton_Up].down )
-   {
-      game->camPosition.y -= ( CAM_VELOCITY * CLOCK_FRAME_SECONDS );
-   }
-   if ( game->input.buttonStates[InputButton_Down].down )
-   {
-      game->camPosition.y += ( CAM_VELOCITY * CLOCK_FRAME_SECONDS );
-   }
+   Entity_t* player = game->playerEntity;
 
-   Game_ClipCamPosition( game );
-   Game_UpdateTileMapViewport( game );
-}
+   Bool_t leftIsDown = game->input.buttonStates[InputButton_Left].down;
+   Bool_t upIsDown = game->input.buttonStates[InputButton_Up].down;
+   Bool_t rightIsDown = game->input.buttonStates[InputButton_Right].down;
+   Bool_t downIsDown = game->input.buttonStates[InputButton_Down].down;
 
-internal void Game_ClipCamPosition( Game_t* game )
-{
-   if ( game->camPosition.x < 0.0f )
+   if ( leftIsDown && !rightIsDown )
    {
-      game->camPosition.x = 0.0f;
-   }
-   else if ( game->camPosition.x >= ( game->tileMap.tilesX * TILE_SIZE ) )
-   {
-      game->camPosition.x = (r32)( ( game->tileMap.tilesX * TILE_SIZE ) - 1 );
-   }
+      player->velocity.x = -PLAYER_MAX_VELOCITY;
 
-   if ( game->camPosition.y < 0.0f )
-   {
-      game->camPosition.y = 0.0f;
+      if ( upIsDown || downIsDown )
+      {
+         player->velocity.x *= DIAGONAL_SCALAR;
+      }
    }
-   else if ( game->camPosition.y >= ( game->tileMap.tilesY * TILE_SIZE ) )
+   else if ( rightIsDown && !leftIsDown )
    {
-      game->camPosition.y = (r32)( ( game->tileMap.tilesY * TILE_SIZE ) - 1 );
-   }
-}
+      player->velocity.x = PLAYER_MAX_VELOCITY;
 
-internal void Game_UpdateTileMapViewport( Game_t* game )
-{
-   game->tileMapViewport.x = (i32)( game->camPosition.x ) - ( game->tileMapViewport.w / 2 );
-   game->tileMapViewport.y = (i32)( game->camPosition.y ) - ( game->tileMapViewport.h / 2 );
+      if ( upIsDown || downIsDown )
+      {
+         player->velocity.x *= DIAGONAL_SCALAR;
+      }
+   }
+   if ( upIsDown && !downIsDown )
+   {
+      player->velocity.y = -PLAYER_MAX_VELOCITY;
+
+      if ( leftIsDown || rightIsDown )
+      {
+         player->velocity.y *= DIAGONAL_SCALAR;
+      }
+   }
+   else if ( downIsDown && !upIsDown )
+   {
+      player->velocity.y = PLAYER_MAX_VELOCITY;
+
+      if ( leftIsDown || rightIsDown )
+      {
+         player->velocity.y *= DIAGONAL_SCALAR;
+      }
+   }
 }

@@ -1,4 +1,5 @@
 #include "tile_map.h"
+#include "entity.h"
 
 void TileMap_Init( TileMap_t* tileMap )
 {
@@ -16,4 +17,65 @@ void TileMap_Init( TileMap_t* tileMap )
    {
       tileMap->tiles[i] = 0;
    }
+
+   tileMap->entityCount = 0;
+
+   for ( i = 0; i < TILEMAP_MAX_ENTITIES; i++ )
+   {
+      tileMap->entities[i].velocity.x = 0.0f;
+      tileMap->entities[i].velocity.y = 0.0f;
+      tileMap->entities[i].hitBox.x = 0.0f;
+      tileMap->entities[i].hitBox.y = 0.0f;
+      tileMap->entities[i].hitBox.w = 0.0f;
+      tileMap->entities[i].hitBox.h = 0.0f;
+      tileMap->entities[i].prevHitBox = tileMap->entities[i].hitBox;
+   }
+}
+
+void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
+{
+   if ( tileMap->viewport.w > (i32)( tileMap->tilesX * TILE_SIZE ) )
+   {
+      // map is thinner than the viewport, center it horizontally
+      tileMap->viewport.x = -(i32)( ( tileMap->viewport.w - ( tileMap->tilesX * TILE_SIZE ) ) / 2 );
+   }
+   else
+   {
+      tileMap->viewport.x = (i32)( entity->hitBox.x + ( entity->hitBox.w / 2 ) ) - ( tileMap->viewport.w / 2 );
+
+      // clamp to left or right edge if necessary
+      if ( tileMap->viewport.x < 0 )
+      {
+         tileMap->viewport.x = 0;
+      }
+      else if ( ( tileMap->viewport.x + tileMap->viewport.w ) >= (i32)( tileMap->tilesX * TILE_SIZE ) )
+      {
+         tileMap->viewport.x = (i32)( ( tileMap->tilesX * TILE_SIZE ) - tileMap->viewport.w );
+      }
+   }
+
+   if ( tileMap->viewport.h > (i32)( tileMap->tilesY * TILE_SIZE ) )
+   {
+      // map is taller than the viewport, center it vertically
+      tileMap->viewport.y = -(i32)( ( tileMap->viewport.h - ( tileMap->tilesY * TILE_SIZE ) ) / 2 );
+   }
+   else
+   {
+      tileMap->viewport.y = (i32)( entity->hitBox.y + ( entity->hitBox.h / 2 ) ) - ( tileMap->viewport.h / 2 );
+
+      // clamp to top or bottom edge if necessary
+      if ( tileMap->viewport.y < 0 )
+      {
+         tileMap->viewport.y = 0;
+      }
+      else if ( ( tileMap->viewport.y + tileMap->viewport.h ) >= (i32)( tileMap->tilesY * TILE_SIZE ) )
+      {
+         tileMap->viewport.y = (i32)( ( tileMap->tilesY * TILE_SIZE ) - tileMap->viewport.h );
+      }
+   }
+}
+
+u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, u32 x, u32 y )
+{
+   return ( ( y / TILE_SIZE ) * tileMap->tilesX ) + ( x / TILE_SIZE );
 }
