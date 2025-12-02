@@ -21,11 +21,11 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->tileMap.viewportScreenPos.y = 10;
 
    game->playerEntity = &game->tileMap.entities[PLAYER_ENTITY_INDEX];
-   game->playerEntity->hitBox.x = 24.0f;
-   game->playerEntity->hitBox.y = 24.0f;
-   game->playerEntity->hitBox.w = 12.0f;
-   game->playerEntity->hitBox.h = 12.0f;
-   game->playerEntity->prevHitBox = game->playerEntity->hitBox;
+   game->playerEntity->pos.x = 24.0f;
+   game->playerEntity->pos.y = 24.0f;
+   game->playerEntity->pos.w = 12.0f;
+   game->playerEntity->pos.h = 12.0f;
+   game->playerEntity->prevPos = game->playerEntity->pos;
    game->playerEntity->velocity.x = 0.0f;
    game->playerEntity->velocity.y = 0.0f;
 
@@ -36,8 +36,8 @@ void Game_Tic( Game_t* game )
 {
    Input_Read( &game->input );
    Game_HandleInput( game );
-   Game_TicPhysics( game );
-   Game_Draw( game );
+   Physics_Tic( game );
+   Render_DrawGame( game );
 }
 
 internal void Game_HandleInput( Game_t* game )

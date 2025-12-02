@@ -1,18 +1,18 @@
 #include "game.h"
 #include "utility.h"
 
-internal void Game_DrawTileMap( Game_t* game );
-internal void Game_DrawEntities( Game_t* game );
+internal void Render_DrawTileMap( Game_t* game );
+internal void Render_DrawEntities( Game_t* game );
 
-void Game_Draw( Game_t* game )
+void Render_DrawGame( Game_t* game )
 {
    Screen_WipeColor( &game->screen, COLOR16_BLACK );
-   Game_DrawTileMap( game );
-   Game_DrawEntities( game );
+   Render_DrawTileMap( game );
+   Render_DrawEntities( game );
    Screen_Blit( &game->screen );
 }
 
-internal void Game_DrawTileMap( Game_t* game )
+internal void Render_DrawTileMap( Game_t* game )
 {
    i32 tileOffsetX, tileOffsetY;
    i32 startTileX, endTileX, startTileY, endTileY;
@@ -88,7 +88,7 @@ internal void Game_DrawTileMap( Game_t* game )
    }
 }
 
-internal void Game_DrawEntities( Game_t* game )
+internal void Render_DrawEntities( Game_t* game )
 {
    u32 i;
    Entity_t* entity = game->tileMap.entities;
@@ -97,13 +97,13 @@ internal void Game_DrawEntities( Game_t* game )
 
    for ( i = 0; i < game->tileMap.entityCount; i++ )
    {
-      if ( Utility_RectsIntersect32i( (i32)entity->hitBox.x, (i32)entity->hitBox.y, (i32)entity->hitBox.w, (i32)entity->hitBox.h,
+      if ( Utility_RectsIntersect32i( (i32)entity->pos.x, (i32)entity->pos.y, (i32)entity->pos.w, (i32)entity->pos.h,
                                       viewport->x, viewport->y, viewport->w, viewport->h ) )
       {
          Screen_DrawBoundedRect( &game->screen,
-                                 ( (i32)( entity->hitBox.x ) - viewport->x ) + viewportScreenPos->x,
-                                 ( (i32)( entity->hitBox.y ) - viewport->y ) + viewportScreenPos->y,
-                                 (i32)( entity->hitBox.w ), (i32)( entity->hitBox.h ),
+                                 ( (i32)( entity->pos.x ) - viewport->x ) + viewportScreenPos->x,
+                                 ( (i32)( entity->pos.y ) - viewport->y ) + viewportScreenPos->y,
+                                 (i32)( entity->pos.w ), (i32)( entity->pos.h ),
                                  viewportScreenPos->x, viewportScreenPos->y,
                                  viewportScreenPos->x + viewport->w,
                                  viewportScreenPos->y + viewport->h,

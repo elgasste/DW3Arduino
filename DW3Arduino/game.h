@@ -28,10 +28,10 @@ void Game_Init( Game_t* game, u16* screenBuffer );
 void Game_Tic( Game_t* game );
 
 // physics.c
-void Game_TicPhysics( Game_t* game );
+void Physics_Tic( Game_t* game );
 
 // render.c
-void Game_Draw( Game_t* game );
+void Render_DrawGame( Game_t* game );
 
 #if defined( __cplusplus )
 }
