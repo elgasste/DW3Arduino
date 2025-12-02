@@ -95,11 +95,11 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
    {
       if ( i != PLAYER_ENTITY_INDEX )
       {
-         tileMap->entities[i].hitBox.w = 14.0f;
-         tileMap->entities[i].hitBox.h = 14.0f;
-         tileMap->entities[i].hitBox.x = (r32)( Random_u32( 1, ( tileMap->tilesX - 2 ) * TILE_SIZE ) );
-         tileMap->entities[i].hitBox.y = (r32)( Random_u32( 1, ( tileMap->tilesY - 2 ) * TILE_SIZE ) );
-         tileMap->entities[i].prevHitBox = tileMap->entities[i].hitBox;
+         tileMap->entities[i].pos.w = 14.0f;
+         tileMap->entities[i].pos.h = 14.0f;
+         tileMap->entities[i].pos.x = (r32)( Random_u32( 1, ( tileMap->tilesX - 2 ) * TILE_SIZE ) );
+         tileMap->entities[i].pos.y = (r32)( Random_u32( 1, ( tileMap->tilesY - 2 ) * TILE_SIZE ) );
+         tileMap->entities[i].prevPos = tileMap->entities[i].pos;
          tileMap->entities[i].velocity.x = 0.0f;
          tileMap->entities[i].velocity.y = 0.0f;
       }

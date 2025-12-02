@@ -24,11 +24,11 @@ void TileMap_Init( TileMap_t* tileMap )
    {
       tileMap->entities[i].velocity.x = 0.0f;
       tileMap->entities[i].velocity.y = 0.0f;
-      tileMap->entities[i].hitBox.x = 0.0f;
-      tileMap->entities[i].hitBox.y = 0.0f;
-      tileMap->entities[i].hitBox.w = 0.0f;
-      tileMap->entities[i].hitBox.h = 0.0f;
-      tileMap->entities[i].prevHitBox = tileMap->entities[i].hitBox;
+      tileMap->entities[i].pos.x = 0.0f;
+      tileMap->entities[i].pos.y = 0.0f;
+      tileMap->entities[i].pos.w = 0.0f;
+      tileMap->entities[i].pos.h = 0.0f;
+      tileMap->entities[i].prevPos = tileMap->entities[i].pos;
    }
 }
 
@@ -41,7 +41,7 @@ void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
    }
    else
    {
-      tileMap->viewport.x = (i32)( entity->hitBox.x + ( entity->hitBox.w / 2 ) ) - ( tileMap->viewport.w / 2 );
+      tileMap->viewport.x = (i32)( entity->pos.x + ( entity->pos.w / 2 ) ) - ( tileMap->viewport.w / 2 );
 
       // clamp to left or right edge if necessary
       if ( tileMap->viewport.x < 0 )
@@ -61,7 +61,7 @@ void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
    }
    else
    {
-      tileMap->viewport.y = (i32)( entity->hitBox.y + ( entity->hitBox.h / 2 ) ) - ( tileMap->viewport.h / 2 );
+      tileMap->viewport.y = (i32)( entity->pos.y + ( entity->pos.h / 2 ) ) - ( tileMap->viewport.h / 2 );
 
       // clamp to top or bottom edge if necessary
       if ( tileMap->viewport.y < 0 )
