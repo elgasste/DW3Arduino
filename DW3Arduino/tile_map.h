@@ -29,11 +29,12 @@ typedef struct TileMap_t
    TileTexture_t tileTextures[TILEMAP_MAX_TEXTURES];
 
    // bits 0-4:  tile texture index
-   // bit 5:     is passable
+   // bit  5:    is passable
    // bits 6-15: reserved
    u16 tiles[TILEMAP_MAX_TILES_X * TILEMAP_MAX_TILES_Y];
    u32 tilesX;
    u32 tilesY;
+   Bool_t wraps;
 
    Vector4i32_t viewport;
    Vector2u32_t viewportScreenPos;

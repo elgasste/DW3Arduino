@@ -43,6 +43,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
 
    tileMap->tilesX = 32;
    tileMap->tilesY = 32;
+   tileMap->wraps = True;
 
    // checkerboard
    for ( row = 0; row < tileMap->tilesY; row++ )

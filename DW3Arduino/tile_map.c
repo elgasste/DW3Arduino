@@ -34,43 +34,52 @@ void TileMap_Init( TileMap_t* tileMap )
 
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
 {
-   if ( tileMap->viewport.w > (i32)( tileMap->tilesX * TILE_SIZE ) )
+   if ( tileMap->wraps )
    {
-      // map is thinner than the viewport, center it horizontally
-      tileMap->viewport.x = -(i32)( ( tileMap->viewport.w - ( tileMap->tilesX * TILE_SIZE ) ) / 2 );
-   }
-   else
-   {
+      // wrapping maps should always center on the focal entity
       tileMap->viewport.x = (i32)( entity->pos.x + ( entity->pos.w / 2 ) ) - ( tileMap->viewport.w / 2 );
-
-      // clamp to left or right edge if necessary
-      if ( tileMap->viewport.x < 0 )
-      {
-         tileMap->viewport.x = 0;
-      }
-      else if ( ( tileMap->viewport.x + tileMap->viewport.w ) >= (i32)( tileMap->tilesX * TILE_SIZE ) )
-      {
-         tileMap->viewport.x = (i32)( ( tileMap->tilesX * TILE_SIZE ) - tileMap->viewport.w );
-      }
-   }
-
-   if ( tileMap->viewport.h > (i32)( tileMap->tilesY * TILE_SIZE ) )
-   {
-      // map is taller than the viewport, center it vertically
-      tileMap->viewport.y = -(i32)( ( tileMap->viewport.h - ( tileMap->tilesY * TILE_SIZE ) ) / 2 );
+      tileMap->viewport.y = (i32)( entity->pos.y + ( entity->pos.h / 2 ) ) - ( tileMap->viewport.h / 2 );
    }
    else
    {
-      tileMap->viewport.y = (i32)( entity->pos.y + ( entity->pos.h / 2 ) ) - ( tileMap->viewport.h / 2 );
-
-      // clamp to top or bottom edge if necessary
-      if ( tileMap->viewport.y < 0 )
+      if ( tileMap->viewport.w > (i32)( tileMap->tilesX * TILE_SIZE ) )
       {
-         tileMap->viewport.y = 0;
+         // map is thinner than the viewport, center it horizontally
+         tileMap->viewport.x = -(i32)( ( tileMap->viewport.w - ( tileMap->tilesX * TILE_SIZE ) ) / 2 );
       }
-      else if ( ( tileMap->viewport.y + tileMap->viewport.h ) >= (i32)( tileMap->tilesY * TILE_SIZE ) )
+      else
       {
-         tileMap->viewport.y = (i32)( ( tileMap->tilesY * TILE_SIZE ) - tileMap->viewport.h );
+         tileMap->viewport.x = (i32)( entity->pos.x + ( entity->pos.w / 2 ) ) - ( tileMap->viewport.w / 2 );
+
+         // clamp to left or right edge if necessary
+         if ( tileMap->viewport.x < 0 )
+         {
+            tileMap->viewport.x = 0;
+         }
+         else if ( ( tileMap->viewport.x + tileMap->viewport.w ) >= (i32)( tileMap->tilesX * TILE_SIZE ) )
+         {
+            tileMap->viewport.x = (i32)( ( tileMap->tilesX * TILE_SIZE ) - tileMap->viewport.w );
+         }
+      }
+
+      if ( tileMap->viewport.h > ( i32 )( tileMap->tilesY * TILE_SIZE ) )
+      {
+         // map is shorter than the viewport, center it vertically
+         tileMap->viewport.y = -(i32)( ( tileMap->viewport.h - ( tileMap->tilesY * TILE_SIZE ) ) / 2 );
+      }
+      else
+      {
+         tileMap->viewport.y = (i32)( entity->pos.y + ( entity->pos.h / 2 ) ) - ( tileMap->viewport.h / 2 );
+
+         // clamp to top or bottom edge if necessary
+         if ( tileMap->viewport.y < 0 )
+         {
+            tileMap->viewport.y = 0;
+         }
+         else if ( ( tileMap->viewport.y + tileMap->viewport.h ) >= (i32)( tileMap->tilesY * TILE_SIZE ) )
+         {
+            tileMap->viewport.y = (i32)( ( tileMap->tilesY * TILE_SIZE ) - tileMap->viewport.h );
+         }
       }
    }
 }
