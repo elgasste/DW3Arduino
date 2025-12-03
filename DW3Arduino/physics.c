@@ -119,48 +119,111 @@ internal void Physics_MoveEntities( Game_t* game )
          }
       }
 
-      // clamp to tile map boundaries
+      // clamp to tile map boundaries, or wrap if possible
       if ( entity->pos.x < 0.0f )
       {
-         entity->pos.x = 0.0f;
-         entity->prevPos.x = 0.0f;
+         if ( game->tileMap.wraps )
+         {
+            entity->pos.x = ( game->tileMap.tilesX * TILE_SIZE ) + entity->pos.x;
+            entity->prevPos.x = entity->pos.x;
+         }
+         else
+         {
+            entity->pos.x = 0.0f;
+            entity->prevPos.x = 0.0f;
+         }
       }
-      else if ( ( entity->pos.x + entity->pos.w ) >= ( game->tileMap.tilesX * TILE_SIZE ) )
+      else
       {
-         entity->pos.x = ( game->tileMap.tilesX * TILE_SIZE ) - entity->pos.w - 0.01f;
-         entity->prevPos.x = entity->pos.x;
+         if ( game->tileMap.wraps )
+         {
+            if ( entity->pos.x >= ( game->tileMap.tilesX * TILE_SIZE ) )
+            {
+               entity->pos.x -= ( game->tileMap.tilesX * TILE_SIZE );
+               entity->prevPos.x = entity->pos.x;
+            }
+         }
+         else
+         {
+            if ( ( entity->pos.x + entity->pos.w ) >= ( game->tileMap.tilesX * TILE_SIZE ) )
+            {
+               entity->pos.x = ( game->tileMap.tilesX * TILE_SIZE ) - entity->pos.w - 0.01f;
+               entity->prevPos.x = entity->pos.x;
+            }
+         }
       }
 
       if ( entity->pos.y < 0.0f )
       {
-         entity->pos.y = 0.0f;
-         entity->prevPos.y = 0.0f;
+         if ( game->tileMap.wraps )
+         {
+            entity->pos.y = ( game->tileMap.tilesY * TILE_SIZE ) + entity->pos.y;
+            entity->prevPos.y = entity->pos.y;
+         }
+         else
+         {
+            entity->pos.y = 0.0f;
+            entity->prevPos.y = 0.0f;
+         }
       }
-      else if ( ( entity->pos.y + entity->pos.h ) >= ( game->tileMap.tilesY * TILE_SIZE ) )
+      else
       {
-         entity->pos.y = ( game->tileMap.tilesY * TILE_SIZE ) - entity->pos.h - 0.01f;
-         entity->prevPos.y = entity->pos.y;
+         if ( game->tileMap.wraps )
+         {
+            if ( entity->pos.y >= ( game->tileMap.tilesY * TILE_SIZE ) )
+            {
+               entity->pos.y -= ( game->tileMap.tilesY * TILE_SIZE );
+               entity->prevPos.y = entity->pos.y;
+            }
+         }
+         else
+         {
+            if ( ( entity->pos.y + entity->pos.h ) >= ( game->tileMap.tilesY * TILE_SIZE ) )
+            {
+               entity->pos.y = ( game->tileMap.tilesY * TILE_SIZE ) - entity->pos.h - 0.01f;
+               entity->prevPos.y = entity->pos.y;
+            }
+         }
       }
    }
 }
 
 internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t* entity, r32 sign, Bool_t horizontal )
 {
-   u32 i;
    u16 tile;
-   u32 start, end, side;
+   i32 i, start, end, side;
 
    if ( horizontal )
    {
-      start = (u32)( entity->pos.y / TILE_SIZE );                    // top row
-      end = (u32)( ( entity->pos.y + entity->pos.h ) / TILE_SIZE );  // bottom row
+      start = (i32)( entity->pos.y / TILE_SIZE );                    // top row
+      end = (i32)( ( entity->pos.y + entity->pos.h ) / TILE_SIZE );  // bottom row
       side = ( sign < 0.0f )
-         ? (u32)( entity->pos.x / TILE_SIZE )                        // left side
-         : (u32)( ( entity->pos.x + entity->pos.w  ) / TILE_SIZE );  // right side
+         ? (i32)( entity->pos.x / TILE_SIZE )                        // left side
+         : (i32)( ( entity->pos.x + entity->pos.w ) / TILE_SIZE );   // right side
 
-      for ( i = start; i <= end; i++ )
+      for ( i = start; i <= end; i++ ) // start and end rows
       {
-         tile = tileMap->tiles[side + ( i * tileMap->tilesX )];
+         if ( i < 0 ) // wrap to the bottom
+            if ( side < 0 ) // wrap to the right
+               tile = tileMap->tiles[( tileMap->tilesX + side ) + ( ( tileMap->tilesY + i ) * tileMap->tilesX )];
+            else if ( side >= (i32)tileMap->tilesX ) // wrap to the left
+               tile = tileMap->tiles[( side - tileMap->tilesX ) + ( ( tileMap->tilesY + i ) * tileMap->tilesX )];
+            else // no horizontal wrapping
+               tile = tileMap->tiles[side + ( ( tileMap->tilesY + i ) * tileMap->tilesX )];
+         else if ( i >= (i32)tileMap->tilesY ) // wrap to the top
+            if ( side < 0 ) // wrap to the right
+               tile = tileMap->tiles[( tileMap->tilesX + side ) + ( ( i - tileMap->tilesY ) * tileMap->tilesX )];
+            else if ( side >= (i32)tileMap->tilesX ) // wrap to the left
+               tile = tileMap->tiles[( side - tileMap->tilesX ) + ( ( i - tileMap->tilesY ) * tileMap->tilesX )];
+            else // no horizontal wrapping
+               tile = tileMap->tiles[side + ( ( i - tileMap->tilesY ) * tileMap->tilesX )];
+         else // no vertical wrapping
+            if ( side < 0 ) // wrap to the right
+               tile = tileMap->tiles[( tileMap->tilesX + side ) + ( i * tileMap->tilesX )];
+            else if ( side >= (i32)tileMap->tilesX ) // wrap to the left
+               tile = tileMap->tiles[( side - tileMap->tilesX ) + ( i * tileMap->tilesX )];
+            else // no horizontal wrapping
+               tile = tileMap->tiles[side + ( i * tileMap->tilesX )];
 
          if ( !TILE_GET_IS_PASSABLE( tile ) )
          {
@@ -170,15 +233,35 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
    }
    else
    {
-      start = (u32)( entity->pos.x / TILE_SIZE );                    // left col
-      end = (u32)( ( entity->pos.x + entity->pos.w ) / TILE_SIZE );  // right col
+      start = (i32)( entity->pos.x / TILE_SIZE );                    // left col
+      end = (i32)( ( entity->pos.x + entity->pos.w ) / TILE_SIZE );  // right col
       side = ( sign < 0.0f )
-         ? (u32)( entity->pos.y / TILE_SIZE )                        // top side
-         : (u32)( ( entity->pos.y + entity->pos.h  ) / TILE_SIZE );  // bottom side
+         ? (i32)( entity->pos.y / TILE_SIZE )                        // top side
+         : (i32)( ( entity->pos.y + entity->pos.h  ) / TILE_SIZE );  // bottom side
 
-      for ( i = start; i <= end; i++ )
+      for ( i = start; i <= end; i++ ) // start and end cols
       {
-         tile = tileMap->tiles[i + ( side * tileMap->tilesX )];
+         if ( i < 0 ) // wrap to the right
+            if ( side < 0 ) // wrap to the bottom
+               tile = tileMap->tiles[( tileMap->tilesY + i ) + ( ( tileMap->tilesX + side ) * tileMap->tilesX )];
+            else if ( side >= (i32)tileMap->tilesX ) // wrap to the top
+               tile = tileMap->tiles[( tileMap->tilesY + i ) + ( ( side - tileMap->tilesX ) * tileMap->tilesX )];
+            else // no vertical wrapping
+               tile = tileMap->tiles[( tileMap->tilesY + i ) + ( side * tileMap->tilesX )];
+         else if ( i >= (i32)tileMap->tilesX ) // wrap to the left
+            if ( side < 0 ) // wrap to the bottom
+               tile = tileMap->tiles[( i - tileMap->tilesY ) + ( ( tileMap->tilesX + side ) * tileMap->tilesX )];
+            else if ( side >= (i32)tileMap->tilesX ) // wrap to the top
+               tile = tileMap->tiles[( i - tileMap->tilesY ) + ( ( side - tileMap->tilesX ) * tileMap->tilesX )];
+            else // no vertical wrapping
+               tile = tileMap->tiles[( i - tileMap->tilesY ) + ( side * tileMap->tilesX )];
+         else // no horizontal wrapping
+            if ( side < 0 ) // wrap to the bottom
+               tile = tileMap->tiles[i + ( ( tileMap->tilesX + side ) * tileMap->tilesX )];
+            else if ( side >= (i32)tileMap->tilesX ) // wrap to the top
+               tile = tileMap->tiles[i + ( ( side - tileMap->tilesX ) * tileMap->tilesX )];
+            else // no vertical wrapping
+               tile = tileMap->tiles[i + ( side * tileMap->tilesX )];
 
          if ( !TILE_GET_IS_PASSABLE( tile ) )
          {
@@ -190,6 +273,7 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
    return False;
 }
 
+// MUFFINS: there's more to do here for wrapping tile maps
 internal Bool_t Physics_EntityCollidesWithEntities( TileMap_t* tileMap, Entity_t* entity, r32 sign, Bool_t horizontal )
 {
    u32 i;

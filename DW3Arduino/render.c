@@ -12,6 +12,7 @@ void Render_DrawGame( Game_t* game )
    Screen_Blit( &game->screen );
 }
 
+// MUFFINS: there's more to do here for wrapping tile maps  
 internal void Render_DrawTileMap( Game_t* game )
 {
    i32 tileOffsetX, tileOffsetY;
@@ -88,6 +89,7 @@ internal void Render_DrawTileMap( Game_t* game )
    }
 }
 
+// MUFFINS: there's more to do here for wrapping tile maps
 internal void Render_DrawEntities( Game_t* game )
 {
    u32 i;
