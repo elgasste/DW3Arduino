@@ -1,24 +1,24 @@
 #include "game.h"
 #include "utility.h"
 
-internal void Render_DrawTileMap( Game_t* game );
+internal void Render_DrawTileMapLayer( Game_t* game, void ( *layerFunc )( Game_t*, i32, i32, i32, i32, i32, i32 ) );
 internal void Render_DrawTileMapSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
-internal void Render_DrawEntities( Game_t* game );
+internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
 
 void Render_DrawGame( Game_t* game )
 {
    Screen_WipeColor( &game->screen, COLOR16_BLACK );
-   Render_DrawTileMap( game );
-   Render_DrawEntities( game );
+   Render_DrawTileMapLayer( game, Render_DrawTileMapSection );
+   Render_DrawTileMapLayer( game, Render_DrawEntitiesInSection );
    Screen_Blit( &game->screen );
 }
 
-internal void Render_DrawTileMap( Game_t* game )
+internal void Render_DrawTileMapLayer( Game_t* game, void ( *layerFunc )( Game_t*, i32, i32, i32, i32, i32, i32 ) )
 {
    i32 mapW, mapH;
    i32 x, y, w, h;
 
-   Render_DrawTileMapSection( game, game->tileMap.viewport.x, game->tileMap.viewport.y, game->tileMap.viewport.w, game->tileMap.viewport.h, 0, 0 );
+   layerFunc( game, game->tileMap.viewport.x, game->tileMap.viewport.y, game->tileMap.viewport.w, game->tileMap.viewport.h, 0, 0 );
 
    if ( game->tileMap.wraps )
    {
@@ -31,20 +31,20 @@ internal void Render_DrawTileMap( Game_t* game )
          y = game->tileMap.viewport.y;
          h = game->tileMap.viewport.h;
          w = -game->tileMap.viewport.x;
-         Render_DrawTileMapSection( game, x, y, w, h, 0, 0 );
+         layerFunc( game, x, y, w, h, 0, 0 );
 
          if ( game->tileMap.viewport.y < 0 ) // draw "top left" map
          {
             y = mapH + game->tileMap.viewport.y;
             h = -game->tileMap.viewport.y;
-            Render_DrawTileMapSection( game, x, y, w, h, 0, 0 );
+            layerFunc( game, x, y, w, h, 0, 0 );
          }
 
          if ( ( game->tileMap.viewport.y + game->tileMap.viewport.h ) > mapH ) // draw "bottom left" map
          {
             y = 0;
             h = ( game->tileMap.viewport.y + game->tileMap.viewport.h ) - mapH;
-            Render_DrawTileMapSection( game, x, y, w, h, 0, mapH - game->tileMap.viewport.y );
+            layerFunc( game, x, y, w, h, 0, mapH - game->tileMap.viewport.y );
          }
       }
 
@@ -54,20 +54,20 @@ internal void Render_DrawTileMap( Game_t* game )
          y = game->tileMap.viewport.y;
          w = ( game->tileMap.viewport.x + game->tileMap.viewport.w ) - mapW;
          h = game->tileMap.viewport.h;
-         Render_DrawTileMapSection( game, x, y, w, h, mapW - game->tileMap.viewport.x, 0 );
+         layerFunc( game, x, y, w, h, mapW - game->tileMap.viewport.x, 0 );
 
          if ( game->tileMap.viewport.y < 0 ) // draw "top right" map
          {
             y = mapH + game->tileMap.viewport.y;
             h = -game->tileMap.viewport.y;
-            Render_DrawTileMapSection( game, x, y, w, h, mapW - game->tileMap.viewport.x, 0 );
+            layerFunc( game, x, y, w, h, mapW - game->tileMap.viewport.x, 0 );
          }
 
          if ( ( game->tileMap.viewport.y + game->tileMap.viewport.h ) > mapH ) // draw "bottom right" map
          {
             y = 0;
             h = ( game->tileMap.viewport.y + game->tileMap.viewport.h ) - mapH;
-            Render_DrawTileMapSection( game, x, y, w, h, mapW - game->tileMap.viewport.x, mapH - game->tileMap.viewport.y );
+            layerFunc( game, x, y, w, h, mapW - game->tileMap.viewport.x, mapH - game->tileMap.viewport.y );
          }
       }
 
@@ -78,14 +78,14 @@ internal void Render_DrawTileMap( Game_t* game )
       {
          y = mapH + game->tileMap.viewport.y;
          h = -game->tileMap.viewport.y;
-         Render_DrawTileMapSection( game, x, y, w, h, 0, 0 );
+         layerFunc( game, x, y, w, h, 0, 0 );
       }
 
       if ( ( game->tileMap.viewport.y + game->tileMap.viewport.h ) > mapH ) // draw "bottom" map
       {
          y = 0;
          h = ( game->tileMap.viewport.y + game->tileMap.viewport.h ) - mapH;
-         Render_DrawTileMapSection( game, x, y, w, h, 0, mapH - game->tileMap.viewport.y );
+         layerFunc( game, x, y, w, h, 0, mapH - game->tileMap.viewport.y );
       }
    }
 }
@@ -145,7 +145,7 @@ internal void Render_DrawTileMapSection( Game_t* game, i32 vx, i32 vy, i32 vw, i
       endTileY = (i32)( game->tileMap.tilesY - 1 );
    }
 
-   // drawing
+   // actual drawing
    tile = game->tileMap.tiles + ( startTileY * game->tileMap.tilesX ) + startTileX;
 
    for ( row = 0, y = game->tileMap.viewportScreenPos.y + yOffset; row <= (u32)( endTileY - startTileY ); row++, y += TILE_SIZE )
@@ -167,26 +167,23 @@ internal void Render_DrawTileMapSection( Game_t* game, i32 vx, i32 vy, i32 vw, i
    }
 }
 
-// MUFFINS: there's more to do here for wrapping tile maps
-internal void Render_DrawEntities( Game_t* game )
+internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
 {
    u32 i;
    Entity_t* entity = game->tileMap.entities;
-   Vector4i32_t* viewport = &game->tileMap.viewport;
    Vector2u32_t* viewportScreenPos = &game->tileMap.viewportScreenPos;
 
    for ( i = 0; i < game->tileMap.entityCount; i++ )
    {
-      if ( Utility_RectsIntersect32i( (i32)entity->pos.x, (i32)entity->pos.y, (i32)entity->pos.w, (i32)entity->pos.h,
-                                      viewport->x, viewport->y, viewport->w, viewport->h ) )
+      if ( Utility_RectsIntersect32i( (i32)entity->pos.x, (i32)entity->pos.y, (i32)entity->pos.w, (i32)entity->pos.h, vx, vy, vw, vh ) )
       {
          Screen_DrawBoundedRect( &game->screen,
-                                 ( (i32)( entity->pos.x ) - viewport->x ) + viewportScreenPos->x,
-                                 ( (i32)( entity->pos.y ) - viewport->y ) + viewportScreenPos->y,
+                                 ( (i32)( entity->pos.x ) - vx ) + viewportScreenPos->x + xOffset,
+                                 ( (i32)( entity->pos.y ) - vy ) + viewportScreenPos->y + yOffset,
                                  (i32)( entity->pos.w ), (i32)( entity->pos.h ),
-                                 viewportScreenPos->x, viewportScreenPos->y,
-                                 viewportScreenPos->x + viewport->w,
-                                 viewportScreenPos->y + viewport->h,
+                                 viewportScreenPos->x + xOffset, viewportScreenPos->y + yOffset,
+                                 viewportScreenPos->x + vw + xOffset,
+                                 viewportScreenPos->y + vh + yOffset,
                                  ( entity == game->playerEntity ) ? COLOR16_MAGENTA : COLOR16_YELLOW );
       }
       entity++;
