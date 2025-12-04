@@ -100,7 +100,6 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          tileMap->entities[i].pos.h = 14.0f;
          tileMap->entities[i].pos.x = (r32)( Random_u32( 1, ( tileMap->tilesX - 2 ) * TILE_SIZE ) );
          tileMap->entities[i].pos.y = (r32)( Random_u32( 1, ( tileMap->tilesY - 2 ) * TILE_SIZE ) );
-         tileMap->entities[i].prevPos = tileMap->entities[i].pos;
          tileMap->entities[i].velocity.x = 0.0f;
          tileMap->entities[i].velocity.y = 0.0f;
       }

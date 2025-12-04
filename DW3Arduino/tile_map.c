@@ -28,7 +28,6 @@ void TileMap_Init( TileMap_t* tileMap )
       tileMap->entities[i].pos.y = 0.0f;
       tileMap->entities[i].pos.w = 0.0f;
       tileMap->entities[i].pos.h = 0.0f;
-      tileMap->entities[i].prevPos = tileMap->entities[i].pos;
    }
 }
 

@@ -20,7 +20,7 @@ internal void Physics_MoveEntities( Game_t* game )
 {
    u32 i;
    i32 pixelsRemaining;
-   r32 deltaX, deltaY, deltaRemaining, sign;
+   r32 deltaX, deltaY, deltaRemaining, sign, prev;
    Entity_t* entity;
 
    // the idea for this came from Maddy Thorson's game, Celeste. instead of setting an entity's
@@ -41,17 +41,14 @@ internal void Physics_MoveEntities( Game_t* game )
          // move full pixels first, one at a time
          while ( pixelsRemaining != 0 )
          {
+            prev = entity->pos.x;
             entity->pos.x += sign;
 
             if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, True ) ||
                  Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, True ) )
             {
-               entity->pos.x = entity->prevPos.x;
+               entity->pos.x = prev;
                break;
-            }
-            else
-            {
-               entity->prevPos.x = entity->pos.x;
             }
 
             deltaRemaining -= sign;
@@ -61,16 +58,13 @@ internal void Physics_MoveEntities( Game_t* game )
          // move remaining sub-pixels
          if ( deltaRemaining != 0.0f )
          {
+            prev = entity->pos.x;
             entity->pos.x += deltaRemaining;
 
             if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, True ) ||
                  Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, True ) )
             {
-               entity->pos.x = entity->prevPos.x;
-            }
-            else
-            {
-               entity->prevPos.x = entity->pos.x;
+               entity->pos.x = prev;
             }
          }
       }
@@ -85,17 +79,14 @@ internal void Physics_MoveEntities( Game_t* game )
          // move full pixels first, one at a time
          while ( pixelsRemaining != 0 )
          {
+            prev = entity->pos.y;
             entity->pos.y += sign;
 
             if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, False ) ||
                  Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, False ) )
             {
-               entity->pos.y = entity->prevPos.y;
+               entity->pos.y = prev;
                break;
-            }
-            else
-            {
-               entity->prevPos.y = entity->pos.y;
             }
 
             deltaRemaining -= sign;
@@ -105,16 +96,13 @@ internal void Physics_MoveEntities( Game_t* game )
          // move remaining sub-pixels
          if ( deltaRemaining != 0.0f )
          {
+            prev = entity->pos.y;
             entity->pos.y += deltaRemaining;
 
             if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, False ) ||
                  Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, False ) )
             {
-               entity->pos.y = entity->prevPos.y;
-            }
-            else
-            {
-               entity->prevPos.y = entity->pos.y;
+               entity->pos.y = prev;
             }
          }
       }
@@ -125,12 +113,10 @@ internal void Physics_MoveEntities( Game_t* game )
          if ( game->tileMap.wraps )
          {
             entity->pos.x = ( game->tileMap.tilesX * TILE_SIZE ) + entity->pos.x;
-            entity->prevPos.x = entity->pos.x;
          }
          else
          {
             entity->pos.x = 0.0f;
-            entity->prevPos.x = 0.0f;
          }
       }
       else
@@ -140,7 +126,6 @@ internal void Physics_MoveEntities( Game_t* game )
             if ( entity->pos.x >= ( game->tileMap.tilesX * TILE_SIZE ) )
             {
                entity->pos.x -= ( game->tileMap.tilesX * TILE_SIZE );
-               entity->prevPos.x = entity->pos.x;
             }
          }
          else
@@ -148,7 +133,6 @@ internal void Physics_MoveEntities( Game_t* game )
             if ( ( entity->pos.x + entity->pos.w ) >= ( game->tileMap.tilesX * TILE_SIZE ) )
             {
                entity->pos.x = ( game->tileMap.tilesX * TILE_SIZE ) - entity->pos.w - 0.01f;
-               entity->prevPos.x = entity->pos.x;
             }
          }
       }
@@ -158,12 +142,10 @@ internal void Physics_MoveEntities( Game_t* game )
          if ( game->tileMap.wraps )
          {
             entity->pos.y = ( game->tileMap.tilesY * TILE_SIZE ) + entity->pos.y;
-            entity->prevPos.y = entity->pos.y;
          }
          else
          {
             entity->pos.y = 0.0f;
-            entity->prevPos.y = 0.0f;
          }
       }
       else
@@ -173,7 +155,6 @@ internal void Physics_MoveEntities( Game_t* game )
             if ( entity->pos.y >= ( game->tileMap.tilesY * TILE_SIZE ) )
             {
                entity->pos.y -= ( game->tileMap.tilesY * TILE_SIZE );
-               entity->prevPos.y = entity->pos.y;
             }
          }
          else
@@ -181,7 +162,6 @@ internal void Physics_MoveEntities( Game_t* game )
             if ( ( entity->pos.y + entity->pos.h ) >= ( game->tileMap.tilesY * TILE_SIZE ) )
             {
                entity->pos.y = ( game->tileMap.tilesY * TILE_SIZE ) - entity->pos.h - 0.01f;
-               entity->prevPos.y = entity->pos.y;
             }
          }
       }
