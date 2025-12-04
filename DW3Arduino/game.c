@@ -20,7 +20,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->tileMap.viewportScreenPos.x = 20;
    game->tileMap.viewportScreenPos.y = 10;
 
-   game->playerEntity = &game->tileMap.entities[PLAYER_ENTITY_INDEX];
+   game->playerEntity = &game->tileMap.entities[0];
    game->playerEntity->pos.x = 24.0f;
    game->playerEntity->pos.y = 24.0f;
    game->playerEntity->pos.w = 12.0f;

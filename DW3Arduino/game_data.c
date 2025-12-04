@@ -80,14 +80,11 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
 
    for ( i = 0; i < TILEMAP_MAX_ENTITIES; i++ )
    {
-      if ( i != PLAYER_ENTITY_INDEX )
-      {
-         tileMap->entities[i].pos.w = 14.0f;
-         tileMap->entities[i].pos.h = 14.0f;
-         tileMap->entities[i].pos.x = (r32)( Random_u32( 1, ( tileMap->tilesX - 2 ) * TILE_SIZE ) );
-         tileMap->entities[i].pos.y = (r32)( Random_u32( 1, ( tileMap->tilesY - 2 ) * TILE_SIZE ) );
-         tileMap->entities[i].velocity.x = 0.0f;
-         tileMap->entities[i].velocity.y = 0.0f;
-      }
+      tileMap->entities[i].pos.w = 14.0f;
+      tileMap->entities[i].pos.h = 14.0f;
+      tileMap->entities[i].pos.x = (r32)( Random_u32( 1, ( tileMap->tilesX - 2 ) * TILE_SIZE ) );
+      tileMap->entities[i].pos.y = (r32)( Random_u32( 1, ( tileMap->tilesY - 2 ) * TILE_SIZE ) );
+      tileMap->entities[i].velocity.x = 0.0f;
+      tileMap->entities[i].velocity.y = 0.0f;
    }
 }

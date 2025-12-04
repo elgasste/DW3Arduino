@@ -2,7 +2,6 @@
 #define GAME_H
 
 #define PLAYER_MAX_VELOCITY      64.0f    // pixels per second
-#define PLAYER_ENTITY_INDEX      0
 
 #include "common.h"
 #include "clock.h"
