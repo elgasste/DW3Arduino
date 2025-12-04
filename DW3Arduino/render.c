@@ -2,6 +2,7 @@
 #include "utility.h"
 
 internal void Render_DrawTileMap( Game_t* game );
+internal void Render_DrawTileMapSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
 internal void Render_DrawEntities( Game_t* game );
 
 void Render_DrawGame( Game_t* game )
@@ -12,8 +13,84 @@ void Render_DrawGame( Game_t* game )
    Screen_Blit( &game->screen );
 }
 
-// MUFFINS: there's more to do here for wrapping tile maps  
 internal void Render_DrawTileMap( Game_t* game )
+{
+   i32 mapW, mapH;
+   i32 x, y, w, h;
+
+   Render_DrawTileMapSection( game, game->tileMap.viewport.x, game->tileMap.viewport.y, game->tileMap.viewport.w, game->tileMap.viewport.h, 0, 0 );
+
+   if ( game->tileMap.wraps )
+   {
+      mapW = game->tileMap.tilesX * TILE_SIZE;
+      mapH = game->tileMap.tilesY * TILE_SIZE;
+
+      if ( game->tileMap.viewport.x < 0 ) // draw "left" map
+      {
+         x = mapW + game->tileMap.viewport.x;
+         y = game->tileMap.viewport.y;
+         h = game->tileMap.viewport.h;
+         w = -game->tileMap.viewport.x;
+         Render_DrawTileMapSection( game, x, y, w, h, 0, 0 );
+
+         if ( game->tileMap.viewport.y < 0 ) // draw "top left" map
+         {
+            y = mapH + game->tileMap.viewport.y;
+            h = -game->tileMap.viewport.y;
+            Render_DrawTileMapSection( game, x, y, w, h, 0, 0 );
+         }
+
+         if ( ( game->tileMap.viewport.y + game->tileMap.viewport.h ) > mapH ) // draw "bottom left" map
+         {
+            y = 0;
+            h = ( game->tileMap.viewport.y + game->tileMap.viewport.h ) - mapH;
+            Render_DrawTileMapSection( game, x, y, w, h, 0, mapH - game->tileMap.viewport.y );
+         }
+      }
+
+      if ( ( game->tileMap.viewport.x + game->tileMap.viewport.w ) >= mapW ) // draw "right" map
+      {
+         x = 0;
+         y = game->tileMap.viewport.y;
+         w = ( game->tileMap.viewport.x + game->tileMap.viewport.w ) - mapW;
+         h = game->tileMap.viewport.h;
+         Render_DrawTileMapSection( game, x, y, w, h, mapW - game->tileMap.viewport.x, 0 );
+
+         if ( game->tileMap.viewport.y < 0 ) // draw "top right" map
+         {
+            y = mapH + game->tileMap.viewport.y;
+            h = -game->tileMap.viewport.y;
+            Render_DrawTileMapSection( game, x, y, w, h, mapW - game->tileMap.viewport.x, 0 );
+         }
+
+         if ( ( game->tileMap.viewport.y + game->tileMap.viewport.h ) > mapH ) // draw "bottom right" map
+         {
+            y = 0;
+            h = ( game->tileMap.viewport.y + game->tileMap.viewport.h ) - mapH;
+            Render_DrawTileMapSection( game, x, y, w, h, mapW - game->tileMap.viewport.x, mapH - game->tileMap.viewport.y );
+         }
+      }
+
+      x = game->tileMap.viewport.x;
+      w = game->tileMap.viewport.w;
+
+      if ( game->tileMap.viewport.y < 0 ) // draw "top" map
+      {
+         y = mapH + game->tileMap.viewport.y;
+         h = -game->tileMap.viewport.y;
+         Render_DrawTileMapSection( game, x, y, w, h, 0, 0 );
+      }
+
+      if ( ( game->tileMap.viewport.y + game->tileMap.viewport.h ) > mapH ) // draw "bottom" map
+      {
+         y = 0;
+         h = ( game->tileMap.viewport.y + game->tileMap.viewport.h ) - mapH;
+         Render_DrawTileMapSection( game, x, y, w, h, 0, mapH - game->tileMap.viewport.y );
+      }
+   }
+}
+
+internal void Render_DrawTileMapSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
 {
    i32 tileOffsetX, tileOffsetY;
    i32 startTileX, endTileX, startTileY, endTileY;
@@ -21,20 +98,20 @@ internal void Render_DrawTileMap( Game_t* game )
    u16* tile;
 
    // X values
-   if ( game->tileMap.viewport.x < 0 )
+   if ( vx < 0 )
    {
       startTileX = 0;
-      tileOffsetX = -game->tileMap.viewport.x;
+      tileOffsetX = -vx;
    }
    else
    {
-      startTileX = game->tileMap.viewport.x / TILE_SIZE;
-      tileOffsetX = -( game->tileMap.viewport.x - ( startTileX * TILE_SIZE ) );
+      startTileX = vx / TILE_SIZE;
+      tileOffsetX = -( vx - ( startTileX * TILE_SIZE ) );
    }
 
-   endTileX = ( ( game->tileMap.viewport.x + game->tileMap.viewport.w ) / TILE_SIZE );
-   
-   if ( ( ( game->tileMap.viewport.x + game->tileMap.viewport.w ) % TILE_SIZE ) != 0 )
+   endTileX = ( ( vx + vw ) / TILE_SIZE );
+
+   if ( ( ( vx + vw ) % TILE_SIZE ) != 0 )
    {
       endTileX++;
    }
@@ -45,20 +122,20 @@ internal void Render_DrawTileMap( Game_t* game )
    }
 
    // Y values
-   if ( game->tileMap.viewport.y < 0 )
+   if ( vy < 0 )
    {
       startTileY = 0;
-      tileOffsetY = -game->tileMap.viewport.y;
+      tileOffsetY = -vy;
    }
    else
    {
-      startTileY = game->tileMap.viewport.y / TILE_SIZE;
-      tileOffsetY = -( game->tileMap.viewport.y - ( startTileY * TILE_SIZE ) );
+      startTileY = vy / TILE_SIZE;
+      tileOffsetY = -( vy - ( startTileY * TILE_SIZE ) );
    }
 
-   endTileY = ( ( game->tileMap.viewport.y + game->tileMap.viewport.h ) / TILE_SIZE );
+   endTileY = ( ( vy + vh ) / TILE_SIZE );
 
-   if ( ( ( game->tileMap.viewport.y + game->tileMap.viewport.w ) % TILE_SIZE ) != 0 )
+   if ( ( ( vy + vw ) % TILE_SIZE ) != 0 )
    {
       endTileY++;
    }
@@ -71,17 +148,18 @@ internal void Render_DrawTileMap( Game_t* game )
    // drawing
    tile = game->tileMap.tiles + ( startTileY * game->tileMap.tilesX ) + startTileX;
 
-   for ( row = 0, y = game->tileMap.viewportScreenPos.y; row <= (u32)( endTileY - startTileY ); row++, y += TILE_SIZE )
+   for ( row = 0, y = game->tileMap.viewportScreenPos.y + yOffset; row <= (u32)( endTileY - startTileY ); row++, y += TILE_SIZE )
    {
-      for ( col = 0, x = game->tileMap.viewportScreenPos.x; col <= (u32)( endTileX - startTileX ); col++, x += TILE_SIZE )
+      for ( col = 0, x = game->tileMap.viewportScreenPos.x + xOffset; col <= (u32)( endTileX - startTileX ); col++, x += TILE_SIZE )
       {
          Screen_DrawBoundedBuffer8( &game->screen,
                                     game->tileMap.tileTextures[TILE_GET_TEXTURE_INDEX( *tile )].paletteIndexes,
                                     TILE_SIZE, TILE_SIZE,
                                     x + tileOffsetX, y + tileOffsetY,
-                                    game->tileMap.viewportScreenPos.x, game->tileMap.viewportScreenPos.y,
-                                    game->tileMap.viewportScreenPos.x + game->tileMap.viewport.w,
-                                    game->tileMap.viewportScreenPos.y + game->tileMap.viewport.h );
+                                    game->tileMap.viewportScreenPos.x + xOffset, game->tileMap.viewportScreenPos.y + yOffset,
+                                    game->tileMap.viewportScreenPos.x + vw + xOffset,
+                                    game->tileMap.viewportScreenPos.y + vh + yOffset );
+
          tile++;
       }
 
