@@ -64,20 +64,6 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       }
    }
 
-   // top and bottom borders
-   for ( col = 0; col < tileMap->tilesX; col += 2 )
-   {
-      tileMap->tiles[col] = 3 | ( 0x0 << 5 );
-      tileMap->tiles[( ( tileMap->tilesY - 1 ) * tileMap->tilesX ) + col] = 3;
-   }
-
-   // left and right borders
-   for ( row = 0; row < tileMap->tilesY; row += 2 )
-   {
-      tileMap->tiles[row * tileMap->tilesX] = 3 | ( 0x0 << 5 );
-      tileMap->tiles[( row * tileMap->tilesX ) + ( tileMap->tilesX - 1 )] = 3;
-   }
-
    // a bunch of random unpassable tiles
    for ( row = 1; row < tileMap->tilesY - 1; row++ )
    {
