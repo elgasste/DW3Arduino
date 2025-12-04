@@ -34,9 +34,6 @@
     <ClCompile Include="..\..\DW3Arduino\render.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\DW3Arduino\physics.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\DW3Arduino\random.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -44,6 +41,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="win_random.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\physics.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

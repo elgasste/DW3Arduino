@@ -25,7 +25,6 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->playerEntity->pos.y = 24.0f;
    game->playerEntity->pos.w = 12.0f;
    game->playerEntity->pos.h = 12.0f;
-   game->playerEntity->prevPos = game->playerEntity->pos;
    game->playerEntity->velocity.x = 0.0f;
    game->playerEntity->velocity.y = 0.0f;
 

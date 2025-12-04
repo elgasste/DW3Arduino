@@ -43,6 +43,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
 
    tileMap->tilesX = 32;
    tileMap->tilesY = 32;
+   tileMap->wraps = True;
 
    // checkerboard
    for ( row = 0; row < tileMap->tilesY; row++ )
@@ -63,15 +64,15 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       }
    }
 
-   // top and bottom borders (not passable)
-   for ( col = 0; col < tileMap->tilesX; col++ )
+   // top and bottom borders
+   for ( col = 0; col < tileMap->tilesX; col += 2 )
    {
       tileMap->tiles[col] = 3 | ( 0x0 << 5 );
       tileMap->tiles[( ( tileMap->tilesY - 1 ) * tileMap->tilesX ) + col] = 3;
    }
 
-   // left and right borders (not passable)
-   for ( row = 0; row < tileMap->tilesY; row++ )
+   // left and right borders
+   for ( row = 0; row < tileMap->tilesY; row += 2 )
    {
       tileMap->tiles[row * tileMap->tilesX] = 3 | ( 0x0 << 5 );
       tileMap->tiles[( row * tileMap->tilesX ) + ( tileMap->tilesX - 1 )] = 3;
@@ -99,7 +100,6 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          tileMap->entities[i].pos.h = 14.0f;
          tileMap->entities[i].pos.x = (r32)( Random_u32( 1, ( tileMap->tilesX - 2 ) * TILE_SIZE ) );
          tileMap->entities[i].pos.y = (r32)( Random_u32( 1, ( tileMap->tilesY - 2 ) * TILE_SIZE ) );
-         tileMap->entities[i].prevPos = tileMap->entities[i].pos;
          tileMap->entities[i].velocity.x = 0.0f;
          tileMap->entities[i].velocity.y = 0.0f;
       }
