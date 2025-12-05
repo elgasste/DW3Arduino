@@ -19,16 +19,7 @@ void TileMap_Init( TileMap_t* tileMap )
    }
 
    tileMap->entityCount = 0;
-
-   for ( i = 0; i < TILEMAP_MAX_ENTITIES; i++ )
-   {
-      tileMap->entities[i].velocity.x = 0.0f;
-      tileMap->entities[i].velocity.y = 0.0f;
-      tileMap->entities[i].pos.x = 0.0f;
-      tileMap->entities[i].pos.y = 0.0f;
-      tileMap->entities[i].pos.w = 0.0f;
-      tileMap->entities[i].pos.h = 0.0f;
-   }
+   tileMap->npcCount = 0;
 }
 
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
