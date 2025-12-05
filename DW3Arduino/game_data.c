@@ -88,13 +88,11 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       tileMap->entities[i].velocity.y = 0.0f;
    }
 
-   // assign entities to NPCs (skip the first entity, that's the player)
+   // add the max amount NPCs, all of them wandering
    tileMap->npcCount = TILEMAP_MAX_NPCS;
 
    for ( i = 0; i < TILEMAP_MAX_NPCS; i++ )
    {
-      tileMap->npcs[i].entity = tileMap->entities + ( i + 1 );
-      tileMap->npcs[i].wanders = True;
-      tileMap->npcs[i].isWandering = False;
+      Npc_Init( tileMap->npcs + i, tileMap->entities + ( i + 1 ), True );
    }
 }
