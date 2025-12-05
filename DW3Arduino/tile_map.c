@@ -94,3 +94,11 @@ void TileMap_GetPositionOfTileIndex( TileMap_t* tileMap, u32 tileIndex, u32* x, 
    *y = ( tileIndex / tileMap->tilesX ) * TILEMAP_TILE_SIZE;
    *x = ( tileIndex % tileMap->tilesX ) * TILEMAP_TILE_SIZE;
 }
+
+Bool_t TileMap_TileIndexIsEdgeTile( TileMap_t* tileMap, u32 tileIndex )
+{
+   return ( tileIndex < tileMap->tilesX ) ||                                     // top edge
+          ( ( tileIndex % tileMap->tilesX ) == 0 ) ||                            // left edge
+          ( ( tileIndex % tileMap->tilesX ) == ( tileMap->tilesX - 1 ) ) ||      // right edge
+          ( tileIndex >= ( tileMap->tilesX * ( tileMap->tilesY - 1 ) ) );        // bottom edge
+}

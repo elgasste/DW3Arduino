@@ -52,8 +52,13 @@ typedef struct TileMap_t
 
    Portal_t portals[TILEMAP_MAX_PORTALS];
    u32 portalCount;
+
+   Bool_t hasEdgePortal;
+   Portal_t edgePortal;
+
    Entity_t entities[TILEMAP_MAX_ENTITIES];
    u32 entityCount;
+
    Npc_t npcs[TILEMAP_MAX_NPCS];
    u32 npcCount;
 }
@@ -68,6 +73,7 @@ void TileMap_Tic( TileMap_t* tileMap );
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity );
 u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, u32 x, u32 y );
 void TileMap_GetPositionOfTileIndex( TileMap_t* tileMap, u32 tileIndex, u32* x, u32* y );
+Bool_t TileMap_TileIndexIsEdgeTile( TileMap_t* tileMap, u32 tileIndex );
 
 // game_data.c
 void TileMap_LoadTileTextures( TileMap_t* tileMap );

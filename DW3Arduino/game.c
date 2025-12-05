@@ -13,7 +13,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
 
    Screen_LoadPaletteFromIndex( &game->screen, 0 );
    TileMap_LoadTileTextures( &game->tileMap );
-   TileMap_LoadFromIndex( &game->tileMap, 0 );
+   TileMap_LoadFromIndex( &game->tileMap, 3 );
 
    game->tileMap.viewport.w = 380;
    game->tileMap.viewport.h = 220;
@@ -50,6 +50,7 @@ void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
 
    game->player.tileIndex = tileIndex;
 
+   // check regular portals first
    for ( i = 0, portal = game->tileMap.portals; i < game->tileMap.portalCount; i++, portal++ )
    {
       if ( portal->sourceTileIndex == tileIndex )
@@ -60,8 +61,19 @@ void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
          game->player.entity->pos.x = (r32)newPosX + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.w ) / 2 );
          game->player.entity->pos.y = (r32)newPosY + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.h ) / 2 );
          game->player.tileIndex = destTileIndex;
-         break;
+         return;
       }
+   }
+
+   // now check for edge portals
+   if ( game->tileMap.hasEdgePortal && TileMap_TileIndexIsEdgeTile( &game->tileMap, tileIndex ) )
+   {
+      destTileIndex = game->tileMap.edgePortal.destTileIndex;
+      TileMap_LoadFromIndex( &game->tileMap, game->tileMap.edgePortal.destTileMapIndex );
+      TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
+      game->player.entity->pos.x = (r32)newPosX + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.w ) / 2 );
+      game->player.entity->pos.y = (r32)newPosY + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.h ) / 2 );
+      game->player.tileIndex = destTileIndex;
    }
 }
 

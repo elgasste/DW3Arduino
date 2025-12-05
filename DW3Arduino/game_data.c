@@ -40,6 +40,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
    u16* tile;
 
    tileMap->wraps = False;
+   tileMap->hasEdgePortal = False;
    tileMap->entityCount = 1;
 
    if ( index == 0 ) // starting room
@@ -68,6 +69,10 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       tileMap->tiles[( tileMap->tilesX * 10 )] = 2 | ( 0x1 << 5 );
       tileMap->tiles[377] = 1 | ( 0x1 << 5 );
 
+      tileMap->tiles[285 - tileMap->tilesX] = 2 | ( 0x1 << 5 );
+      tileMap->tiles[285] = 2 | ( 0x1 << 5 );
+      tileMap->tiles[285 + tileMap->tilesX] = 2 | ( 0x1 << 5 );
+
       tileMap->portalCount = 2;
       tileMap->portals[0].sourceTileIndex = 260;
       tileMap->portals[0].destTileMapIndex = 1;
@@ -75,6 +80,10 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       tileMap->portals[1].sourceTileIndex = 377;
       tileMap->portals[1].destTileMapIndex = 2;
       tileMap->portals[1].destTileIndex = 24;
+
+      tileMap->hasEdgePortal = True;
+      tileMap->edgePortal.destTileMapIndex = 3;
+      tileMap->edgePortal.destTileIndex = 201;
    }
    else if ( index == 1 ) // hallway
    {
@@ -137,6 +146,24 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       tileMap->portals[1].sourceTileIndex = 24;
       tileMap->portals[1].destTileMapIndex = 0;
       tileMap->portals[1].destTileIndex = 377;
+   }
+   else if ( index == 3 )
+   {
+      tileMap->tilesX = 32;
+      tileMap->tilesY = 32;
+      tileMap->wraps = True;
+
+      for ( i = 0, tile = tileMap->tiles; i < ( tileMap->tilesX * tileMap->tilesY ); i++, tile++ ) // overall tiles
+      {
+         *tile = (u16)( Random_u32( 0, 5 ) == 0 ? 2 : 1 ) | ( 0x1 << 5 );
+      }
+
+      tileMap->tiles[201] = 6 | ( 0x1 << 5 );
+
+      tileMap->portalCount = 1;
+      tileMap->portals[0].sourceTileIndex = 201;
+      tileMap->portals[0].destTileMapIndex = 0;
+      tileMap->portals[0].destTileIndex = 285;
    }
 
    //u32 row, col, i;
