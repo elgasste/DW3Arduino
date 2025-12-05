@@ -7,7 +7,7 @@ void TileMap_Init( TileMap_t* tileMap )
 
    for ( i = 0; i < TILEMAP_MAX_TEXTURES; i++ )
    {
-      for ( j = 0; j < TILE_SIZE * TILE_SIZE; j++ )
+      for ( j = 0; j < TILEMAP_TILE_SIZE * TILEMAP_TILE_SIZE; j++ )
       {
          tileMap->tileTextures[i].paletteIndexes[j] = 0;
       }
@@ -42,10 +42,10 @@ void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
    }
    else
    {
-      if ( tileMap->viewport.w > (i32)( tileMap->tilesX * TILE_SIZE ) )
+      if ( tileMap->viewport.w > (i32)( tileMap->tilesX * TILEMAP_TILE_SIZE ) )
       {
          // map is thinner than the viewport, center it horizontally
-         tileMap->viewport.x = -(i32)( ( tileMap->viewport.w - ( tileMap->tilesX * TILE_SIZE ) ) / 2 );
+         tileMap->viewport.x = -(i32)( ( tileMap->viewport.w - ( tileMap->tilesX * TILEMAP_TILE_SIZE ) ) / 2 );
       }
       else
       {
@@ -56,16 +56,16 @@ void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
          {
             tileMap->viewport.x = 0;
          }
-         else if ( ( tileMap->viewport.x + tileMap->viewport.w ) >= (i32)( tileMap->tilesX * TILE_SIZE ) )
+         else if ( ( tileMap->viewport.x + tileMap->viewport.w ) >= (i32)( tileMap->tilesX * TILEMAP_TILE_SIZE ) )
          {
-            tileMap->viewport.x = (i32)( ( tileMap->tilesX * TILE_SIZE ) - tileMap->viewport.w );
+            tileMap->viewport.x = (i32)( ( tileMap->tilesX * TILEMAP_TILE_SIZE ) - tileMap->viewport.w );
          }
       }
 
-      if ( tileMap->viewport.h > ( i32 )( tileMap->tilesY * TILE_SIZE ) )
+      if ( tileMap->viewport.h > ( i32 )( tileMap->tilesY * TILEMAP_TILE_SIZE ) )
       {
          // map is shorter than the viewport, center it vertically
-         tileMap->viewport.y = -(i32)( ( tileMap->viewport.h - ( tileMap->tilesY * TILE_SIZE ) ) / 2 );
+         tileMap->viewport.y = -(i32)( ( tileMap->viewport.h - ( tileMap->tilesY * TILEMAP_TILE_SIZE ) ) / 2 );
       }
       else
       {
@@ -76,9 +76,9 @@ void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
          {
             tileMap->viewport.y = 0;
          }
-         else if ( ( tileMap->viewport.y + tileMap->viewport.h ) >= (i32)( tileMap->tilesY * TILE_SIZE ) )
+         else if ( ( tileMap->viewport.y + tileMap->viewport.h ) >= (i32)( tileMap->tilesY * TILEMAP_TILE_SIZE ) )
          {
-            tileMap->viewport.y = (i32)( ( tileMap->tilesY * TILE_SIZE ) - tileMap->viewport.h );
+            tileMap->viewport.y = (i32)( ( tileMap->tilesY * TILEMAP_TILE_SIZE ) - tileMap->viewport.h );
          }
       }
    }
@@ -86,5 +86,5 @@ void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
 
 u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, u32 x, u32 y )
 {
-   return ( ( y / TILE_SIZE ) * tileMap->tilesX ) + ( x / TILE_SIZE );
+   return ( ( y / TILEMAP_TILE_SIZE ) * tileMap->tilesX ) + ( x / TILEMAP_TILE_SIZE );
 }

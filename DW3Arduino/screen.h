@@ -40,7 +40,7 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
                                 i32 screenX, i32 screenY,
                                 i32 leftBound, i32 topBound, i32 rightBound, i32 bottomBound );
 
-// game.c
+// game_data.c
 void Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index );
 
 // platform-specific

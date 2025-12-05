@@ -112,7 +112,7 @@ internal void Physics_MoveEntities( Game_t* game )
       {
          if ( game->tileMap.wraps )
          {
-            entity->pos.x = ( game->tileMap.tilesX * TILE_SIZE ) + entity->pos.x;
+            entity->pos.x = ( game->tileMap.tilesX * TILEMAP_TILE_SIZE ) + entity->pos.x;
          }
          else
          {
@@ -123,16 +123,16 @@ internal void Physics_MoveEntities( Game_t* game )
       {
          if ( game->tileMap.wraps )
          {
-            if ( entity->pos.x >= ( game->tileMap.tilesX * TILE_SIZE ) )
+            if ( entity->pos.x >= ( game->tileMap.tilesX * TILEMAP_TILE_SIZE ) )
             {
-               entity->pos.x -= ( game->tileMap.tilesX * TILE_SIZE );
+               entity->pos.x -= ( game->tileMap.tilesX * TILEMAP_TILE_SIZE );
             }
          }
          else
          {
-            if ( ( entity->pos.x + entity->pos.w ) >= ( game->tileMap.tilesX * TILE_SIZE ) )
+            if ( ( entity->pos.x + entity->pos.w ) >= ( game->tileMap.tilesX * TILEMAP_TILE_SIZE ) )
             {
-               entity->pos.x = ( game->tileMap.tilesX * TILE_SIZE ) - entity->pos.w - 0.01f;
+               entity->pos.x = ( game->tileMap.tilesX * TILEMAP_TILE_SIZE ) - entity->pos.w - 0.01f;
             }
          }
       }
@@ -141,7 +141,7 @@ internal void Physics_MoveEntities( Game_t* game )
       {
          if ( game->tileMap.wraps )
          {
-            entity->pos.y = ( game->tileMap.tilesY * TILE_SIZE ) + entity->pos.y;
+            entity->pos.y = ( game->tileMap.tilesY * TILEMAP_TILE_SIZE ) + entity->pos.y;
          }
          else
          {
@@ -152,16 +152,16 @@ internal void Physics_MoveEntities( Game_t* game )
       {
          if ( game->tileMap.wraps )
          {
-            if ( entity->pos.y >= ( game->tileMap.tilesY * TILE_SIZE ) )
+            if ( entity->pos.y >= ( game->tileMap.tilesY * TILEMAP_TILE_SIZE ) )
             {
-               entity->pos.y -= ( game->tileMap.tilesY * TILE_SIZE );
+               entity->pos.y -= ( game->tileMap.tilesY * TILEMAP_TILE_SIZE );
             }
          }
          else
          {
-            if ( ( entity->pos.y + entity->pos.h ) >= ( game->tileMap.tilesY * TILE_SIZE ) )
+            if ( ( entity->pos.y + entity->pos.h ) >= ( game->tileMap.tilesY * TILEMAP_TILE_SIZE ) )
             {
-               entity->pos.y = ( game->tileMap.tilesY * TILE_SIZE ) - entity->pos.h - 0.01f;
+               entity->pos.y = ( game->tileMap.tilesY * TILEMAP_TILE_SIZE ) - entity->pos.h - 0.01f;
             }
          }
       }
@@ -175,11 +175,11 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
 
    if ( horizontal )
    {
-      start = (i32)( entity->pos.y / TILE_SIZE );                    // top row
-      end = (i32)( ( entity->pos.y + entity->pos.h ) / TILE_SIZE );  // bottom row
+      start = (i32)( entity->pos.y / TILEMAP_TILE_SIZE );                    // top row
+      end = (i32)( ( entity->pos.y + entity->pos.h ) / TILEMAP_TILE_SIZE );  // bottom row
       side = ( sign < 0.0f )
-         ? (i32)( entity->pos.x / TILE_SIZE )                        // left side
-         : (i32)( ( entity->pos.x + entity->pos.w ) / TILE_SIZE );   // right side
+         ? (i32)( entity->pos.x / TILEMAP_TILE_SIZE )                        // left side
+         : (i32)( ( entity->pos.x + entity->pos.w ) / TILEMAP_TILE_SIZE );   // right side
 
       for ( i = start; i <= end; i++ ) // start and end rows
       {
@@ -213,11 +213,11 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
    }
    else
    {
-      start = (i32)( entity->pos.x / TILE_SIZE );                    // left col
-      end = (i32)( ( entity->pos.x + entity->pos.w ) / TILE_SIZE );  // right col
+      start = (i32)( entity->pos.x / TILEMAP_TILE_SIZE );                    // left col
+      end = (i32)( ( entity->pos.x + entity->pos.w ) / TILEMAP_TILE_SIZE );  // right col
       side = ( sign < 0.0f )
-         ? (i32)( entity->pos.y / TILE_SIZE )                        // top side
-         : (i32)( ( entity->pos.y + entity->pos.h  ) / TILE_SIZE );  // bottom side
+         ? (i32)( entity->pos.y / TILEMAP_TILE_SIZE )                        // top side
+         : (i32)( ( entity->pos.y + entity->pos.h  ) / TILEMAP_TILE_SIZE );  // bottom side
 
       for ( i = start; i <= end; i++ ) // start and end cols
       {
@@ -259,8 +259,8 @@ internal Bool_t Physics_EntityCollidesWithEntities( TileMap_t* tileMap, Entity_t
    Entity_t* rigidEntity;
    Vector4r32_t rigidPos;
    Vector4r32_t entityPos = entity->pos;
-   r32 mapW = (r32)( tileMap->tilesX * TILE_SIZE );
-   r32 mapH = (r32)( tileMap->tilesY * TILE_SIZE );
+   r32 mapW = (r32)( tileMap->tilesX * TILEMAP_TILE_SIZE );
+   r32 mapH = (r32)( tileMap->tilesY * TILEMAP_TILE_SIZE );
 
    for ( i = 0, rigidEntity = tileMap->entities; i < tileMap->entityCount; i++, rigidEntity++ )
    {

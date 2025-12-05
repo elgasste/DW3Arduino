@@ -6,23 +6,23 @@
 #include "entity.h"
 #include "npc.h"
 
-#define TILE_SIZE                16
+#define TILEMAP_TILE_SIZE                 16
 
-#define TILEMAP_MAX_TEXTURES     32
-#define TILEMAP_MAX_ENTITIES     32
-#define TILEMAP_MAX_NPCS         24
+#define TILEMAP_MAX_TEXTURES              32
+#define TILEMAP_MAX_ENTITIES              32
+#define TILEMAP_MAX_NPCS                  24
 
-#define TILEMAP_MAX_TILES_X      256
-#define TILEMAP_MAX_TILES_Y      256
+#define TILEMAP_MAX_TILES_X               256
+#define TILEMAP_MAX_TILES_Y               256
 
-#define TILE_GET_TEXTURE_INDEX( tile )   ( ( tile ) & 0x1F )
-#define TILE_GET_IS_PASSABLE( tile )     ( ( ( tile ) >> 5 ) & 0x01 )
+#define TILE_GET_TEXTURE_INDEX( tile )    ( ( tile ) & 0x1F )
+#define TILE_GET_IS_PASSABLE( tile )      ( ( ( tile ) >> 5 ) & 0x01 )
 
 typedef struct Entity_t Entity_t;
 
 typedef struct TileTexture_t
 {
-   u8 paletteIndexes[TILE_SIZE * TILE_SIZE];
+   u8 paletteIndexes[TILEMAP_TILE_SIZE * TILEMAP_TILE_SIZE];
 }
 TileTexture_t;
 
