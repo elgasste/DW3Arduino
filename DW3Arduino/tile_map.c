@@ -22,6 +22,16 @@ void TileMap_Init( TileMap_t* tileMap )
    tileMap->npcCount = 0;
 }
 
+void TileMap_Tic( TileMap_t* tileMap )
+{
+   u32 i;
+
+   for ( i = 0; i < tileMap->npcCount; i++ )
+   {
+      Npc_Tic( tileMap->npcs + i );
+   }
+}
+
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
 {
    if ( tileMap->wraps )

@@ -35,6 +35,7 @@ void Game_Tic( Game_t* game )
 {
    Input_Read( &game->input );
    Game_HandleInput( game );
+   TileMap_Tic( &game->tileMap );
    Physics_Tic( game );
    Render_DrawGame( game );
 }

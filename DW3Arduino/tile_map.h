@@ -53,6 +53,7 @@ extern "C" {
 #endif
 
 void TileMap_Init( TileMap_t* tileMap );
+void TileMap_Tic( TileMap_t* tileMap );
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity );
 u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, u32 x, u32 y );
 
