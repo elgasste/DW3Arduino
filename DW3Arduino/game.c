@@ -27,6 +27,9 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->player.entity->pos.h = 12.0f;
    game->player.entity->velocity.x = 0.0f;
    game->player.entity->velocity.y = 0.0f;
+   game->player.tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap,
+                                                            (u32)game->player.entity->pos.x,
+                                                            (u32)game->player.entity->pos.y );
 
    TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
 }
@@ -38,6 +41,11 @@ void Game_Tic( Game_t* game )
    TileMap_Tic( &game->tileMap );
    Physics_Tic( game );
    Render_DrawGame( game );
+}
+
+void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
+{
+   game->player.tileIndex = tileIndex;
 }
 
 internal void Game_HandleInput( Game_t* game )

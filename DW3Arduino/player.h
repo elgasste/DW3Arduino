@@ -10,6 +10,7 @@ typedef struct Entity_t Entity_t;
 typedef struct Player_t
 {
    Entity_t* entity;
+   u32 tileIndex;
 }
 Player_t;
 

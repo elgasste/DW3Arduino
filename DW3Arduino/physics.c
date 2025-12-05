@@ -18,7 +18,7 @@ void Physics_Tic( Game_t* game )
 
 internal void Physics_MoveEntities( Game_t* game )
 {
-   u32 i;
+   u32 i, tileIndex;
    i32 pixelsRemaining;
    r32 deltaX, deltaY, deltaRemaining, sign, prev;
    Entity_t* entity;
@@ -163,6 +163,17 @@ internal void Physics_MoveEntities( Game_t* game )
             {
                entity->pos.y = ( game->tileMap.tilesY * TILEMAP_TILE_SIZE ) - entity->pos.h - 0.01f;
             }
+         }
+      }
+
+
+      if ( entity == game->player.entity )
+      {
+         tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)entity->pos.x, (u32)entity->pos.y );
+
+         if ( tileIndex != game->player.tileIndex )
+         {
+            Game_SteppedOnTile( game, tileIndex );
          }
       }
    }
