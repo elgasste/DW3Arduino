@@ -10,10 +10,10 @@ void Physics_Tic( Game_t* game )
    Physics_MoveEntities( game );
 
    // reset player velocity and clamp the viewport to the player
-   game->playerEntity->velocity.x = 0.0f;
-   game->playerEntity->velocity.y = 0.0f;
+   game->player.entity->velocity.x = 0.0f;
+   game->player.entity->velocity.y = 0.0f;
 
-   TileMap_ClampViewportToEntity( &game->tileMap, game->playerEntity );
+   TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
 }
 
 internal void Physics_MoveEntities( Game_t* game )

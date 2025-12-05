@@ -11,4 +11,4 @@ typedef struct Npc_t
 }
 Npc_t;
 
-#endif
+#endif // NPC_H

@@ -20,15 +20,15 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->tileMap.viewportScreenPos.x = 20;
    game->tileMap.viewportScreenPos.y = 10;
 
-   game->playerEntity = &game->tileMap.entities[0];
-   game->playerEntity->pos.x = 24.0f;
-   game->playerEntity->pos.y = 24.0f;
-   game->playerEntity->pos.w = 12.0f;
-   game->playerEntity->pos.h = 12.0f;
-   game->playerEntity->velocity.x = 0.0f;
-   game->playerEntity->velocity.y = 0.0f;
+   game->player.entity = &game->tileMap.entities[0];
+   game->player.entity->pos.x = 24.0f;
+   game->player.entity->pos.y = 24.0f;
+   game->player.entity->pos.w = 12.0f;
+   game->player.entity->pos.h = 12.0f;
+   game->player.entity->velocity.x = 0.0f;
+   game->player.entity->velocity.y = 0.0f;
 
-   TileMap_ClampViewportToEntity( &game->tileMap, game->playerEntity );
+   TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
 }
 
 void Game_Tic( Game_t* game )
@@ -41,7 +41,7 @@ void Game_Tic( Game_t* game )
 
 internal void Game_HandleInput( Game_t* game )
 {
-   Entity_t* player = game->playerEntity;
+   Entity_t* entity = game->player.entity;
 
    Bool_t leftIsDown = game->input.buttonStates[InputButton_Left].down;
    Bool_t upIsDown = game->input.buttonStates[InputButton_Up].down;
@@ -50,38 +50,38 @@ internal void Game_HandleInput( Game_t* game )
 
    if ( leftIsDown && !rightIsDown )
    {
-      player->velocity.x = -PLAYER_MAX_VELOCITY;
+      entity->velocity.x = -PLAYER_MAX_VELOCITY;
 
       if ( upIsDown || downIsDown )
       {
-         player->velocity.x *= DIAGONAL_SCALAR;
+         entity->velocity.x *= DIAGONAL_SCALAR;
       }
    }
    else if ( rightIsDown && !leftIsDown )
    {
-      player->velocity.x = PLAYER_MAX_VELOCITY;
+      entity->velocity.x = PLAYER_MAX_VELOCITY;
 
       if ( upIsDown || downIsDown )
       {
-         player->velocity.x *= DIAGONAL_SCALAR;
+         entity->velocity.x *= DIAGONAL_SCALAR;
       }
    }
    if ( upIsDown && !downIsDown )
    {
-      player->velocity.y = -PLAYER_MAX_VELOCITY;
+      entity->velocity.y = -PLAYER_MAX_VELOCITY;
 
       if ( leftIsDown || rightIsDown )
       {
-         player->velocity.y *= DIAGONAL_SCALAR;
+         entity->velocity.y *= DIAGONAL_SCALAR;
       }
    }
    else if ( downIsDown && !upIsDown )
    {
-      player->velocity.y = PLAYER_MAX_VELOCITY;
+      entity->velocity.y = PLAYER_MAX_VELOCITY;
 
       if ( leftIsDown || rightIsDown )
       {
-         player->velocity.y *= DIAGONAL_SCALAR;
+         entity->velocity.y *= DIAGONAL_SCALAR;
       }
    }
 }

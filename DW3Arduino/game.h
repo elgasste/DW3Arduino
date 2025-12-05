@@ -8,6 +8,7 @@
 #include "screen.h"
 #include "input.h"
 #include "tile_map.h"
+#include "player.h"
 
 typedef struct Game_t
 {
@@ -15,7 +16,7 @@ typedef struct Game_t
    Screen_t screen;
    Input_t input;
    TileMap_t tileMap;
-   Entity_t* playerEntity;
+   Player_t player;
 }
 Game_t;
 

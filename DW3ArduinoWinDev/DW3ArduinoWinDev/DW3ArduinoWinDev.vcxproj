@@ -138,6 +138,7 @@
     <ClInclude Include="..\..\DW3Arduino\entity.h" />
     <ClInclude Include="..\..\DW3Arduino\input.h" />
     <ClInclude Include="..\..\DW3Arduino\npc.h" />
+    <ClInclude Include="..\..\DW3Arduino\player.h" />
     <ClInclude Include="..\..\DW3Arduino\random.h" />
     <ClInclude Include="..\..\DW3Arduino\screen.h" />
     <ClInclude Include="..\..\DW3Arduino\game.h" />

@@ -184,7 +184,7 @@ internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw
                                  viewportScreenPos->x + xOffset, viewportScreenPos->y + yOffset,
                                  viewportScreenPos->x + vw + xOffset,
                                  viewportScreenPos->y + vh + yOffset,
-                                 ( entity == game->playerEntity ) ? COLOR16_MAGENTA : COLOR16_YELLOW );
+                                 ( entity == game->player.entity ) ? COLOR16_MAGENTA : COLOR16_YELLOW );
       }
       entity++;
    }
