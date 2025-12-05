@@ -18,6 +18,8 @@ void Npc_Init( Npc_t* npc, Entity_t* entity, Bool_t wanders )
 
 void Npc_Tic( Npc_t* npc )
 {
+   r32 vx, vy;
+
    if ( !npc->wanders )
    {
       return;
@@ -34,14 +36,17 @@ void Npc_Tic( Npc_t* npc )
       }
       else
       {
+         vx = (r32)Random_u32( NPC_MIN_VELOCITY, NPC_MAX_VELOCITY );
+         vy = (r32)Random_u32( NPC_MIN_VELOCITY, NPC_MAX_VELOCITY );
+
          if ( Random_u32( 0, 1 ) == 0 ) // move horizontal
          {
-            npc->entity->velocity.x = ( Random_u32( 0, 1 ) == 0 ) ? -NPC_VELOCITY : NPC_VELOCITY;
+            npc->entity->velocity.x = ( Random_u32( 0, 1 ) == 0 ) ? -vx : vx;
          }
          
          if ( Random_u32( 0, 1 ) == 0 ) // move vertical
          {
-            npc->entity->velocity.y = ( Random_u32( 0, 1 ) == 0 ) ? -NPC_VELOCITY : NPC_VELOCITY;
+            npc->entity->velocity.y = ( Random_u32( 0, 1 ) == 0 ) ? -vy : vy;
          }
       }
 

@@ -1,9 +1,10 @@
 #if !defined( NPC_H )
 #define NPC_H
 
-#define NPC_MIN_ACTION_SECONDS   1
-#define NPC_MAX_ACTION_SECONDS   4
-#define NPC_VELOCITY             24.0f
+#define NPC_MIN_ACTION_SECONDS      1
+#define NPC_MAX_ACTION_SECONDS      4
+#define NPC_MIN_VELOCITY            16    // pixels per second
+#define NPC_MAX_VELOCITY            24    // pixels per second
 
 #include "common.h"
 
