@@ -88,3 +88,9 @@ u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, u32 x, u32 y )
 {
    return ( ( y / TILEMAP_TILE_SIZE ) * tileMap->tilesX ) + ( x / TILEMAP_TILE_SIZE );
 }
+
+void TileMap_GetPositionOfTileIndex( TileMap_t* tileMap, u32 tileIndex, u32* x, u32* y )
+{
+   *y = ( tileIndex / tileMap->tilesX ) * TILEMAP_TILE_SIZE;
+   *x = ( tileIndex % tileMap->tilesX ) * TILEMAP_TILE_SIZE;
+}

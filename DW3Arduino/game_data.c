@@ -66,6 +66,11 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       }
 
       tileMap->tiles[( tileMap->tilesX * 10 )] = 2 | ( 0x1 << 5 );
+
+      tileMap->portalCount = 1;
+      tileMap->portals[0].sourceTileIndex = 260;
+      tileMap->portals[0].destTileMapIndex = 1;
+      tileMap->portals[0].destTileIndex = 39;
    }
    else if ( index == 1 ) // hallway
    {
@@ -86,6 +91,14 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       {
          *tile = 3;
       }
+
+      tileMap->portalCount = 2;
+      tileMap->portals[0].sourceTileIndex = 39;
+      tileMap->portals[0].destTileMapIndex = 0;
+      tileMap->portals[0].destTileIndex = 260;
+      tileMap->portals[1].sourceTileIndex = 20;
+      tileMap->portals[1].destTileMapIndex = 2;
+      tileMap->portals[1].destTileIndex = 69;
    }
    else if ( index == 2 ) // second room
    {
@@ -111,6 +124,11 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       }
 
       tileMap->tiles[( ( tileMap->tilesX * 7 ) - 1 )] = 2 | ( 0x1 << 5 );
+
+      tileMap->portalCount = 1;
+      tileMap->portals[0].sourceTileIndex = 69;
+      tileMap->portals[0].destTileMapIndex = 1;
+      tileMap->portals[0].destTileIndex = 20;
    }
 
    //u32 row, col, i;

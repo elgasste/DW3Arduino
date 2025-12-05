@@ -45,7 +45,24 @@ void Game_Tic( Game_t* game )
 
 void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
 {
+   u32 i, destTileIndex, newPosX, newPosY;
+   Portal_t* portal;
+
    game->player.tileIndex = tileIndex;
+
+   for ( i = 0, portal = game->tileMap.portals; i < game->tileMap.portalCount; i++, portal++ )
+   {
+      if ( portal->sourceTileIndex == tileIndex )
+      {
+         destTileIndex = portal->destTileIndex;
+         TileMap_LoadFromIndex( &game->tileMap, portal->destTileMapIndex );
+         TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
+         game->player.entity->pos.x = (r32)newPosX + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.w ) / 2 );
+         game->player.entity->pos.y = (r32)newPosY + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.h ) / 2 );
+         game->player.tileIndex = destTileIndex;
+         break;
+      }
+   }
 }
 
 internal void Game_HandleInput( Game_t* game )

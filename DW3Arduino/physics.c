@@ -166,10 +166,12 @@ internal void Physics_MoveEntities( Game_t* game )
          }
       }
 
-
+      // check if the player has stepped on a new tile
       if ( entity == game->player.entity )
       {
-         tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)entity->pos.x, (u32)entity->pos.y );
+         tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap,
+                                                     (u32)( entity->pos.x + ( entity->pos.w / 2 ) ),
+                                                     (u32)( entity->pos.y + ( entity->pos.h / 2 ) ) );
 
          if ( tileIndex != game->player.tileIndex )
          {
