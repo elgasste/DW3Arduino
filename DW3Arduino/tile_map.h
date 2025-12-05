@@ -4,11 +4,13 @@
 #include "common.h"
 #include "vector.h"
 #include "entity.h"
+#include "npc.h"
 
 #define TILE_SIZE                16
 
 #define TILEMAP_MAX_TEXTURES     32
 #define TILEMAP_MAX_ENTITIES     32
+#define TILEMAP_MAX_NPCS         24
 
 #define TILEMAP_MAX_TILES_X      256
 #define TILEMAP_MAX_TILES_Y      256
@@ -41,6 +43,8 @@ typedef struct TileMap_t
 
    Entity_t entities[TILEMAP_MAX_ENTITIES];
    u32 entityCount;
+   Npc_t npcs[TILEMAP_MAX_NPCS];
+   u32 npcCount;
 }
 TileMap_t;
 
@@ -49,6 +53,7 @@ extern "C" {
 #endif
 
 void TileMap_Init( TileMap_t* tileMap );
+void TileMap_Tic( TileMap_t* tileMap );
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity );
 u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, u32 x, u32 y );
 

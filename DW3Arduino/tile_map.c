@@ -19,15 +19,16 @@ void TileMap_Init( TileMap_t* tileMap )
    }
 
    tileMap->entityCount = 0;
+   tileMap->npcCount = 0;
+}
 
-   for ( i = 0; i < TILEMAP_MAX_ENTITIES; i++ )
+void TileMap_Tic( TileMap_t* tileMap )
+{
+   u32 i;
+
+   for ( i = 0; i < tileMap->npcCount; i++ )
    {
-      tileMap->entities[i].velocity.x = 0.0f;
-      tileMap->entities[i].velocity.y = 0.0f;
-      tileMap->entities[i].pos.x = 0.0f;
-      tileMap->entities[i].pos.y = 0.0f;
-      tileMap->entities[i].pos.w = 0.0f;
-      tileMap->entities[i].pos.h = 0.0f;
+      Npc_Tic( tileMap->npcs + i );
    }
 }
 

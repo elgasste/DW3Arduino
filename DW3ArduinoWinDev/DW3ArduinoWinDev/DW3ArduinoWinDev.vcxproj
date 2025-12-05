@@ -137,6 +137,8 @@
     <ClInclude Include="..\..\DW3Arduino\common.h" />
     <ClInclude Include="..\..\DW3Arduino\entity.h" />
     <ClInclude Include="..\..\DW3Arduino\input.h" />
+    <ClInclude Include="..\..\DW3Arduino\npc.h" />
+    <ClInclude Include="..\..\DW3Arduino\player.h" />
     <ClInclude Include="..\..\DW3Arduino\random.h" />
     <ClInclude Include="..\..\DW3Arduino\screen.h" />
     <ClInclude Include="..\..\DW3Arduino\game.h" />
@@ -151,6 +153,7 @@
     <ClCompile Include="..\..\DW3Arduino\game.c" />
     <ClCompile Include="..\..\DW3Arduino\game_data.c" />
     <ClCompile Include="..\..\DW3Arduino\input.c" />
+    <ClCompile Include="..\..\DW3Arduino\npc.c" />
     <ClCompile Include="..\..\DW3Arduino\physics.c" />
     <ClCompile Include="..\..\DW3Arduino\random.c" />
     <ClCompile Include="..\..\DW3Arduino\render.c" />
