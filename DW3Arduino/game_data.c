@@ -66,11 +66,15 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       }
 
       tileMap->tiles[( tileMap->tilesX * 10 )] = 2 | ( 0x1 << 5 );
+      tileMap->tiles[377] = 1 | ( 0x1 << 5 );
 
-      tileMap->portalCount = 1;
+      tileMap->portalCount = 2;
       tileMap->portals[0].sourceTileIndex = 260;
       tileMap->portals[0].destTileMapIndex = 1;
       tileMap->portals[0].destTileIndex = 39;
+      tileMap->portals[1].sourceTileIndex = 377;
+      tileMap->portals[1].destTileMapIndex = 2;
+      tileMap->portals[1].destTileIndex = 24;
    }
    else if ( index == 1 ) // hallway
    {
@@ -124,11 +128,15 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       }
 
       tileMap->tiles[( ( tileMap->tilesX * 7 ) - 1 )] = 2 | ( 0x1 << 5 );
+      tileMap->tiles[24] = 1 | ( 0x1 << 5 );
 
-      tileMap->portalCount = 1;
+      tileMap->portalCount = 2;
       tileMap->portals[0].sourceTileIndex = 69;
       tileMap->portals[0].destTileMapIndex = 1;
       tileMap->portals[0].destTileIndex = 20;
+      tileMap->portals[1].sourceTileIndex = 24;
+      tileMap->portals[1].destTileMapIndex = 0;
+      tileMap->portals[1].destTileIndex = 377;
    }
 
    //u32 row, col, i;
