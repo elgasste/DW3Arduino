@@ -46,6 +46,9 @@
     <ClCompile Include="..\..\DW3Arduino\physics.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\npc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\DW3Arduino\clock.h">
@@ -85,6 +88,12 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\DW3Arduino\utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\npc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
