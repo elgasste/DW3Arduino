@@ -1,0 +1,36 @@
+﻿<Window x:Class="DW3ArduinoEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DW3ArduinoEditor"
+        mc:Ignorable="d"
+        Title="DW3 Arduino Editor"
+        Height="848"
+        Width="1320"
+        ResizeMode="NoResize">
+
+   <Window.Resources>
+      <Style TargetType="Button">
+         <Setter Property="Padding" Value="10, 1" />
+         <Setter Property="Margin" Value="2" />
+      </Style>
+   </Window.Resources>
+   
+   <Grid>
+       
+      <Grid.RowDefinitions>
+         <RowDefinition Height="30" />
+         <RowDefinition />
+      </Grid.RowDefinitions>
+
+      <!-- Overall Operations -->
+      <StackPanel Orientation="Horizontal"
+                  Grid.Row="0">
+         <Button Content="Save Game Data"
+                 Command="{Binding SaveGameDataCommand, Mode=OneTime}"/>
+      </StackPanel>
+
+   </Grid>
+
+</Window>
