@@ -27,5 +27,7 @@ namespace DW3ArduinoEditor.ViewModels
             _gameSaveData = new();
          }
       }
+
+      private void WriteSaveData() => File.WriteAllText( Constants.AssetsBasePath + Constants.SaveDataFileName, JsonSerializer.Serialize( _gameSaveData ) );
    }
 }
