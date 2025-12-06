@@ -1,7 +1,9 @@
-﻿using DW3ArduinoEditor.SaveData;
+﻿using DW3ArduinoEditor.Commands;
+using DW3ArduinoEditor.SaveData;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
+using System.Windows.Input;
 
 namespace DW3ArduinoEditor.ViewModels
 {
@@ -29,5 +31,14 @@ namespace DW3ArduinoEditor.ViewModels
       }
 
       private void WriteSaveData() => File.WriteAllText( Constants.AssetsBasePath + Constants.SaveDataFileName, JsonSerializer.Serialize( _gameSaveData ) );
+
+      private void SaveGameData()
+      {
+         WriteSaveData();
+         MessageBox.Show( "Game data has been saved.", "Hooray!", MessageBoxButton.OK, MessageBoxImage.Information );
+      }
+
+      private ICommand? _saveGameDataCommand;
+      public ICommand? SaveGameDataCommand => _saveGameDataCommand ??= new RelayCommand( SaveGameData, () => true );
    }
 }

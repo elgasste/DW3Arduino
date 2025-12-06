@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DW3ArduinoEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="DW3 Arduino Editor"
+        Height="848"
+        Width="1320"
+        ResizeMode="NoResize">
 
-    </Grid>
+   <Window.Resources>
+      <Style TargetType="Button">
+         <Setter Property="Padding" Value="10, 1" />
+         <Setter Property="Margin" Value="2" />
+      </Style>
+   </Window.Resources>
+   
+   <Grid>
+       
+      <Grid.RowDefinitions>
+         <RowDefinition Height="30" />
+         <RowDefinition />
+      </Grid.RowDefinitions>
+
+      <!-- Overall Operations -->
+      <StackPanel Orientation="Horizontal"
+                  Grid.Row="0">
+         <Button Content="Save Game Data"
+                 Command="{Binding SaveGameDataCommand, Mode=OneTime}"/>
+      </StackPanel>
+
+   </Grid>
+
 </Window>
