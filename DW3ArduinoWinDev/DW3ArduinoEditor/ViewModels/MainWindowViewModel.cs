@@ -37,6 +37,11 @@ namespace DW3ArduinoEditor.ViewModels
                {
                   TileMaps.Add( new( savedTileMap ) );
                }
+
+               if ( TileMaps.Count > 0 )
+               {
+                  SelectedTileMap = TileMaps[0];
+               }
             }
          }
          catch
