@@ -32,8 +32,24 @@ namespace DW3ArduinoEditor.ViewModels
             }
             else
             {
+               bool hasShownError = false;
+
                foreach ( var savedTileMap in saveData.TileMaps )
                {
+                  if ( !hasShownError )
+                  {
+                     foreach ( var tileMap in TileMaps )
+                     {
+                        if ( tileMap.Index == savedTileMap.Index )
+                        {
+                           MessageBox.Show( "The tile map \"" + tileMap.Name + "\" has the same index (" + tileMap.Index.ToString() + ") as the tile map \"" + savedTileMap.Name + "\"! " +
+                                            "This would indicate corrupted Editor save data, it is recommended to either start from scratch or close Editor and manually fix the save data.",
+                                            "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+                           hasShownError = true;
+                        }
+                     }
+                  }
+
                   TileMaps.Add( new( savedTileMap ) );
                }
 

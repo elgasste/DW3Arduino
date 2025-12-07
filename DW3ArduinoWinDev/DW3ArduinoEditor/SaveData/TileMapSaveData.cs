@@ -4,6 +4,8 @@ namespace DW3ArduinoEditor.SaveData
 {
    public class TileMapSaveData
    {
+      public List<TileSaveData> Tiles { get; set; } = new();
+
       public int Index { get; set; }
       public string Name { get; set; } = string.Empty;
       public int TilesX { get; set; }
@@ -24,7 +26,10 @@ namespace DW3ArduinoEditor.SaveData
          TilesY = viewModel.TilesY;
          Wraps = viewModel.Wraps;
 
-         // TODO: copy the rest of the properties when they're ready
+         foreach ( var tile in viewModel.Tiles )
+         {
+            Tiles.Add( new( tile ) );
+         }
       }
    }
 }
