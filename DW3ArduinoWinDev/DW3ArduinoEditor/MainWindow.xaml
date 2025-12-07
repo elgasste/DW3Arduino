@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DW3ArduinoEditor"
+        xmlns:DW3ArduinoEditorConverters="clr-namespace:DW3ArduinoEditor.Converters"
         mc:Ignorable="d"
         Title="DW3 Arduino Editor"
         Height="848"
@@ -11,15 +12,29 @@
         ResizeMode="NoResize">
 
    <Window.Resources>
+      
+      <DW3ArduinoEditorConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"
+                                                            TrueValue="Visible"
+                                                            FalseValue="Collapsed" />
+      <DW3ArduinoEditorConverters:BoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"
+                                                            TrueValue="Collapsed"
+                                                            FalseValue="Visible" />
+
       <Style TargetType="Button">
          <Setter Property="Padding" Value="10, 1" />
          <Setter Property="Margin" Value="2" />
       </Style>
+      <Style TargetType="ComboBox">
+         <Setter Property="Height" Value="26"/>
+         <Setter Property="Margin" Value="2"/>
+      </Style>
+      
    </Window.Resources>
    
    <Grid>
        
       <Grid.RowDefinitions>
+         <RowDefinition Height="30" />
          <RowDefinition Height="30" />
          <RowDefinition />
       </Grid.RowDefinitions>
@@ -28,9 +43,22 @@
       <StackPanel Orientation="Horizontal"
                   Grid.Row="0">
          <Button Content="Save Game Data"
-                 Command="{Binding SaveGameDataCommand, Mode=OneTime}"/>
+                 Command="{Binding SaveGameDataCommand, Mode=OneTime}" />
          <Button Content="Write Game Data Source"
-                 Command="{Binding WriteGameDataSourceCommand, Mode=OneTime}"/>
+                 Command="{Binding WriteGameDataSourceCommand, Mode=OneTime}" />
+      </StackPanel>
+      
+      <!-- Tile Map Operations -->
+      <StackPanel Orientation="Horizontal"
+                  Grid.Row="1">
+         <ComboBox ItemsSource="{Binding TileMaps}"
+                   SelectedItem="{Binding SelectedTileMap}"
+                   DisplayMemberPath="Name"
+                   MinWidth="100"/>
+         <Button Content="Add New Tile Map"
+                 Command="{Binding AddNewTileMapCommand, Mode=OneTime}" />
+         <Button Content="Delete Selected Tile Map"
+                 Command="{Binding DeleteSelectedTileMapCommand, Mode=OneTime}"/>
       </StackPanel>
 
    </Grid>
