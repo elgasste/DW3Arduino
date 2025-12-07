@@ -52,10 +52,38 @@ namespace DW3ArduinoEditor.ViewModels
 
          if ( result.HasValue && result.Value )
          {
-            int index = TileMaps.Count > 0 ? TileMaps[^1].Index + 1 : 0;
+            int index = ( TileMaps.Count > 0 ) ? TileMaps[^1].Index + 1 : 0;
             var newTileMap = new TileMapViewModel( index, window.NewTileMapName, window.NewTilesX, window.NewTilesY, window.NewWraps );
             TileMaps.Add( newTileMap );
             SelectedTileMap = newTileMap;
+         }
+      }
+
+      private void DeleteSelectedTileMap()
+      {
+         if ( MessageBox.Show( "Are you sure you want to delete this tile map?", "Please Confirm", MessageBoxButton.YesNo ) == MessageBoxResult.Yes )
+         {
+            int index;
+
+            for ( index = 0; index < TileMaps.Count; index++ )
+            {
+               if ( TileMaps[index] == SelectedTileMap )
+               {
+                  break;
+               }
+            }
+
+            if ( TileMaps.Count == 1 )
+            {
+               SelectedTileMap = null;
+            }
+            else
+            {
+               SelectedTileMap = ( index > 0 ) ? TileMaps[index - 1] : TileMaps[0];
+            }
+
+            // TODO: make sure to remove all portals linked to/from this map
+            TileMaps.RemoveAt( index );
          }
       }
 
@@ -74,6 +102,9 @@ namespace DW3ArduinoEditor.ViewModels
 
       private ICommand? _addNewTileMapCommand;
       public ICommand? AddNewTileMapCommand => _addNewTileMapCommand ??= new RelayCommand( AddNewTileMap, () => true );
+
+      private ICommand? _deleteSelectedTileMapCommand;
+      public ICommand? DeleteSelectedTileMapCommand => _deleteSelectedTileMapCommand ??= new RelayCommand( DeleteSelectedTileMap, () => TileMaps.Count > 0 );
 
       private ICommand? _saveGameDataCommand;
       public ICommand? SaveGameDataCommand => _saveGameDataCommand ??= new RelayCommand( WriteSaveData, () => true );
