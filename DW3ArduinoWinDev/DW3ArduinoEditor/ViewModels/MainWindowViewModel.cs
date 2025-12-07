@@ -15,7 +15,7 @@ namespace DW3ArduinoEditor.ViewModels
       {
          try
          {
-            var contents = File.ReadAllText( Constants.AssetsBasePath + Constants.SaveDataFileName );
+            var contents = File.ReadAllText( Constants.SaveDataFilePath );
             _gameSaveData = JsonSerializer.Deserialize<GameSaveData>( contents );
          }
          catch
@@ -30,15 +30,22 @@ namespace DW3ArduinoEditor.ViewModels
          }
       }
 
-      private void WriteSaveData() => File.WriteAllText( Constants.AssetsBasePath + Constants.SaveDataFileName, JsonSerializer.Serialize( _gameSaveData ) );
-
-      private void SaveGameData()
+      private void WriteSaveData()
       {
-         WriteSaveData();
-         MessageBox.Show( "Game data has been saved.", "Hooray!", MessageBoxButton.OK, MessageBoxImage.Information );
+         File.WriteAllText( Constants.SaveDataFilePath, JsonSerializer.Serialize( _gameSaveData ) );
+         MessageBox.Show( "Editor data has been saved." );
+      }
+
+      private void WriteGameDataSource()
+      {
+         GameDataGenerator.WriteGameDataSourceFile();
+         MessageBox.Show( "Game data source file has been written." );
       }
 
       private ICommand? _saveGameDataCommand;
-      public ICommand? SaveGameDataCommand => _saveGameDataCommand ??= new RelayCommand( SaveGameData, () => true );
+      public ICommand? SaveGameDataCommand => _saveGameDataCommand ??= new RelayCommand( WriteSaveData, () => true );
+
+      private ICommand? _writeGameDataSourceCommand;
+      public ICommand? WriteGameDataSourceCommand => _writeGameDataSourceCommand ??= new RelayCommand( WriteGameDataSource, () => true );
    }
 }
