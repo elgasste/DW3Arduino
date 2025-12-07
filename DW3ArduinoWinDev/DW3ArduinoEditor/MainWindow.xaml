@@ -21,6 +21,7 @@
        
       <Grid.RowDefinitions>
          <RowDefinition Height="30" />
+         <RowDefinition Height="30" />
          <RowDefinition />
       </Grid.RowDefinitions>
 
@@ -28,9 +29,16 @@
       <StackPanel Orientation="Horizontal"
                   Grid.Row="0">
          <Button Content="Save Game Data"
-                 Command="{Binding SaveGameDataCommand, Mode=OneTime}"/>
+                 Command="{Binding SaveGameDataCommand, Mode=OneTime}" />
          <Button Content="Write Game Data Source"
-                 Command="{Binding WriteGameDataSourceCommand, Mode=OneTime}"/>
+                 Command="{Binding WriteGameDataSourceCommand, Mode=OneTime}" />
+      </StackPanel>
+      
+      <!-- Tile Map Operations -->
+      <StackPanel Orientation="Horizontal"
+                  Grid.Row="1">
+         <Button Content="Add New Tile Map"
+                 Command="{Binding AddNewTileMapCommand, Mode=OneTime}" />
       </StackPanel>
 
    </Grid>

@@ -1,5 +1,6 @@
 ﻿using DW3ArduinoEditor.Commands;
 using DW3ArduinoEditor.SaveData;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
@@ -9,30 +10,42 @@ namespace DW3ArduinoEditor.ViewModels
 {
    public class MainWindowViewModel : ViewModelBase
    {
-      private readonly GameSaveData? _gameSaveData;
+      public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
 
       public MainWindowViewModel()
       {
          try
          {
             var contents = File.ReadAllText( Constants.SaveDataFilePath );
-            _gameSaveData = JsonSerializer.Deserialize<GameSaveData>( contents );
+            GameSaveData? saveData = JsonSerializer.Deserialize<GameSaveData>( contents );
+
+            if ( saveData is null )
+            {
+               MessageBox.Show( "Failed to load save data from file! Starting from scratch.", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+            }
+            else
+            {
+               foreach ( var savedTileMap in saveData.TileMaps )
+               {
+                  TileMaps.Add( new( savedTileMap ) );
+               }
+            }
          }
          catch
          {
-            _gameSaveData = null;
+            MessageBox.Show( "Something went wrong when loading save data, file is possibly corrupt! Starting from scratch.", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
          }
+      }
 
-         if ( _gameSaveData is null )
-         {
-            MessageBox.Show( "Failed to load save data from file! Creating new save data...", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-            _gameSaveData = new();
-         }
+      private void AddNewTileMap()
+      {
+         // TODO
       }
 
       private void WriteSaveData()
       {
-         File.WriteAllText( Constants.SaveDataFilePath, JsonSerializer.Serialize( _gameSaveData ) );
+         var saveData = new GameSaveData( TileMaps );
+         File.WriteAllText( Constants.SaveDataFilePath, JsonSerializer.Serialize( saveData ) );
          MessageBox.Show( "Editor data has been saved." );
       }
 
@@ -41,6 +54,9 @@ namespace DW3ArduinoEditor.ViewModels
          GameDataGenerator.WriteGameDataSourceFile();
          MessageBox.Show( "Game data source file has been written." );
       }
+
+      private ICommand? _addNewTileMapCommand;
+      public ICommand? AddNewTileMapCommand => _addNewTileMapCommand ??= new RelayCommand( AddNewTileMap, () => true );
 
       private ICommand? _saveGameDataCommand;
       public ICommand? SaveGameDataCommand => _saveGameDataCommand ??= new RelayCommand( WriteSaveData, () => true );

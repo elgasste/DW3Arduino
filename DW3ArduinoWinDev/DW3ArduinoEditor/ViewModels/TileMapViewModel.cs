@@ -47,5 +47,16 @@ namespace DW3ArduinoEditor.ViewModels
          _tilesY = tilesY;
          _wraps = wraps;
       }
+
+      public TileMapViewModel( TileMapSaveData saveData )
+      {
+         _index = saveData.Index;
+         _name = saveData.Name;
+         _tilesX = saveData.TilesX;
+         _tilesY = saveData.TilesY;
+         _wraps = saveData.Wraps;
+
+         // TODO: copy the rest of the properties when they're ready
+      }
    }
 }

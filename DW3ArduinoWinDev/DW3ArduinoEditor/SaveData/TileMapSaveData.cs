@@ -1,8 +1,11 @@
-﻿namespace DW3ArduinoEditor.SaveData
+﻿using DW3ArduinoEditor.ViewModels;
+
+namespace DW3ArduinoEditor.SaveData
 {
    public class TileMapSaveData
    {
       public int Index { get; set; }
+      public string Name { get; set; } = string.Empty;
       public int TilesX { get; set; }
       public int TilesY { get; set; }
       public bool Wraps { get; set; }
@@ -12,5 +15,16 @@
       public List<NpcSaveData> Npcs { get; set; } = [];
 
       public TileMapSaveData() { }
+
+      public TileMapSaveData( TileMapViewModel viewModel )
+      {
+         Index = viewModel.Index;
+         Name = viewModel.Name;
+         TilesX = viewModel.TilesX;
+         TilesY = viewModel.TilesY;
+         Wraps = viewModel.Wraps;
+
+         // TODO: copy the rest of the properties when they're ready
+      }
    }
 }
