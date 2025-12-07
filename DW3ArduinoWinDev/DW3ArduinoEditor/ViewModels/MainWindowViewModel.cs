@@ -10,7 +10,6 @@ namespace DW3ArduinoEditor.ViewModels
 {
    public class MainWindowViewModel : ViewModelBase
    {
-      // MUFFINS: next let's set up the list of existing tile maps
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
 
       private TileMapViewModel? _selectedTileMap;
@@ -47,6 +46,20 @@ namespace DW3ArduinoEditor.ViewModels
          catch
          {
             MessageBox.Show( "Something went wrong when loading save data, file is possibly corrupt! Starting from scratch.", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+         }
+      }
+
+      private void RenameSelectedTileMap()
+      {
+         if ( SelectedTileMap is not null )
+         {
+            var window = new RenameTileMapWindow( SelectedTileMap.Name );
+            var result = window.ShowDialog();
+
+            if ( result.HasValue && result.Value )
+            {
+               SelectedTileMap.Name = window.NewTileMapName;
+            }
          }
       }
 
@@ -120,6 +133,9 @@ namespace DW3ArduinoEditor.ViewModels
          GameDataGenerator.WriteGameDataSourceFile();
          MessageBox.Show( "Game data source file has been written." );
       }
+
+      private ICommand? _renameSelectedTileMapCommand;
+      public ICommand? RenameSelectedTileMapCommand => _renameSelectedTileMapCommand ??= new RelayCommand( RenameSelectedTileMap, () => true );
 
       private ICommand? _addNewTileMapCommand;
       public ICommand? AddNewTileMapCommand => _addNewTileMapCommand ??= new RelayCommand( AddNewTileMap, () => true );
