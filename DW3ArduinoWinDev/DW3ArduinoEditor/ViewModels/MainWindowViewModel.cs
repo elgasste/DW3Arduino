@@ -10,7 +10,15 @@ namespace DW3ArduinoEditor.ViewModels
 {
    public class MainWindowViewModel : ViewModelBase
    {
+      // MUFFINS: next let's set up the list of existing tile maps
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
+
+      private TileMapViewModel? _selectedTileMap;
+      public TileMapViewModel? SelectedTileMap
+      {
+         get => _selectedTileMap;
+         set => SetProperty( ref _selectedTileMap, value );
+      }
 
       public MainWindowViewModel()
       {
@@ -47,6 +55,7 @@ namespace DW3ArduinoEditor.ViewModels
             int index = TileMaps.Count > 0 ? TileMaps[^1].Index + 1 : 0;
             var newTileMap = new TileMapViewModel( index, window.NewTileMapName, window.NewTilesX, window.NewTilesY, window.NewWraps );
             TileMaps.Add( newTileMap );
+            SelectedTileMap = newTileMap;
          }
       }
 

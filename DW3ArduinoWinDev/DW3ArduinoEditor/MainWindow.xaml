@@ -15,6 +15,10 @@
          <Setter Property="Padding" Value="10, 1" />
          <Setter Property="Margin" Value="2" />
       </Style>
+      <Style TargetType="ComboBox">
+         <Setter Property="Height" Value="26"/>
+         <Setter Property="Margin" Value="2"/>
+      </Style>
    </Window.Resources>
    
    <Grid>
@@ -37,6 +41,10 @@
       <!-- Tile Map Operations -->
       <StackPanel Orientation="Horizontal"
                   Grid.Row="1">
+         <ComboBox ItemsSource="{Binding TileMaps}"
+                   SelectedItem="{Binding SelectedTileMap}"
+                   DisplayMemberPath="Name"
+                   MinWidth="100"/>
          <Button Content="Add New Tile Map"
                  Command="{Binding AddNewTileMapCommand, Mode=OneTime}" />
       </StackPanel>
