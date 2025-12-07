@@ -36,6 +36,7 @@
       <Grid.RowDefinitions>
          <RowDefinition Height="30" />
          <RowDefinition Height="30" />
+         <RowDefinition Height="30" />
          <RowDefinition />
       </Grid.RowDefinitions>
 
@@ -52,13 +53,28 @@
       <StackPanel Orientation="Horizontal"
                   Grid.Row="1">
          <ComboBox ItemsSource="{Binding TileMaps}"
-                   SelectedItem="{Binding SelectedTileMap}"
-                   DisplayMemberPath="Name"
-                   MinWidth="100"/>
+                  SelectedItem="{Binding SelectedTileMap}"
+                  DisplayMemberPath="Name"
+                  MinWidth="100"/>
          <Button Content="Add New Tile Map"
-                 Command="{Binding AddNewTileMapCommand, Mode=OneTime}" />
+                  Command="{Binding AddNewTileMapCommand, Mode=OneTime}" />
          <Button Content="Delete Selected Tile Map"
-                 Command="{Binding DeleteSelectedTileMapCommand, Mode=OneTime}"/>
+                  Command="{Binding DeleteSelectedTileMapCommand, Mode=OneTime}"/>
+      </StackPanel>
+      <StackPanel Orientation="Horizontal"
+                  Grid.Row="2">
+         <TextBlock Text="Tiles: "
+                    VerticalAlignment="Center"
+                    Margin="10, 0, 0, 0"/>
+         <TextBlock Text="{Binding SelectedTileMap.TilesX}"
+                    VerticalAlignment="Center"/>
+         <TextBlock Text=", "
+                    VerticalAlignment="Center"/>
+         <TextBlock Text="{Binding SelectedTileMap.TilesY}"
+                    VerticalAlignment="Center"
+                    Margin="0, 0, 10, 0"/>
+         <Button Content="Resize"
+                 Command="{Binding ResizeSelectedTileMapCommand, Mode=OneTime}"/>
       </StackPanel>
 
    </Grid>
