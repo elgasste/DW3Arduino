@@ -92,6 +92,22 @@ namespace DW3ArduinoEditor.ViewModels
          }
       }
 
+      private void ResizeSelectedTileMap()
+      {
+         if ( SelectedTileMap is not null )
+         {
+            var window = new ResizeTileMapWindow( SelectedTileMap.TilesX, SelectedTileMap.TilesY );
+            var result = window.ShowDialog();
+
+            if ( result.HasValue && result.Value )
+            {
+               // TODO: once we have them, we'll need to shift the tile data around to match the new dimensions
+               SelectedTileMap.TilesX = window.NewTilesX;
+               SelectedTileMap.TilesY = window.NewTilesY;
+            }
+         }
+      }
+
       private void WriteSaveData()
       {
          var saveData = new GameSaveData( TileMaps );
@@ -110,6 +126,9 @@ namespace DW3ArduinoEditor.ViewModels
 
       private ICommand? _deleteSelectedTileMapCommand;
       public ICommand? DeleteSelectedTileMapCommand => _deleteSelectedTileMapCommand ??= new RelayCommand( DeleteSelectedTileMap, () => TileMaps.Count > 0 );
+
+      private ICommand? _resizeSelectedTileMapCommand;
+      public ICommand? ResizeSelectedTileMapCommand => _resizeSelectedTileMapCommand ??= new RelayCommand( ResizeSelectedTileMap, () => TileMaps.Count > 0 );
 
       private ICommand? _saveGameDataCommand;
       public ICommand? SaveGameDataCommand => _saveGameDataCommand ??= new RelayCommand( WriteSaveData, () => true );
