@@ -19,10 +19,11 @@
       <DW3ArduinoEditorConverters:BoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"
                                                             TrueValue="Collapsed"
                                                             FalseValue="Visible" />
-
+      
       <Style TargetType="Button">
          <Setter Property="Padding" Value="10, 1" />
          <Setter Property="Margin" Value="2" />
+         <Setter Property="Height" Value="26" />
       </Style>
       <Style TargetType="ComboBox">
          <Setter Property="Height" Value="26"/>
@@ -34,13 +35,11 @@
    <Grid>
        
       <Grid.RowDefinitions>
-         <RowDefinition Height="30" />
-         <RowDefinition Height="30" />
-         <RowDefinition Height="30" />
+         <RowDefinition Height="30"/>
          <RowDefinition />
       </Grid.RowDefinitions>
 
-      <!-- Overall Operations -->
+      <!-- Save/Write Operations -->
       <StackPanel Orientation="Horizontal"
                   Grid.Row="0">
          <Button Content="Save Game Data"
@@ -48,34 +47,53 @@
          <Button Content="Write Game Data Source"
                  Command="{Binding WriteGameDataSourceCommand, Mode=OneTime}" />
       </StackPanel>
-      
-      <!-- Tile Map Operations -->
-      <StackPanel Orientation="Horizontal"
-                  Grid.Row="1">
-         <ComboBox ItemsSource="{Binding TileMaps}"
-                  SelectedItem="{Binding SelectedTileMap}"
-                  DisplayMemberPath="Name"
-                  MinWidth="100"/>
-         <Button Content="Add New Tile Map"
-                  Command="{Binding AddNewTileMapCommand, Mode=OneTime}" />
-         <Button Content="Delete Selected Tile Map"
-                  Command="{Binding DeleteSelectedTileMapCommand, Mode=OneTime}"/>
-      </StackPanel>
-      <StackPanel Orientation="Horizontal"
-                  Grid.Row="2">
-         <TextBlock Text="Tiles: "
-                    VerticalAlignment="Center"
-                    Margin="10, 0, 0, 0"/>
-         <TextBlock Text="{Binding SelectedTileMap.TilesX}"
-                    VerticalAlignment="Center"/>
-         <TextBlock Text=", "
-                    VerticalAlignment="Center"/>
-         <TextBlock Text="{Binding SelectedTileMap.TilesY}"
-                    VerticalAlignment="Center"
-                    Margin="0, 0, 10, 0"/>
-         <Button Content="Resize"
-                 Command="{Binding ResizeSelectedTileMapCommand, Mode=OneTime}"/>
-      </StackPanel>
+
+      <TabControl Grid.Row="1">
+
+         <!-- Tile Maps Tab -->
+         <TabItem Header="Tile Maps"
+                  IsSelected="True">
+
+            <StackPanel Orientation="Vertical">
+
+               <!-- Tile Map Select/Add/Delete Operations -->
+               <StackPanel Orientation="Horizontal">
+                  <ComboBox ItemsSource="{Binding TileMaps}"
+                            SelectedItem="{Binding SelectedTileMap}"
+                            DisplayMemberPath="Name"
+                            MinWidth="100"
+                            VerticalContentAlignment="Center"/>
+                  <Button Content="Add New Tile Map"
+                          Command="{Binding AddNewTileMapCommand, Mode=OneTime}" />
+                  <Button Content="Delete Selected Tile Map"
+                          Command="{Binding DeleteSelectedTileMapCommand, Mode=OneTime}"/>
+               </StackPanel>
+
+               <!-- Tile Map Editing Operations -->
+               <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="Tiles: "
+                             VerticalAlignment="Center"
+                             Margin="10, 0, 0, 0"/>
+                  <TextBlock Text="{Binding SelectedTileMap.TilesX}"
+                             VerticalAlignment="Center"/>
+                  <TextBlock Text=", "
+                             VerticalAlignment="Center"/>
+                  <TextBlock Text="{Binding SelectedTileMap.TilesY}"
+                             VerticalAlignment="Center"
+                             Margin="0, 0, 10, 0"/>
+                  <Button Content="Resize"
+                          Command="{Binding ResizeSelectedTileMapCommand, Mode=OneTime}"/>
+                  <CheckBox Content="Wraps Around"
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            IsChecked="{Binding SelectedTileMap.Wraps, Mode=TwoWay}"/>
+               </StackPanel>
+
+            </StackPanel>
+            
+         </TabItem> <!-- Tile Maps Tab -->
+
+      </TabControl>
 
    </Grid>
 
