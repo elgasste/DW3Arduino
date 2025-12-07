@@ -39,7 +39,15 @@ namespace DW3ArduinoEditor.ViewModels
 
       private void AddNewTileMap()
       {
-         // TODO
+         var window = new AddNewTileMapWindow();
+         var result = window.ShowDialog();
+
+         if ( result.HasValue && result.Value )
+         {
+            int index = TileMaps.Count > 0 ? TileMaps[^1].Index + 1 : 0;
+            var newTileMap = new TileMapViewModel( index, window.NewTileMapName, window.NewTilesX, window.NewTilesY, window.NewWraps );
+            TileMaps.Add( newTileMap );
+         }
       }
 
       private void WriteSaveData()
