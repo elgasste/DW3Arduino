@@ -56,13 +56,15 @@
 
             <StackPanel Orientation="Vertical">
 
-               <!-- Tile Map Select/Add/Delete Operations -->
+               <!-- Tile Map Select/Rename/Add/Delete Operations -->
                <StackPanel Orientation="Horizontal">
                   <ComboBox ItemsSource="{Binding TileMaps}"
                             SelectedItem="{Binding SelectedTileMap}"
                             DisplayMemberPath="Name"
                             MinWidth="100"
                             VerticalContentAlignment="Center"/>
+                  <Button Content="Rename"
+                          Command="{Binding RenameSelectedTileMapCommand, Mode=OneTime}"/>
                   <Button Content="Add New Tile Map"
                           Command="{Binding AddNewTileMapCommand, Mode=OneTime}" />
                   <Button Content="Delete Selected Tile Map"
@@ -76,7 +78,7 @@
                              Margin="10, 0, 0, 0"/>
                   <TextBlock Text="{Binding SelectedTileMap.TilesX}"
                              VerticalAlignment="Center"/>
-                  <TextBlock Text=", "
+                  <TextBlock Text="x"
                              VerticalAlignment="Center"/>
                   <TextBlock Text="{Binding SelectedTileMap.TilesY}"
                              VerticalAlignment="Center"
