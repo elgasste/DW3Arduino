@@ -80,7 +80,7 @@ namespace DW3ArduinoEditor.SaveData
 
          for ( int i = 0; i < _gameSaveData.TileMaps.Count; i++ )
          {
-            WriteToFileStream( fs, string.Format( "      case {0}:\n", _gameSaveData.TileMaps[i].Index ) );
+            WriteToFileStream( fs, string.Format( "      case {0}: // {1}\n", _gameSaveData.TileMaps[i].Index, _gameSaveData.TileMaps[i].Name ) );
             WriteToFileStream( fs, string.Format( "         tileMap->tilesX = {0}; tileMap->tilesY = {1}; tileMap->wraps = {2};\n",
                _gameSaveData.TileMaps[i].TilesX,
                _gameSaveData.TileMaps[i].TilesY,
@@ -139,15 +139,20 @@ namespace DW3ArduinoEditor.SaveData
          ushort mostUsedValue = valueCounts.OrderByDescending( kvp => kvp.Value ).First().Key;
          WriteToFileStream( fs, string.Format( "         for ( i = 0; i < {0}; i++ ) m[i] = 0x{1};\n", tileValues.Count, mostUsedValue.ToString( "X4" ) ) );
 
-         // second pass: write out values that don't match most-used. detect any runs and write them out as loops.
-         int runStart = 0, runCount = 0;
+         // second pass: write out values that don't match most-used. detect any runs and
+         // write them out as loops, and also pack consecutive singles as much as possible
+         int runStart = 0, runCount = 0, packCount = 0;
          ushort runValue = 0;
 
          for ( int i = 0; i < tileValues.Count; i++ )
          {
             if ( tileValues[i] == mostUsedValue ) // ran into most-used value, write and restart
             {
-               WriteTileDataRun( fs, runStart, runCount, runValue );
+               if ( runCount > 0 )
+               {
+                  WriteTileDataRun( fs, runStart, runCount, runValue, ref packCount );
+               }
+
                runCount = 0;
             }
             else
@@ -160,7 +165,7 @@ namespace DW3ArduinoEditor.SaveData
                }
                else if ( tileValues[i] != runValue ) // last run has ended, write and restart
                {
-                  WriteTileDataRun( fs, runStart, runCount, runValue );
+                  WriteTileDataRun( fs, runStart, runCount, runValue, ref packCount );
                   runStart = i;
                   runCount = 1;
                   runValue = tileValues[i];
@@ -172,21 +177,43 @@ namespace DW3ArduinoEditor.SaveData
 
                if ( i == ( tileValues.Count - 1 ) ) // end of the list, write and exit
                {
-                  WriteTileDataRun( fs, runStart, runCount, runValue );
+                  WriteTileDataRun( fs, runStart, runCount, runValue, ref packCount );
                }
             }
          }
       }
 
-      private static void WriteTileDataRun( FileStream fs, int runStart, int runCount, ushort runValue )
+      private static void WriteTileDataRun( FileStream fs, int runStart, int runCount, ushort runValue, ref int packCount )
       {
-         if ( runCount == 1 )
+         if ( runCount == 1 ) // output single value and try to pack it with up to 7 other single values per line
          {
-            WriteToFileStream( fs, string.Format( "         m[{0}] = 0x{1};\n", runStart, runValue.ToString( "X4" ) ) );
+            packCount++;
+
+            if ( packCount == 1 )
+            {
+               WriteToFileStream( fs, string.Format( "         m[{0}] = 0x{1};", runStart, runValue.ToString( "X4" ) ) );
+            }
+            else
+            {
+               WriteToFileStream( fs, string.Format( " m[{0}] = 0x{1};", runStart, runValue.ToString( "X4" ) ) );
+
+               if ( packCount >= 8 )
+               {
+                  WriteToFileStream( fs, "\n" );
+                  packCount = 0;
+               }
+            }
          }
          else
          {
+            if ( packCount > 0 )
+            {
+               WriteToFileStream( fs, "\n" );
+               packCount = 0;
+            }
+
             WriteToFileStream( fs, string.Format( "         for ( i = {0}; i < {1}; i++ ) m[i] = 0x{2};\n", runStart, runStart + runCount, runValue.ToString( "X4" ) ) );
+            packCount = 0;
          }
       }
 
