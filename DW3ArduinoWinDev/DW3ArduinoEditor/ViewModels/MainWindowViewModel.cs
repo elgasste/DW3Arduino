@@ -316,7 +316,7 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( TileMaps ), _palette );
+         generator.WriteGameDataSourceFile( new( TileMaps ), _palette, _tileTexturePool );
          MessageBox.Show( "Game data source file has been written." );
       }
 
