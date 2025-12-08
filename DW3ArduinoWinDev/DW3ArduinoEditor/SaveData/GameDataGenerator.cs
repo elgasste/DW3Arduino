@@ -9,6 +9,13 @@ struct TileDataRun
    public ushort Value;
 }
 
+struct TextureDataRun
+{
+   public int Start;
+   public int Count;
+   public int Value;
+}
+
 namespace DW3ArduinoEditor.SaveData
 {
    public class GameDataGenerator
@@ -56,9 +63,9 @@ namespace DW3ArduinoEditor.SaveData
 
       private void WriteTileTexturesPoolFunction( FileStream fs )
       {
-         // TODO: compress the hell out of this data
          WriteToFileStream( fs, "\ninternal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 index )\n" );
          WriteToFileStream( fs, "{\n" );
+         WriteToFileStream( fs, "   u32 i;\n" );
          WriteToFileStream( fs, "   u8* m = texture->paletteIndexes;\n\n" );
          WriteToFileStream( fs, "   switch( index )\n" );
          WriteToFileStream( fs, "   {\n" );
@@ -66,12 +73,7 @@ namespace DW3ArduinoEditor.SaveData
          for ( int i = 0; i < _tileTexturePool?.TilePaletteIndexes.Count; i++ )
          {
             WriteToFileStream( fs, string.Format( "      case {0}:\n", i ) );
-
-            for ( int j = 0; j < _tileTexturePool.TilePaletteIndexes[i].Count; j++ )
-            {
-               WriteToFileStream( fs, string.Format( "         m[{0}] = 0x{1};\n", j, _tileTexturePool.TilePaletteIndexes[i][j].ToString( "X2" ) ) );
-            }
-
+            WriteCompressedTextureData( fs, _tileTexturePool.TilePaletteIndexes[i] );
             WriteToFileStream( fs, "break;\n" );
          }
 
@@ -173,7 +175,6 @@ namespace DW3ArduinoEditor.SaveData
                if ( runCount > 0 )
                {
                   runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
-                  //WriteTileDataRun( fs, runStart, runCount, runValue, ref packCount );
                }
 
                runCount = 0;
@@ -189,7 +190,6 @@ namespace DW3ArduinoEditor.SaveData
                else if ( tileValues[i] != runValue ) // last run has ended, write and restart
                {
                   runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
-                  //WriteTileDataRun( fs, runStart, runCount, runValue, ref packCount );
                   runStart = i;
                   runCount = 1;
                   runValue = tileValues[i];
@@ -202,14 +202,13 @@ namespace DW3ArduinoEditor.SaveData
                if ( i == ( tileValues.Count - 1 ) ) // end of the list, write and exit
                {
                   runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
-                  //WriteTileDataRun( fs, runStart, runCount, runValue, ref packCount );
                }
             }
          }
 
          int packCount = 0;
 
-         // third pass: write out loops for all the runs with a counter higher than 1, packing 2 per line
+         // third pass: write out loops for all the runs with a counter higher than 1, packing 3 per line
          for ( int i = 0; i < runs.Count; i++ )
          {
             if ( runs[i].Count > 1 )
@@ -226,7 +225,7 @@ namespace DW3ArduinoEditor.SaveData
                }
             }
 
-            if ( packCount == 2 || ( ( packCount > 0 ) && ( i == ( runs.Count - 1 ) ) ) )
+            if ( packCount == 3 || ( ( packCount > 0 ) && ( i == ( runs.Count - 1 ) ) ) )
             {
                WriteToFileStream( fs, "\n" );
                packCount = 0;
@@ -253,6 +252,122 @@ namespace DW3ArduinoEditor.SaveData
             }
 
             if ( packCount == 8 || ( ( packCount > 0 ) && ( i == ( runs.Count - 1 ) ) ) )
+            {
+               WriteToFileStream( fs, "\n" );
+               packCount = 0;
+            }
+         }
+      }
+
+      private void WriteCompressedTextureData( FileStream fs, List<int> paletteIndexes )
+      {
+         Dictionary<int, int> valueCounts = [];
+
+         // first pass: count index value usage
+         for ( int i = 0; i < paletteIndexes.Count; i++ )
+         {
+            if ( !valueCounts.ContainsKey( paletteIndexes[i] ) )
+            {
+               valueCounts.Add( paletteIndexes[i], 1 );
+            }
+            else
+            {
+               valueCounts[paletteIndexes[i]]++;
+            }
+         }
+
+         // find the most-used value and initialize the entire texture with it
+         int mostUsedValue = valueCounts.OrderByDescending( kvp => kvp.Value ).First().Key;
+         WriteToFileStream( fs, string.Format( "         for ( i = 0; i < {0}; i++ ) m[i] = 0x{1};\n", paletteIndexes.Count, mostUsedValue.ToString( "X2" ) ) );
+
+         // second pass: compile a list of runs (a "run" can also have one single value)
+         List<TextureDataRun> runs = [];
+         int runStart = 0, runCount = 0, runValue = 0;
+
+         for ( int i = 0; i < paletteIndexes.Count; i++ )
+         {
+            if ( paletteIndexes[i] == mostUsedValue ) // ran into most-used value, write and restart
+            {
+               if ( runCount > 0 )
+               {
+                  runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
+               }
+
+               runCount = 0;
+            }
+            else
+            {
+               if ( runCount == 0 ) // starting a new run
+               {
+                  runStart = i;
+                  runCount = 1;
+                  runValue = paletteIndexes[i];
+               }
+               else if ( paletteIndexes[i] != runValue ) // last run has ended, write and restart
+               {
+                  runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
+                  runStart = i;
+                  runCount = 1;
+                  runValue = paletteIndexes[i];
+               }
+               else // run is still going
+               {
+                  runCount++;
+               }
+
+               if ( i == ( paletteIndexes.Count - 1 ) ) // end of the list, write and exit
+               {
+                  runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
+               }
+            }
+         }
+
+         int packCount = 0;
+
+         // third pass: write out loops for all the runs with a counter higher than 1, packing 3 per line
+         for ( int i = 0; i < runs.Count; i++ )
+         {
+            if ( runs[i].Count > 1 )
+            {
+               packCount++;
+
+               if ( packCount == 1 )
+               {
+                  WriteToFileStream( fs, string.Format( "         for ( i = {0}; i < {1}; i++ ) m[i] = 0x{2};", runs[i].Start, runs[i].Start + runs[i].Count, runs[i].Value.ToString( "X2" ) ) );
+               }
+               else
+               {
+                  WriteToFileStream( fs, string.Format( " for ( i = {0}; i < {1}; i++ ) m[i] = 0x{2};", runs[i].Start, runs[i].Start + runs[i].Count, runs[i].Value.ToString( "X2" ) ) );
+               }
+            }
+
+            if ( packCount == 3 || ( ( packCount > 0 ) && ( i == ( runs.Count - 1 ) ) ) )
+            {
+               WriteToFileStream( fs, "\n" );
+               packCount = 0;
+            }
+         }
+
+         packCount = 0;
+
+         // fourth pass: write out loops for all the runs with a single count, packing 12 per line
+         for ( int i = 0; i < runs.Count; i++ )
+         {
+            if ( runs[i].Count == 1 )
+            {
+               packCount++;
+
+               if ( packCount == 1 )
+               {
+                  WriteToFileStream( fs, string.Format( "         m[{0}] = 0x{1};", runs[i].Start, runs[i].Value.ToString( "X2" ) ) );
+               }
+               else
+               {
+                  WriteToFileStream( fs, string.Format( " m[{0}] = 0x{1};", runs[i].Start, runs[i].Value.ToString( "X2" ) ) );
+               }
+            }
+
+            if ( packCount == 12 || ( ( packCount > 0 ) && ( i == ( runs.Count - 1 ) ) ) )
             {
                WriteToFileStream( fs, "\n" );
                packCount = 0;
