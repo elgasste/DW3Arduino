@@ -1,6 +1,12 @@
 ﻿using System.IO;
 using System.Text;
-using static System.Formats.Asn1.AsnWriter;
+
+struct TileDataRun
+{
+   public int Start;
+   public int Count;
+   public ushort Value;
+}
 
 namespace DW3ArduinoEditor.SaveData
 {
@@ -139,9 +145,9 @@ namespace DW3ArduinoEditor.SaveData
          ushort mostUsedValue = valueCounts.OrderByDescending( kvp => kvp.Value ).First().Key;
          WriteToFileStream( fs, string.Format( "         for ( i = 0; i < {0}; i++ ) m[i] = 0x{1};\n", tileValues.Count, mostUsedValue.ToString( "X4" ) ) );
 
-         // second pass: write out values that don't match most-used. detect any runs and
-         // write them out as loops, and also pack consecutive singles as much as possible
-         int runStart = 0, runCount = 0, packCount = 0;
+         // second pass: compile a list of runs (a "run" can also have one single value)
+         List<TileDataRun> runs = [];
+         int runStart = 0, runCount = 0;
          ushort runValue = 0;
 
          for ( int i = 0; i < tileValues.Count; i++ )
@@ -150,7 +156,8 @@ namespace DW3ArduinoEditor.SaveData
             {
                if ( runCount > 0 )
                {
-                  WriteTileDataRun( fs, runStart, runCount, runValue, ref packCount );
+                  runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
+                  //WriteTileDataRun( fs, runStart, runCount, runValue, ref packCount );
                }
 
                runCount = 0;
@@ -165,7 +172,8 @@ namespace DW3ArduinoEditor.SaveData
                }
                else if ( tileValues[i] != runValue ) // last run has ended, write and restart
                {
-                  WriteTileDataRun( fs, runStart, runCount, runValue, ref packCount );
+                  runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
+                  //WriteTileDataRun( fs, runStart, runCount, runValue, ref packCount );
                   runStart = i;
                   runCount = 1;
                   runValue = tileValues[i];
@@ -177,45 +185,98 @@ namespace DW3ArduinoEditor.SaveData
 
                if ( i == ( tileValues.Count - 1 ) ) // end of the list, write and exit
                {
-                  WriteTileDataRun( fs, runStart, runCount, runValue, ref packCount );
+                  runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
+                  //WriteTileDataRun( fs, runStart, runCount, runValue, ref packCount );
                }
             }
          }
-      }
 
-      private static void WriteTileDataRun( FileStream fs, int runStart, int runCount, ushort runValue, ref int packCount )
-      {
-         if ( runCount == 1 ) // output single value and try to pack it with up to 7 other single values per line
+         int packCount = 0;
+
+         // third pass: write out loops for all the runs with a counter higher than 1, packing 2 per line
+         for ( int i = 0; i < runs.Count; i++ )
          {
-            packCount++;
-
-            if ( packCount == 1 )
+            if ( runs[i].Count > 1 )
             {
-               WriteToFileStream( fs, string.Format( "         m[{0}] = 0x{1};", runStart, runValue.ToString( "X4" ) ) );
-            }
-            else
-            {
-               WriteToFileStream( fs, string.Format( " m[{0}] = 0x{1};", runStart, runValue.ToString( "X4" ) ) );
+               packCount++;
 
-               if ( packCount >= 8 )
+               if ( packCount == 1 )
                {
-                  WriteToFileStream( fs, "\n" );
-                  packCount = 0;
+                  WriteToFileStream( fs, string.Format( "         for ( i = {0}; i < {1}; i++ ) m[i] = 0x{2};", runs[i].Start, runs[i].Start + runs[i].Count, runs[i].Value.ToString( "X4" ) ) );
+               }
+               else
+               {
+                  WriteToFileStream( fs, string.Format( " for ( i = {0}; i < {1}; i++ ) m[i] = 0x{2};", runs[i].Start, runs[i].Start + runs[i].Count, runs[i].Value.ToString( "X4" ) ) );
                }
             }
-         }
-         else
-         {
-            if ( packCount > 0 )
+
+            if ( packCount == 2 || ( ( packCount > 0 ) && ( i == ( runs.Count - 1 ) ) ) )
             {
                WriteToFileStream( fs, "\n" );
                packCount = 0;
             }
+         }
 
-            WriteToFileStream( fs, string.Format( "         for ( i = {0}; i < {1}; i++ ) m[i] = 0x{2};\n", runStart, runStart + runCount, runValue.ToString( "X4" ) ) );
-            packCount = 0;
+         packCount = 0;
+
+         // fourth pass: write out loops for all the runs with a single count, packing 8 per line
+         for ( int i = 0; i < runs.Count; i++ )
+         {
+            if ( runs[i].Count == 1 )
+            {
+               packCount++;
+
+               if ( packCount == 1 )
+               {
+                  WriteToFileStream( fs, string.Format( "         m[{0}] = 0x{1};", runs[i].Start, runs[i].Value.ToString( "X4" ) ) );
+               }
+               else
+               {
+                  WriteToFileStream( fs, string.Format( " m[{0}] = 0x{1};", runs[i].Start, runs[i].Value.ToString( "X4" ) ) );
+               }
+            }
+
+            if ( packCount == 8 || ( ( packCount > 0 ) && ( i == ( runs.Count - 1 ) ) ) )
+            {
+               WriteToFileStream( fs, "\n" );
+               packCount = 0;
+            }
          }
       }
+
+      //private static void WriteTileDataRun( FileStream fs, int runStart, int runCount, ushort runValue, ref int packCount )
+      //{
+      //   if ( runCount == 1 ) // output single value and try to pack it with up to 7 other single values per line
+      //   {
+      //      packCount++;
+
+      //      if ( packCount == 1 )
+      //      {
+      //         WriteToFileStream( fs, string.Format( "         m[{0}] = 0x{1};", runStart, runValue.ToString( "X4" ) ) );
+      //      }
+      //      else
+      //      {
+      //         WriteToFileStream( fs, string.Format( " m[{0}] = 0x{1};", runStart, runValue.ToString( "X4" ) ) );
+
+      //         if ( packCount >= 8 )
+      //         {
+      //            WriteToFileStream( fs, "\n" );
+      //            packCount = 0;
+      //         }
+      //      }
+      //   }
+      //   else
+      //   {
+      //      if ( packCount > 0 )
+      //      {
+      //         WriteToFileStream( fs, "\n" );
+      //         packCount = 0;
+      //      }
+
+      //      WriteToFileStream( fs, string.Format( "         for ( i = {0}; i < {1}; i++ ) m[i] = 0x{2};\n", runStart, runStart + runCount, runValue.ToString( "X4" ) ) );
+      //      packCount = 0;
+      //   }
+      //}
 
       private static void WriteToFileStream( FileStream fs, string value )
       {
