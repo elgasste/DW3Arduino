@@ -6,13 +6,13 @@ namespace DW3ArduinoEditor
 {
    public partial class ResizeTileMapWindow : Window
    {
-      private int _oldTilesX;
-      private int _oldTilesY;
+      private uint _oldTilesX;
+      private uint _oldTilesY;
 
-      public int NewTilesX { get; private set; } = 0;
-      public int NewTilesY { get; private set; } = 0;
+      public uint NewTilesX { get; private set; } = 0;
+      public uint NewTilesY { get; private set; } = 0;
 
-      public ResizeTileMapWindow( int oldTilesX, int oldTilesY )
+      public ResizeTileMapWindow( uint oldTilesX, uint oldTilesY )
       {
          InitializeComponent();
 
@@ -68,8 +68,8 @@ namespace DW3ArduinoEditor
             }
          }
 
-         NewTilesX = int.Parse( HorizontalTilesTextBox.Text );
-         NewTilesY = int.Parse( VerticalTilesTextBox.Text );
+         NewTilesX = uint.Parse( HorizontalTilesTextBox.Text );
+         NewTilesY = uint.Parse( VerticalTilesTextBox.Text );
          DialogResult = true;
          Close();
       }

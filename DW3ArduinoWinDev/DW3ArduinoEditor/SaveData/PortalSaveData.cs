@@ -1,11 +1,20 @@
-﻿namespace DW3ArduinoEditor.SaveData
+﻿using DW3ArduinoEditor.ViewModels;
+
+namespace DW3ArduinoEditor.SaveData
 {
    public class PortalSaveData
    {
-      public int SourceTileIndex { get; set; }
-      public int DestTileMapIndex { get; set; }
-      public int DestTileIndex { get; set; }
+      public uint SourceTileIndex { get; set; }
+      public uint DestTileMapIndex { get; set; }
+      public uint DestTileIndex { get; set; }
 
       public PortalSaveData() { }
+
+      public PortalSaveData( PortalViewModel viewModel )
+      {
+         SourceTileIndex = viewModel.SourceTileIndex;
+         DestTileMapIndex = viewModel.DestTileMapIndex;
+         DestTileIndex = viewModel.DestTileIndex;
+      }
    }
 }

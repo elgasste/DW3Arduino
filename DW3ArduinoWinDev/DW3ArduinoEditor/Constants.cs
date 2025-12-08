@@ -12,5 +12,7 @@
       public const int TileMapMinTilesY = 3;
       public const int TileMapMaxTilesX = 256;
       public const int TileMapMaxTilesY = 256;
+      public const int TileMapDefaultTilesX = 24;
+      public const int TileMapDefaultTilesY = 24;
    }
 }
