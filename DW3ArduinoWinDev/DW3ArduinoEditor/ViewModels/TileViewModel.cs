@@ -4,8 +4,8 @@ namespace DW3ArduinoEditor.ViewModels
 {
    public class TileViewModel : ViewModelBase
    {
-      private int _textureIndex;
-      public int TextureIndex
+      private uint _textureIndex;
+      public uint TextureIndex
       {
          get => _textureIndex;
          set => SetProperty( ref _textureIndex, value );

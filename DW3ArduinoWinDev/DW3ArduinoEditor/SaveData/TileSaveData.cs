@@ -4,7 +4,7 @@ namespace DW3ArduinoEditor.SaveData
 {
    public class TileSaveData
    {
-      public int TextureIndex { get; set; }
+      public uint TextureIndex { get; set; }
       public bool IsPassable { get; set; }
 
       public TileSaveData() { }

@@ -7,9 +7,10 @@ namespace DW3ArduinoEditor.ViewModels
    public class TileMapViewModel : ViewModelBase
    {
       public ObservableCollection<TileViewModel> Tiles { get; private set; } = [];
+      public ObservableCollection<PortalViewModel> Portals { get; private set; } = [];
 
-      private int _index;
-      public int Index
+      private uint _index;
+      public uint Index
       {
          get => _index;
          set => SetProperty( ref _index, value );
@@ -22,8 +23,8 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _name, value );
       }
 
-      private int _tilesX;
-      public int TilesX
+      private uint _tilesX;
+      public uint TilesX
       {
          get => _tilesX;
          set
@@ -39,7 +40,7 @@ namespace DW3ArduinoEditor.ViewModels
                      newTiles.Add( Tiles[i] );
                   }
 
-                  i += ( ( _tilesX - value ) - 1 );
+                  i += (int)( ( _tilesX - value ) - 1 );
                }
 
                Tiles = newTiles;
@@ -73,8 +74,8 @@ namespace DW3ArduinoEditor.ViewModels
          }
       }
 
-      private int _tilesY;
-      public int TilesY
+      private uint _tilesY;
+      public uint TilesY
       {
          get => _tilesY;
          set
@@ -119,7 +120,7 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _wraps, value );
       }
 
-      public TileMapViewModel( int index, string name, int tilesX, int tilesY, bool wraps )
+      public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps )
       {
          _index = index;
          _name = name;
@@ -180,6 +181,11 @@ namespace DW3ArduinoEditor.ViewModels
                   Tiles.Add( new( tile ) );
                }
             }
+         }
+
+         foreach ( var portal in saveData.Portals )
+         {
+            Portals.Add( new( portal ) );
          }
       }
    }

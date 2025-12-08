@@ -2,7 +2,7 @@
 {
    public class NpcSaveData
    {
-      public int EntityIndex { get; set; }
+      public uint EntityIndex { get; set; }
       public bool Wanders {  get; set; }
 
       public NpcSaveData() { }

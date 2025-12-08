@@ -7,8 +7,8 @@ namespace DW3ArduinoEditor
    public partial class AddNewTileMapWindow : Window
    {
       public string NewTileMapName { get; private set; } = string.Empty;
-      public int NewTilesX { get; private set; } = 0;
-      public int NewTilesY { get; private set; } = 0;
+      public uint NewTilesX { get; private set; } = 0;
+      public uint NewTilesY { get; private set; } = 0;
       public bool NewWraps { get; private set; } = false;
 
       public AddNewTileMapWindow()
@@ -60,8 +60,8 @@ namespace DW3ArduinoEditor
          }
 
          NewTileMapName = TileMapName.Text;
-         NewTilesX = int.Parse( HorizontalTilesTextBox.Text );
-         NewTilesY = int.Parse( VerticalTilesTextBox.Text );
+         NewTilesX = uint.Parse( HorizontalTilesTextBox.Text );
+         NewTilesY = uint.Parse( VerticalTilesTextBox.Text );
          NewWraps = WrapsCheckBox.IsChecked ?? false;
          DialogResult = true;
          Close();
