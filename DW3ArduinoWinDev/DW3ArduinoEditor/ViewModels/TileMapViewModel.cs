@@ -190,6 +190,7 @@ namespace DW3ArduinoEditor.ViewModels
             }
          }
 
+         // TODO: check that we don't go over the maximum amount of portals
          foreach ( var portal in saveData.Portals )
          {
             Portals.Add( new( portal ) );

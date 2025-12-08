@@ -25,6 +25,13 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _destTileIndex, value );
       }
 
+      public PortalViewModel( uint sourceTileIndex, uint destTileMapIndex, uint destTileIndex )
+      {
+         _sourceTileIndex = sourceTileIndex;
+         _destTileMapIndex = destTileMapIndex;
+         _destTileIndex = destTileIndex;
+      }
+
       public PortalViewModel( PortalSaveData saveData )
       {
          _sourceTileIndex = saveData.SourceTileIndex;
