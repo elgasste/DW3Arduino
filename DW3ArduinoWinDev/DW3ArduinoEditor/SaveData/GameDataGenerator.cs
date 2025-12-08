@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace DW3ArduinoEditor.SaveData
 {
@@ -72,6 +73,8 @@ namespace DW3ArduinoEditor.SaveData
       {
          WriteToFileStream( fs, "\nvoid TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )\n" );
          WriteToFileStream( fs, "{\n" );
+         WriteToFileStream( fs, "   u32 i;\n" );
+         WriteToFileStream( fs, "   u16* m = tileMap->tiles;\n\n" );
          WriteToFileStream( fs, "   switch( index )\n" );
          WriteToFileStream( fs, "   {\n" );
 
@@ -96,16 +99,54 @@ namespace DW3ArduinoEditor.SaveData
                WriteToFileStream( fs, string.Format( "         tileMap->edgePortal.destTileMapIndex = {0}; tileMap->edgePortal.destTileIndex = {1};\n", _gameSaveData.TileMaps[i].EdgePortal?.DestTileMapIndex, _gameSaveData.TileMaps[i].EdgePortal?.DestTileIndex ) );
             }
 
-            for ( int j = 0; j < _gameSaveData.TileMaps[i].Tiles.Count; j++ )
-            {
-               WriteToFileStream( fs, string.Format( "         tileMap->tiles[{0}] = {1} | ( {2} << 5 );\n", j, _gameSaveData.TileMaps[i].Tiles[j].TextureIndex, _gameSaveData.TileMaps[i].Tiles[j].IsPassable ? "0x1" : "0x0" ) );
-            }
+            WriteCompressedTileData( fs, _gameSaveData.TileMaps[i] );
 
             WriteToFileStream( fs, "         break;\n" );
          }
 
          WriteToFileStream( fs, "   }\n" );
          WriteToFileStream( fs, "}\n" );
+      }
+
+      private void WriteCompressedTileData( FileStream fs, TileMapSaveData tileMap )
+      {
+         List<ushort> tileValues = new( tileMap.Tiles.Count );
+         Dictionary<ushort, int> valueCounts = [];
+
+         // first pass: compile tile properties into 16-bit values and count their usage
+         for ( int i = 0; i < tileMap.Tiles.Count; i++ )
+         {
+            var tileValue = (ushort)tileMap.Tiles[i].TextureIndex;
+
+            if ( tileMap.Tiles[i].IsPassable )
+            {
+               tileValue |= ( 0x1 << 5 );
+            }
+
+            tileValues.Add( tileValue );
+
+            if ( !valueCounts.ContainsKey( tileValue ) )
+            {
+               valueCounts.Add( tileValue, 1 );
+            }
+            else
+            {
+               valueCounts[tileValue]++;
+            }
+         }
+
+         // find the most-used value and initialize the entire map to it first
+         ushort mostUsedValue = valueCounts.OrderByDescending( kvp => kvp.Value ).First().Key;
+         WriteToFileStream( fs, string.Format( "         for ( i = 0; i < {0}; i++ ) m[i] = 0x{1};\n", tileValues.Count, mostUsedValue.ToString( "X4" ) ) );
+
+         // second pass: write out any tile values that don't match the most-used
+         for ( int i = 0; i < tileValues.Count; i++ )
+         {
+            if ( tileValues[i] != mostUsedValue )
+            {
+               WriteToFileStream( fs, string.Format( "         m[{0}] = 0x{1};\n", i, tileValues[i].ToString( "X4" ) ) );
+            }
+         }
       }
 
       private static void WriteToFileStream( FileStream fs, string value )
