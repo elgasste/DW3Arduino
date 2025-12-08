@@ -78,15 +78,13 @@ namespace DW3ArduinoEditor.SaveData
          for ( int i = 0; i < _gameSaveData.TileMaps.Count; i++ )
          {
             WriteToFileStream( fs, string.Format( "      case {0}:\n", _gameSaveData.TileMaps[i].Index ) );
-            WriteToFileStream( fs, string.Format( "         tileMap->entityCount = 1;\n" ) );
-            WriteToFileStream( fs, string.Format( "         tileMap->tilesX = {0}; tileMap->tilesY = {1}; tileMap->wraps = {2};\n", _gameSaveData.TileMaps[i].TilesX, _gameSaveData.TileMaps[i].TilesY, _gameSaveData.TileMaps[i].Wraps ? "True" : "False" ) );
-
-            for ( int j = 0; j < _gameSaveData.TileMaps[i].Tiles.Count; j++ )
-            {
-               WriteToFileStream( fs, string.Format( "         tileMap->tiles[{0}] = {1} | ( {2} << 5 );\n", j, _gameSaveData.TileMaps[i].Tiles[j].TextureIndex, _gameSaveData.TileMaps[i].Tiles[j].IsPassable ? "0x1" : "0x0" ) );
-            }
-
-            WriteToFileStream( fs, string.Format( "         tileMap->portalCount = {0};\n", _gameSaveData.TileMaps[i].Portals.Count ) );
+            WriteToFileStream( fs, string.Format( "         tileMap->tilesX = {0}; tileMap->tilesY = {1}; tileMap->wraps = {2};\n",
+               _gameSaveData.TileMaps[i].TilesX,
+               _gameSaveData.TileMaps[i].TilesY,
+               _gameSaveData.TileMaps[i].Wraps ? "True" : "False" ) );
+            WriteToFileStream( fs, string.Format( "         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = {0}; tileMap->hasEdgePortal = {1};\n",
+               _gameSaveData.TileMaps[i].Portals.Count,
+               _gameSaveData.TileMaps[i].EdgePortal is null ? "False" : "True" ) );
 
             for ( int j = 0; j < _gameSaveData.TileMaps[i].Portals.Count; j++ )
             {
@@ -95,15 +93,14 @@ namespace DW3ArduinoEditor.SaveData
 
             if ( _gameSaveData.TileMaps[i].EdgePortal is not null )
             {
-               WriteToFileStream( fs, "         tileMap->hasEdgePortal = True;\n" );
                WriteToFileStream( fs, string.Format( "         tileMap->edgePortal.destTileMapIndex = {0}; tileMap->edgePortal.destTileIndex = {1};\n", _gameSaveData.TileMaps[i].EdgePortal?.DestTileMapIndex, _gameSaveData.TileMaps[i].EdgePortal?.DestTileIndex ) );
             }
-            else
+
+            for ( int j = 0; j < _gameSaveData.TileMaps[i].Tiles.Count; j++ )
             {
-               WriteToFileStream( fs, "         tileMap->hasEdgePortal = False;\n" );
+               WriteToFileStream( fs, string.Format( "         tileMap->tiles[{0}] = {1} | ( {2} << 5 );\n", j, _gameSaveData.TileMaps[i].Tiles[j].TextureIndex, _gameSaveData.TileMaps[i].Tiles[j].IsPassable ? "0x1" : "0x0" ) );
             }
 
-            WriteToFileStream( fs, "         tileMap->npcCount = 0;\n" );
             WriteToFileStream( fs, "         break;\n" );
          }
 

@@ -41,8 +41,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
    switch( index )
    {
       case 0:
-         tileMap->entityCount = 1;
          tileMap->tilesX = 32; tileMap->tilesY = 32; tileMap->wraps = True;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 201; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 285;
          tileMap->tiles[0] = 1 | ( 0x1 << 5 );
          tileMap->tiles[1] = 1 | ( 0x1 << 5 );
          tileMap->tiles[2] = 1 | ( 0x1 << 5 );
@@ -244,7 +245,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          tileMap->tiles[198] = 1 | ( 0x1 << 5 );
          tileMap->tiles[199] = 1 | ( 0x1 << 5 );
          tileMap->tiles[200] = 1 | ( 0x1 << 5 );
-         tileMap->tiles[201] = 6 | ( 0x0 << 5 );
+         tileMap->tiles[201] = 6 | ( 0x1 << 5 );
          tileMap->tiles[202] = 2 | ( 0x0 << 5 );
          tileMap->tiles[203] = 2 | ( 0x0 << 5 );
          tileMap->tiles[204] = 2 | ( 0x0 << 5 );
@@ -1067,14 +1068,13 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          tileMap->tiles[1021] = 1 | ( 0x1 << 5 );
          tileMap->tiles[1022] = 1 | ( 0x1 << 5 );
          tileMap->tiles[1023] = 1 | ( 0x1 << 5 );
-         tileMap->portalCount = 1;
-         tileMap->portals[0].sourceTileIndex = 201; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 285;
-         tileMap->hasEdgePortal = False;
-         tileMap->npcCount = 0;
          break;
       case 1:
-         tileMap->entityCount = 1;
          tileMap->tilesX = 26; tileMap->tilesY = 20; tileMap->wraps = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = True;
+         tileMap->portals[0].sourceTileIndex = 260; tileMap->portals[0].destTileMapIndex = 3; tileMap->portals[0].destTileIndex = 39;
+         tileMap->portals[1].sourceTileIndex = 377; tileMap->portals[1].destTileMapIndex = 2; tileMap->portals[1].destTileIndex = 24;
+         tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 201;
          tileMap->tiles[0] = 3 | ( 0x0 << 5 );
          tileMap->tiles[1] = 3 | ( 0x0 << 5 );
          tileMap->tiles[2] = 3 | ( 0x0 << 5 );
@@ -1595,16 +1595,12 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          tileMap->tiles[517] = 3 | ( 0x0 << 5 );
          tileMap->tiles[518] = 3 | ( 0x0 << 5 );
          tileMap->tiles[519] = 3 | ( 0x0 << 5 );
-         tileMap->portalCount = 2;
-         tileMap->portals[0].sourceTileIndex = 260; tileMap->portals[0].destTileMapIndex = 3; tileMap->portals[0].destTileIndex = 39;
-         tileMap->portals[1].sourceTileIndex = 377; tileMap->portals[1].destTileMapIndex = 2; tileMap->portals[1].destTileIndex = 24;
-         tileMap->hasEdgePortal = True;
-         tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 201;
-         tileMap->npcCount = 0;
          break;
       case 2:
-         tileMap->entityCount = 1;
          tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 69; tileMap->portals[0].destTileMapIndex = 3; tileMap->portals[0].destTileIndex = 20;
+         tileMap->portals[1].sourceTileIndex = 24; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 377;
          tileMap->tiles[0] = 3 | ( 0x0 << 5 );
          tileMap->tiles[1] = 3 | ( 0x0 << 5 );
          tileMap->tiles[2] = 3 | ( 0x0 << 5 );
@@ -1705,15 +1701,12 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          tileMap->tiles[97] = 3 | ( 0x0 << 5 );
          tileMap->tiles[98] = 3 | ( 0x0 << 5 );
          tileMap->tiles[99] = 3 | ( 0x0 << 5 );
-         tileMap->portalCount = 2;
-         tileMap->portals[0].sourceTileIndex = 69; tileMap->portals[0].destTileMapIndex = 3; tileMap->portals[0].destTileIndex = 20;
-         tileMap->portals[1].sourceTileIndex = 24; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 377;
-         tileMap->hasEdgePortal = False;
-         tileMap->npcCount = 0;
          break;
       case 3:
-         tileMap->entityCount = 1;
          tileMap->tilesX = 20; tileMap->tilesY = 3; tileMap->wraps = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 20; tileMap->portals[0].destTileMapIndex = 2; tileMap->portals[0].destTileIndex = 69;
+         tileMap->portals[1].sourceTileIndex = 39; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 260;
          tileMap->tiles[0] = 3 | ( 0x0 << 5 );
          tileMap->tiles[1] = 3 | ( 0x0 << 5 );
          tileMap->tiles[2] = 3 | ( 0x0 << 5 );
@@ -1774,11 +1767,6 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          tileMap->tiles[57] = 3 | ( 0x0 << 5 );
          tileMap->tiles[58] = 3 | ( 0x0 << 5 );
          tileMap->tiles[59] = 3 | ( 0x0 << 5 );
-         tileMap->portalCount = 2;
-         tileMap->portals[0].sourceTileIndex = 20; tileMap->portals[0].destTileMapIndex = 2; tileMap->portals[0].destTileIndex = 69;
-         tileMap->portals[1].sourceTileIndex = 39; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 260;
-         tileMap->hasEdgePortal = False;
-         tileMap->npcCount = 0;
          break;
    }
 }
