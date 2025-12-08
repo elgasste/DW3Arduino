@@ -8,12 +8,14 @@ namespace DW3ArduinoEditor.Graphics
    {
       private readonly List<WriteableBitmap> _tileTextureBitmaps = [];
       private readonly List<Sprite> _tileTextureSprites = [];
-      private readonly Palette _palette = new();
+      private readonly Palette _palette;
 
       public List<List<int>> TilePaletteIndexes = [];
 
-      public TileTexturePool( string imagePath )
+      public TileTexturePool( string imagePath, Palette palette )
       {
+         _palette = palette;
+
          var textFileStream = new FileStream( imagePath, FileMode.Open, FileAccess.Read, FileShare.Read );
          var textDecoder = new PngBitmapDecoder( textFileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default );
          var bitmapSource = textDecoder.Frames[0];

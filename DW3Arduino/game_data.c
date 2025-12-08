@@ -8,21 +8,16 @@ internal void TileMap_LoadTileTexturesFromIndex( TileMap_t* tileMap, u32 index )
 
 void Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index )
 {
-   u32 i;
-
-   UNUSED_PARAM( index );
-
-   for ( i = 0; i < SCREEN_PALETTE_SIZE; i++ )
-   {
-      screen->palette[i] = COLOR16_BLACK;
-   }
-
-   screen->palette[1] = 0x0640;
-   screen->palette[2] = 0x0420;
-   screen->palette[3] = 0x0838;
-   screen->palette[4] = 0x0838;
-   screen->palette[5] = COLOR16_MAGENTA;
-   screen->palette[6] = COLOR16_CYAN;
+   screen->palette[0] = 0x9720;
+   screen->palette[1] = 0x4521;
+   screen->palette[2] = 0x0000;
+   screen->palette[3] = 0xFCE0;
+   screen->palette[4] = 0xFEB3;
+   screen->palette[5] = 0x7BEF;
+   screen->palette[6] = 0xB5D6;
+   screen->palette[7] = 0xDA60;
+   screen->palette[8] = 0x3AFE;
+   screen->palette[9] = 0xFFFF;
 }
 
 internal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 index )

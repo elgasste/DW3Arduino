@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using DW3ArduinoEditor.Graphics;
+using System.IO;
 using System.Text;
 
 struct TileDataRun
@@ -13,10 +14,12 @@ namespace DW3ArduinoEditor.SaveData
    public class GameDataGenerator
    {
       private GameSaveData _gameSaveData = new();
+      private Palette _palette = new();
 
-      public void WriteGameDataSourceFile( GameSaveData saveData )
+      public void WriteGameDataSourceFile( GameSaveData saveData, Palette palette )
       {
          _gameSaveData = saveData;
+         _palette = palette;
 
          using FileStream fs = File.Create( Constants.GameDataSourceFilePath );
          WriteHeaderSection( fs );
@@ -27,7 +30,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteTileMapFunction( fs );
       }
 
-      private static void WriteHeaderSection( FileStream fs )
+      private void WriteHeaderSection( FileStream fs )
       {
          WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
          WriteToFileStream( fs, "#include \"game.h\"\n" );
@@ -36,30 +39,20 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "internal void TileMap_LoadTileTexturesFromIndex( TileMap_t* tileMap, u32 index );\n" );
       }
 
-      private static void WritePaletteFunction( FileStream fs )
+      private void WritePaletteFunction( FileStream fs )
       {
-         string code = string.Empty;
+         WriteToFileStream( fs, "\nvoid Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index )\n" );
+         WriteToFileStream( fs, "{\n" );
 
-         code += "\nvoid Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index )\n";
-         code += "{\n";
-         code += "   u32 i;\n\n";
-         code += "   UNUSED_PARAM( index );\n\n";
-         code += "   for ( i = 0; i < SCREEN_PALETTE_SIZE; i++ )\n";
-         code += "   {\n";
-         code += "      screen->palette[i] = COLOR16_BLACK;\n";
-         code += "   }\n\n";
-         code += "   screen->palette[1] = 0x0640;\n";
-         code += "   screen->palette[2] = 0x0420;\n";
-         code += "   screen->palette[3] = 0x0838;\n";
-         code += "   screen->palette[4] = 0x0838;\n";
-         code += "   screen->palette[5] = COLOR16_MAGENTA;\n";
-         code += "   screen->palette[6] = COLOR16_CYAN;\n";
-         code += "}\n";
+         for ( int i = 0; i < _palette.ColorCount; i++ )
+         {
+            WriteToFileStream( fs, string.Format( "   screen->palette[{0}] = 0x{1};\n", i, _palette.Colors[i].ToString( "X4" ) ) );
+         }
 
-         WriteToFileStream( fs, code );
+         WriteToFileStream( fs, "}\n" );
       }
 
-      private static void WriteTileTexturesPoolFunction( FileStream fs )
+      private void WriteTileTexturesPoolFunction( FileStream fs )
       {
          // TODO
          WriteToFileStream( fs, "\ninternal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 index )\n" );
@@ -69,7 +62,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "}\n" );
       }
 
-      private static void WriteTileTextureIndexesFunction( FileStream fs )
+      private void WriteTileTextureIndexesFunction( FileStream fs )
       {
          // TODO
          WriteToFileStream( fs, "\ninternal void TileMap_LoadTileTexturesFromIndex( TileMap_t* tileMap, u32 index )\n" );
@@ -80,7 +73,7 @@ namespace DW3ArduinoEditor.SaveData
       }
 
       // TODO: we can get rid of this when loading by index is finished
-      private static void WriteTileTexturesFunction( FileStream fs )
+      private void WriteTileTexturesFunction( FileStream fs )
       {
          string code = string.Empty;
 
@@ -270,41 +263,7 @@ namespace DW3ArduinoEditor.SaveData
          }
       }
 
-      //private static void WriteTileDataRun( FileStream fs, int runStart, int runCount, ushort runValue, ref int packCount )
-      //{
-      //   if ( runCount == 1 ) // output single value and try to pack it with up to 7 other single values per line
-      //   {
-      //      packCount++;
-
-      //      if ( packCount == 1 )
-      //      {
-      //         WriteToFileStream( fs, string.Format( "         m[{0}] = 0x{1};", runStart, runValue.ToString( "X4" ) ) );
-      //      }
-      //      else
-      //      {
-      //         WriteToFileStream( fs, string.Format( " m[{0}] = 0x{1};", runStart, runValue.ToString( "X4" ) ) );
-
-      //         if ( packCount >= 8 )
-      //         {
-      //            WriteToFileStream( fs, "\n" );
-      //            packCount = 0;
-      //         }
-      //      }
-      //   }
-      //   else
-      //   {
-      //      if ( packCount > 0 )
-      //      {
-      //         WriteToFileStream( fs, "\n" );
-      //         packCount = 0;
-      //      }
-
-      //      WriteToFileStream( fs, string.Format( "         for ( i = {0}; i < {1}; i++ ) m[i] = 0x{2};\n", runStart, runStart + runCount, runValue.ToString( "X4" ) ) );
-      //      packCount = 0;
-      //   }
-      //}
-
-      private static void WriteToFileStream( FileStream fs, string value )
+      private void WriteToFileStream( FileStream fs, string value )
       {
          byte[] info = new UTF8Encoding( true ).GetBytes( value );
          fs.Write( info, 0, info.Length );

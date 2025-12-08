@@ -11,6 +11,7 @@ namespace DW3ArduinoEditor.ViewModels
 {
    public class MainWindowViewModel : ViewModelBase
    {
+      private Palette _palette = new();
       private TileTexturePool? _tileTexturePool;
 
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
@@ -182,7 +183,7 @@ namespace DW3ArduinoEditor.ViewModels
 
          try
          {
-            _tileTexturePool = new( Constants.TileTexturePoolImagePath );
+            _tileTexturePool = new( Constants.TileTexturePoolImagePath, _palette );
          }
          catch ( Exception ex )
          {
@@ -315,7 +316,7 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( TileMaps ) );
+         generator.WriteGameDataSourceFile( new( TileMaps ), _palette );
          MessageBox.Show( "Game data source file has been written." );
       }
 
