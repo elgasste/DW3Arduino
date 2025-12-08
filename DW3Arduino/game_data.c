@@ -3,6 +3,9 @@
 #include "game.h"
 #include "random.h"
 
+internal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 index );
+internal void TileMap_LoadTileTexturesFromIndex( TileMap_t* tileMap, u32 index );
+
 void Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index )
 {
    u32 i;
@@ -22,7 +25,19 @@ void Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index )
    screen->palette[6] = COLOR16_CYAN;
 }
 
-void TileMap_LoadTileTextures( TileMap_t* tileMap )
+internal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 index )
+{
+   UNUSED_PARAM( texture );
+   UNUSED_PARAM( index );
+}
+
+internal void TileMap_LoadTileTexturesFromIndex( TileMap_t* tileMap, u32 index )
+{
+   UNUSED_PARAM( tileMap );
+   UNUSED_PARAM( index );
+}
+
+void TileMap_LoadTileTextures( TileMap_t* tileMap, u32 index )
 {
    u32 i, j;
 
@@ -44,6 +59,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
    switch( index )
    {
       case 0: // Overworld
+         TileMap_LoadTileTexturesFromIndex( tileMap, index );
          tileMap->tilesX = 32; tileMap->tilesY = 32; tileMap->wraps = True;
          tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 201; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 285;
@@ -81,6 +97,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          m[983] = 0x0002; m[997] = 0x0002; m[1003] = 0x0002; m[1006] = 0x0002; m[1008] = 0x0002; m[1010] = 0x0002; m[1014] = 0x0002; m[1017] = 0x0002;
          break;
       case 1: // Big Room
+         TileMap_LoadTileTexturesFromIndex( tileMap, index );
          tileMap->tilesX = 26; tileMap->tilesY = 20; tileMap->wraps = False;
          tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = True;
          tileMap->portals[0].sourceTileIndex = 260; tileMap->portals[0].destTileMapIndex = 3; tileMap->portals[0].destTileIndex = 39;
@@ -93,6 +110,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          m[468] = 0x0003;
          break;
       case 2: // Small Room
+         TileMap_LoadTileTexturesFromIndex( tileMap, index );
          tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False;
          tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 69; tileMap->portals[0].destTileMapIndex = 3; tileMap->portals[0].destTileIndex = 20;
@@ -105,6 +123,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          m[24] = 0x0021; m[70] = 0x0003;
          break;
       case 3: // Hallway
+         TileMap_LoadTileTexturesFromIndex( tileMap, index );
          tileMap->tilesX = 20; tileMap->tilesY = 3; tileMap->wraps = False;
          tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 20; tileMap->portals[0].destTileMapIndex = 2; tileMap->portals[0].destTileIndex = 69;
