@@ -18,10 +18,10 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _isPassable, value );
       }
 
-      public TileViewModel( int textureIndex, bool isPassable )
+      public TileViewModel()
       {
-         _textureIndex = textureIndex;
-         _isPassable = isPassable;
+         _textureIndex = 0;
+         _isPassable = true;
       }
 
       public TileViewModel( TileSaveData saveData )

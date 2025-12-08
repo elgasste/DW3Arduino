@@ -6,7 +6,7 @@ namespace DW3ArduinoEditor.ViewModels
 {
    public class TileMapViewModel : ViewModelBase
    {
-      public ObservableCollection<TileViewModel> Tiles { get; } = [];
+      public ObservableCollection<TileViewModel> Tiles { get; private set; } = [];
 
       private int _index;
       public int Index
@@ -26,14 +26,90 @@ namespace DW3ArduinoEditor.ViewModels
       public int TilesX
       {
          get => _tilesX;
-         set => SetProperty( ref _tilesX, value );
+         set
+         {
+            if ( value < _tilesX ) // reducing the horizontal size
+            {
+               ObservableCollection<TileViewModel> newTiles = [];
+
+               for ( int i = 0; i < ( _tilesX * _tilesY ); i++ )
+               {
+                  for ( int j = 0; j < value; i++, j++ )
+                  {
+                     newTiles.Add( Tiles[i] );
+                  }
+
+                  i += ( ( _tilesX - value ) - 1 );
+               }
+
+               Tiles = newTiles;
+            }
+            else if ( value > _tilesX ) // expanding the horizontal size
+            {
+               ObservableCollection<TileViewModel> newTiles = [];
+
+               for ( int i = 0; i < ( _tilesX * _tilesY ); i++ )
+               {
+                  for ( int j = 0; j < value; j++ )
+                  {
+                     if ( j < _tilesX )
+                     {
+                        newTiles.Add( Tiles[i] );
+                        i++;
+                     }
+                     else
+                     {
+                        newTiles.Add( new() );
+                     }
+                  }
+
+                  i--;
+               }
+
+               Tiles = newTiles;
+            }
+
+            SetProperty( ref _tilesX, value );
+         }
       }
 
       private int _tilesY;
       public int TilesY
       {
          get => _tilesY;
-         set => SetProperty( ref _tilesY, value );
+         set
+         {
+            if ( value < _tilesY ) // reducing the vertical size
+            {
+               ObservableCollection<TileViewModel> newTiles = [];
+
+               for ( int i = 0; i < ( _tilesX * value ); i++ )
+               {
+                  newTiles.Add( Tiles[i] );
+               }
+
+               Tiles = newTiles;
+            }
+            else if ( value > _tilesY ) // expanding the vertical size
+            {
+               ObservableCollection<TileViewModel> newTiles = [];
+               int i = 0;
+
+               for ( ; i < ( _tilesX * _tilesY ); i++ )
+               {
+                  newTiles.Add( Tiles[i] );
+               }
+
+               for ( ; i < ( _tilesX * value ); i++ )
+               {
+                  newTiles.Add( new() );
+               }
+
+               Tiles = newTiles;
+            }
+
+            SetProperty( ref _tilesY, value );
+         }
       }
 
       private bool _wraps;
@@ -42,8 +118,6 @@ namespace DW3ArduinoEditor.ViewModels
          get => _wraps;
          set => SetProperty( ref _wraps, value );
       }
-
-
 
       public TileMapViewModel( int index, string name, int tilesX, int tilesY, bool wraps )
       {
@@ -55,7 +129,7 @@ namespace DW3ArduinoEditor.ViewModels
 
          for ( int i = 0; i < _tilesX * _tilesY; i++ )
          {
-            Tiles.Add( new( 0, true ) );
+            Tiles.Add( new() );
          }
       }
 
@@ -83,7 +157,7 @@ namespace DW3ArduinoEditor.ViewModels
 
             for ( int i = 0; i < _tilesX * _tilesY; i++ )
             {
-               Tiles.Add( new( 0, true ) );
+               Tiles.Add( new() );
             }
          }
          else
@@ -96,7 +170,7 @@ namespace DW3ArduinoEditor.ViewModels
 
                for ( int i = 0; i < _tilesX * _tilesY; i++ )
                {
-                  Tiles.Add( new( 0, true ) );
+                  Tiles.Add( new() );
                }
             }
             else

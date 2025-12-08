@@ -130,7 +130,6 @@ namespace DW3ArduinoEditor.ViewModels
 
             if ( result.HasValue && result.Value )
             {
-               // TODO: once we have them, we'll need to shift the tile data around to match the new dimensions
                SelectedTileMap.TilesX = window.NewTilesX;
                SelectedTileMap.TilesY = window.NewTilesY;
             }
