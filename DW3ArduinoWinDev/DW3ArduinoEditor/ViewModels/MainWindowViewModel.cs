@@ -1,4 +1,5 @@
 ﻿using DW3ArduinoEditor.Commands;
+using DW3ArduinoEditor.Graphics;
 using DW3ArduinoEditor.SaveData;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -10,6 +11,8 @@ namespace DW3ArduinoEditor.ViewModels
 {
    public class MainWindowViewModel : ViewModelBase
    {
+      private TileTexturePool? _tileTexturePool;
+
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
 
       private TileMapViewModel? _selectedTileMap;
@@ -176,6 +179,16 @@ namespace DW3ArduinoEditor.ViewModels
          //}
          //TileMaps[3].Portals.Add( new( 20, 2, 69 ) ); // portal to small room
          //TileMaps[3].Portals.Add( new( 39, 1, 260 ) ); // portal to big room
+
+         try
+         {
+            _tileTexturePool = new( Constants.TileTexturePoolImagePath );
+         }
+         catch ( Exception ex )
+         {
+            MessageBox.Show( string.Format( "Failed to load tile map texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+            Application.Current.Shutdown();
+         }
       }
 
       private void VerifyOrDeletePortal( PortalViewModel portal, TileMapViewModel srcTileMap )
