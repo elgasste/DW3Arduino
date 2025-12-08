@@ -135,17 +135,58 @@ namespace DW3ArduinoEditor.SaveData
             }
          }
 
-         // find the most-used value and initialize the entire map to it first
+         // find the most-used value and initialize the entire map with it
          ushort mostUsedValue = valueCounts.OrderByDescending( kvp => kvp.Value ).First().Key;
          WriteToFileStream( fs, string.Format( "         for ( i = 0; i < {0}; i++ ) m[i] = 0x{1};\n", tileValues.Count, mostUsedValue.ToString( "X4" ) ) );
 
-         // second pass: write out any tile values that don't match the most-used
+         // second pass: write out values that don't match most-used. detect any runs and write them out as loops.
+         int runStart = 0, runCount = 0;
+         ushort runValue = 0;
+
          for ( int i = 0; i < tileValues.Count; i++ )
          {
-            if ( tileValues[i] != mostUsedValue )
+            if ( tileValues[i] == mostUsedValue ) // ran into most-used value, write and restart
             {
-               WriteToFileStream( fs, string.Format( "         m[{0}] = 0x{1};\n", i, tileValues[i].ToString( "X4" ) ) );
+               WriteTileDataRun( fs, runStart, runCount, runValue );
+               runCount = 0;
             }
+            else
+            {
+               if ( runCount == 0 ) // starting a new run
+               {
+                  runStart = i;
+                  runCount = 1;
+                  runValue = tileValues[i];
+               }
+               else if ( tileValues[i] != runValue ) // last run has ended, write and restart
+               {
+                  WriteTileDataRun( fs, runStart, runCount, runValue );
+                  runStart = i;
+                  runCount = 1;
+                  runValue = tileValues[i];
+               }
+               else // run is still going
+               {
+                  runCount++;
+               }
+
+               if ( i == ( tileValues.Count - 1 ) ) // end of the list, write and exit
+               {
+                  WriteTileDataRun( fs, runStart, runCount, runValue );
+               }
+            }
+         }
+      }
+
+      private static void WriteTileDataRun( FileStream fs, int runStart, int runCount, ushort runValue )
+      {
+         if ( runCount == 1 )
+         {
+            WriteToFileStream( fs, string.Format( "         m[{0}] = 0x{1};\n", runStart, runValue.ToString( "X4" ) ) );
+         }
+         else
+         {
+            WriteToFileStream( fs, string.Format( "         for ( i = {0}; i < {1}; i++ ) m[i] = 0x{2};\n", runStart, runStart + runCount, runValue.ToString( "X4" ) ) );
          }
       }
 
