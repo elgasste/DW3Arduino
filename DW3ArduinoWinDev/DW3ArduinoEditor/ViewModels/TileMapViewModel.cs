@@ -120,6 +120,13 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _wraps, value );
       }
 
+      private PortalViewModel? _edgePortal;
+      public PortalViewModel? EdgePortal
+      {
+         get => _edgePortal;
+         set => SetProperty( ref _edgePortal, value );
+      }
+
       public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps )
       {
          _index = index;
@@ -186,6 +193,11 @@ namespace DW3ArduinoEditor.ViewModels
          foreach ( var portal in saveData.Portals )
          {
             Portals.Add( new( portal ) );
+         }
+
+         if ( saveData.EdgePortal is not null )
+         {
+            _edgePortal = new( saveData.EdgePortal );
          }
       }
    }
