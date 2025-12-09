@@ -212,7 +212,7 @@ internal void DrawDiagnostics( HDC* dcMem )
    u32 gameSeconds, realSeconds, dayClockMinutes, hourHand;
    RECT r = { 10, 10, 0, 0 };
    char str[STRING_SIZE_DEFAULT];
-   char clockMsg[STRING_SIZE_DEFAULT];
+   char sunMsg[STRING_SIZE_DEFAULT];
    HFONT oldFont = (HFONT)SelectObject( *dcMem, g_winGlobals.hFont );
 
    if ( g_winGlobals.game.isAM )
@@ -226,15 +226,15 @@ internal void DrawDiagnostics( HDC* dcMem )
 
    if ( g_winGlobals.game.daylightFactor < DAY_FACTOR_LOW_CUTOFF )
    {
-      sprintf( clockMsg, "sun has set" );
+      sprintf( sunMsg, "down" );
    }
    else if ( g_winGlobals.game.daylightFactor > DAY_FACTOR_HIGH_CUTOFF )
    {
-      sprintf( clockMsg, "sun has risen" );
+      sprintf( sunMsg, "up" );
    }
    else
    {
-      sprintf( clockMsg, g_winGlobals.game.isAM ? "sun is rising" : "sun is setting" );
+      sprintf( sunMsg, g_winGlobals.game.isAM ? "rising" : "setting" );
    }
 
    hourHand = ( ( dayClockMinutes / 60 ) == 0 ) ? 12 : ( dayClockMinutes / 60 );
@@ -265,7 +265,7 @@ internal void DrawDiagnostics( HDC* dcMem )
    r.top += 16;
 
    gameSeconds = g_winGlobals.game.clock.frameCount / CLOCK_FPS;
-   sprintf_s( str, STRING_SIZE_DEFAULT, "   In-Game Clock: %02u:%02u %s (%s)", hourHand, dayClockMinutes % 60, g_winGlobals.game.isAM ? "AM" : "PM", clockMsg );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "   In-Game Clock: %02u:%02u %s (sun is %s)", hourHand, dayClockMinutes % 60, g_winGlobals.game.isAM ? "AM" : "PM", sunMsg );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 

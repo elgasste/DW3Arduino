@@ -496,7 +496,7 @@ internal void TileMap_LoadTileTexturesFromIndex( TileMap_t* tileMap, u32 index )
    {
       case 0:
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[0], 0 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[1], 3 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[1], 1 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[2], 5 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[3], 0 );
          break;
