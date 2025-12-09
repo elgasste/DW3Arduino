@@ -22,6 +22,8 @@ typedef struct Game_t
 
    Bool_t isAM;
    r32 daylightFactor;
+
+   void ( *playerMovedCallback )( void* );
 }
 Game_t;
 
@@ -31,8 +33,6 @@ extern "C" {
 
 void Game_Init( Game_t* game, u16* screenBuffer );
 void Game_Tic( Game_t* game );
-void Game_UpdateDayFactor( Game_t* game );
-void Game_SteppedOnTile( Game_t* game, u32 tileIndex );
 
 // physics.c
 void Physics_Tic( Game_t* game );

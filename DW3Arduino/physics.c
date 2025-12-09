@@ -18,7 +18,7 @@ void Physics_Tic( Game_t* game )
 
 internal void Physics_MoveEntities( Game_t* game )
 {
-   u32 i, tileIndex;
+   u32 i;
    i32 pixelsRemaining;
    r32 deltaX, deltaY, deltaRemaining, sign, prev;
    Entity_t* entity;
@@ -168,25 +168,9 @@ internal void Physics_MoveEntities( Game_t* game )
          }
       }
 
-      // TODO: maybe this stuff should be moved into some kind of "player moved" callback,
-      // it doesn't seem like this should be the responsibility of the physics code to handle it.
-      if ( entity == game->player.entity )
+      if ( entity == game->player.entity && ( entity->pos.x != entity->prevPos.x || entity->pos.y != entity->prevPos.y ) )
       {
-         // if the player has moved, update the day factor
-         if ( entity->pos.x != entity->prevPos.x || entity->pos.y != entity->prevPos.y )
-         {
-            Game_UpdateDayFactor( game );
-         }
-
-         // check if the player has stepped on a new tile
-         tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap,
-                                                     (u32)( entity->pos.x + ( entity->pos.w / 2 ) ),
-                                                     (u32)( entity->pos.y + ( entity->pos.h / 2 ) ) );
-
-         if ( tileIndex != game->player.tileIndex )
-         {
-            Game_SteppedOnTile( game, tileIndex );
-         }
+         game->playerMovedCallback( game );
       }
    }
 }
