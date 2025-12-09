@@ -3,6 +3,7 @@
 #define DIAGONAL_SCALAR 0.707f
 
 internal void Game_HandleInput( Game_t* game );
+internal void Game_UpdateDayFactor( Game_t* game );
 
 void Game_Init( Game_t* game, u16* screenBuffer )
 {
@@ -31,6 +32,9 @@ void Game_Init( Game_t* game, u16* screenBuffer )
                                                             (u32)game->player.entity->pos.y );
 
    TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
+
+   game->isAM = True;
+   game->dayFactor = 0.9f; // about 10:45 AM
 }
 
 void Game_Tic( Game_t* game )
@@ -39,6 +43,8 @@ void Game_Tic( Game_t* game )
    Game_HandleInput( game );
    TileMap_Tic( &game->tileMap );
    Physics_Tic( game );
+   // TODO: we should probably only do this when the player is moving
+   Game_UpdateDayFactor( game );
    Render_DrawGame( game );
 }
 
@@ -120,5 +126,23 @@ internal void Game_HandleInput( Game_t* game )
       {
          entity->velocity.y *= DIAGONAL_SCALAR;
       }
+   }
+}
+
+internal void Game_UpdateDayFactor( Game_t* game )
+{
+   game->dayFactor += game->isAM
+      ? ( 1 / ( DAY_FACTOR_TOTAL_SECONDS * (r32)CLOCK_FPS ) )
+      : -( 1 / ( DAY_FACTOR_TOTAL_SECONDS * (r32)CLOCK_FPS ) );
+
+   if ( game->dayFactor > 1.0f )
+   {
+      game->dayFactor = 1.0f;
+      game->isAM = False;
+   }
+   else if ( game->dayFactor < 0.0f )
+   {
+      game->dayFactor = 0.0f;
+      game->isAM = True;
    }
 }

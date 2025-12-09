@@ -1,6 +1,8 @@
 #if !defined( GAME_H )
 #define GAME_H
 
+#define DAY_FACTOR_TOTAL_SECONDS    300
+
 #include "common.h"
 #include "clock.h"
 #include "screen.h"
@@ -15,6 +17,9 @@ typedef struct Game_t
    Input_t input;
    TileMap_t tileMap;
    Player_t player;
+
+   Bool_t isAM;
+   r32 dayFactor;
 }
 Game_t;
 
