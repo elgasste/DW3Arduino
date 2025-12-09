@@ -76,7 +76,6 @@ void TileMap_GetPositionOfTileIndex( TileMap_t* tileMap, u32 tileIndex, u32* x, 
 Bool_t TileMap_TileIndexIsEdgeTile( TileMap_t* tileMap, u32 tileIndex );
 
 // game_data.c
-void TileMap_LoadTileTextures( TileMap_t* tileMap );
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index );
 
 #if defined( __cplusplus )

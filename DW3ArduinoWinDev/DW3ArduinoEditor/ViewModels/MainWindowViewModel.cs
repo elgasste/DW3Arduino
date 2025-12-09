@@ -1,4 +1,5 @@
 ﻿using DW3ArduinoEditor.Commands;
+using DW3ArduinoEditor.Graphics;
 using DW3ArduinoEditor.SaveData;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -10,6 +11,9 @@ namespace DW3ArduinoEditor.ViewModels
 {
    public class MainWindowViewModel : ViewModelBase
    {
+      private Palette _palette = new();
+      private TileTexturePool? _tileTexturePool;
+
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
 
       private TileMapViewModel? _selectedTileMap;
@@ -77,105 +81,15 @@ namespace DW3ArduinoEditor.ViewModels
             MessageBox.Show( "Something went wrong when loading save data, file is possibly corrupt! Starting from scratch.", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
          }
 
-         // MUFFINS: I think we should keep this around for a while, it might come in handy for "resetting" the save data.
-         //var random = new Random();
-
-         //// "overworld"
-         //TileMaps.Add( new( 0, "Overworld", 32, 32, true ) );
-         //for ( int i = 0; i < TileMaps[0].Tiles.Count; i++ )
-         //{
-         //   if ( random.Next( 5 ) == 0 )
-         //   {
-         //      TileMaps[0].Tiles[i].TextureIndex = 2u;
-         //      TileMaps[0].Tiles[i].IsPassable = false;
-         //   }
-         //   else
-         //   {
-         //      TileMaps[0].Tiles[i].TextureIndex = 1u;
-         //      TileMaps[0].Tiles[i].IsPassable = true;
-         //   }
-         //}
-         //TileMaps[0].Tiles[201].TextureIndex = 6u;
-         //TileMaps[0].Portals.Add( new( 201, 1, 285 ) );
-         //TileMaps[0].EdgePortal = null;
-
-         //// "big room"
-         //TileMaps.Add( new( 1, "Big Room", 26, 20, false ) );
-         //for ( int i = 0; i < TileMaps[1].Tiles.Count; i++ ) // overall tiles
-         //{
-         //   TileMaps[1].Tiles[i].TextureIndex = 2u;
-         //   TileMaps[1].Tiles[i].IsPassable = true;
-         //}
-         //for ( int i = 0; i < TileMaps[1].TilesX; i++ ) // top wall
-         //{
-         //   TileMaps[1].Tiles[i].TextureIndex = 3u;
-         //   TileMaps[1].Tiles[i].IsPassable = false;
-         //}
-         //for ( int i = (int)( ( TileMaps[1].TilesX * TileMaps[1].TilesY ) - TileMaps[1].TilesX ); i < ( TileMaps[1].TilesX * TileMaps[1].TilesY ); i++ ) // bottom wall
-         //{
-         //   TileMaps[1].Tiles[i].TextureIndex = 3u;
-         //   TileMaps[1].Tiles[i].IsPassable = false;
-         //}
-         //for ( int i = 1; i < TileMaps[1].TilesY - 1; i++ ) // left and right walls
-         //{
-         //   TileMaps[1].Tiles[i * (int)TileMaps[1].TilesX].TextureIndex = 3u;
-         //   TileMaps[1].Tiles[i * (int)TileMaps[1].TilesX].IsPassable = false;
-         //}
-         //TileMaps[1].Tiles[260].TextureIndex = 2u; // portal to hallway
-         //TileMaps[1].Tiles[260].IsPassable = true;
-         //TileMaps[1].Portals.Add( new( 260, 3, 39 ) );
-         //TileMaps[1].Tiles[377].TextureIndex = 1u; // portal to small room
-         //TileMaps[1].Portals.Add( new( 377, 2, 24 ) );
-         //TileMaps[1].Tiles[285].TextureIndex = 2u; // right edge opening
-         //TileMaps[1].Tiles[285].IsPassable = true;
-         //TileMaps[1].EdgePortal = new( 0, 0, 201 );
-
-         //// "small room"
-         //TileMaps.Add( new( 2, "Small Room", 10, 10, false ) );
-         //for ( int i = 0; i < TileMaps[2].Tiles.Count; i++ ) // overall tiles
-         //{
-         //   TileMaps[2].Tiles[i].TextureIndex = 2u;
-         //   TileMaps[2].Tiles[i].IsPassable = true;
-         //}
-         //for ( int i = 0; i < TileMaps[2].TilesX; i++ ) // top wall
-         //{
-         //   TileMaps[2].Tiles[i].TextureIndex = 3u;
-         //   TileMaps[2].Tiles[i].IsPassable = false;
-         //}
-         //for ( int i = (int)( ( TileMaps[2].TilesX * TileMaps[2].TilesY ) - TileMaps[2].TilesX ); i < ( TileMaps[2].TilesX * TileMaps[2].TilesY ); i++ ) // bottom wall
-         //{
-         //   TileMaps[2].Tiles[i].TextureIndex = 3u;
-         //   TileMaps[2].Tiles[i].IsPassable = false;
-         //}
-         //for ( int i = 1; i < TileMaps[2].TilesY - 1; i++ ) // left and right walls
-         //{
-         //   TileMaps[2].Tiles[i * (int)TileMaps[2].TilesX].TextureIndex = 3u;
-         //   TileMaps[2].Tiles[i * (int)TileMaps[2].TilesX].IsPassable = false;
-         //   TileMaps[2].Tiles[( i * (int)TileMaps[2].TilesX ) + (int)( TileMaps[2].TilesX - 1 )].TextureIndex = 3u;
-         //   TileMaps[2].Tiles[( i * (int)TileMaps[2].TilesX ) + (int)( TileMaps[2].TilesX - 1 )].IsPassable = false;
-         //}
-         //TileMaps[2].Tiles[69].TextureIndex = 2u; // portal to hallway
-         //TileMaps[2].Tiles[69].IsPassable = true;
-         //TileMaps[2].Portals.Add( new( 69, 3, 20 ) );
-         //TileMaps[2].Tiles[24].TextureIndex = 1u; // portal to big room
-         //TileMaps[2].Tiles[24].IsPassable = true;
-         //TileMaps[2].Portals.Add( new( 24, 1, 377 ) );
-
-         //// "hallway"
-         //TileMaps.Add( new( 3, "Hallway", 20, 3, false ) );
-         //for ( int i = 0; i < TileMaps[3].TilesX; i++ )
-         //{
-         //   TileMaps[3].Tiles[i].TextureIndex = 3u;
-         //   TileMaps[3].Tiles[i].IsPassable = false;
-
-         //   TileMaps[3].Tiles[i + (int)TileMaps[3].TilesX].TextureIndex = 2u;
-         //   TileMaps[3].Tiles[i + (int)TileMaps[3].TilesX].IsPassable = true;
-
-         //   TileMaps[3].Tiles[i + ( (int)TileMaps[3].TilesX * 2 )].TextureIndex = 3u;
-         //   TileMaps[3].Tiles[i + ( (int)TileMaps[3].TilesX * 2 )].IsPassable = false;
-         //}
-         //TileMaps[3].Portals.Add( new( 20, 2, 69 ) ); // portal to small room
-         //TileMaps[3].Portals.Add( new( 39, 1, 260 ) ); // portal to big room
+         try
+         {
+            _tileTexturePool = new( Constants.TileTexturePoolImagePath, _palette );
+         }
+         catch ( Exception ex )
+         {
+            MessageBox.Show( string.Format( "Failed to load tile map texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+            Application.Current.Shutdown();
+         }
       }
 
       private void VerifyOrDeletePortal( PortalViewModel portal, TileMapViewModel srcTileMap )
@@ -302,7 +216,7 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( TileMaps ) );
+         generator.WriteGameDataSourceFile( new( TileMaps ), _palette, _tileTexturePool );
          MessageBox.Show( "Game data source file has been written." );
       }
 

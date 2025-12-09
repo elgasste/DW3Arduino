@@ -12,7 +12,6 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    TileMap_Init( &game->tileMap );
 
    Screen_LoadPaletteFromIndex( &game->screen, 0 );
-   TileMap_LoadTileTextures( &game->tileMap );
    TileMap_LoadFromIndex( &game->tileMap, 0 );
 
    game->tileMap.viewport.w = 380;
