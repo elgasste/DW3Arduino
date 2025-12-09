@@ -6,6 +6,7 @@ namespace DW3ArduinoEditor.ViewModels
 {
    public class TileMapViewModel : ViewModelBase
    {
+      public ObservableCollection<int> TileTexturePoolIndexes { get; private set; } = [];
       public ObservableCollection<TileViewModel> Tiles { get; private set; } = [];
       public ObservableCollection<PortalViewModel> Portals { get; private set; } = [];
 
@@ -152,6 +153,11 @@ namespace DW3ArduinoEditor.ViewModels
          if ( string.IsNullOrEmpty( _name ) )
          {
             _name = "(unnamed)";
+         }
+
+         foreach ( var index in saveData.TileTexturePoolIndexes )
+         {
+            TileTexturePoolIndexes.Add( index );
          }
 
          if ( _tilesX < Constants.TileMapMinTilesX || _tilesX > Constants.TileMapMaxTilesX ||

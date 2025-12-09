@@ -83,12 +83,24 @@ namespace DW3ArduinoEditor.SaveData
 
       private void WriteTileTextureIndexesFunction( FileStream fs )
       {
-         // TODO
          WriteToFileStream( fs, "\ninternal void TileMap_LoadTileTexturesFromIndex( TileMap_t* tileMap, u32 index )\n" );
          WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, "   u32 i;\n\n" );
-         WriteToFileStream( fs, "   UNUSED_PARAM( index );\n\n" );
-         WriteToFileStream( fs, string.Format( "   for ( i = 0; i < {0}; i++ ) TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[i], i );\n", _tileTexturePool?.TilePaletteIndexes.Count ) );
+         WriteToFileStream( fs, "   switch ( index )\n" );
+         WriteToFileStream( fs, "   {\n" );
+
+         for ( int i = 0; i < _gameSaveData?.TileMaps.Count; i++ )
+         {
+            WriteToFileStream( fs, string.Format( "      case {0}:\n", _gameSaveData.TileMaps[i].Index ) );
+
+            for ( int j = 0; j < _gameSaveData.TileMaps[i].TileTexturePoolIndexes.Count; j++ )
+            {
+               WriteToFileStream( fs, string.Format( "         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[{0}], {1} );\n", j, _gameSaveData.TileMaps[i].TileTexturePoolIndexes[j] ) );
+            }
+
+            WriteToFileStream( fs, "         break;\n" );
+         }
+
+         WriteToFileStream( fs, "   }\n" );
          WriteToFileStream( fs, "}\n" );
       }
 

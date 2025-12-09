@@ -492,11 +492,36 @@ break;
 
 internal void TileMap_LoadTileTexturesFromIndex( TileMap_t* tileMap, u32 index )
 {
-   u32 i;
-
-   UNUSED_PARAM( index );
-
-   for ( i = 0; i < 29; i++ ) TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[i], i );
+   switch ( index )
+   {
+      case 0:
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[0], 0 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[1], 3 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[2], 5 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[3], 0 );
+         break;
+      case 1:
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[0], 0 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[1], 1 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[2], 0 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[3], 6 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[4], 0 );
+         break;
+      case 2:
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[0], 0 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[1], 1 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[2], 0 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[3], 6 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[4], 0 );
+         break;
+      case 3:
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[0], 0 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[1], 1 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[2], 0 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[3], 6 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[4], 0 );
+         break;
+   }
 }
 
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
