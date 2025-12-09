@@ -34,7 +34,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
 
    game->isAM = True;
-   game->screen.dayFilterIntensity = 0.9f; // about 10:45 AM
+   game->daylightFactor = 0.0f;
 }
 
 void Game_Tic( Game_t* game )
@@ -48,19 +48,33 @@ void Game_Tic( Game_t* game )
 
 void Game_UpdateDayFactor( Game_t* game )
 {
-   game->screen.dayFilterIntensity += game->isAM
+   game->daylightFactor += game->isAM
       ? ( 1 / ( DAY_FACTOR_TOTAL_SECONDS * (r32)CLOCK_FPS ) )
       : -( 1 / ( DAY_FACTOR_TOTAL_SECONDS * (r32)CLOCK_FPS ) );
 
-   if ( game->screen.dayFilterIntensity > 1.0f )
+   if ( game->daylightFactor > 1.0f )
    {
-      game->screen.dayFilterIntensity = 1.0f;
+      game->daylightFactor = 1.0f;
       game->isAM = False;
    }
-   else if ( game->screen.dayFilterIntensity < 0.0f )
+   else if ( game->daylightFactor < 0.0f )
+   {
+      game->daylightFactor = 0.0f;
+      game->isAM = True;
+   }
+
+   // use cutoffs to determine when the sun rises and sets
+   if ( game->daylightFactor < DAY_FACTOR_LOW_CUTOFF )
    {
       game->screen.dayFilterIntensity = 0.0f;
-      game->isAM = True;
+   }
+   else if ( game->daylightFactor > DAY_FACTOR_HIGH_CUTOFF )
+   {
+      game->screen.dayFilterIntensity = 1.0f;
+   }
+   else
+   {
+      game->screen.dayFilterIntensity = ( game->daylightFactor - DAY_FACTOR_LOW_CUTOFF ) / ( DAY_FACTOR_HIGH_CUTOFF - DAY_FACTOR_LOW_CUTOFF );
    }
 }
 

@@ -209,41 +209,71 @@ internal void RenderScreen()
 
 internal void DrawDiagnostics( HDC* dcMem )
 {
-   u32 gameSeconds, realSeconds;
+   u32 gameSeconds, realSeconds, dayClockMinutes, hourHand;
    RECT r = { 10, 10, 0, 0 };
    char str[STRING_SIZE_DEFAULT];
+   char clockMsg[STRING_SIZE_DEFAULT];
    HFONT oldFont = (HFONT)SelectObject( *dcMem, g_winGlobals.hFont );
+
+   if ( g_winGlobals.game.isAM )
+   {
+      dayClockMinutes = (u32)( 720 * g_winGlobals.game.daylightFactor ); // 12 hours is 720 minutes
+   }
+   else
+   {
+      dayClockMinutes = (u32)( 720 * ( 1.0 - g_winGlobals.game.daylightFactor ) ); // 12 hours is 720 minutes
+   }
+
+   if ( g_winGlobals.game.daylightFactor < DAY_FACTOR_LOW_CUTOFF )
+   {
+      sprintf( clockMsg, "sun has set" );
+   }
+   else if ( g_winGlobals.game.daylightFactor > DAY_FACTOR_HIGH_CUTOFF )
+   {
+      sprintf( clockMsg, "sun has risen" );
+   }
+   else
+   {
+      sprintf( clockMsg, g_winGlobals.game.isAM ? "sun is rising" : "sun is setting" );
+   }
+
+   hourHand = ( ( dayClockMinutes / 60 ) == 0 ) ? 12 : ( dayClockMinutes / 60 );
 
    SetTextColor( *dcMem, 0x00FFFFFF );
    SetBkMode( *dcMem, TRANSPARENT );
 
-   sprintf_s( str, STRING_SIZE_DEFAULT, "   Frame Rate: %u", CLOCK_FPS );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "      Frame Rate: %u", CLOCK_FPS );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
-   sprintf_s( str, STRING_SIZE_DEFAULT, "Last Frame MS: %u", g_winGlobals.game.clock.lastFrameMicro / 1000 );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "   Last Frame MS: %u", g_winGlobals.game.clock.lastFrameMicro / 1000 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
-   sprintf_s( str, STRING_SIZE_DEFAULT, " Total Frames: %u", g_winGlobals.game.clock.frameCount );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "    Total Frames: %u", g_winGlobals.game.clock.frameCount );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
    gameSeconds = g_winGlobals.game.clock.frameCount / CLOCK_FPS;
-   sprintf_s( str, STRING_SIZE_DEFAULT, " In-Game Time: %u:%02u:%02u", gameSeconds / 3600, gameSeconds / 60, gameSeconds );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "In-Game Timer: %u:%02u:%02u", gameSeconds / 3600, gameSeconds / 60, gameSeconds );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
    realSeconds = ( g_winGlobals.game.clock.absoluteEndMicro - g_winGlobals.game.clock.absoluteStartMicro ) / 1000000;
-   sprintf_s( str, STRING_SIZE_DEFAULT, "    Real Time: %u:%02u:%02u", realSeconds / 3600, realSeconds / 60, realSeconds );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "Real World Timer: %u:%02u:%02u", realSeconds / 3600, realSeconds / 60, realSeconds );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
-   sprintf_s( str, STRING_SIZE_DEFAULT, "     Position: %.3f, %.3f", g_winGlobals.game.player.entity->pos.x, g_winGlobals.game.player.entity->pos.y );
+   gameSeconds = g_winGlobals.game.clock.frameCount / CLOCK_FPS;
+   sprintf_s( str, STRING_SIZE_DEFAULT, "   In-Game Clock: %02u:%02u %s (%s)", hourHand, dayClockMinutes % 60, g_winGlobals.game.isAM ? "AM" : "PM", clockMsg );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
-   sprintf_s( str, STRING_SIZE_DEFAULT, "   Tile Index: %u", g_winGlobals.game.player.tileIndex );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "        Position: %.3f, %.3f", g_winGlobals.game.player.entity->pos.x, g_winGlobals.game.player.entity->pos.y );
+   DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
+   r.top += 16;
+
+   sprintf_s( str, STRING_SIZE_DEFAULT, "      Tile Index: %u", g_winGlobals.game.player.tileIndex );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 

@@ -1,7 +1,9 @@
 #if !defined( GAME_H )
 #define GAME_H
 
-#define DAY_FACTOR_TOTAL_SECONDS    300
+#define DAY_FACTOR_TOTAL_SECONDS    80
+#define DAY_FACTOR_LOW_CUTOFF       0.3f
+#define DAY_FACTOR_HIGH_CUTOFF      0.7f
 
 #include "common.h"
 #include "clock.h"
@@ -19,6 +21,7 @@ typedef struct Game_t
    Player_t player;
 
    Bool_t isAM;
+   r32 daylightFactor;
 }
 Game_t;
 

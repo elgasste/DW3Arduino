@@ -76,8 +76,8 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
                g = ( color >> 5 ) & 0x3F;  // 6 bits (0-63)
                b = color & 0x1F;           // 5 bits (0-31)
 
-               rgValue = 1.0f - ( 0.7f * ( 1.0f - screen->dayFilterIntensity ) );
-               bValue = 1.0f - ( 0.5f * ( 1.0f - screen->dayFilterIntensity ) );
+               rgValue = 1.0f - ( 0.75f * ( 1.0f - screen->dayFilterIntensity ) );
+               bValue = 1.0f - ( 0.6f * ( 1.0f - screen->dayFilterIntensity ) );
 
                newR = (u32)( r * rgValue );
                newG = (u32)( g * rgValue );
