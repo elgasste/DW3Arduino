@@ -501,7 +501,7 @@ internal void TileMap_LoadTileTexturesFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[3], 0 );
          break;
       case 1:
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[0], 0 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[0], 3 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[1], 1 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[2], 0 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[3], 6 );
@@ -550,7 +550,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          for ( i = 974; i < 976; i++ ) m[i] = 0x0002; for ( i = 999; i < 1001; i++ ) m[i] = 0x0002;
          m[9] = 0x0002; m[11] = 0x0002; m[13] = 0x0002; m[21] = 0x0002; m[30] = 0x0002; m[33] = 0x0002; m[37] = 0x0002; m[39] = 0x0002;
          m[50] = 0x0002; m[67] = 0x0002; m[93] = 0x0002; m[97] = 0x0002; m[117] = 0x0002; m[123] = 0x0002; m[138] = 0x0002; m[140] = 0x0002;
-         m[159] = 0x0002; m[195] = 0x0002; m[201] = 0x0026; m[207] = 0x0002; m[216] = 0x0002; m[223] = 0x0002; m[226] = 0x0002; m[240] = 0x0002;
+         m[159] = 0x0002; m[195] = 0x0002; m[201] = 0x0020; m[207] = 0x0002; m[216] = 0x0002; m[223] = 0x0002; m[226] = 0x0002; m[240] = 0x0002;
          m[247] = 0x0002; m[251] = 0x0002; m[253] = 0x0002; m[283] = 0x0002; m[302] = 0x0002; m[304] = 0x0002; m[312] = 0x0002; m[339] = 0x0002;
          m[346] = 0x0002; m[349] = 0x0002; m[358] = 0x0002; m[369] = 0x0002; m[371] = 0x0002; m[375] = 0x0002; m[385] = 0x0002; m[410] = 0x0002;
          m[422] = 0x0002; m[428] = 0x0002; m[449] = 0x0002; m[451] = 0x0002; m[456] = 0x0002; m[465] = 0x0002; m[481] = 0x0002; m[483] = 0x0002;
@@ -573,9 +573,11 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 201;
          for ( i = 0; i < 520; i++ ) m[i] = 0x0022;
          for ( i = 0; i < 27; i++ ) m[i] = 0x0003; for ( i = 494; i < 520; i++ ) m[i] = 0x0003;
-         m[52] = 0x0003; m[78] = 0x0003; m[104] = 0x0003; m[130] = 0x0003; m[156] = 0x0003; m[182] = 0x0003; m[208] = 0x0003; m[234] = 0x0003;
-         m[286] = 0x0003; m[312] = 0x0003; m[338] = 0x0003; m[364] = 0x0003; m[377] = 0x0021; m[390] = 0x0003; m[416] = 0x0003; m[442] = 0x0003;
-         m[468] = 0x0003;
+         m[51] = 0x0020; m[52] = 0x0003; m[77] = 0x0020; m[78] = 0x0003; m[103] = 0x0020; m[104] = 0x0003; m[129] = 0x0020; m[130] = 0x0003;
+         m[155] = 0x0020; m[156] = 0x0003; m[181] = 0x0020; m[182] = 0x0003; m[207] = 0x0020; m[208] = 0x0003; m[233] = 0x0020; m[234] = 0x0003;
+         m[259] = 0x0020; m[285] = 0x0020; m[286] = 0x0003; m[311] = 0x0020; m[312] = 0x0003; m[337] = 0x0020; m[338] = 0x0003; m[363] = 0x0020;
+         m[364] = 0x0003; m[377] = 0x0021; m[389] = 0x0020; m[390] = 0x0003; m[415] = 0x0020; m[416] = 0x0003; m[441] = 0x0020; m[442] = 0x0003;
+         m[467] = 0x0020; m[468] = 0x0003; m[493] = 0x0020;
          break;
       case 2: // Small Room
          TileMap_LoadTileTexturesFromIndex( tileMap, index );
