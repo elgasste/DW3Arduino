@@ -3,6 +3,7 @@
 void Screen_Init( Screen_t* screen, u16* buffer )
 {
    screen->buffer = buffer;
+   screen->dayFilterIntensity = 1.0f;
 }
 
 void Screen_WipeColor( Screen_t* screen, u16 color )
@@ -55,6 +56,9 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
                                 i32 screenX, i32 screenY,
                                 i32 leftBound, i32 topBound, i32 rightBound, i32 bottomBound )
 {
+   u16 color, newColor565;
+   u32 r, g, b, newR, newG, newB;
+   r32 rgValue, bValue;
    i32 bufferRow, bufferCol, x, y;
    u8* bufferPos = buffer;
 
@@ -66,7 +70,22 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
          {
             if ( x >= leftBound && x < rightBound )
             {
-               screen->buffer[ ( y * SCREEN_WIDTH ) + x ] = screen->palette[*bufferPos];
+               color = screen->palette[*bufferPos];
+
+               r = ( color >> 11 ) & 0x1F; // 5 bits (0-31)
+               g = ( color >> 5 ) & 0x3F;  // 6 bits (0-63)
+               b = color & 0x1F;           // 5 bits (0-31)
+
+               rgValue = 1.0f - ( 0.7f * ( 1.0f - screen->dayFilterIntensity ) );
+               bValue = 1.0f - ( 0.5f * ( 1.0f - screen->dayFilterIntensity ) );
+
+               newR = (u32)( r * rgValue );
+               newG = (u32)( g * rgValue );
+               newB = (u32)( b * bValue );
+
+               newColor565 = ( (u16)( newR & 0x1F ) << 11 ) | (u16)( ( newG & 0x3F ) << 5 ) | (u16)( newB & 0x1F );
+
+               screen->buffer[ ( y * SCREEN_WIDTH ) + x ] = newColor565;
             }
 
             bufferPos++;

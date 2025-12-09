@@ -19,7 +19,6 @@ typedef struct Game_t
    Player_t player;
 
    Bool_t isAM;
-   r32 dayFactor;
 }
 Game_t;
 
