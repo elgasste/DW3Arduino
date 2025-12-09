@@ -111,11 +111,6 @@ internal void Render_DrawTileMapSection( Game_t* game, i32 vx, i32 vy, i32 vw, i
 
    endTileX = ( ( vx + vw ) / TILEMAP_TILE_SIZE );
 
-   if ( ( ( vx + vw ) % TILEMAP_TILE_SIZE ) != 0 )
-   {
-      endTileX++;
-   }
-
    if ( endTileX >= (i32)( game->tileMap.tilesX ) )
    {
       endTileX = (i32)( game->tileMap.tilesX - 1 );
@@ -134,11 +129,6 @@ internal void Render_DrawTileMapSection( Game_t* game, i32 vx, i32 vy, i32 vw, i
    }
 
    endTileY = ( ( vy + vh ) / TILEMAP_TILE_SIZE );
-
-   if ( ( ( vy + vw ) % TILEMAP_TILE_SIZE ) != 0 )
-   {
-      endTileY++;
-   }
 
    if ( endTileY >= (i32)( game->tileMap.tilesY ) )
    {

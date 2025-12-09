@@ -72,5 +72,9 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
             bufferPos++;
          }
       }
+      else
+      {
+         bufferPos += bufferWidth;
+      }
    }
 }
