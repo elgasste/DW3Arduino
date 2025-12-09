@@ -74,7 +74,7 @@ namespace DW3ArduinoEditor.SaveData
          {
             WriteToFileStream( fs, string.Format( "      case {0}:\n", i ) );
             WriteCompressedTextureData( fs, _tileTexturePool.TilePaletteIndexes[i] );
-            WriteToFileStream( fs, "break;\n" );
+            WriteToFileStream( fs, "         break;\n" );
          }
 
          WriteToFileStream( fs, "   }\n" );
