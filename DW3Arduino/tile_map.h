@@ -46,6 +46,7 @@ typedef struct TileMap_t
    u32 tilesX;
    u32 tilesY;
    Bool_t wraps;
+   Bool_t affectsDaylight;
 
    Vector4i32_t viewport;
    Vector2u32_t viewportScreenPos;

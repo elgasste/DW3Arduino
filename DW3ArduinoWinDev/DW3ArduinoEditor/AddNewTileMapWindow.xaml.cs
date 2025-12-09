@@ -10,6 +10,7 @@ namespace DW3ArduinoEditor
       public uint NewTilesX { get; private set; } = 0;
       public uint NewTilesY { get; private set; } = 0;
       public bool NewWraps { get; private set; } = false;
+      public bool NewAffectsDaylight { get; private set; } = false;
 
       public AddNewTileMapWindow()
       {

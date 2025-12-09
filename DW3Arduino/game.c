@@ -33,8 +33,9 @@ void Game_Init( Game_t* game, u16* screenBuffer )
 
    TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
 
-   game->isAM = True;
-   game->daylightFactor = 0.0f;
+   game->isAM = False;
+   game->daylightFactor = 1.0f; // noon
+   game->screen.dayFilterIntensity = 1.0f;
 }
 
 void Game_Tic( Game_t* game )
@@ -48,6 +49,11 @@ void Game_Tic( Game_t* game )
 
 void Game_UpdateDayFactor( Game_t* game )
 {
+   if ( !game->tileMap.affectsDaylight )
+   {
+      return;
+   }
+
    game->daylightFactor += game->isAM
       ? ( 1 / ( DAY_FACTOR_TOTAL_SECONDS * (r32)CLOCK_FPS ) )
       : -( 1 / ( DAY_FACTOR_TOTAL_SECONDS * (r32)CLOCK_FPS ) );

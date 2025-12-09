@@ -168,6 +168,8 @@ internal void Physics_MoveEntities( Game_t* game )
          }
       }
 
+      // TODO: maybe this stuff should be moved into some kind of "player moved" callback,
+      // it doesn't seem like this should be the responsibility of the physics code to handle it.
       if ( entity == game->player.entity )
       {
          // if the player has moved, update the day factor

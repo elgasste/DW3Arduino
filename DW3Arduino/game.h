@@ -1,7 +1,7 @@
 #if !defined( GAME_H )
 #define GAME_H
 
-#define DAY_FACTOR_TOTAL_SECONDS    80
+#define DAY_FACTOR_TOTAL_SECONDS    40
 #define DAY_FACTOR_LOW_CUTOFF       0.3f
 #define DAY_FACTOR_HIGH_CUTOFF      0.7f
 

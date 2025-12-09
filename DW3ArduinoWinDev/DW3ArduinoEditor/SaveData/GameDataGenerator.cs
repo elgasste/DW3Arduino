@@ -117,10 +117,11 @@ namespace DW3ArduinoEditor.SaveData
          {
             WriteToFileStream( fs, string.Format( "      case {0}: // {1}\n", _gameSaveData.TileMaps[i].Index, _gameSaveData.TileMaps[i].Name ) );
             WriteToFileStream( fs, string.Format( "         TileMap_LoadTileTexturesFromIndex( tileMap, index );\n" ) );
-            WriteToFileStream( fs, string.Format( "         tileMap->tilesX = {0}; tileMap->tilesY = {1}; tileMap->wraps = {2};\n",
+            WriteToFileStream( fs, string.Format( "         tileMap->tilesX = {0}; tileMap->tilesY = {1}; tileMap->wraps = {2}; tileMap->affectsDaylight = {3};\n",
                _gameSaveData.TileMaps[i].TilesX,
                _gameSaveData.TileMaps[i].TilesY,
-               _gameSaveData.TileMaps[i].Wraps ? "True" : "False" ) );
+               _gameSaveData.TileMaps[i].Wraps ? "True" : "False",
+               _gameSaveData.TileMaps[i].AffectsDaylight ? "True" : "False" ) );
             WriteToFileStream( fs, string.Format( "         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = {0}; tileMap->hasEdgePortal = {1};\n",
                _gameSaveData.TileMaps[i].Portals.Count,
                _gameSaveData.TileMaps[i].EdgePortal is null ? "False" : "True" ) );
