@@ -121,6 +121,13 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _wraps, value );
       }
 
+      private bool _affectsDaylight;
+      public bool AffectsDaylight
+      {
+         get => _affectsDaylight;
+         set => SetProperty( ref _affectsDaylight, value );
+      }
+
       private PortalViewModel? _edgePortal;
       public PortalViewModel? EdgePortal
       {
@@ -128,13 +135,14 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _edgePortal, value );
       }
 
-      public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps )
+      public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps, bool affectsDaylight )
       {
          _index = index;
          _name = name;
          _tilesX = tilesX;
          _tilesY = tilesY;
          _wraps = wraps;
+         _affectsDaylight = affectsDaylight;
 
          for ( int i = 0; i < _tilesX * _tilesY; i++ )
          {
@@ -149,6 +157,7 @@ namespace DW3ArduinoEditor.ViewModels
          _tilesX = saveData.TilesX;
          _tilesY = saveData.TilesY;
          _wraps = saveData.Wraps;
+         _affectsDaylight = saveData.AffectsDaylight;
 
          if ( string.IsNullOrEmpty( _name ) )
          {

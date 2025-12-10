@@ -18,7 +18,7 @@ void Physics_Tic( Game_t* game )
 
 internal void Physics_MoveEntities( Game_t* game )
 {
-   u32 i, tileIndex;
+   u32 i;
    i32 pixelsRemaining;
    r32 deltaX, deltaY, deltaRemaining, sign, prev;
    Entity_t* entity;
@@ -28,6 +28,8 @@ internal void Physics_MoveEntities( Game_t* game )
    // it may not be very performant though, we'll have to keep an eye on that.
    for ( i = 0, entity = game->tileMap.entities; i < game->tileMap.entityCount; i++, entity++ )
    {
+      entity->prevPos = entity->pos;
+
       deltaX = entity->velocity.x * CLOCK_FRAME_SECONDS;
       deltaY = entity->velocity.y * CLOCK_FRAME_SECONDS;
 
@@ -166,17 +168,9 @@ internal void Physics_MoveEntities( Game_t* game )
          }
       }
 
-      // check if the player has stepped on a new tile
-      if ( entity == game->player.entity )
+      if ( entity == game->player.entity && ( entity->pos.x != entity->prevPos.x || entity->pos.y != entity->prevPos.y ) )
       {
-         tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap,
-                                                     (u32)( entity->pos.x + ( entity->pos.w / 2 ) ),
-                                                     (u32)( entity->pos.y + ( entity->pos.h / 2 ) ) );
-
-         if ( tileIndex != game->player.tileIndex )
-         {
-            Game_SteppedOnTile( game, tileIndex );
-         }
+         game->playerMovedCallback( game );
       }
    }
 }

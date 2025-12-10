@@ -9,6 +9,7 @@ namespace DW3ArduinoEditor.SaveData
       public uint TilesX { get; set; }
       public uint TilesY { get; set; }
       public bool Wraps { get; set; }
+      public bool AffectsDaylight { get; set; }
       public List<int> TileTexturePoolIndexes { get; set; } = [];
       public List<TileSaveData> Tiles { get; set; } = [];
       public List<PortalSaveData> Portals { get; set; } = [];
@@ -25,6 +26,7 @@ namespace DW3ArduinoEditor.SaveData
          TilesX = viewModel.TilesX;
          TilesY = viewModel.TilesY;
          Wraps = viewModel.Wraps;
+         AffectsDaylight = viewModel.AffectsDaylight;
 
          foreach ( var index in viewModel.TileTexturePoolIndexes )
          {

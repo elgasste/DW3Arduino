@@ -1,6 +1,10 @@
 #if !defined( GAME_H )
 #define GAME_H
 
+#define DAY_FACTOR_TOTAL_SECONDS    40
+#define DAY_FACTOR_LOW_CUTOFF       0.3f
+#define DAY_FACTOR_HIGH_CUTOFF      0.7f
+
 #include "common.h"
 #include "clock.h"
 #include "screen.h"
@@ -15,6 +19,11 @@ typedef struct Game_t
    Input_t input;
    TileMap_t tileMap;
    Player_t player;
+
+   Bool_t isAM;
+   r32 daylightFactor;
+
+   void ( *playerMovedCallback )( void* );
 }
 Game_t;
 
@@ -24,7 +33,6 @@ extern "C" {
 
 void Game_Init( Game_t* game, u16* screenBuffer );
 void Game_Tic( Game_t* game );
-void Game_SteppedOnTile( Game_t* game, u32 tileIndex );
 
 // physics.c
 void Physics_Tic( Game_t* game );

@@ -22,6 +22,7 @@ typedef struct Screen_t
 {
    u16* buffer;
    u16 palette[SCREEN_PALETTE_SIZE];
+   r32 dayFilterIntensity;
 }
 Screen_t;
 
