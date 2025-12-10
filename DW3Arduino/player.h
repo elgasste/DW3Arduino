@@ -1,7 +1,7 @@
 #if !defined( PLAYER_H )
 #define PLAYER_H
 
-#define PLAYER_MAX_VELOCITY      64.0f    // pixels per second
+#define PLAYER_MAX_VELOCITY      56.0f    // pixels per second
 
 #include "common.h"
 
