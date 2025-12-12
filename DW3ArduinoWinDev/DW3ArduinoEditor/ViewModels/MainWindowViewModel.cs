@@ -15,6 +15,7 @@ namespace DW3ArduinoEditor.ViewModels
       private TileTexturePool? _tileTexturePool;
 
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
+      public ObservableCollection<TileTextureSetViewModel> TileTextureSets { get; } = [];
 
       private TileMapViewModel? _selectedTileMap;
       public TileMapViewModel? SelectedTileMap
@@ -74,6 +75,12 @@ namespace DW3ArduinoEditor.ViewModels
                {
                   SelectedTileMap = TileMaps[0];
                }
+
+               // TODO: verify there are no more than 32 textures per set
+               foreach ( var set in saveData.TileTextureSets )
+               {
+                  TileTextureSets.Add( new( set  ) );
+               }
             }
          }
          catch
@@ -81,9 +88,17 @@ namespace DW3ArduinoEditor.ViewModels
             MessageBox.Show( "Something went wrong when loading save data, file is possibly corrupt! Starting from scratch.", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
          }
 
+         if ( TileTextureSets.Count == 0 )
+         {
+            TileTextureSets.Add( new( 0 ) );
+         }
+
          try
          {
             _tileTexturePool = new( Constants.TileTexturePoolImagePath, _palette );
+
+            // TODO: verify our tile texture sets contain valid pool indexes, and our
+            // tile maps contain valid tile texture set indexes.
          }
          catch ( Exception ex )
          {
@@ -336,7 +351,7 @@ namespace DW3ArduinoEditor.ViewModels
          if ( result.HasValue && result.Value )
          {
             uint index = ( TileMaps.Count > 0 ) ? TileMaps[^1].Index + 1 : 0;
-            var newTileMap = new TileMapViewModel( index, window.NewTileMapName, window.NewTilesX, window.NewTilesY, window.NewWraps, window.NewAffectsDaylight );
+            var newTileMap = new TileMapViewModel( index, window.NewTileMapName, window.NewTilesX, window.NewTilesY, window.NewWraps, window.NewAffectsDaylight, TileTextureSets[0].Index );
             TileMaps.Add( newTileMap );
             SelectedTileMap = newTileMap;
          }
@@ -397,7 +412,7 @@ namespace DW3ArduinoEditor.ViewModels
 
       private void WriteSaveData()
       {
-         var saveData = new GameSaveData( TileMaps );
+         var saveData = new GameSaveData( TileMaps, TileTextureSets );
          File.WriteAllText( Constants.SaveDataFilePath, JsonSerializer.Serialize( saveData ) );
          MessageBox.Show( "Editor data has been saved." );
       }
@@ -405,7 +420,7 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( TileMaps ), _palette, _tileTexturePool );
+         generator.WriteGameDataSourceFile( new( TileMaps, TileTextureSets ), _palette, _tileTexturePool );
          MessageBox.Show( "Game data source file has been written." );
       }
 

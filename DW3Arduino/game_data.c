@@ -4,7 +4,7 @@
 #include "random.h"
 
 internal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 index );
-internal void TileMap_LoadTileTexturesFromIndex( TileMap_t* tileMap, u32 index );
+internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
 
 void Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index )
 {
@@ -501,7 +501,7 @@ internal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 
    }
 }
 
-internal void TileMap_LoadTileTexturesFromIndex( TileMap_t* tileMap, u32 index )
+internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index )
 {
    switch ( index )
    {
@@ -534,6 +534,10 @@ internal void TileMap_LoadTileTexturesFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[25], 25 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[26], 26 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[27], 27 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[28], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[29], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[30], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[31], 8 );
          break;
    }
 }
@@ -546,7 +550,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
    switch( index )
    {
       case 0: // Overworld
-         TileMap_LoadTileTexturesFromIndex( tileMap, index );
+         TileMap_LoadTileTexturesFromSetIndex( tileMap, 0 );
          tileMap->tilesX = 256; tileMap->tilesY = 256; tileMap->wraps = True; tileMap->affectsDaylight = True;
          tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 0; tileMap->hasEdgePortal = False;
          for ( i = 0; i < 65536; i++ ) m[i] = 0x0009;
