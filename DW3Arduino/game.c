@@ -23,8 +23,8 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->tileMap.viewportScreenPos.y = 10;
 
    game->player.entity = &game->tileMap.entities[0];
-   game->player.entity->pos.x = 64.0f;
-   game->player.entity->pos.y = 18.0f;
+   game->player.entity->pos.x = 515.0f;
+   game->player.entity->pos.y = 463.0f;
    game->player.entity->pos.w = 12.0f;
    game->player.entity->pos.h = 12.0f;
    game->player.entity->prevPos = game->player.entity->pos;
