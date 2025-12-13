@@ -231,21 +231,21 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
          if ( i < 0 ) // wrap to the right
             if ( side < 0 ) // wrap to the bottom
                tile = tileMap->tiles[( tileMap->tilesY + i ) + ( ( tileMap->tilesX + side ) * tileMap->tilesX )];
-            else if ( side >= (i32)tileMap->tilesX ) // wrap to the top
+            else if ( side >= (i32)tileMap->tilesY ) // wrap to the top
                tile = tileMap->tiles[( tileMap->tilesY + i ) + ( ( side - tileMap->tilesX ) * tileMap->tilesX )];
             else // no vertical wrapping
                tile = tileMap->tiles[( tileMap->tilesY + i ) + ( side * tileMap->tilesX )];
          else if ( i >= (i32)tileMap->tilesX ) // wrap to the left
             if ( side < 0 ) // wrap to the bottom
                tile = tileMap->tiles[( i - tileMap->tilesY ) + ( ( tileMap->tilesX + side ) * tileMap->tilesX )];
-            else if ( side >= (i32)tileMap->tilesX ) // wrap to the top
+            else if ( side >= (i32)tileMap->tilesY ) // wrap to the top
                tile = tileMap->tiles[( i - tileMap->tilesY ) + ( ( side - tileMap->tilesX ) * tileMap->tilesX )];
             else // no vertical wrapping
                tile = tileMap->tiles[( i - tileMap->tilesY ) + ( side * tileMap->tilesX )];
          else // no horizontal wrapping
             if ( side < 0 ) // wrap to the bottom
                tile = tileMap->tiles[i + ( ( tileMap->tilesX + side ) * tileMap->tilesX )];
-            else if ( side >= (i32)tileMap->tilesX ) // wrap to the top
+            else if ( side >= (i32)tileMap->tilesY ) // wrap to the top
                tile = tileMap->tiles[i + ( ( side - tileMap->tilesX ) * tileMap->tilesX )];
             else // no vertical wrapping
                tile = tileMap->tiles[i + ( side * tileMap->tilesX )];
