@@ -2602,12 +2602,24 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 4: // Aliahan House 1F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 17; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 913;
+         tileMap->portals[1].sourceTileIndex = 8; tileMap->portals[1].destTileMapIndex = 5; tileMap->portals[1].destTileIndex = 14;
          for ( i = 0; i < 20; i++ ) m[i] = 0x0008;
          for ( i = 4; i < 6; i++ ) m[i] = 0x0007; for ( i = 6; i < 9; i++ ) m[i] = 0x0026; for ( i = 9; i < 11; i++ ) m[i] = 0x0007;
          for ( i = 11; i < 14; i++ ) m[i] = 0x0026;
          m[0] = 0x0007; m[14] = 0x0007; m[17] = 0x0026;
+         break;
+      case 5: // Aliahan House 2F
+         TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
+         tileMap->tilesX = 8; tileMap->tilesY = 8; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 14; tileMap->portals[0].destTileMapIndex = 4; tileMap->portals[0].destTileIndex = 8;
+         for ( i = 0; i < 64; i++ ) m[i] = 0x002A;
+         for ( i = 1; i < 7; i++ ) m[i] = 0x0008; for ( i = 7; i < 9; i++ ) m[i] = 0x0007; for ( i = 15; i < 17; i++ ) m[i] = 0x0007;
+         for ( i = 23; i < 25; i++ ) m[i] = 0x0007; for ( i = 31; i < 33; i++ ) m[i] = 0x0007; for ( i = 39; i < 41; i++ ) m[i] = 0x0007;
+         for ( i = 47; i < 49; i++ ) m[i] = 0x0007; for ( i = 56; i < 64; i++ ) m[i] = 0x0008;
+         m[0] = 0x0007; m[55] = 0x0007;
          break;
    }
 }
