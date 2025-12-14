@@ -2626,13 +2626,14 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 6: // Aliahan Castle 1F Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 30; tileMap->tilesY = 30; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 6; tileMap->hasEdgePortal = True;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 7; tileMap->hasEdgePortal = True;
          tileMap->portals[0].sourceTileIndex = 883; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 152;
          tileMap->portals[1].sourceTileIndex = 884; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 152;
          tileMap->portals[2].sourceTileIndex = 885; tileMap->portals[2].destTileMapIndex = 1; tileMap->portals[2].destTileIndex = 153;
          tileMap->portals[3].sourceTileIndex = 886; tileMap->portals[3].destTileMapIndex = 1; tileMap->portals[3].destTileIndex = 153;
          tileMap->portals[4].sourceTileIndex = 99; tileMap->portals[4].destTileMapIndex = 7; tileMap->portals[4].destTileIndex = 39;
          tileMap->portals[5].sourceTileIndex = 110; tileMap->portals[5].destTileMapIndex = 8; tileMap->portals[5].destTileIndex = 30;
+         tileMap->portals[6].sourceTileIndex = 285; tileMap->portals[6].destTileMapIndex = 11; tileMap->portals[6].destTileIndex = 408;
          tileMap->edgePortal.destTileMapIndex = 1; tileMap->edgePortal.destTileIndex = 152;
          for ( i = 0; i < 900; i++ ) m[i] = 0x0026;
          for ( i = 0; i < 10; i++ ) m[i] = 0x0009; for ( i = 10; i < 20; i++ ) m[i] = 0x0020; for ( i = 20; i < 40; i++ ) m[i] = 0x0009;
@@ -2734,6 +2735,31 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          for ( i = 0; i < 36; i++ ) m[i] = 0x0008;
          for ( i = 11; i < 13; i++ ) m[i] = 0x0007; for ( i = 13; i < 23; i++ ) m[i] = 0x0026;
          m[0] = 0x0007; m[2] = 0x0026; m[23] = 0x0007;
+         break;
+      case 11: // Aliahan Castle Throne Room
+         TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
+         tileMap->tilesX = 19; tileMap->tilesY = 24; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 408; tileMap->portals[0].destTileMapIndex = 6; tileMap->portals[0].destTileIndex = 285;
+         for ( i = 0; i < 456; i++ ) m[i] = 0x0026;
+         for ( i = 0; i < 20; i++ ) m[i] = 0x0007; for ( i = 20; i < 37; i++ ) m[i] = 0x0012; for ( i = 37; i < 39; i++ ) m[i] = 0x0007;
+         for ( i = 45; i < 50; i++ ) m[i] = 0x002F; for ( i = 56; i < 58; i++ ) m[i] = 0x0007; for ( i = 65; i < 68; i++ ) m[i] = 0x0010;
+         for ( i = 75; i < 77; i++ ) m[i] = 0x0007; for ( i = 94; i < 96; i++ ) m[i] = 0x0007; for ( i = 102; i < 107; i++ ) m[i] = 0x002F;
+         for ( i = 113; i < 115; i++ ) m[i] = 0x0007; for ( i = 121; i < 126; i++ ) m[i] = 0x002F; for ( i = 132; i < 134; i++ ) m[i] = 0x0007;
+         for ( i = 140; i < 145; i++ ) m[i] = 0x002F; for ( i = 151; i < 153; i++ ) m[i] = 0x0007; for ( i = 159; i < 164; i++ ) m[i] = 0x002F;
+         for ( i = 170; i < 172; i++ ) m[i] = 0x0007; for ( i = 178; i < 183; i++ ) m[i] = 0x002F; for ( i = 189; i < 191; i++ ) m[i] = 0x0007;
+         for ( i = 197; i < 202; i++ ) m[i] = 0x002F; for ( i = 208; i < 210; i++ ) m[i] = 0x0007; for ( i = 216; i < 221; i++ ) m[i] = 0x002F;
+         for ( i = 227; i < 229; i++ ) m[i] = 0x0007; for ( i = 235; i < 240; i++ ) m[i] = 0x002F; for ( i = 246; i < 248; i++ ) m[i] = 0x0007;
+         for ( i = 254; i < 259; i++ ) m[i] = 0x002F; for ( i = 265; i < 267; i++ ) m[i] = 0x0007; for ( i = 273; i < 278; i++ ) m[i] = 0x002F;
+         for ( i = 284; i < 286; i++ ) m[i] = 0x0007; for ( i = 292; i < 297; i++ ) m[i] = 0x002F; for ( i = 303; i < 305; i++ ) m[i] = 0x0007;
+         for ( i = 311; i < 316; i++ ) m[i] = 0x002F; for ( i = 322; i < 324; i++ ) m[i] = 0x0007; for ( i = 330; i < 335; i++ ) m[i] = 0x002F;
+         for ( i = 341; i < 343; i++ ) m[i] = 0x0007; for ( i = 349; i < 354; i++ ) m[i] = 0x002F; for ( i = 360; i < 362; i++ ) m[i] = 0x0007;
+         for ( i = 379; i < 381; i++ ) m[i] = 0x0007; for ( i = 398; i < 400; i++ ) m[i] = 0x0007; for ( i = 417; i < 419; i++ ) m[i] = 0x0007;
+         for ( i = 437; i < 456; i++ ) m[i] = 0x0008;
+         m[61] = 0x000D; m[64] = 0x002F; m[68] = 0x002F; m[71] = 0x000D; m[80] = 0x000E; m[83] = 0x002F; m[84] = 0x0011; m[86] = 0x0011;
+         m[87] = 0x002F; m[90] = 0x000E; m[137] = 0x000D; m[147] = 0x000D; m[156] = 0x000E; m[166] = 0x000E; m[213] = 0x000D; m[223] = 0x000D;
+         m[232] = 0x000E; m[242] = 0x000E; m[289] = 0x000D; m[299] = 0x000D; m[308] = 0x000E; m[318] = 0x000E; m[365] = 0x000D; m[375] = 0x000D;
+         m[384] = 0x000E; m[394] = 0x000E; m[436] = 0x0007;
          break;
    }
 }
