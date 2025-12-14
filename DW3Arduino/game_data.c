@@ -2471,9 +2471,10 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 1: // Aliahan Town
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 34; tileMap->tilesY = 40; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = True;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 3; tileMap->hasEdgePortal = True;
          tileMap->portals[0].sourceTileIndex = 582; tileMap->portals[0].destTileMapIndex = 2; tileMap->portals[0].destTileIndex = 115;
          tileMap->portals[1].sourceTileIndex = 583; tileMap->portals[1].destTileMapIndex = 2; tileMap->portals[1].destTileIndex = 116;
+         tileMap->portals[2].sourceTileIndex = 913; tileMap->portals[2].destTileMapIndex = 4; tileMap->portals[2].destTileIndex = 17;
          tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55980;
          for ( i = 0; i < 1360; i++ ) m[i] = 0x0020;
          for ( i = 1; i < 34; i++ ) m[i] = 0x0003; for ( i = 35; i < 48; i++ ) m[i] = 0x0003; for ( i = 48; i < 54; i++ ) m[i] = 0x0004;
@@ -2597,6 +2598,16 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          m[0] = 0x0007; m[4] = 0x0007; m[5] = 0x0008; m[6] = 0x0007; m[15] = 0x0007; m[17] = 0x0008; m[26] = 0x0007; m[37] = 0x0007;
          m[39] = 0x0007; m[45] = 0x0008; m[47] = 0x0008; m[48] = 0x0007; m[50] = 0x0007; m[59] = 0x0008; m[61] = 0x0008; m[81] = 0x0007;
          m[83] = 0x0007; m[186] = 0x0007;
+         break;
+      case 4: // Aliahan House 1F
+         TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
+         tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 17; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 913;
+         for ( i = 0; i < 20; i++ ) m[i] = 0x0008;
+         for ( i = 4; i < 6; i++ ) m[i] = 0x0007; for ( i = 6; i < 9; i++ ) m[i] = 0x0026; for ( i = 9; i < 11; i++ ) m[i] = 0x0007;
+         for ( i = 11; i < 14; i++ ) m[i] = 0x0026;
+         m[0] = 0x0007; m[14] = 0x0007; m[17] = 0x0026;
          break;
    }
 }
