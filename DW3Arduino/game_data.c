@@ -2694,8 +2694,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 8: // Aliahan Castle 1F Hallway
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 10; tileMap->tilesY = 24; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 30; tileMap->portals[0].destTileMapIndex = 6; tileMap->portals[0].destTileIndex = 110;
+         tileMap->portals[1].sourceTileIndex = 226; tileMap->portals[1].destTileMapIndex = 9; tileMap->portals[1].destTileIndex = 94;
          for ( i = 0; i < 240; i++ ) m[i] = 0x0033;
          for ( i = 1; i < 9; i++ ) m[i] = 0x0008; for ( i = 9; i < 11; i++ ) m[i] = 0x0007; for ( i = 11; i < 19; i++ ) m[i] = 0x0026;
          for ( i = 21; i < 29; i++ ) m[i] = 0x0026; for ( i = 30; i < 39; i++ ) m[i] = 0x0026; for ( i = 39; i < 41; i++ ) m[i] = 0x0007;
@@ -2709,6 +2710,20 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          m[166] = 0x0007; m[174] = 0x0007; m[175] = 0x0026; m[176] = 0x0007; m[184] = 0x0007; m[185] = 0x0026; m[186] = 0x0007; m[194] = 0x0007;
          m[195] = 0x0026; m[196] = 0x0007; m[204] = 0x0007; m[205] = 0x0026; m[206] = 0x0008; m[207] = 0x0007; m[214] = 0x0007; m[217] = 0x0007;
          m[224] = 0x0007; m[227] = 0x0007;
+         break;
+      case 9: // Aliahan Castle Prison Main
+         TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
+         tileMap->tilesX = 12; tileMap->tilesY = 11; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 94; tileMap->portals[0].destTileMapIndex = 8; tileMap->portals[0].destTileIndex = 226;
+         for ( i = 0; i < 132; i++ ) m[i] = 0x0026;
+         for ( i = 1; i < 5; i++ ) m[i] = 0x0008; for ( i = 6; i < 11; i++ ) m[i] = 0x0008; for ( i = 11; i < 13; i++ ) m[i] = 0x0007;
+         for ( i = 23; i < 25; i++ ) m[i] = 0x0007; for ( i = 35; i < 37; i++ ) m[i] = 0x0007; for ( i = 47; i < 49; i++ ) m[i] = 0x0007;
+         for ( i = 59; i < 61; i++ ) m[i] = 0x0007; for ( i = 61; i < 63; i++ ) m[i] = 0x0008; for ( i = 64; i < 68; i++ ) m[i] = 0x0008;
+         for ( i = 69; i < 71; i++ ) m[i] = 0x0008; for ( i = 71; i < 73; i++ ) m[i] = 0x0007; for ( i = 83; i < 85; i++ ) m[i] = 0x0007;
+         for ( i = 95; i < 97; i++ ) m[i] = 0x0007; for ( i = 107; i < 109; i++ ) m[i] = 0x0007; for ( i = 112; i < 120; i++ ) m[i] = 0x0007;
+         for ( i = 120; i < 122; i++ ) m[i] = 0x0008; for ( i = 123; i < 132; i++ ) m[i] = 0x0008;
+         m[0] = 0x0007; m[5] = 0x0007; m[17] = 0x0007; m[29] = 0x0007; m[41] = 0x0007; m[53] = 0x0007;
          break;
    }
 }
