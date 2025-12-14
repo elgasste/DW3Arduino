@@ -2471,7 +2471,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 1: // Aliahan Town
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 34; tileMap->tilesY = 40; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 0; tileMap->hasEdgePortal = True;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = True;
+         tileMap->portals[0].sourceTileIndex = 582; tileMap->portals[0].destTileMapIndex = 2; tileMap->portals[0].destTileIndex = 115;
+         tileMap->portals[1].sourceTileIndex = 583; tileMap->portals[1].destTileMapIndex = 2; tileMap->portals[1].destTileIndex = 116;
          tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55980;
          for ( i = 0; i < 1360; i++ ) m[i] = 0x0020;
          for ( i = 1; i < 34; i++ ) m[i] = 0x0003; for ( i = 35; i < 48; i++ ) m[i] = 0x0003; for ( i = 48; i < 54; i++ ) m[i] = 0x0004;
@@ -2560,6 +2562,22 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          m[1153] = 0x0004; m[1154] = 0x0007; m[1157] = 0x0007; m[1158] = 0x0022; m[1174] = 0x0004; m[1175] = 0x0007; m[1179] = 0x0007; m[1183] = 0x0004;
          m[1187] = 0x0004; m[1188] = 0x0007; m[1191] = 0x0007; m[1192] = 0x0022; m[1208] = 0x0004; m[1222] = 0x0007; m[1225] = 0x0007; m[1226] = 0x0022;
          m[1256] = 0x0007; m[1259] = 0x0007; m[1282] = 0x0007; m[1285] = 0x0007; m[1290] = 0x0007;
+         break;
+      case 2: // Aliahan Eatery 1F
+         TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
+         tileMap->tilesX = 8; tileMap->tilesY = 15; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 115; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 582;
+         tileMap->portals[1].sourceTileIndex = 116; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 583;
+         for ( i = 0; i < 120; i++ ) m[i] = 0x0026;
+         for ( i = 1; i < 7; i++ ) m[i] = 0x0008; for ( i = 7; i < 9; i++ ) m[i] = 0x0007; for ( i = 15; i < 17; i++ ) m[i] = 0x0007;
+         for ( i = 19; i < 21; i++ ) m[i] = 0x0008; for ( i = 23; i < 25; i++ ) m[i] = 0x0007; for ( i = 31; i < 33; i++ ) m[i] = 0x0007;
+         for ( i = 39; i < 41; i++ ) m[i] = 0x0007; for ( i = 47; i < 49; i++ ) m[i] = 0x0007; for ( i = 55; i < 57; i++ ) m[i] = 0x0007;
+         for ( i = 63; i < 65; i++ ) m[i] = 0x0007; for ( i = 69; i < 71; i++ ) m[i] = 0x0008; for ( i = 71; i < 73; i++ ) m[i] = 0x0007;
+         for ( i = 79; i < 81; i++ ) m[i] = 0x0007; for ( i = 87; i < 89; i++ ) m[i] = 0x0007; for ( i = 92; i < 95; i++ ) m[i] = 0x0008;
+         for ( i = 95; i < 97; i++ ) m[i] = 0x0007; for ( i = 103; i < 105; i++ ) m[i] = 0x0007; for ( i = 112; i < 115; i++ ) m[i] = 0x0008;
+         for ( i = 117; i < 120; i++ ) m[i] = 0x0008;
+         m[0] = 0x0007; m[12] = 0x0007; m[17] = 0x0008; m[65] = 0x0008; m[68] = 0x0007; m[76] = 0x0008; m[111] = 0x0007;
          break;
    }
 }
