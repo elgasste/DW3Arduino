@@ -257,7 +257,7 @@ internal void DrawDiagnostics( HDC* dcMem )
    r.top += 16;
 
    gameSeconds = g_winGlobals.game.clock.frameCount / CLOCK_FPS;
-   sprintf_s( str, STRING_SIZE_DEFAULT, "In-Game Timer: %u:%02u:%02u", gameSeconds / 3600, gameSeconds / 60, gameSeconds );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "   In-Game Timer: %u:%02u:%02u", gameSeconds / 3600, gameSeconds / 60, gameSeconds );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 

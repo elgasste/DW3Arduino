@@ -824,7 +824,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 0: // Overworld
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 0 );
          tileMap->tilesX = 256; tileMap->tilesY = 256; tileMap->wraps = True; tileMap->affectsDaylight = True;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 0; tileMap->hasEdgePortal = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 55980; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 817;
+         tileMap->portals[1].sourceTileIndex = 55981; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 817;
          for ( i = 0; i < 65536; i++ ) m[i] = 0x0009;
          for ( i = 3638; i < 3642; i++ ) m[i] = 0x0010; for ( i = 3772; i < 3779; i++ ) m[i] = 0x0010; for ( i = 3883; i < 3889; i++ ) m[i] = 0x0010;
          for ( i = 3894; i < 3898; i++ ) m[i] = 0x0022; for ( i = 3899; i < 3902; i++ ) m[i] = 0x0010; for ( i = 4023; i < 4027; i++ ) m[i] = 0x0010;
@@ -2469,7 +2471,8 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 1: // Aliahan Town
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 34; tileMap->tilesY = 40; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 0; tileMap->hasEdgePortal = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 0; tileMap->hasEdgePortal = True;
+         tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55980;
          for ( i = 0; i < 1360; i++ ) m[i] = 0x0020;
          for ( i = 1; i < 34; i++ ) m[i] = 0x0003; for ( i = 35; i < 48; i++ ) m[i] = 0x0003; for ( i = 48; i < 54; i++ ) m[i] = 0x0004;
          for ( i = 54; i < 68; i++ ) m[i] = 0x0003; for ( i = 69; i < 82; i++ ) m[i] = 0x0003; for ( i = 88; i < 102; i++ ) m[i] = 0x0003;

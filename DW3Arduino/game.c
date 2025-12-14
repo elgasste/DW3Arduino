@@ -15,7 +15,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    TileMap_Init( &game->tileMap );
 
    Screen_LoadPaletteFromIndex( &game->screen, 0 );
-   TileMap_LoadFromIndex( &game->tileMap, 1 );
+   TileMap_LoadFromIndex( &game->tileMap, 0 );
 
    game->tileMap.viewport.w = 380;
    game->tileMap.viewport.h = 220;
@@ -23,8 +23,8 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->tileMap.viewportScreenPos.y = 10;
 
    game->player.entity = &game->tileMap.entities[0];
-   game->player.entity->pos.x = 100.0f;
-   game->player.entity->pos.y = 396.0f;
+   game->player.entity->pos.x = 2722.0f;
+   game->player.entity->pos.y = 3538.0f;
    game->player.entity->pos.w = 12.0f;
    game->player.entity->pos.h = 12.0f;
    game->player.entity->prevPos = game->player.entity->pos;
