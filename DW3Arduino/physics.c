@@ -258,9 +258,9 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
                tile = tileMap->tiles[( i - tileMap->tilesY ) + ( side * tileMap->tilesX )];
          else // no horizontal wrapping
             if ( side < 0 ) // wrap to the bottom
-               tile = tileMap->tiles[i + ( ( tileMap->tilesX + side ) * tileMap->tilesX )];
+               tile = tileMap->tiles[i + ( ( tileMap->tilesY + side ) * tileMap->tilesX )];
             else if ( side >= (i32)tileMap->tilesY ) // wrap to the top
-               tile = tileMap->tiles[i + ( ( side - tileMap->tilesX ) * tileMap->tilesX )];
+               tile = tileMap->tiles[i + ( ( side - tileMap->tilesY ) * tileMap->tilesX )];
             else // no vertical wrapping
                tile = tileMap->tiles[i + ( side * tileMap->tilesX )];
 

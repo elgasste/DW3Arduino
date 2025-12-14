@@ -107,6 +107,96 @@ namespace DW3ArduinoEditor.ViewModels
          }
       }
 
+      // TODO: this is essentially the same as the temp Overworld loading code, just without the
+      // shoreline detection. let's keep this around for now too, just in case.
+      //private void LoadAliahanFromTempFile()
+      //{
+      //   uint w = 19;
+      //   uint h = 24;
+      //   string fileName = "map\\temp_aliahan_castle_throne_room_codes.txt";
+      //   string mapName = "Aliahan Castle Throne Room";
+      //   uint mapIndex = 11;
+      //   int defaultTexture = 6;
+      //   List<uint> impassableTextureIndexes = [3, 4, 7, 8, 9, 13, 14, 16, 17, 18];
+
+      //   List<List<int>> textureIndexes = [];
+      //   int lineIndex = 0;
+
+      //   var lines = File.ReadLines( Constants.AssetsBasePath + fileName );
+
+      //   foreach ( var line in lines )
+      //   {
+      //      if ( lineIndex == h )
+      //      {
+      //         MessageBox.Show( "Too many lines!" );
+      //         Application.Current.Shutdown();
+      //      }
+      //      else if ( line.Length != w )
+      //      {
+      //         MessageBox.Show( "Line is too long!" );
+      //         Application.Current.Shutdown();
+      //      }
+
+      //      textureIndexes.Add( [] );
+
+      //      for ( int i = 0; i < line.Length; i++ )
+      //      {
+      //         switch ( line[i] )
+      //         {
+      //            case '0': textureIndexes[lineIndex].Add( 0 ); break;
+      //            case '1': textureIndexes[lineIndex].Add( 1 ); break;
+      //            case '2': textureIndexes[lineIndex].Add( 2 ); break;
+      //            case '3': textureIndexes[lineIndex].Add( 3 ); break;
+      //            case '4': textureIndexes[lineIndex].Add( 4 ); break;
+      //            case '5': textureIndexes[lineIndex].Add( 5 ); break;
+      //            case '6': textureIndexes[lineIndex].Add( 6 ); break;
+      //            case '7': textureIndexes[lineIndex].Add( 7 ); break;
+      //            case '8': textureIndexes[lineIndex].Add( 8 ); break;
+      //            case '9': textureIndexes[lineIndex].Add( 9 ); break;
+      //            case 'a': textureIndexes[lineIndex].Add( 10 ); break;
+      //            case 'b': textureIndexes[lineIndex].Add( 11 ); break;
+      //            case 'c': textureIndexes[lineIndex].Add( 12 ); break;
+      //            case 'd': textureIndexes[lineIndex].Add( 13 ); break;
+      //            case 'e': textureIndexes[lineIndex].Add( 14 ); break;
+      //            case 'f': textureIndexes[lineIndex].Add( 15 ); break;
+      //            case 'g': textureIndexes[lineIndex].Add( 16 ); break;
+      //            case 'h': textureIndexes[lineIndex].Add( 17 ); break;
+      //            case 'i': textureIndexes[lineIndex].Add( 18 ); break;
+      //            case 'j': textureIndexes[lineIndex].Add( 19 ); break;
+
+      //            default: textureIndexes[lineIndex].Add( defaultTexture ); break;
+      //         }
+      //      }
+
+      //      lineIndex++;
+      //   }
+
+      //   if ( textureIndexes.Count != h )
+      //   {
+      //      MessageBox.Show( "Not enough lines!" );
+      //      Application.Current.Shutdown();
+      //   }
+
+      //   var newTileMap = new TileMapViewModel( mapIndex, mapName, w, h, false, false, 1 );
+      //   TileMaps.Add( newTileMap );
+      //   SelectedTileMap = newTileMap;
+
+      //   int tileIndex = 0;
+
+      //   for ( int i = 0; i < textureIndexes.Count; i++ )
+      //   {
+      //      for ( int j = 0; j < textureIndexes[i].Count; j++, tileIndex++ )
+      //      {
+      //         newTileMap.Tiles[tileIndex].TextureIndex = (uint)textureIndexes[i][j];
+
+      //         if ( impassableTextureIndexes.Contains( newTileMap.Tiles[tileIndex].TextureIndex ) )
+      //         {
+      //            newTileMap.Tiles[tileIndex].IsPassable = false;
+      //         }
+      //      }
+      //   }
+      //}
+
       // TODO: this is how the overworld was originally loaded into here, we'll keep it around
       // for now, in case we want to manually build any other maps
       //private void LoadOverworldFromTempFile()
@@ -289,88 +379,6 @@ namespace DW3ArduinoEditor.ViewModels
       //         newTileMap.Tiles[tileIndex].TextureIndex = (uint)textureIndexes[i][j];
 
       //         if ( impassableTileIndexes.Contains( newTileMap.Tiles[tileIndex].TextureIndex ) )
-      //         {
-      //            newTileMap.Tiles[tileIndex].IsPassable = false;
-      //         }
-      //      }
-      //   }
-      //}
-
-      // TODO: this is essentially the same as the temp Overworld loading code, just without the
-      // shoreline detection. let's keep this around for now too, just in case.
-      //private void LoadAliahanFromTempFile()
-      //{
-      //   List<List<int>> textureIndexes = [];
-      //   int lineIndex = 0;
-
-      //   var lines = File.ReadLines( Constants.AssetsBasePath + "map\\temp_aliahan_town_codes.txt" );
-
-      //   foreach ( var line in lines )
-      //   {
-      //      if ( lineIndex == 40 )
-      //      {
-      //         MessageBox.Show( "Too many lines!" );
-      //         Application.Current.Shutdown();
-      //      }
-      //      else if ( line.Length != 34 )
-      //      {
-      //         MessageBox.Show( "Line is not 34 chars!" );
-      //         Application.Current.Shutdown();
-      //      }
-
-      //      textureIndexes.Add( [] );
-
-      //      for ( int i = 0; i < line.Length; i++ )
-      //      {
-      //         switch ( line[i] )
-      //         {
-      //            case '0': textureIndexes[lineIndex].Add( 0 ); break;
-      //            case '1': textureIndexes[lineIndex].Add( 1 ); break;
-      //            case '2': textureIndexes[lineIndex].Add( 2 ); break;
-      //            case '3': textureIndexes[lineIndex].Add( 3 ); break;
-      //            case '4': textureIndexes[lineIndex].Add( 4 ); break;
-      //            case '5': textureIndexes[lineIndex].Add( 5 ); break;
-      //            case '6': textureIndexes[lineIndex].Add( 6 ); break;
-      //            case '7': textureIndexes[lineIndex].Add( 7 ); break;
-      //            case '8': textureIndexes[lineIndex].Add( 8 ); break;
-      //            case '9': textureIndexes[lineIndex].Add( 9 ); break;
-      //            case 'a': textureIndexes[lineIndex].Add( 10 ); break;
-      //            case 'b': textureIndexes[lineIndex].Add( 11 ); break;
-      //            case 'c': textureIndexes[lineIndex].Add( 12 ); break;
-      //            case 'd': textureIndexes[lineIndex].Add( 13 ); break;
-      //            case 'e': textureIndexes[lineIndex].Add( 14 ); break;
-      //            case 'f': textureIndexes[lineIndex].Add( 15 ); break;
-      //            case 'g': textureIndexes[lineIndex].Add( 16 ); break;
-      //            case 'h': textureIndexes[lineIndex].Add( 17 ); break;
-      //            case 'i': textureIndexes[lineIndex].Add( 18 ); break;
-
-      //            default: textureIndexes[lineIndex].Add( 0 ); break;
-      //         }
-      //      }
-
-      //      lineIndex++;
-      //   }
-
-      //   if ( textureIndexes.Count != 40 )
-      //   {
-      //      MessageBox.Show( "Not enough lines!" );
-      //      Application.Current.Shutdown();
-      //   }
-
-      //   var newTileMap = new TileMapViewModel( 1, "Aliahan Town", 34, 40, false, false, 1 );
-      //   TileMaps.Add( newTileMap );
-      //   SelectedTileMap = newTileMap;
-
-      //   int tileIndex = 0;
-      //   List<uint> impassableTextureIndexes = [3, 4, 7, 8, 9, 13, 14, 16, 17, 18];
-
-      //   for ( int i = 0; i < textureIndexes.Count; i++ )
-      //   {
-      //      for ( int j = 0; j < textureIndexes[i].Count; j++, tileIndex++ )
-      //      {
-      //         newTileMap.Tiles[tileIndex].TextureIndex = (uint)textureIndexes[i][j];
-
-      //         if ( impassableTextureIndexes.Contains( newTileMap.Tiles[tileIndex].TextureIndex ) )
       //         {
       //            newTileMap.Tiles[tileIndex].IsPassable = false;
       //         }
