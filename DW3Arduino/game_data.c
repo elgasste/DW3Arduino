@@ -2714,8 +2714,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 9: // Aliahan Castle Prison Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 12; tileMap->tilesY = 11; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 94; tileMap->portals[0].destTileMapIndex = 8; tileMap->portals[0].destTileIndex = 226;
+         tileMap->portals[1].sourceTileIndex = 122; tileMap->portals[1].destTileMapIndex = 10; tileMap->portals[1].destTileIndex = 2;
          for ( i = 0; i < 132; i++ ) m[i] = 0x0026;
          for ( i = 1; i < 5; i++ ) m[i] = 0x0008; for ( i = 6; i < 11; i++ ) m[i] = 0x0008; for ( i = 11; i < 13; i++ ) m[i] = 0x0007;
          for ( i = 23; i < 25; i++ ) m[i] = 0x0007; for ( i = 35; i < 37; i++ ) m[i] = 0x0007; for ( i = 47; i < 49; i++ ) m[i] = 0x0007;
@@ -2724,6 +2725,15 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          for ( i = 95; i < 97; i++ ) m[i] = 0x0007; for ( i = 107; i < 109; i++ ) m[i] = 0x0007; for ( i = 112; i < 120; i++ ) m[i] = 0x0007;
          for ( i = 120; i < 122; i++ ) m[i] = 0x0008; for ( i = 123; i < 132; i++ ) m[i] = 0x0008;
          m[0] = 0x0007; m[5] = 0x0007; m[17] = 0x0007; m[29] = 0x0007; m[41] = 0x0007; m[53] = 0x0007;
+         break;
+      case 10: // Aliahan Castle Prison Hallway
+         TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
+         tileMap->tilesX = 12; tileMap->tilesY = 3; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 2; tileMap->portals[0].destTileMapIndex = 9; tileMap->portals[0].destTileIndex = 122;
+         for ( i = 0; i < 36; i++ ) m[i] = 0x0008;
+         for ( i = 11; i < 13; i++ ) m[i] = 0x0007; for ( i = 13; i < 23; i++ ) m[i] = 0x0026;
+         m[0] = 0x0007; m[2] = 0x0026; m[23] = 0x0007;
          break;
    }
 }
