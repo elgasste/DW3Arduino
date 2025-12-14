@@ -97,6 +97,8 @@ int CALLBACK WinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
    g_winGlobals.shutdown = False;
 
    g_winDebugFlags.showDiagnostics = False;
+   g_winDebugFlags.noClip = False;
+   g_winDebugFlags.fastWalk = False;
 
    while ( 1 )
    {
@@ -312,6 +314,22 @@ internal void DrawDiagnostics( HDC* dcMem )
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
+   SetTextColor( *dcMem, 0x00FFFFFF );
+
+   if ( g_winDebugFlags.noClip )
+   {
+      strcpy( str, "No clip" );
+      DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
+      r.top += 16;
+   }
+
+   if ( g_winDebugFlags.fastWalk )
+   {
+      strcpy( str, "Fast walk" );
+      DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
+      r.top += 16;
+   }
+
    SelectObject( *dcMem, oldFont );
 }
 
@@ -347,6 +365,12 @@ internal void HandleKeyboardInput( u32 keyCode, LPARAM flags )
          {
             case VK_F8:
                TOGGLE_BOOL( g_winDebugFlags.showDiagnostics );
+               break;
+            case VK_NOCLIP:
+               TOGGLE_BOOL( g_winDebugFlags.noClip );
+               break;
+            case VK_FASTWALK:
+               TOGGLE_BOOL( g_winDebugFlags.fastWalk );
                break;
          }
       }

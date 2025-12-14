@@ -7,6 +7,9 @@
 #define STRING_SIZE_DEFAULT         1024
 #define GRAPHICS_SCALE              3.0f
 
+#define VK_NOCLIP                   49    // 1
+#define VK_FASTWALK                 50    // 2
+
 #include <Windows.h>
 #include <mmsystem.h>
 #include <stdlib.h>

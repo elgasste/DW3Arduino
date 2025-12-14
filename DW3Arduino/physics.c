@@ -33,81 +33,95 @@ internal void Physics_MoveEntities( Game_t* game )
       deltaX = entity->velocity.x * CLOCK_FRAME_SECONDS;
       deltaY = entity->velocity.y * CLOCK_FRAME_SECONDS;
 
-      // horizontal pass
-      if ( deltaX != 0.0f )
+#if defined( VISUAL_STUDIO_DEV )
+      if ( g_winDebugFlags.noClip && entity == game->player.entity )
       {
-         deltaRemaining = deltaX;
-         sign = ( deltaX < 0.0f ) ? -1.0f : 1.0f;
-         pixelsRemaining = (i32)deltaX;
-
-         // move full pixels first, one at a time
-         while ( pixelsRemaining != 0 )
-         {
-            prev = entity->pos.x;
-            entity->pos.x += sign;
-
-            if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, True ) ||
-                 Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, True ) )
-            {
-               entity->pos.x = prev;
-               break;
-            }
-
-            deltaRemaining -= sign;
-            pixelsRemaining -= (i32)sign;
-         }
-
-         // move remaining sub-pixels
-         if ( deltaRemaining != 0.0f )
-         {
-            prev = entity->pos.x;
-            entity->pos.x += deltaRemaining;
-
-            if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, True ) ||
-                 Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, True ) )
-            {
-               entity->pos.x = prev;
-            }
-         }
+         entity->pos.x += deltaX;
+         entity->pos.y += deltaY;
       }
-
-      // vertical pass
-      if ( deltaY != 0.0f )
+      else
       {
-         deltaRemaining = deltaY;
-         sign = ( deltaY < 0.0f ) ? -1.0f : 1.0f;
-         pixelsRemaining = (i32)deltaY;
+#endif
 
-         // move full pixels first, one at a time
-         while ( pixelsRemaining != 0 )
+         // horizontal pass
+         if ( deltaX != 0.0f )
          {
-            prev = entity->pos.y;
-            entity->pos.y += sign;
+            deltaRemaining = deltaX;
+            sign = ( deltaX < 0.0f ) ? -1.0f : 1.0f;
+            pixelsRemaining = (i32)deltaX;
 
-            if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, False ) ||
-                 Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, False ) )
+            // move full pixels first, one at a time
+            while ( pixelsRemaining != 0 )
             {
-               entity->pos.y = prev;
-               break;
+               prev = entity->pos.x;
+               entity->pos.x += sign;
+
+               if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, True ) ||
+                    Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, True ) )
+               {
+                  entity->pos.x = prev;
+                  break;
+               }
+
+               deltaRemaining -= sign;
+               pixelsRemaining -= (i32)sign;
             }
 
-            deltaRemaining -= sign;
-            pixelsRemaining -= (i32)sign;
-         }
-
-         // move remaining sub-pixels
-         if ( deltaRemaining != 0.0f )
-         {
-            prev = entity->pos.y;
-            entity->pos.y += deltaRemaining;
-
-            if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, False ) ||
-                 Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, False ) )
+            // move remaining sub-pixels
+            if ( deltaRemaining != 0.0f )
             {
-               entity->pos.y = prev;
+               prev = entity->pos.x;
+               entity->pos.x += deltaRemaining;
+
+               if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, True ) ||
+                    Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, True ) )
+               {
+                  entity->pos.x = prev;
+               }
             }
          }
+
+         // vertical pass
+         if ( deltaY != 0.0f )
+         {
+            deltaRemaining = deltaY;
+            sign = ( deltaY < 0.0f ) ? -1.0f : 1.0f;
+            pixelsRemaining = (i32)deltaY;
+
+            // move full pixels first, one at a time
+            while ( pixelsRemaining != 0 )
+            {
+               prev = entity->pos.y;
+               entity->pos.y += sign;
+
+               if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, False ) ||
+                    Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, False ) )
+               {
+                  entity->pos.y = prev;
+                  break;
+               }
+
+               deltaRemaining -= sign;
+               pixelsRemaining -= (i32)sign;
+            }
+
+            // move remaining sub-pixels
+            if ( deltaRemaining != 0.0f )
+            {
+               prev = entity->pos.y;
+               entity->pos.y += deltaRemaining;
+
+               if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, False ) ||
+                    Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, False ) )
+               {
+                  entity->pos.y = prev;
+               }
+            }
+         }
+
+#if defined( VISUAL_STUDIO_DEV )
       }
+#endif
 
       // clamp to tile map boundaries, or wrap if possible
       if ( entity->pos.x < 0.0f )

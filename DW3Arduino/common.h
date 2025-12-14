@@ -58,6 +58,8 @@ typedef double r64;
 typedef struct WinDebugFlags_t
 {
    Bool_t showDiagnostics;
+   Bool_t noClip;
+   Bool_t fastWalk;
 }
 WinDebugFlags_t;
 
