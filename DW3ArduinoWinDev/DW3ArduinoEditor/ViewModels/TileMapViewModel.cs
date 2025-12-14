@@ -1,12 +1,12 @@
 ﻿using DW3ArduinoEditor.SaveData;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace DW3ArduinoEditor.ViewModels
 {
    public class TileMapViewModel : ViewModelBase
    {
-      public ObservableCollection<int> TileTexturePoolIndexes { get; private set; } = [];
       public ObservableCollection<TileViewModel> Tiles { get; private set; } = [];
       public ObservableCollection<PortalViewModel> Portals { get; private set; } = [];
 
@@ -22,6 +22,13 @@ namespace DW3ArduinoEditor.ViewModels
       {
          get => _name;
          set => SetProperty( ref _name, value );
+      }
+
+      private uint _tileTextureSetIndex;
+      public uint TileTextureSetIndex
+      {
+         get => _tileTextureSetIndex;
+         set => SetProperty( ref _tileTextureSetIndex, value );
       }
 
       private uint _tilesX;
@@ -135,7 +142,7 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _edgePortal, value );
       }
 
-      public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps, bool affectsDaylight )
+      public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps, bool affectsDaylight, uint tileTextureSetIndex )
       {
          _index = index;
          _name = name;
@@ -143,6 +150,7 @@ namespace DW3ArduinoEditor.ViewModels
          _tilesY = tilesY;
          _wraps = wraps;
          _affectsDaylight = affectsDaylight;
+         _tileTextureSetIndex = tileTextureSetIndex;
 
          for ( int i = 0; i < _tilesX * _tilesY; i++ )
          {
@@ -158,15 +166,11 @@ namespace DW3ArduinoEditor.ViewModels
          _tilesY = saveData.TilesY;
          _wraps = saveData.Wraps;
          _affectsDaylight = saveData.AffectsDaylight;
+         _tileTextureSetIndex = saveData.TileTextureSetIndex;
 
          if ( string.IsNullOrEmpty( _name ) )
          {
             _name = "(unnamed)";
-         }
-
-         foreach ( var index in saveData.TileTexturePoolIndexes )
-         {
-            TileTexturePoolIndexes.Add( index );
          }
 
          if ( _tilesX < Constants.TileMapMinTilesX || _tilesX > Constants.TileMapMaxTilesX ||

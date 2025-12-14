@@ -15,6 +15,7 @@ namespace DW3ArduinoEditor.ViewModels
       private TileTexturePool? _tileTexturePool;
 
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
+      public ObservableCollection<TileTextureSetViewModel> TileTextureSets { get; } = [];
 
       private TileMapViewModel? _selectedTileMap;
       public TileMapViewModel? SelectedTileMap
@@ -74,6 +75,12 @@ namespace DW3ArduinoEditor.ViewModels
                {
                   SelectedTileMap = TileMaps[0];
                }
+
+               // TODO: verify there are no more than 32 textures per set
+               foreach ( var set in saveData.TileTextureSets )
+               {
+                  TileTextureSets.Add( new( set  ) );
+               }
             }
          }
          catch
@@ -81,9 +88,17 @@ namespace DW3ArduinoEditor.ViewModels
             MessageBox.Show( "Something went wrong when loading save data, file is possibly corrupt! Starting from scratch.", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
          }
 
+         if ( TileTextureSets.Count == 0 )
+         {
+            TileTextureSets.Add( new( 0 ) );
+         }
+
          try
          {
             _tileTexturePool = new( Constants.TileTexturePoolImagePath, _palette );
+
+            // TODO: verify our tile texture sets contain valid pool indexes, and our
+            // tile maps contain valid tile texture set indexes.
          }
          catch ( Exception ex )
          {
@@ -91,6 +106,277 @@ namespace DW3ArduinoEditor.ViewModels
             Application.Current.Shutdown();
          }
       }
+
+      // TODO: this is how the overworld was originally loaded into here, we'll keep it around
+      // for now, in case we want to manually build any other maps
+      //private void LoadOverworldFromTempFile()
+      //{
+      //   List<List<int>> textureIndexes = [];
+      //   List<List<int>> shoreCheckTextureIndexes = [];
+      //   int lineIndex = 0;
+
+      //   var lines = File.ReadLines( Constants.AssetsBasePath + "map\\temp_overworld_codes.txt" );
+
+      //   foreach ( var line in lines )
+      //   {
+      //      if ( lineIndex == 256 )
+      //      {
+      //         MessageBox.Show( "Too many lines!" );
+      //         Application.Current.Shutdown();
+      //      }
+      //      else if ( line.Length != 256 )
+      //      {
+      //         MessageBox.Show( "Line is not 256 chars!" );
+      //         Application.Current.Shutdown();
+      //      }
+
+      //      textureIndexes.Add( [] );
+      //      shoreCheckTextureIndexes.Add( [] );
+
+      //      for ( int i = 0; i < line.Length; i++ )
+      //      {
+      //         switch ( line[i] )
+      //         {
+      //            case '0': textureIndexes[lineIndex].Add( 0 ); shoreCheckTextureIndexes[lineIndex].Add( 0 ); break;
+      //            case '1': textureIndexes[lineIndex].Add( 1 ); shoreCheckTextureIndexes[lineIndex].Add( 1 ); break;
+      //            case '2': textureIndexes[lineIndex].Add( 2 ); shoreCheckTextureIndexes[lineIndex].Add( 2 ); break;
+      //            case '3': textureIndexes[lineIndex].Add( 3 ); shoreCheckTextureIndexes[lineIndex].Add( 3 ); break;
+      //            case '4': textureIndexes[lineIndex].Add( 4 ); shoreCheckTextureIndexes[lineIndex].Add( 4 ); break;
+      //            case '5': textureIndexes[lineIndex].Add( 5 ); shoreCheckTextureIndexes[lineIndex].Add( 5 ); break;
+      //            case '6': textureIndexes[lineIndex].Add( 6 ); shoreCheckTextureIndexes[lineIndex].Add( 6 ); break;
+      //            case '7': textureIndexes[lineIndex].Add( 7 ); shoreCheckTextureIndexes[lineIndex].Add( 7 ); break;
+      //            case '8': textureIndexes[lineIndex].Add( 8 ); shoreCheckTextureIndexes[lineIndex].Add( 8 ); break;
+      //            case ' ': textureIndexes[lineIndex].Add( 9 ); shoreCheckTextureIndexes[lineIndex].Add( 9 ); break;
+      //            case '9': textureIndexes[lineIndex].Add( 10 ); shoreCheckTextureIndexes[lineIndex].Add( 10 ); break;
+      //            case 'a': textureIndexes[lineIndex].Add( 11 ); shoreCheckTextureIndexes[lineIndex].Add( 11 ); break;
+      //            case 'b': textureIndexes[lineIndex].Add( 12 ); shoreCheckTextureIndexes[lineIndex].Add( 12 ); break;
+      //            case 'c': textureIndexes[lineIndex].Add( 13 ); shoreCheckTextureIndexes[lineIndex].Add( 13 ); break;
+      //            case 'd': textureIndexes[lineIndex].Add( 14 ); shoreCheckTextureIndexes[lineIndex].Add( 14 ); break;
+      //            case 'e': textureIndexes[lineIndex].Add( 15 ); shoreCheckTextureIndexes[lineIndex].Add( 15 ); break;
+      //            case 'f': textureIndexes[lineIndex].Add( 16 ); shoreCheckTextureIndexes[lineIndex].Add( 16 ); break;
+      //            case 'g': textureIndexes[lineIndex].Add( 17 ); shoreCheckTextureIndexes[lineIndex].Add( 17 ); break;
+      //            case 'h': textureIndexes[lineIndex].Add( 18 ); shoreCheckTextureIndexes[lineIndex].Add( 18 ); break;
+      //            case 'i': textureIndexes[lineIndex].Add( 19 ); shoreCheckTextureIndexes[lineIndex].Add( 19 ); break;
+      //            case 'j': textureIndexes[lineIndex].Add( 20 ); shoreCheckTextureIndexes[lineIndex].Add( 20 ); break;
+      //            case 'k': textureIndexes[lineIndex].Add( 21 ); shoreCheckTextureIndexes[lineIndex].Add( 21 ); break;
+      //            case 'l': textureIndexes[lineIndex].Add( 22 ); shoreCheckTextureIndexes[lineIndex].Add( 22 ); break;
+      //            case 'm': textureIndexes[lineIndex].Add( 23 ); shoreCheckTextureIndexes[lineIndex].Add( 23 ); break;
+      //            case 'n': textureIndexes[lineIndex].Add( 24 ); shoreCheckTextureIndexes[lineIndex].Add( 24 ); break;
+      //            case 'o': textureIndexes[lineIndex].Add( 25 ); shoreCheckTextureIndexes[lineIndex].Add( 25 ); break;
+      //            case 'p': textureIndexes[lineIndex].Add( 26 ); shoreCheckTextureIndexes[lineIndex].Add( 26 ); break;
+      //            case 'q': textureIndexes[lineIndex].Add( 27 ); shoreCheckTextureIndexes[lineIndex].Add( 27 ); break;
+
+      //            default: textureIndexes[lineIndex].Add( 9 ); shoreCheckTextureIndexes[lineIndex].Add( 9 ); break;
+      //         }
+      //      }
+
+      //      lineIndex++;
+      //   }
+
+      //   if ( textureIndexes.Count != 256 )
+      //   {
+      //      MessageBox.Show( "Not enough lines!" );
+      //      Application.Current.Shutdown();
+      //   }
+
+      //   List<int> waterTiles = [9, 10, 11, 12];
+
+      //   for ( int i = 0; i < shoreCheckTextureIndexes.Count; i++ )
+      //   {
+      //      for ( int j = 0; j <  shoreCheckTextureIndexes[i].Count; j++ )
+      //      {
+      //         bool leftShore = false, topShore = false, rightShore = false, bottomShore = false;
+
+      //         if ( shoreCheckTextureIndexes[i][j] == 9 ) // water tile
+      //         {
+      //            if ( ( j > 0 ) && !waterTiles.Contains( shoreCheckTextureIndexes[i][j - 1] ) )
+      //            {
+      //               leftShore = true;
+      //            }
+      //            if ( ( j < 255 ) && !waterTiles.Contains( shoreCheckTextureIndexes[i][j + 1] ) )
+      //            {
+      //               rightShore = true;
+      //            }
+      //            if ( ( i > 0 ) && !waterTiles.Contains( shoreCheckTextureIndexes[i - 1][j] ) )
+      //            {
+      //               topShore = true;
+      //            }
+      //            if ( ( i < 255 ) && !waterTiles.Contains( shoreCheckTextureIndexes[i + 1 ][j] ) )
+      //            {
+      //               bottomShore = true;
+      //            }
+
+      //            if ( leftShore && !topShore && !rightShore && !bottomShore )
+      //            {
+      //               textureIndexes[i][j] = 13;
+      //            }
+      //            else if ( topShore && !leftShore && !rightShore && !bottomShore )
+      //            {
+      //               textureIndexes[i][j] = 14;
+      //            }
+      //            else if ( rightShore && !leftShore && !topShore && !bottomShore )
+      //            {
+      //               textureIndexes[i][j] = 15;
+      //            }
+      //            else if ( bottomShore && !leftShore && !topShore && !rightShore )
+      //            {
+      //               textureIndexes[i][j] = 16;
+      //            }
+      //            else if ( leftShore && topShore && !rightShore && !bottomShore )
+      //            {
+      //               textureIndexes[i][j] = 17;
+      //            }
+      //            else if ( topShore && rightShore && !bottomShore && !leftShore )
+      //            {
+      //               textureIndexes[i][j] = 18;
+      //            }
+      //            else if ( rightShore && bottomShore && !leftShore && !topShore )
+      //            {
+      //               textureIndexes[i][j] = 19;
+      //            }
+      //            else if ( bottomShore && leftShore && !topShore && !rightShore )
+      //            {
+      //               textureIndexes[i][j] = 20;
+      //            }
+      //            else if ( leftShore && rightShore && !topShore && !bottomShore )
+      //            {
+      //               textureIndexes[i][j] = 21;
+      //            }
+      //            else if ( topShore && bottomShore && !leftShore && !rightShore )
+      //            {
+      //               textureIndexes[i][j] = 22;
+      //            }
+      //            else if ( bottomShore && leftShore && topShore && !rightShore )
+      //            {
+      //               textureIndexes[i][j] = 23;
+      //            }
+      //            else if ( leftShore && topShore && rightShore && !bottomShore )
+      //            {
+      //               textureIndexes[i][j] = 24;
+      //            }
+      //            else if ( topShore && rightShore && bottomShore && !leftShore )
+      //            {
+      //               textureIndexes[i][j] = 25;
+      //            }
+      //            else if ( rightShore && bottomShore && leftShore && !topShore )
+      //            {
+      //               textureIndexes[i][j] = 26;
+      //            }
+      //            else if ( leftShore && topShore && rightShore && bottomShore )
+      //            {
+      //               textureIndexes[i][j] = 27;
+      //            }
+      //         }
+      //      }
+      //   }
+
+      //   var newTileMap = new TileMapViewModel( 0, "Overworld", 256, 256, true, true );
+      //   TileMaps.Add( newTileMap );
+      //   SelectedTileMap = newTileMap;
+
+      //   for ( int i = 0; i < 28; i++ )
+      //   {
+      //      newTileMap.TileTexturePoolIndexes.Add( i );
+      //   }
+
+      //   int tileIndex = 0;
+      //   List<uint> impassableTileIndexes = new() { 5, 9, 10, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29 };
+
+      //   for ( int i = 0; i < textureIndexes.Count; i++ )
+      //   {
+      //      for ( int j = 0; j < textureIndexes[i].Count; j++, tileIndex++ )
+      //      {
+      //         newTileMap.Tiles[tileIndex].TextureIndex = (uint)textureIndexes[i][j];
+
+      //         if ( impassableTileIndexes.Contains( newTileMap.Tiles[tileIndex].TextureIndex ) )
+      //         {
+      //            newTileMap.Tiles[tileIndex].IsPassable = false;
+      //         }
+      //      }
+      //   }
+      //}
+
+      // TODO: this is essentially the same as the temp Overworld loading code, just without the
+      // shoreline detection. let's keep this around for now too, just in case.
+      //private void LoadAliahanFromTempFile()
+      //{
+      //   List<List<int>> textureIndexes = [];
+      //   int lineIndex = 0;
+
+      //   var lines = File.ReadLines( Constants.AssetsBasePath + "map\\temp_aliahan_town_codes.txt" );
+
+      //   foreach ( var line in lines )
+      //   {
+      //      if ( lineIndex == 40 )
+      //      {
+      //         MessageBox.Show( "Too many lines!" );
+      //         Application.Current.Shutdown();
+      //      }
+      //      else if ( line.Length != 34 )
+      //      {
+      //         MessageBox.Show( "Line is not 34 chars!" );
+      //         Application.Current.Shutdown();
+      //      }
+
+      //      textureIndexes.Add( [] );
+
+      //      for ( int i = 0; i < line.Length; i++ )
+      //      {
+      //         switch ( line[i] )
+      //         {
+      //            case '0': textureIndexes[lineIndex].Add( 0 ); break;
+      //            case '1': textureIndexes[lineIndex].Add( 1 ); break;
+      //            case '2': textureIndexes[lineIndex].Add( 2 ); break;
+      //            case '3': textureIndexes[lineIndex].Add( 3 ); break;
+      //            case '4': textureIndexes[lineIndex].Add( 4 ); break;
+      //            case '5': textureIndexes[lineIndex].Add( 5 ); break;
+      //            case '6': textureIndexes[lineIndex].Add( 6 ); break;
+      //            case '7': textureIndexes[lineIndex].Add( 7 ); break;
+      //            case '8': textureIndexes[lineIndex].Add( 8 ); break;
+      //            case '9': textureIndexes[lineIndex].Add( 9 ); break;
+      //            case 'a': textureIndexes[lineIndex].Add( 10 ); break;
+      //            case 'b': textureIndexes[lineIndex].Add( 11 ); break;
+      //            case 'c': textureIndexes[lineIndex].Add( 12 ); break;
+      //            case 'd': textureIndexes[lineIndex].Add( 13 ); break;
+      //            case 'e': textureIndexes[lineIndex].Add( 14 ); break;
+      //            case 'f': textureIndexes[lineIndex].Add( 15 ); break;
+      //            case 'g': textureIndexes[lineIndex].Add( 16 ); break;
+      //            case 'h': textureIndexes[lineIndex].Add( 17 ); break;
+      //            case 'i': textureIndexes[lineIndex].Add( 18 ); break;
+
+      //            default: textureIndexes[lineIndex].Add( 0 ); break;
+      //         }
+      //      }
+
+      //      lineIndex++;
+      //   }
+
+      //   if ( textureIndexes.Count != 40 )
+      //   {
+      //      MessageBox.Show( "Not enough lines!" );
+      //      Application.Current.Shutdown();
+      //   }
+
+      //   var newTileMap = new TileMapViewModel( 1, "Aliahan Town", 34, 40, false, false, 1 );
+      //   TileMaps.Add( newTileMap );
+      //   SelectedTileMap = newTileMap;
+
+      //   int tileIndex = 0;
+      //   List<uint> impassableTextureIndexes = [3, 4, 7, 8, 9, 13, 14, 16, 17, 18];
+
+      //   for ( int i = 0; i < textureIndexes.Count; i++ )
+      //   {
+      //      for ( int j = 0; j < textureIndexes[i].Count; j++, tileIndex++ )
+      //      {
+      //         newTileMap.Tiles[tileIndex].TextureIndex = (uint)textureIndexes[i][j];
+
+      //         if ( impassableTextureIndexes.Contains( newTileMap.Tiles[tileIndex].TextureIndex ) )
+      //         {
+      //            newTileMap.Tiles[tileIndex].IsPassable = false;
+      //         }
+      //      }
+      //   }
+      //}
 
       private void VerifyOrDeletePortal( PortalViewModel portal, TileMapViewModel srcTileMap )
       {
@@ -147,7 +433,7 @@ namespace DW3ArduinoEditor.ViewModels
          if ( result.HasValue && result.Value )
          {
             uint index = ( TileMaps.Count > 0 ) ? TileMaps[^1].Index + 1 : 0;
-            var newTileMap = new TileMapViewModel( index, window.NewTileMapName, window.NewTilesX, window.NewTilesY, window.NewWraps, window.NewAffectsDaylight );
+            var newTileMap = new TileMapViewModel( index, window.NewTileMapName, window.NewTilesX, window.NewTilesY, window.NewWraps, window.NewAffectsDaylight, TileTextureSets[0].Index );
             TileMaps.Add( newTileMap );
             SelectedTileMap = newTileMap;
          }
@@ -208,7 +494,7 @@ namespace DW3ArduinoEditor.ViewModels
 
       private void WriteSaveData()
       {
-         var saveData = new GameSaveData( TileMaps );
+         var saveData = new GameSaveData( TileMaps, TileTextureSets );
          File.WriteAllText( Constants.SaveDataFilePath, JsonSerializer.Serialize( saveData ) );
          MessageBox.Show( "Editor data has been saved." );
       }
@@ -216,7 +502,7 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( TileMaps ), _palette, _tileTexturePool );
+         generator.WriteGameDataSourceFile( new( TileMaps, TileTextureSets ), _palette, _tileTexturePool );
          MessageBox.Show( "Game data source file has been written." );
       }
 

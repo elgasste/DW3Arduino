@@ -23,8 +23,8 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->tileMap.viewportScreenPos.y = 10;
 
    game->player.entity = &game->tileMap.entities[0];
-   game->player.entity->pos.x = 64.0f;
-   game->player.entity->pos.y = 18.0f;
+   game->player.entity->pos.x = 2722.0f;
+   game->player.entity->pos.y = 3538.0f;
    game->player.entity->pos.w = 12.0f;
    game->player.entity->pos.h = 12.0f;
    game->player.entity->prevPos = game->player.entity->pos;
@@ -54,7 +54,15 @@ void Game_Tic( Game_t* game )
 
 internal void Game_HandleInput( Game_t* game )
 {
+   r32 velocity = PLAYER_MAX_VELOCITY;
    Entity_t* entity = game->player.entity;
+
+#if defined( VISUAL_STUDIO_DEV )
+   if ( g_winDebugFlags.fastWalk )
+   {
+      velocity = 256;
+   }
+#endif
 
    Bool_t leftIsDown = game->input.buttonStates[InputButton_Left].down;
    Bool_t upIsDown = game->input.buttonStates[InputButton_Up].down;
@@ -63,7 +71,7 @@ internal void Game_HandleInput( Game_t* game )
 
    if ( leftIsDown && !rightIsDown )
    {
-      entity->velocity.x = -PLAYER_MAX_VELOCITY;
+      entity->velocity.x = -velocity;
 
       if ( upIsDown || downIsDown )
       {
@@ -72,7 +80,7 @@ internal void Game_HandleInput( Game_t* game )
    }
    else if ( rightIsDown && !leftIsDown )
    {
-      entity->velocity.x = PLAYER_MAX_VELOCITY;
+      entity->velocity.x = velocity;
 
       if ( upIsDown || downIsDown )
       {
@@ -81,7 +89,7 @@ internal void Game_HandleInput( Game_t* game )
    }
    if ( upIsDown && !downIsDown )
    {
-      entity->velocity.y = -PLAYER_MAX_VELOCITY;
+      entity->velocity.y = -velocity;
 
       if ( leftIsDown || rightIsDown )
       {
@@ -90,7 +98,7 @@ internal void Game_HandleInput( Game_t* game )
    }
    else if ( downIsDown && !upIsDown )
    {
-      entity->velocity.y = PLAYER_MAX_VELOCITY;
+      entity->velocity.y = velocity;
 
       if ( leftIsDown || rightIsDown )
       {

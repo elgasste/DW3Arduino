@@ -17,6 +17,7 @@
       public const int TileMapMaxTilesY = 256;
       public const int TileMapDefaultTilesX = 24;
       public const int TileMapDefaultTilesY = 24;
+      public const int TileTextureSetSize = 32;
 
       public const int PaletteMaxColors = 256;
    }
