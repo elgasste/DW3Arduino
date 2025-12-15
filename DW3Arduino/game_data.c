@@ -3081,7 +3081,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 15: // Promontory Cave B2 SW
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 46; tileMap->tilesY = 29; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 7; tileMap->hasEdgePortal = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 9; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 1109; tileMap->portals[0].destTileMapIndex = 14; tileMap->portals[0].destTileIndex = 92;
          tileMap->portals[1].sourceTileIndex = 1085; tileMap->portals[1].destTileMapIndex = 16; tileMap->portals[1].destTileIndex = 40;
          tileMap->portals[2].sourceTileIndex = 1131; tileMap->portals[2].destTileMapIndex = 16; tileMap->portals[2].destTileIndex = 50;
@@ -3089,6 +3089,8 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          tileMap->portals[4].sourceTileIndex = 43; tileMap->portals[4].destTileMapIndex = 17; tileMap->portals[4].destTileIndex = 205;
          tileMap->portals[5].sourceTileIndex = 597; tileMap->portals[5].destTileMapIndex = 17; tileMap->portals[5].destTileIndex = 492;
          tileMap->portals[6].sourceTileIndex = 643; tileMap->portals[6].destTileMapIndex = 17; tileMap->portals[6].destTileIndex = 514;
+         tileMap->portals[7].sourceTileIndex = 137; tileMap->portals[7].destTileMapIndex = 18; tileMap->portals[7].destTileIndex = 12;
+         tileMap->portals[8].sourceTileIndex = 183; tileMap->portals[8].destTileMapIndex = 18; tileMap->portals[8].destTileIndex = 18;
          for ( i = 0; i < 1334; i++ ) m[i] = 0x0029;
          for ( i = 32; i < 42; i++ ) m[i] = 0x0001; for ( i = 42; i < 44; i++ ) m[i] = 0x0023; for ( i = 44; i < 46; i++ ) m[i] = 0x0001;
          for ( i = 78; i < 80; i++ ) m[i] = 0x0001; for ( i = 80; i < 88; i++ ) m[i] = 0x0002; for ( i = 88; i < 90; i++ ) m[i] = 0x0023;
@@ -3178,6 +3180,16 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          for ( i = 480; i < 482; i++ ) m[i] = 0x0023; for ( i = 482; i < 484; i++ ) m[i] = 0x0001; for ( i = 492; i < 504; i++ ) m[i] = 0x0023;
          for ( i = 504; i < 506; i++ ) m[i] = 0x0001; for ( i = 514; i < 526; i++ ) m[i] = 0x0023; for ( i = 526; i < 528; i++ ) m[i] = 0x0001;
          for ( i = 536; i < 550; i++ ) m[i] = 0x0001; for ( i = 558; i < 572; i++ ) m[i] = 0x0002;
+         break;
+      case 18: // Promontory Cave B2 Stairs
+         TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
+         tileMap->tilesX = 6; tileMap->tilesY = 6; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 12; tileMap->portals[0].destTileMapIndex = 15; tileMap->portals[0].destTileIndex = 137;
+         tileMap->portals[1].sourceTileIndex = 18; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 183;
+         for ( i = 0; i < 36; i++ ) m[i] = 0x0001;
+         for ( i = 6; i < 10; i++ ) m[i] = 0x0002; for ( i = 12; i < 16; i++ ) m[i] = 0x0023; for ( i = 18; i < 22; i++ ) m[i] = 0x0023;
+         for ( i = 30; i < 36; i++ ) m[i] = 0x0002;
          break;
    }
 }
