@@ -986,10 +986,11 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 0: // Overworld
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 0 );
          tileMap->tilesX = 256; tileMap->tilesY = 256; tileMap->wraps = True; tileMap->affectsDaylight = True;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 3; tileMap->hasEdgePortal = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 4; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 55980; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 817;
          tileMap->portals[1].sourceTileIndex = 55981; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 817;
          tileMap->portals[2].sourceTileIndex = 51363; tileMap->portals[2].destTileMapIndex = 12; tileMap->portals[2].destTileIndex = 1299;
+         tileMap->portals[3].sourceTileIndex = 57247; tileMap->portals[3].destTileMapIndex = 14; tileMap->portals[3].destTileIndex = 27;
          for ( i = 0; i < 65536; i++ ) m[i] = 0x0009;
          for ( i = 3638; i < 3642; i++ ) m[i] = 0x0010; for ( i = 3772; i < 3779; i++ ) m[i] = 0x0010; for ( i = 3883; i < 3889; i++ ) m[i] = 0x0010;
          for ( i = 3894; i < 3898; i++ ) m[i] = 0x0022; for ( i = 3899; i < 3902; i++ ) m[i] = 0x0010; for ( i = 4023; i < 4027; i++ ) m[i] = 0x0010;
@@ -3058,9 +3059,8 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 13: // Reeve Hidden Area Inside
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 17; tileMap->portals[0].destTileMapIndex = 12; tileMap->portals[0].destTileIndex = 960;
-         tileMap->portals[1].sourceTileIndex = 7; tileMap->portals[1].destTileMapIndex = 14; tileMap->portals[1].destTileIndex = 27;
          for ( i = 0; i < 20; i++ ) m[i] = 0x0008;
          for ( i = 4; i < 6; i++ ) m[i] = 0x0007; for ( i = 6; i < 9; i++ ) m[i] = 0x0026; for ( i = 9; i < 11; i++ ) m[i] = 0x0007;
          for ( i = 11; i < 14; i++ ) m[i] = 0x0026;
@@ -3070,7 +3070,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 10; tileMap->tilesY = 12; tileMap->wraps = False; tileMap->affectsDaylight = False;
          tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
-         tileMap->portals[0].sourceTileIndex = 27; tileMap->portals[0].destTileMapIndex = 13; tileMap->portals[0].destTileIndex = 7;
+         tileMap->portals[0].sourceTileIndex = 27; tileMap->portals[0].destTileMapIndex = 0; tileMap->portals[0].destTileIndex = 57247;
          tileMap->portals[1].sourceTileIndex = 92; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 1109;
          for ( i = 0; i < 120; i++ ) m[i] = 0x0001;
          for ( i = 12; i < 18; i++ ) m[i] = 0x0002; for ( i = 22; i < 28; i++ ) m[i] = 0x0023; for ( i = 32; i < 38; i++ ) m[i] = 0x0023;
