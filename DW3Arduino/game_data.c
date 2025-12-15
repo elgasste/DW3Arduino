@@ -3058,12 +3058,24 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 13: // Reeve Hidden Area Inside
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 17; tileMap->portals[0].destTileMapIndex = 12; tileMap->portals[0].destTileIndex = 960;
+         tileMap->portals[1].sourceTileIndex = 7; tileMap->portals[1].destTileMapIndex = 14; tileMap->portals[1].destTileIndex = 27;
          for ( i = 0; i < 20; i++ ) m[i] = 0x0008;
          for ( i = 4; i < 6; i++ ) m[i] = 0x0007; for ( i = 6; i < 9; i++ ) m[i] = 0x0026; for ( i = 9; i < 11; i++ ) m[i] = 0x0007;
          for ( i = 11; i < 14; i++ ) m[i] = 0x0026;
          m[0] = 0x0007; m[14] = 0x0007; m[17] = 0x0026;
+         break;
+      case 14: // Promontory Cave B1
+         TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
+         tileMap->tilesX = 10; tileMap->tilesY = 12; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 27; tileMap->portals[0].destTileMapIndex = 13; tileMap->portals[0].destTileIndex = 7;
+         for ( i = 0; i < 120; i++ ) m[i] = 0x0001;
+         for ( i = 12; i < 18; i++ ) m[i] = 0x0002; for ( i = 22; i < 28; i++ ) m[i] = 0x0023; for ( i = 32; i < 38; i++ ) m[i] = 0x0023;
+         for ( i = 42; i < 48; i++ ) m[i] = 0x0023; for ( i = 52; i < 58; i++ ) m[i] = 0x0023; for ( i = 62; i < 68; i++ ) m[i] = 0x0023;
+         for ( i = 72; i < 78; i++ ) m[i] = 0x0023; for ( i = 82; i < 88; i++ ) m[i] = 0x0023; for ( i = 92; i < 98; i++ ) m[i] = 0x0023;
+         for ( i = 110; i < 120; i++ ) m[i] = 0x0002;
          break;
    }
 }
