@@ -42,7 +42,7 @@
       <!-- Save/Write Operations -->
       <StackPanel Orientation="Horizontal"
                   Grid.Row="0">
-         <Button Content="Save Game Data"
+         <Button Content="Save Editor Data"
                  Command="{Binding SaveGameDataCommand, Mode=OneTime}" />
          <Button Content="Write Game Data Source"
                  Command="{Binding WriteGameDataSourceCommand, Mode=OneTime}" />

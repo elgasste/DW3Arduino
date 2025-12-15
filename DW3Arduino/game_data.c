@@ -3081,10 +3081,14 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 15: // Promontory Cave B2 SW
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 46; tileMap->tilesY = 29; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 3; tileMap->hasEdgePortal = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 7; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 1109; tileMap->portals[0].destTileMapIndex = 14; tileMap->portals[0].destTileIndex = 92;
-         tileMap->portals[1].sourceTileIndex = 597; tileMap->portals[1].destTileMapIndex = 16; tileMap->portals[1].destTileIndex = 40;
-         tileMap->portals[2].sourceTileIndex = 643; tileMap->portals[2].destTileMapIndex = 16; tileMap->portals[2].destTileIndex = 50;
+         tileMap->portals[1].sourceTileIndex = 1085; tileMap->portals[1].destTileMapIndex = 16; tileMap->portals[1].destTileIndex = 40;
+         tileMap->portals[2].sourceTileIndex = 1131; tileMap->portals[2].destTileMapIndex = 16; tileMap->portals[2].destTileIndex = 50;
+         tileMap->portals[3].sourceTileIndex = 42; tileMap->portals[3].destTileMapIndex = 17; tileMap->portals[3].destTileIndex = 204;
+         tileMap->portals[4].sourceTileIndex = 43; tileMap->portals[4].destTileMapIndex = 17; tileMap->portals[4].destTileIndex = 205;
+         tileMap->portals[5].sourceTileIndex = 597; tileMap->portals[5].destTileMapIndex = 17; tileMap->portals[5].destTileIndex = 492;
+         tileMap->portals[6].sourceTileIndex = 643; tileMap->portals[6].destTileMapIndex = 17; tileMap->portals[6].destTileIndex = 514;
          for ( i = 0; i < 1334; i++ ) m[i] = 0x0029;
          for ( i = 32; i < 42; i++ ) m[i] = 0x0001; for ( i = 42; i < 44; i++ ) m[i] = 0x0023; for ( i = 44; i < 46; i++ ) m[i] = 0x0001;
          for ( i = 78; i < 80; i++ ) m[i] = 0x0001; for ( i = 80; i < 88; i++ ) m[i] = 0x0002; for ( i = 88; i < 90; i++ ) m[i] = 0x0023;
@@ -3132,12 +3136,48 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False;
          tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
-         tileMap->portals[0].sourceTileIndex = 40; tileMap->portals[0].destTileMapIndex = 15; tileMap->portals[0].destTileIndex = 597;
-         tileMap->portals[1].sourceTileIndex = 50; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 643;
+         tileMap->portals[0].sourceTileIndex = 40; tileMap->portals[0].destTileMapIndex = 15; tileMap->portals[0].destTileIndex = 1085;
+         tileMap->portals[1].sourceTileIndex = 50; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 1131;
          for ( i = 0; i < 100; i++ ) m[i] = 0x0001;
          for ( i = 12; i < 18; i++ ) m[i] = 0x0002; for ( i = 22; i < 28; i++ ) m[i] = 0x0023; for ( i = 30; i < 32; i++ ) m[i] = 0x0002;
          for ( i = 32; i < 38; i++ ) m[i] = 0x0023; for ( i = 40; i < 48; i++ ) m[i] = 0x0023; for ( i = 50; i < 58; i++ ) m[i] = 0x0023;
          for ( i = 62; i < 68; i++ ) m[i] = 0x0023; for ( i = 72; i < 78; i++ ) m[i] = 0x0023; for ( i = 90; i < 100; i++ ) m[i] = 0x0002;
+         break;
+      case 17: // Promontory Cave B2 NE
+         TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
+         tileMap->tilesX = 22; tileMap->tilesY = 26; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 4; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 204; tileMap->portals[0].destTileMapIndex = 15; tileMap->portals[0].destTileIndex = 42;
+         tileMap->portals[1].sourceTileIndex = 205; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 43;
+         tileMap->portals[2].sourceTileIndex = 492; tileMap->portals[2].destTileMapIndex = 15; tileMap->portals[2].destTileIndex = 597;
+         tileMap->portals[3].sourceTileIndex = 514; tileMap->portals[3].destTileMapIndex = 15; tileMap->portals[3].destTileIndex = 643;
+         for ( i = 0; i < 572; i++ ) m[i] = 0x0029;
+         for ( i = 0; i < 14; i++ ) m[i] = 0x0001; for ( i = 22; i < 24; i++ ) m[i] = 0x0001; for ( i = 24; i < 34; i++ ) m[i] = 0x0002;
+         for ( i = 34; i < 36; i++ ) m[i] = 0x0001; for ( i = 44; i < 46; i++ ) m[i] = 0x0001; for ( i = 46; i < 56; i++ ) m[i] = 0x0023;
+         for ( i = 56; i < 68; i++ ) m[i] = 0x0001; for ( i = 68; i < 78; i++ ) m[i] = 0x0023; for ( i = 78; i < 86; i++ ) m[i] = 0x0002;
+         for ( i = 86; i < 90; i++ ) m[i] = 0x0001; for ( i = 90; i < 108; i++ ) m[i] = 0x0023; for ( i = 108; i < 112; i++ ) m[i] = 0x0001;
+         for ( i = 112; i < 130; i++ ) m[i] = 0x0023; for ( i = 130; i < 134; i++ ) m[i] = 0x0001; for ( i = 134; i < 144; i++ ) m[i] = 0x0023;
+         for ( i = 144; i < 150; i++ ) m[i] = 0x0001; for ( i = 150; i < 152; i++ ) m[i] = 0x0023; for ( i = 152; i < 156; i++ ) m[i] = 0x0001;
+         for ( i = 156; i < 166; i++ ) m[i] = 0x0023; for ( i = 166; i < 168; i++ ) m[i] = 0x0001; for ( i = 168; i < 170; i++ ) m[i] = 0x0002;
+         for ( i = 170; i < 172; i++ ) m[i] = 0x0001; for ( i = 172; i < 174; i++ ) m[i] = 0x0023; for ( i = 174; i < 182; i++ ) m[i] = 0x0001;
+         for ( i = 182; i < 184; i++ ) m[i] = 0x0023; for ( i = 184; i < 190; i++ ) m[i] = 0x0001; for ( i = 192; i < 194; i++ ) m[i] = 0x0001;
+         for ( i = 194; i < 196; i++ ) m[i] = 0x0023; for ( i = 196; i < 198; i++ ) m[i] = 0x0001; for ( i = 198; i < 204; i++ ) m[i] = 0x0002;
+         for ( i = 204; i < 206; i++ ) m[i] = 0x0023; for ( i = 206; i < 212; i++ ) m[i] = 0x0002; for ( i = 214; i < 216; i++ ) m[i] = 0x0001;
+         for ( i = 216; i < 218; i++ ) m[i] = 0x0023; for ( i = 218; i < 220; i++ ) m[i] = 0x0001; for ( i = 236; i < 238; i++ ) m[i] = 0x0001;
+         for ( i = 238; i < 240; i++ ) m[i] = 0x0023; for ( i = 240; i < 242; i++ ) m[i] = 0x0001; for ( i = 258; i < 260; i++ ) m[i] = 0x0001;
+         for ( i = 260; i < 262; i++ ) m[i] = 0x0023; for ( i = 262; i < 264; i++ ) m[i] = 0x0001; for ( i = 280; i < 282; i++ ) m[i] = 0x0001;
+         for ( i = 282; i < 284; i++ ) m[i] = 0x0023; for ( i = 284; i < 286; i++ ) m[i] = 0x0001; for ( i = 302; i < 304; i++ ) m[i] = 0x0001;
+         for ( i = 304; i < 306; i++ ) m[i] = 0x0023; for ( i = 306; i < 308; i++ ) m[i] = 0x0001; for ( i = 324; i < 326; i++ ) m[i] = 0x0001;
+         for ( i = 326; i < 328; i++ ) m[i] = 0x0023; for ( i = 328; i < 330; i++ ) m[i] = 0x0001; for ( i = 346; i < 348; i++ ) m[i] = 0x0001;
+         for ( i = 348; i < 350; i++ ) m[i] = 0x0023; for ( i = 350; i < 352; i++ ) m[i] = 0x0001; for ( i = 368; i < 370; i++ ) m[i] = 0x0001;
+         for ( i = 370; i < 372; i++ ) m[i] = 0x0023; for ( i = 372; i < 374; i++ ) m[i] = 0x0001; for ( i = 390; i < 392; i++ ) m[i] = 0x0001;
+         for ( i = 392; i < 394; i++ ) m[i] = 0x0023; for ( i = 394; i < 396; i++ ) m[i] = 0x0001; for ( i = 412; i < 414; i++ ) m[i] = 0x0001;
+         for ( i = 414; i < 416; i++ ) m[i] = 0x0023; for ( i = 416; i < 418; i++ ) m[i] = 0x0001; for ( i = 434; i < 436; i++ ) m[i] = 0x0001;
+         for ( i = 436; i < 438; i++ ) m[i] = 0x0023; for ( i = 438; i < 440; i++ ) m[i] = 0x0001; for ( i = 448; i < 458; i++ ) m[i] = 0x0001;
+         for ( i = 458; i < 460; i++ ) m[i] = 0x0023; for ( i = 460; i < 462; i++ ) m[i] = 0x0001; for ( i = 470; i < 480; i++ ) m[i] = 0x0002;
+         for ( i = 480; i < 482; i++ ) m[i] = 0x0023; for ( i = 482; i < 484; i++ ) m[i] = 0x0001; for ( i = 492; i < 504; i++ ) m[i] = 0x0023;
+         for ( i = 504; i < 506; i++ ) m[i] = 0x0001; for ( i = 514; i < 526; i++ ) m[i] = 0x0023; for ( i = 526; i < 528; i++ ) m[i] = 0x0001;
+         for ( i = 536; i < 550; i++ ) m[i] = 0x0001; for ( i = 558; i < 572; i++ ) m[i] = 0x0002;
          break;
    }
 }
