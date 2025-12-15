@@ -3197,12 +3197,14 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 19: // Najima B1 Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 54; tileMap->tilesY = 46; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 5; tileMap->hasEdgePortal = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 7; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 2219; tileMap->portals[0].destTileMapIndex = 18; tileMap->portals[0].destTileIndex = 21;
          tileMap->portals[1].sourceTileIndex = 1887; tileMap->portals[1].destTileMapIndex = 10; tileMap->portals[1].destTileIndex = 22;
          tileMap->portals[2].sourceTileIndex = 153; tileMap->portals[2].destTileMapIndex = 13; tileMap->portals[2].destTileIndex = 7;
          tileMap->portals[3].sourceTileIndex = 558; tileMap->portals[3].destTileMapIndex = 20; tileMap->portals[3].destTileIndex = 39;
          tileMap->portals[4].sourceTileIndex = 612; tileMap->portals[4].destTileMapIndex = 20; tileMap->portals[4].destTileIndex = 47;
+         tileMap->portals[5].sourceTileIndex = 634; tileMap->portals[5].destTileMapIndex = 21; tileMap->portals[5].destTileIndex = 4;
+         tileMap->portals[6].sourceTileIndex = 635; tileMap->portals[6].destTileMapIndex = 21; tileMap->portals[6].destTileIndex = 5;
          for ( i = 0; i < 2484; i++ ) m[i] = 0x0029;
          for ( i = 42; i < 48; i++ ) m[i] = 0x0004; for ( i = 96; i < 98; i++ ) m[i] = 0x0004; for ( i = 98; i < 100; i++ ) m[i] = 0x0005;
          for ( i = 100; i < 102; i++ ) m[i] = 0x0004; for ( i = 150; i < 152; i++ ) m[i] = 0x0004; for ( i = 152; i < 154; i++ ) m[i] = 0x0026;
@@ -3309,6 +3311,18 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          for ( i = 10; i < 14; i++ ) m[i] = 0x0005; for ( i = 18; i < 22; i++ ) m[i] = 0x0026; for ( i = 26; i < 30; i++ ) m[i] = 0x0026;
          for ( i = 30; i < 32; i++ ) m[i] = 0x0005; for ( i = 34; i < 40; i++ ) m[i] = 0x0026; for ( i = 42; i < 48; i++ ) m[i] = 0x0026;
          for ( i = 50; i < 54; i++ ) m[i] = 0x0026; for ( i = 58; i < 62; i++ ) m[i] = 0x0026; for ( i = 72; i < 80; i++ ) m[i] = 0x0005;
+         break;
+      case 21: // Najima B1 West Room
+         TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
+         tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 4; tileMap->portals[0].destTileMapIndex = 19; tileMap->portals[0].destTileIndex = 634;
+         tileMap->portals[1].sourceTileIndex = 5; tileMap->portals[1].destTileMapIndex = 19; tileMap->portals[1].destTileIndex = 635;
+         for ( i = 0; i < 100; i++ ) m[i] = 0x0004;
+         for ( i = 4; i < 6; i++ ) m[i] = 0x0026; for ( i = 12; i < 14; i++ ) m[i] = 0x0005; for ( i = 14; i < 16; i++ ) m[i] = 0x0026;
+         for ( i = 16; i < 18; i++ ) m[i] = 0x0005; for ( i = 22; i < 28; i++ ) m[i] = 0x0026; for ( i = 32; i < 38; i++ ) m[i] = 0x0026;
+         for ( i = 42; i < 48; i++ ) m[i] = 0x0026; for ( i = 52; i < 58; i++ ) m[i] = 0x0026; for ( i = 62; i < 68; i++ ) m[i] = 0x0026;
+         for ( i = 72; i < 78; i++ ) m[i] = 0x0026; for ( i = 90; i < 100; i++ ) m[i] = 0x0005;
          break;
    }
 }

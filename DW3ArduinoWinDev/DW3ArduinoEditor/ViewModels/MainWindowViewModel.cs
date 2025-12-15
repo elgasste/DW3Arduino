@@ -111,18 +111,19 @@ namespace DW3ArduinoEditor.ViewModels
       // shoreline detection. let's keep this around for now too, just in case.
       //private void LoadAliahanFromTempFile()
       //{
-      //   uint w = 19;
-      //   uint h = 24;
-      //   string fileName = "map\\temp_aliahan_castle_throne_room_codes.txt";
-      //   string mapName = "Aliahan Castle Throne Room";
-      //   uint mapIndex = 11;
-      //   int defaultTexture = 6;
-      //   List<uint> impassableTextureIndexes = [3, 4, 7, 8, 9, 13, 14, 16, 17, 18];
+      //   uint w = 10;
+      //   uint h = 10;
+      //   string fileName = "temp_najima_b1_east_room_codes.txt";
+      //   string mapName = "Najima B1 West Room";
+      //   uint mapIndex = 21;
+      //   uint tileSetIndex = 2;
+      //   int defaultTexture = 9;
+      //   List<uint> impassableTextureIndexes = [0, 1, 2, 4, 5, 7, 8];
 
       //   List<List<int>> textureIndexes = [];
       //   int lineIndex = 0;
 
-      //   var lines = File.ReadLines( Constants.AssetsBasePath + fileName );
+      //   var lines = File.ReadLines( Constants.DocsBasePath + fileName );
 
       //   foreach ( var line in lines )
       //   {
@@ -177,7 +178,7 @@ namespace DW3ArduinoEditor.ViewModels
       //      Application.Current.Shutdown();
       //   }
 
-      //   var newTileMap = new TileMapViewModel( mapIndex, mapName, w, h, false, false, 1 );
+      //   var newTileMap = new TileMapViewModel( mapIndex, mapName, w, h, false, false, tileSetIndex );
       //   TileMaps.Add( newTileMap );
       //   SelectedTileMap = newTileMap;
 
