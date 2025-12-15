@@ -2765,7 +2765,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 12: // Reeve Hidden Area Outside
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 49; tileMap->tilesY = 42; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 13; tileMap->hasEdgePortal = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 14; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 755; tileMap->portals[0].destTileMapIndex = 0; tileMap->portals[0].destTileIndex = 51363;
          tileMap->portals[1].sourceTileIndex = 757; tileMap->portals[1].destTileMapIndex = 0; tileMap->portals[1].destTileIndex = 51363;
          tileMap->portals[2].sourceTileIndex = 758; tileMap->portals[2].destTileMapIndex = 0; tileMap->portals[2].destTileIndex = 51363;
@@ -2779,6 +2779,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          tileMap->portals[10].sourceTileIndex = 1291; tileMap->portals[10].destTileMapIndex = 0; tileMap->portals[10].destTileIndex = 51363;
          tileMap->portals[11].sourceTileIndex = 1295; tileMap->portals[11].destTileMapIndex = 0; tileMap->portals[11].destTileIndex = 51363;
          tileMap->portals[12].sourceTileIndex = 1299; tileMap->portals[12].destTileMapIndex = 0; tileMap->portals[12].destTileIndex = 51363;
+         tileMap->portals[13].sourceTileIndex = 960; tileMap->portals[13].destTileMapIndex = 13; tileMap->portals[13].destTileIndex = 17;
          for ( i = 0; i < 2058; i++ ) m[i] = 0x0022;
          for ( i = 51; i < 54; i++ ) m[i] = 0x0004; for ( i = 55; i < 58; i++ ) m[i] = 0x0004; for ( i = 59; i < 62; i++ ) m[i] = 0x0004;
          for ( i = 63; i < 66; i++ ) m[i] = 0x0004; for ( i = 67; i < 70; i++ ) m[i] = 0x0004; for ( i = 71; i < 74; i++ ) m[i] = 0x0004;
@@ -2891,6 +2892,16 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          m[1785] = 0x0004; m[1789] = 0x0004; m[1793] = 0x0004; m[1797] = 0x0004; m[1801] = 0x0004; m[1805] = 0x0004; m[1809] = 0x0004; m[1910] = 0x0004;
          m[1912] = 0x0004; m[1916] = 0x0004; m[1920] = 0x0004; m[1924] = 0x0004; m[1928] = 0x0004; m[1932] = 0x0004; m[1936] = 0x0004; m[1940] = 0x0004;
          m[1944] = 0x0004; m[1948] = 0x0004; m[1952] = 0x0004; m[1956] = 0x0004;
+         break;
+      case 13: // Reeve Hidden Area Inside
+         TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
+         tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 17; tileMap->portals[0].destTileMapIndex = 12; tileMap->portals[0].destTileIndex = 960;
+         for ( i = 0; i < 20; i++ ) m[i] = 0x0008;
+         for ( i = 4; i < 6; i++ ) m[i] = 0x0007; for ( i = 6; i < 9; i++ ) m[i] = 0x0026; for ( i = 9; i < 11; i++ ) m[i] = 0x0007;
+         for ( i = 11; i < 14; i++ ) m[i] = 0x0026;
+         m[0] = 0x0007; m[14] = 0x0007; m[17] = 0x0026;
          break;
    }
 }
