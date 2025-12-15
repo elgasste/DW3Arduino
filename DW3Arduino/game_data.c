@@ -24,6 +24,11 @@ void Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index )
    screen->palette[11] = 0x4521;
    screen->palette[12] = 0xD1EB;
    screen->palette[13] = 0xFBA5;
+   screen->palette[14] = 0x71E0;
+   screen->palette[15] = 0x8420;
+   screen->palette[16] = 0x44EC;
+   screen->palette[17] = 0x6EF1;
+   screen->palette[18] = 0x2AE7;
 }
 
 internal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 index )
@@ -736,6 +741,129 @@ internal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 
          m[159] = 0x09; m[161] = 0x09; m[162] = 0x08; m[165] = 0x09; m[169] = 0x09; m[172] = 0x08; m[174] = 0x08; m[175] = 0x09; m[177] = 0x09; m[180] = 0x09; m[189] = 0x08; m[190] = 0x09;
          m[203] = 0x09; m[205] = 0x08; m[206] = 0x09; m[220] = 0x08; m[224] = 0x0A; m[255] = 0x0A;
          break;
+      case 43:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x03;
+         for ( i = 6; i < 8; i++ ) m[i] = 0x04; for ( i = 12; i < 16; i++ ) m[i] = 0x04; for ( i = 21; i < 23; i++ ) m[i] = 0x04;
+         for ( i = 37; i < 39; i++ ) m[i] = 0x05; for ( i = 50; i < 52; i++ ) m[i] = 0x04; for ( i = 58; i < 60; i++ ) m[i] = 0x04;
+         for ( i = 60; i < 62; i++ ) m[i] = 0x0E; for ( i = 63; i < 66; i++ ) m[i] = 0x04; for ( i = 69; i < 71; i++ ) m[i] = 0x0E;
+         for ( i = 71; i < 75; i++ ) m[i] = 0x04; for ( i = 76; i < 78; i++ ) m[i] = 0x05; for ( i = 81; i < 83; i++ ) m[i] = 0x05;
+         for ( i = 84; i < 86; i++ ) m[i] = 0x04; for ( i = 99; i < 101; i++ ) m[i] = 0x04; for ( i = 103; i < 105; i++ ) m[i] = 0x04;
+         for ( i = 115; i < 118; i++ ) m[i] = 0x05; for ( i = 118; i < 120; i++ ) m[i] = 0x04; for ( i = 130; i < 132; i++ ) m[i] = 0x05;
+         for ( i = 139; i < 142; i++ ) m[i] = 0x0E; for ( i = 142; i < 145; i++ ) m[i] = 0x04; for ( i = 154; i < 156; i++ ) m[i] = 0x0E;
+         for ( i = 163; i < 165; i++ ) m[i] = 0x04; for ( i = 174; i < 176; i++ ) m[i] = 0x04; for ( i = 177; i < 180; i++ ) m[i] = 0x04;
+         for ( i = 187; i < 189; i++ ) m[i] = 0x04; for ( i = 191; i < 194; i++ ) m[i] = 0x04; for ( i = 205; i < 207; i++ ) m[i] = 0x04;
+         for ( i = 211; i < 213; i++ ) m[i] = 0x05; for ( i = 220; i < 222; i++ ) m[i] = 0x04; for ( i = 227; i < 229; i++ ) m[i] = 0x04;
+         for ( i = 230; i < 232; i++ ) m[i] = 0x04; for ( i = 233; i < 236; i++ ) m[i] = 0x0E; for ( i = 239; i < 243; i++ ) m[i] = 0x04;
+         for ( i = 252; i < 255; i++ ) m[i] = 0x0E;
+         m[1] = 0x0E; m[4] = 0x04; m[8] = 0x05; m[10] = 0x04; m[16] = 0x0E; m[17] = 0x05; m[19] = 0x04; m[20] = 0x05; m[23] = 0x05; m[24] = 0x0E; m[26] = 0x05; m[27] = 0x0E;
+         m[28] = 0x04; m[31] = 0x04; m[32] = 0x05; m[36] = 0x04; m[42] = 0x0E; m[43] = 0x04; m[46] = 0x04; m[47] = 0x05; m[52] = 0x0E; m[53] = 0x05; m[56] = 0x04; m[62] = 0x05;
+         m[66] = 0x05; m[68] = 0x05; m[80] = 0x04; m[86] = 0x05; m[88] = 0x04; m[90] = 0x05; m[92] = 0x05; m[94] = 0x04; m[101] = 0x05; m[106] = 0x04; m[107] = 0x05; m[114] = 0x04;
+         m[121] = 0x04; m[122] = 0x0E; m[125] = 0x0E; m[127] = 0x04; m[128] = 0x0E; m[129] = 0x04; m[136] = 0x04; m[137] = 0x0E; m[145] = 0x05; m[148] = 0x05; m[149] = 0x04; m[153] = 0x04;
+         m[157] = 0x04; m[159] = 0x04; m[160] = 0x0E; m[165] = 0x05; m[166] = 0x0E; m[168] = 0x04; m[169] = 0x0E; m[170] = 0x05; m[172] = 0x04; m[180] = 0x05; m[182] = 0x0E; m[183] = 0x04;
+         m[184] = 0x0E; m[185] = 0x05; m[189] = 0x05; m[194] = 0x05; m[197] = 0x0E; m[198] = 0x04; m[199] = 0x05; m[203] = 0x05; m[207] = 0x05; m[208] = 0x04; m[209] = 0x05; m[213] = 0x04;
+         m[214] = 0x05; m[216] = 0x0E; m[218] = 0x0E; m[222] = 0x05; m[224] = 0x05; m[225] = 0x04; m[226] = 0x05; m[229] = 0x0E; m[236] = 0x04; m[244] = 0x05; m[246] = 0x04; m[248] = 0x0E;
+         m[249] = 0x05; m[251] = 0x04;
+         break;
+      case 44:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x04;
+         for ( i = 2; i < 4; i++ ) m[i] = 0x03; for ( i = 12; i < 14; i++ ) m[i] = 0x0E; for ( i = 21; i < 23; i++ ) m[i] = 0x03;
+         for ( i = 23; i < 25; i++ ) m[i] = 0x0E; for ( i = 41; i < 43; i++ ) m[i] = 0x03; for ( i = 45; i < 47; i++ ) m[i] = 0x0E;
+         for ( i = 60; i < 62; i++ ) m[i] = 0x0E; for ( i = 75; i < 77; i++ ) m[i] = 0x0E; for ( i = 80; i < 82; i++ ) m[i] = 0x0E;
+         for ( i = 94; i < 96; i++ ) m[i] = 0x03; for ( i = 101; i < 103; i++ ) m[i] = 0x0E; for ( i = 104; i < 106; i++ ) m[i] = 0x0E;
+         for ( i = 109; i < 112; i++ ) m[i] = 0x0E; for ( i = 115; i < 118; i++ ) m[i] = 0x0E; for ( i = 158; i < 160; i++ ) m[i] = 0x03;
+         for ( i = 164; i < 166; i++ ) m[i] = 0x0E; for ( i = 186; i < 188; i++ ) m[i] = 0x0E; for ( i = 194; i < 197; i++ ) m[i] = 0x0E;
+         for ( i = 199; i < 202; i++ ) m[i] = 0x0E; for ( i = 217; i < 219; i++ ) m[i] = 0x0E; for ( i = 232; i < 234; i++ ) m[i] = 0x0E;
+         m[7] = 0x03; m[9] = 0x0E; m[14] = 0x03; m[17] = 0x03; m[18] = 0x0E; m[27] = 0x03; m[28] = 0x0E; m[31] = 0x0E; m[36] = 0x0E; m[37] = 0x03; m[38] = 0x0E; m[43] = 0x0E;
+         m[44] = 0x03; m[49] = 0x03; m[50] = 0x0E; m[52] = 0x03; m[53] = 0x0E; m[56] = 0x0E; m[57] = 0x03; m[58] = 0x0E; m[64] = 0x03; m[65] = 0x0E; m[68] = 0x0E; m[71] = 0x0E;
+         m[79] = 0x03; m[86] = 0x0E; m[89] = 0x03; m[90] = 0x0E; m[92] = 0x0E; m[96] = 0x0E; m[99] = 0x03; m[114] = 0x03; m[119] = 0x0E; m[123] = 0x0E; m[125] = 0x0E; m[131] = 0x03;
+         m[138] = 0x0E; m[140] = 0x0E; m[143] = 0x03; m[144] = 0x0E; m[146] = 0x0E; m[150] = 0x0E; m[153] = 0x03; m[154] = 0x0E; m[168] = 0x03; m[169] = 0x0E; m[172] = 0x0E; m[175] = 0x0E;
+         m[177] = 0x0E; m[179] = 0x03; m[181] = 0x0E; m[184] = 0x03; m[192] = 0x0E; m[205] = 0x03; m[206] = 0x0E; m[208] = 0x0E; m[211] = 0x0E; m[214] = 0x0E; m[220] = 0x03; m[221] = 0x0E;
+         m[226] = 0x0E; m[236] = 0x0E; m[239] = 0x0E;
+         break;
+      case 45:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x0F;
+         m[17] = 0x06; m[18] = 0x07; m[33] = 0x04; m[34] = 0x06; m[61] = 0x06; m[69] = 0x06; m[105] = 0x06; m[157] = 0x06; m[158] = 0x07; m[162] = 0x06; m[169] = 0x06; m[173] = 0x04;
+         m[174] = 0x06; m[197] = 0x06; m[198] = 0x07; m[213] = 0x04; m[214] = 0x06;
+         break;
+      case 46:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x10;
+         for ( i = 2; i < 4; i++ ) m[i] = 0x11; for ( i = 7; i < 9; i++ ) m[i] = 0x11; for ( i = 12; i < 14; i++ ) m[i] = 0x11;
+         for ( i = 14; i < 16; i++ ) m[i] = 0x04; for ( i = 24; i < 28; i++ ) m[i] = 0x11; for ( i = 38; i < 41; i++ ) m[i] = 0x11;
+         for ( i = 44; i < 46; i++ ) m[i] = 0x11; for ( i = 49; i < 51; i++ ) m[i] = 0x11; for ( i = 59; i < 61; i++ ) m[i] = 0x11;
+         for ( i = 73; i < 75; i++ ) m[i] = 0x11; for ( i = 77; i < 79; i++ ) m[i] = 0x11; for ( i = 81; i < 83; i++ ) m[i] = 0x11;
+         for ( i = 95; i < 97; i++ ) m[i] = 0x04; for ( i = 97; i < 110; i++ ) m[i] = 0x12; for ( i = 111; i < 128; i++ ) m[i] = 0x04;
+         for ( i = 132; i < 134; i++ ) m[i] = 0x11; for ( i = 134; i < 136; i++ ) m[i] = 0x04; for ( i = 138; i < 140; i++ ) m[i] = 0x11;
+         for ( i = 143; i < 148; i++ ) m[i] = 0x11; for ( i = 164; i < 166; i++ ) m[i] = 0x11; for ( i = 174; i < 176; i++ ) m[i] = 0x11;
+         for ( i = 179; i < 181; i++ ) m[i] = 0x11; for ( i = 185; i < 187; i++ ) m[i] = 0x11; for ( i = 193; i < 195; i++ ) m[i] = 0x11;
+         for ( i = 197; i < 199; i++ ) m[i] = 0x11; for ( i = 217; i < 219; i++ ) m[i] = 0x11; for ( i = 224; i < 230; i++ ) m[i] = 0x12;
+         for ( i = 231; i < 233; i++ ) m[i] = 0x04; for ( i = 233; i < 240; i++ ) m[i] = 0x12; for ( i = 240; i < 256; i++ ) m[i] = 0x04;
+         m[16] = 0x12; m[17] = 0x11; m[19] = 0x11; m[21] = 0x11; m[30] = 0x11; m[31] = 0x04; m[32] = 0x12; m[36] = 0x11; m[47] = 0x04; m[48] = 0x12; m[54] = 0x11; m[57] = 0x11;
+         m[63] = 0x04; m[64] = 0x12; m[67] = 0x11; m[69] = 0x11; m[79] = 0x04; m[80] = 0x12; m[86] = 0x11; m[88] = 0x11; m[90] = 0x11; m[92] = 0x11; m[128] = 0x11; m[150] = 0x11;
+         m[151] = 0x04; m[152] = 0x12; m[153] = 0x11; m[155] = 0x11; m[157] = 0x11; m[160] = 0x11; m[167] = 0x04; m[168] = 0x12; m[172] = 0x11; m[177] = 0x11; m[183] = 0x04; m[184] = 0x12;
+         m[190] = 0x11; m[199] = 0x04; m[200] = 0x12; m[203] = 0x11; m[205] = 0x11; m[208] = 0x11; m[210] = 0x11; m[212] = 0x11; m[215] = 0x04; m[216] = 0x12; m[222] = 0x11;
+         break;
+      case 47:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x12;
+         for ( i = 4; i < 6; i++ ) m[i] = 0x10; for ( i = 6; i < 8; i++ ) m[i] = 0x04; for ( i = 10; i < 12; i++ ) m[i] = 0x10;
+         for ( i = 15; i < 20; i++ ) m[i] = 0x10; for ( i = 36; i < 38; i++ ) m[i] = 0x10; for ( i = 46; i < 48; i++ ) m[i] = 0x10;
+         for ( i = 51; i < 53; i++ ) m[i] = 0x10; for ( i = 57; i < 59; i++ ) m[i] = 0x10; for ( i = 65; i < 67; i++ ) m[i] = 0x10;
+         for ( i = 69; i < 71; i++ ) m[i] = 0x10; for ( i = 89; i < 91; i++ ) m[i] = 0x10; for ( i = 103; i < 105; i++ ) m[i] = 0x04;
+         for ( i = 112; i < 128; i++ ) m[i] = 0x04; for ( i = 130; i < 132; i++ ) m[i] = 0x10; for ( i = 135; i < 137; i++ ) m[i] = 0x10;
+         for ( i = 140; i < 142; i++ ) m[i] = 0x10; for ( i = 142; i < 144; i++ ) m[i] = 0x04; for ( i = 152; i < 156; i++ ) m[i] = 0x10;
+         for ( i = 166; i < 169; i++ ) m[i] = 0x10; for ( i = 172; i < 174; i++ ) m[i] = 0x10; for ( i = 177; i < 179; i++ ) m[i] = 0x10;
+         for ( i = 187; i < 189; i++ ) m[i] = 0x10; for ( i = 201; i < 203; i++ ) m[i] = 0x10; for ( i = 205; i < 207; i++ ) m[i] = 0x10;
+         for ( i = 209; i < 211; i++ ) m[i] = 0x10; for ( i = 223; i < 225; i++ ) m[i] = 0x04; for ( i = 239; i < 256; i++ ) m[i] = 0x04;
+         m[0] = 0x10; m[22] = 0x10; m[23] = 0x04; m[25] = 0x10; m[27] = 0x10; m[29] = 0x10; m[32] = 0x10; m[39] = 0x04; m[44] = 0x10; m[49] = 0x10; m[55] = 0x04; m[62] = 0x10;
+         m[71] = 0x04; m[75] = 0x10; m[77] = 0x10; m[80] = 0x10; m[82] = 0x10; m[84] = 0x10; m[87] = 0x04; m[94] = 0x10; m[145] = 0x10; m[147] = 0x10; m[149] = 0x10; m[158] = 0x10;
+         m[159] = 0x04; m[164] = 0x10; m[175] = 0x04; m[182] = 0x10; m[185] = 0x10; m[191] = 0x04; m[195] = 0x10; m[197] = 0x10; m[207] = 0x04; m[214] = 0x10; m[216] = 0x10; m[218] = 0x10;
+         m[220] = 0x10;
+         break;
+      case 48:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x07;
+         for ( i = 96; i < 103; i++ ) m[i] = 0x06; for ( i = 104; i < 111; i++ ) m[i] = 0x06; for ( i = 111; i < 128; i++ ) m[i] = 0x04;
+         for ( i = 224; i < 227; i++ ) m[i] = 0x06; for ( i = 228; i < 235; i++ ) m[i] = 0x06; for ( i = 236; i < 240; i++ ) m[i] = 0x06;
+         for ( i = 240; i < 256; i++ ) m[i] = 0x04;
+         m[0] = 0x06; m[7] = 0x04; m[8] = 0x06; m[15] = 0x04; m[16] = 0x06; m[23] = 0x04; m[24] = 0x06; m[31] = 0x04; m[32] = 0x06; m[39] = 0x04; m[40] = 0x06; m[47] = 0x04;
+         m[48] = 0x06; m[55] = 0x04; m[56] = 0x06; m[63] = 0x04; m[64] = 0x06; m[71] = 0x04; m[72] = 0x06; m[79] = 0x04; m[80] = 0x06; m[87] = 0x04; m[88] = 0x06; m[95] = 0x04;
+         m[103] = 0x04; m[131] = 0x04; m[132] = 0x06; m[139] = 0x04; m[140] = 0x06; m[147] = 0x04; m[148] = 0x06; m[155] = 0x04; m[156] = 0x06; m[163] = 0x04; m[164] = 0x06; m[171] = 0x04;
+         m[172] = 0x06; m[179] = 0x04; m[180] = 0x06; m[187] = 0x04; m[188] = 0x06; m[195] = 0x04; m[196] = 0x06; m[203] = 0x04; m[204] = 0x06; m[211] = 0x04; m[212] = 0x06; m[219] = 0x04;
+         m[220] = 0x06; m[227] = 0x04; m[235] = 0x04;
+         break;
+      case 49:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x04;
+         for ( i = 8; i < 11; i++ ) m[i] = 0x07; for ( i = 19; i < 21; i++ ) m[i] = 0x06; for ( i = 27; i < 29; i++ ) m[i] = 0x07;
+         for ( i = 37; i < 43; i++ ) m[i] = 0x06; for ( i = 51; i < 61; i++ ) m[i] = 0x06; for ( i = 69; i < 75; i++ ) m[i] = 0x06;
+         for ( i = 77; i < 79; i++ ) m[i] = 0x07; for ( i = 83; i < 85; i++ ) m[i] = 0x07; for ( i = 91; i < 94; i++ ) m[i] = 0x07;
+         for ( i = 98; i < 101; i++ ) m[i] = 0x06; for ( i = 101; i < 108; i++ ) m[i] = 0x07; for ( i = 117; i < 121; i++ ) m[i] = 0x06;
+         for ( i = 123; i < 125; i++ ) m[i] = 0x07; for ( i = 136; i < 139; i++ ) m[i] = 0x07; for ( i = 143; i < 145; i++ ) m[i] = 0x07;
+         for ( i = 156; i < 158; i++ ) m[i] = 0x07; for ( i = 159; i < 161; i++ ) m[i] = 0x07; for ( i = 165; i < 167; i++ ) m[i] = 0x07;
+         for ( i = 168; i < 171; i++ ) m[i] = 0x07; for ( i = 175; i < 177; i++ ) m[i] = 0x07; for ( i = 184; i < 186; i++ ) m[i] = 0x06;
+         for ( i = 191; i < 193; i++ ) m[i] = 0x07; for ( i = 207; i < 209; i++ ) m[i] = 0x07; for ( i = 214; i < 216; i++ ) m[i] = 0x07;
+         for ( i = 217; i < 220; i++ ) m[i] = 0x07; for ( i = 229; i < 231; i++ ) m[i] = 0x06; for ( i = 233; i < 235; i++ ) m[i] = 0x06;
+         for ( i = 252; i < 254; i++ ) m[i] = 0x07;
+         m[0] = 0x06; m[1] = 0x07; m[5] = 0x06; m[6] = 0x07; m[7] = 0x06; m[14] = 0x07; m[16] = 0x06; m[34] = 0x06; m[45] = 0x07; m[49] = 0x06; m[62] = 0x07; m[65] = 0x06;
+         m[66] = 0x07; m[82] = 0x06; m[108] = 0x06; m[109] = 0x07; m[115] = 0x06; m[116] = 0x07; m[121] = 0x07; m[122] = 0x06; m[128] = 0x07; m[130] = 0x06; m[133] = 0x06; m[134] = 0x07;
+         m[135] = 0x06; m[141] = 0x07; m[146] = 0x06; m[148] = 0x06; m[164] = 0x06; m[172] = 0x06; m[178] = 0x06; m[181] = 0x06; m[182] = 0x07; m[186] = 0x07; m[189] = 0x07; m[194] = 0x06;
+         m[195] = 0x07; m[203] = 0x07; m[205] = 0x07; m[211] = 0x06; m[213] = 0x06; m[223] = 0x07; m[224] = 0x06; m[226] = 0x06; m[231] = 0x07; m[237] = 0x07; m[239] = 0x06; m[242] = 0x06;
+         m[244] = 0x06;
+         break;
+      case 50:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x04;
+         for ( i = 5; i < 7; i++ ) m[i] = 0x07; for ( i = 8; i < 11; i++ ) m[i] = 0x07; for ( i = 24; i < 26; i++ ) m[i] = 0x06;
+         for ( i = 54; i < 56; i++ ) m[i] = 0x07; for ( i = 57; i < 60; i++ ) m[i] = 0x07; for ( i = 69; i < 71; i++ ) m[i] = 0x06;
+         for ( i = 73; i < 75; i++ ) m[i] = 0x06; for ( i = 92; i < 94; i++ ) m[i] = 0x07; for ( i = 101; i < 103; i++ ) m[i] = 0x07;
+         for ( i = 104; i < 107; i++ ) m[i] = 0x07; for ( i = 120; i < 122; i++ ) m[i] = 0x06; for ( i = 150; i < 152; i++ ) m[i] = 0x07;
+         for ( i = 153; i < 156; i++ ) m[i] = 0x07; for ( i = 161; i < 163; i++ ) m[i] = 0x06; for ( i = 165; i < 167; i++ ) m[i] = 0x06;
+         for ( i = 169; i < 171; i++ ) m[i] = 0x06; for ( i = 173; i < 175; i++ ) m[i] = 0x07; for ( i = 177; i < 179; i++ ) m[i] = 0x06;
+         for ( i = 179; i < 181; i++ ) m[i] = 0x07; for ( i = 187; i < 191; i++ ) m[i] = 0x07; for ( i = 194; i < 196; i++ ) m[i] = 0x06;
+         for ( i = 198; i < 202; i++ ) m[i] = 0x07; for ( i = 203; i < 205; i++ ) m[i] = 0x06; for ( i = 211; i < 213; i++ ) m[i] = 0x06;
+         for ( i = 214; i < 216; i++ ) m[i] = 0x06; for ( i = 216; i < 218; i++ ) m[i] = 0x07; for ( i = 219; i < 221; i++ ) m[i] = 0x06;
+         for ( i = 224; i < 226; i++ ) m[i] = 0x06; for ( i = 230; i < 233; i++ ) m[i] = 0x06; for ( i = 238; i < 240; i++ ) m[i] = 0x06;
+         m[0] = 0x06; m[4] = 0x06; m[12] = 0x06; m[16] = 0x06; m[18] = 0x06; m[21] = 0x06; m[22] = 0x07; m[26] = 0x07; m[29] = 0x07; m[32] = 0x06; m[34] = 0x06; m[35] = 0x07;
+         m[43] = 0x07; m[45] = 0x07; m[48] = 0x06; m[51] = 0x06; m[53] = 0x06; m[64] = 0x06; m[66] = 0x06; m[71] = 0x07; m[77] = 0x07; m[80] = 0x06; m[82] = 0x06; m[84] = 0x06;
+         m[96] = 0x06; m[100] = 0x06; m[108] = 0x06; m[114] = 0x06; m[117] = 0x06; m[118] = 0x07; m[122] = 0x07; m[125] = 0x07; m[130] = 0x06; m[131] = 0x07; m[139] = 0x07; m[141] = 0x07;
+         m[145] = 0x06; m[147] = 0x06; m[149] = 0x06; m[158] = 0x07; m[167] = 0x07; m[196] = 0x07; m[205] = 0x07; m[208] = 0x07; m[223] = 0x07; m[233] = 0x07;
+         break;
    }
 }
 
@@ -797,6 +925,40 @@ internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 inde
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[16], 40 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[17], 41 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[18], 42 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[19], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[20], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[21], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[22], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[23], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[24], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[25], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[26], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[27], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[28], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[29], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[30], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[31], 8 );
+         break;
+      case 2:
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[0], 9 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[1], 43 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[2], 44 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[3], 45 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[4], 46 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[5], 47 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[6], 48 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[7], 49 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[8], 50 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[9], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[10], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[11], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[12], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[13], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[14], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[15], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[16], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[17], 8 );
+         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[18], 8 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[19], 8 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[20], 8 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[21], 8 );
