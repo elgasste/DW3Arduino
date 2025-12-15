@@ -3081,8 +3081,10 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 15: // Promontory Cave B2 SW
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 46; tileMap->tilesY = 29; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 3; tileMap->hasEdgePortal = False;
          tileMap->portals[0].sourceTileIndex = 1109; tileMap->portals[0].destTileMapIndex = 14; tileMap->portals[0].destTileIndex = 92;
+         tileMap->portals[1].sourceTileIndex = 597; tileMap->portals[1].destTileMapIndex = 16; tileMap->portals[1].destTileIndex = 40;
+         tileMap->portals[2].sourceTileIndex = 643; tileMap->portals[2].destTileMapIndex = 16; tileMap->portals[2].destTileIndex = 50;
          for ( i = 0; i < 1334; i++ ) m[i] = 0x0029;
          for ( i = 32; i < 42; i++ ) m[i] = 0x0001; for ( i = 42; i < 44; i++ ) m[i] = 0x0023; for ( i = 44; i < 46; i++ ) m[i] = 0x0001;
          for ( i = 78; i < 80; i++ ) m[i] = 0x0001; for ( i = 80; i < 88; i++ ) m[i] = 0x0002; for ( i = 88; i < 90; i++ ) m[i] = 0x0023;
@@ -3125,6 +3127,17 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          for ( i = 1170; i < 1178; i++ ) m[i] = 0x0001; for ( i = 1196; i < 1198; i++ ) m[i] = 0x0001; for ( i = 1198; i < 1210; i++ ) m[i] = 0x0023;
          for ( i = 1210; i < 1212; i++ ) m[i] = 0x0001; for ( i = 1216; i < 1224; i++ ) m[i] = 0x0002; for ( i = 1242; i < 1258; i++ ) m[i] = 0x0001;
          for ( i = 1288; i < 1304; i++ ) m[i] = 0x0002;
+         break;
+      case 16: // Promontory Cave B2 South Room
+         TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
+         tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->portals[0].sourceTileIndex = 40; tileMap->portals[0].destTileMapIndex = 15; tileMap->portals[0].destTileIndex = 597;
+         tileMap->portals[1].sourceTileIndex = 50; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 643;
+         for ( i = 0; i < 100; i++ ) m[i] = 0x0001;
+         for ( i = 12; i < 18; i++ ) m[i] = 0x0002; for ( i = 22; i < 28; i++ ) m[i] = 0x0023; for ( i = 30; i < 32; i++ ) m[i] = 0x0002;
+         for ( i = 32; i < 38; i++ ) m[i] = 0x0023; for ( i = 40; i < 48; i++ ) m[i] = 0x0023; for ( i = 50; i < 58; i++ ) m[i] = 0x0023;
+         for ( i = 62; i < 68; i++ ) m[i] = 0x0023; for ( i = 72; i < 78; i++ ) m[i] = 0x0023; for ( i = 90; i < 100; i++ ) m[i] = 0x0002;
          break;
    }
 }
