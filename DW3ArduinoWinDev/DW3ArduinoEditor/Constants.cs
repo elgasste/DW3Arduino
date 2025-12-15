@@ -3,6 +3,7 @@
    public static class Constants
    {
       public const string AssetsBasePath = "..\\..\\..\\assets\\";
+      public const string DocsBasePath = "..\\..\\..\\..\\..\\Docs\\";
       public const string OutputBasePath = "..\\..\\..\\..\\..\\DW3Arduino\\";
 
       public const string SaveDataFilePath = AssetsBasePath + "EditorData.json";
