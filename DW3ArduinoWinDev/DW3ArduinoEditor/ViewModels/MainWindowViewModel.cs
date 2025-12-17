@@ -111,14 +111,14 @@ namespace DW3ArduinoEditor.ViewModels
       // shoreline detection. let's keep this around for now too, just in case.
       //private void LoadAliahanFromTempFile()
       //{
-      //   uint w = 10;
-      //   uint h = 10;
-      //   string fileName = "temp_najima_b1_east_room_codes.txt";
-      //   string mapName = "Najima B1 West Room";
-      //   uint mapIndex = 21;
+      //   uint w = 34;
+      //   uint h = 44;
+      //   string fileName = "najima_1f_main.txt";
+      //   string mapName = "Najima 1F Main";
+      //   uint mapIndex = 22;
       //   uint tileSetIndex = 2;
-      //   int defaultTexture = 9;
-      //   List<uint> impassableTextureIndexes = [0, 1, 2, 4, 5, 7, 8];
+      //   int defaultTexture = 10;
+      //   List<uint> impassableTextureIndexes = [0, 1, 2, 4, 5, 7, 8, 11, 12, 13, 14, 15, 16, 20, 21, 22, 23];
 
       //   List<List<int>> textureIndexes = [];
       //   int lineIndex = 0;
@@ -164,6 +164,18 @@ namespace DW3ArduinoEditor.ViewModels
       //            case 'h': textureIndexes[lineIndex].Add( 17 ); break;
       //            case 'i': textureIndexes[lineIndex].Add( 18 ); break;
       //            case 'j': textureIndexes[lineIndex].Add( 19 ); break;
+      //            case 'k': textureIndexes[lineIndex].Add( 20 ); break;
+      //            case 'l': textureIndexes[lineIndex].Add( 21 ); break;
+      //            case 'm': textureIndexes[lineIndex].Add( 22 ); break;
+      //            case 'n': textureIndexes[lineIndex].Add( 23 ); break;
+      //            case 'o': textureIndexes[lineIndex].Add( 24 ); break;
+      //            case 'p': textureIndexes[lineIndex].Add( 25 ); break;
+      //            case 'q': textureIndexes[lineIndex].Add( 26 ); break;
+      //            case 'r': textureIndexes[lineIndex].Add( 27 ); break;
+      //            case 's': textureIndexes[lineIndex].Add( 28 ); break;
+      //            case 't': textureIndexes[lineIndex].Add( 29 ); break;
+      //            case 'u': textureIndexes[lineIndex].Add( 30 ); break;
+      //            case 'v': textureIndexes[lineIndex].Add( 31 ); break;
 
       //            default: textureIndexes[lineIndex].Add( defaultTexture ); break;
       //         }
