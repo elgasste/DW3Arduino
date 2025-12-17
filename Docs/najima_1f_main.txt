@@ -1,0 +1,44 @@
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+iiiiiibcbcbcbciiiiiibcbcbcbciiiiii
+iiiiiidefgdedeiiiiiidedefgdeiiiiii
+iiiibcbc  bcbckl  klbcbc  bcbciiii
+iiiidefg  dedemn  mndede  fgdeiiii
+iibcbc    bcbcbc  bcbcbc    bcbcii
+iidefg    fgfgfg  fgfgfg    fgdeii
+iibc                          bcii
+iide                          deii
+iibcbcbcbcbcbc      bcbcbcbcbcbcii
+iidededededede      dedededededeii
+iibcbcbcbcbcbc      bcbcbcbcbcbcii
+iidefgfgfgdefg      fgdedefgfgdeii
+iibcjjjjjjbc          bcbcjjjjbcii
+iidejjjjjjfg          fgfgjjjjdeii
+iibcjjjjjj    hhhhhh    jjjjjjbcii
+iidejjjjjj    hhhhhh    jjjjjjdeii
+iibcjjjjjjbc  hh  hh  bcbcjjjjbcii
+iidejjjjjjde  h    h  dedejjjjdeii
+iibcbcbcbcbc  h    h  bcbcbcbcbcii
+iidedededede  h kl h  dededededeii
+iibcbcbcbcbc  h mn h  bcbcbcbcbcii
+iidefgfgdede  h    h  dedefgfgdeii
+iibcjjjjbcbc  h    h  bcbcjjjjbcii
+iidejjjjfgfg  hh  hh  fgfgjjjjdeii
+iibcjjjjjj    hhhhhh    jjjjjjbcii
+iidejjjjjj    hhhhhh    jjjjjjdeii
+iibcjjjjbcbc          bcbcjjjjbcii
+iidejjjjdede          dedejjjjdeii
+iibcbcbcbcbcbcbc  bcbcbcbcbcbcbcii
+iidededededefgfg  fgfgdededededeii
+iibcbcbcbcbchhhhhhhhhhbcbcbcbcbcii
+iidefgfgfgdehhhhhhhhhhbcfgfgfgdeii
+iibc      bchhkl  klhhbc      bcii
+iide      fghhmn  mnhhfg      deii
+iibcbc      hh      hh      bcbcii
+iifgde      hh      hh      defgii
+iiiibcbc  bciibc  bciibc  bcbciiii
+iiiifgde  deiide  deiide  defgiiii
+iiiiiibcbcbciibc  bciibcbcbciiiiii
+iiiiiifgfgfgiifg  fgiifgfgfgiiiiii
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
