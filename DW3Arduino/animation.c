@@ -3,6 +3,8 @@
 #include "clock.h"
 
 internal void Animation_TicPause( Animation_t* animation );
+internal void Animation_TicFadeOut( Animation_t* animation );
+internal void Animation_TicFadeIn( Animation_t* animation );
 
 void AnimationChain_Init( AnimationChain_t* chain, Screen_t* screen )
 {
@@ -53,9 +55,17 @@ void AnimationChain_Tic( AnimationChain_t* chain )
    {
       switch ( animation->type )
       {
-         case AnimationType_TotalPause:
+         case AnimationType_Pause:
          case AnimationType_ActivePause:
             Animation_TicPause( animation );
+            break;
+         case AnimationType_FadeIn:
+         case AnimationType_ActiveFadeIn:
+            Animation_TicFadeIn( animation );
+            break;
+         case AnimationType_FadeOut:
+         case AnimationType_ActiveFadeOut:
+            Animation_TicFadeOut( animation );
             break;
       }
 
@@ -86,19 +96,9 @@ void AnimationChain_Tic( AnimationChain_t* chain )
 
 Bool_t AnimationChain_BlocksInput( AnimationChain_t* chain )
 {
-   if ( chain->isRunning && chain->curAnimation )
-   {
-      switch ( chain->curAnimation->type )
-      {
-         case AnimationType_ActivePause:
-         case AnimationType_TotalPause:
-            return True;
-         default:
-            return False;
-      }
-   }
-   
-   return False;
+   // TODO: currently all animations should block input, but there might be
+   // some that won't (like if some non-player entity has an animation).
+   return ( chain->isRunning && chain->curAnimation ) ? True : False;
 }
 
 Bool_t AnimationChain_PausesAction( AnimationChain_t* chain )
@@ -108,11 +108,11 @@ Bool_t AnimationChain_PausesAction( AnimationChain_t* chain )
       switch ( chain->curAnimation->type )
       {
          case AnimationType_ActivePause:
+         case AnimationType_ActiveFadeIn:
+         case AnimationType_ActiveFadeOut:
             return False;
-         case AnimationType_TotalPause:
-            return True;
          default:
-            return False;
+            return True;
       }
    }
 
@@ -120,6 +120,16 @@ Bool_t AnimationChain_PausesAction( AnimationChain_t* chain )
 }
 
 internal void Animation_TicPause( Animation_t* animation )
+{
+   animation->elapsedSeconds += CLOCK_FRAME_SECONDS;
+}
+
+internal void Animation_TicFadeOut( Animation_t* animation )
+{
+   animation->elapsedSeconds += CLOCK_FRAME_SECONDS;
+}
+
+internal void Animation_TicFadeIn( Animation_t* animation )
 {
    animation->elapsedSeconds += CLOCK_FRAME_SECONDS;
 }

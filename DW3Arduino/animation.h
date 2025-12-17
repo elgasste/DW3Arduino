@@ -9,8 +9,12 @@ typedef struct Screen_t Screen_t;
 
 typedef enum AnimationType_t
 {
-   AnimationType_TotalPause = 0,
-   AnimationType_ActivePause
+   AnimationType_Pause = 0,
+   AnimationType_ActivePause,
+   AnimationType_FadeOut,
+   AnimationType_ActiveFadeOut,
+   AnimationType_FadeIn,
+   AnimationType_ActiveFadeIn
 }
 AnimationType_t;
 
