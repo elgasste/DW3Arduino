@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\DW3Arduino\animation.h" />
     <ClInclude Include="..\..\DW3Arduino\clock.h" />
     <ClInclude Include="..\..\DW3Arduino\common.h" />
     <ClInclude Include="..\..\DW3Arduino\entity.h" />
@@ -150,6 +151,7 @@
     <ClInclude Include="win_pixel_buffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\DW3Arduino\animation.c" />
     <ClCompile Include="..\..\DW3Arduino\game.c" />
     <ClCompile Include="..\..\DW3Arduino\game_data.c" />
     <ClCompile Include="..\..\DW3Arduino\input.c" />

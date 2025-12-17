@@ -12,6 +12,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    Clock_Init( &game->clock );
    Screen_Init( &game->screen, screenBuffer );
    Input_Init( &game->input );
+   AnimationChain_Init( &game->animationChain, &game->screen );
    TileMap_Init( &game->tileMap );
 
    Screen_LoadPaletteFromIndex( &game->screen, 0 );
@@ -46,9 +47,18 @@ void Game_Init( Game_t* game, u16* screenBuffer )
 void Game_Tic( Game_t* game )
 {
    Input_Read( &game->input );
-   Game_HandleInput( game );
-   TileMap_Tic( &game->tileMap );
-   Physics_Tic( game );
+
+   if ( game->animationChain.isRunning )
+   {
+      AnimationChain_Tic( &game->animationChain );
+   }
+   else
+   {
+      Game_HandleInput( game );
+      TileMap_Tic( &game->tileMap );
+      Physics_Tic( game );
+   }
+
    Render_DrawGame( game );
 }
 
