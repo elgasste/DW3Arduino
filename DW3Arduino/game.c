@@ -16,7 +16,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    AnimationChain_Init( &game->animationChain, &game->screen );
    TileMap_Init( &game->tileMap );
 
-   Screen_LoadPaletteFromIndex( &game->screen, 0 );
+   Screen_LoadPalette( &game->screen );
    TileMap_LoadFromIndex( &game->tileMap, 0 );
 
    game->tileMap.viewport.w = 380;
@@ -200,11 +200,10 @@ internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
 
    if ( foundPortal )
    {
-      // TODO: use some #defines for these values
       AnimationChain_Reset( &game->animationChain );
-      AnimationChain_PushWithCallback( &game->animationChain, AnimationType_ActiveFadeOut, 0.5f, Game_EnterPortal, game, foundPortal );
-      AnimationChain_Push( &game->animationChain, AnimationType_Pause, 0.2f );
-      AnimationChain_Push( &game->animationChain, AnimationType_ActiveFadeIn, 0.5f );
+      AnimationChain_PushWithCallback( &game->animationChain, AnimationType_ActiveFadeOut, TILEMAP_SWAP_FADE_SECONDS, Game_EnterPortal, game, foundPortal );
+      AnimationChain_Push( &game->animationChain, AnimationType_Pause, TILEMAP_SWAP_PAUSE_SECONDS );
+      AnimationChain_Push( &game->animationChain, AnimationType_ActiveFadeIn, TILEMAP_SWAP_FADE_SECONDS );
       AnimationChain_Start( &game->animationChain );
    }
 }

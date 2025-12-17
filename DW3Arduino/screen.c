@@ -3,7 +3,38 @@
 void Screen_Init( Screen_t* screen, u16* buffer )
 {
    screen->buffer = buffer;
+   screen->paletteColorCount = 0;
    screen->dayFilterIntensity = 1.0f;
+}
+
+void Screen_BackupPalette( Screen_t* screen )
+{
+   u32 i;
+
+   for ( i = 0; i < screen->paletteColorCount; i++ )
+   {
+      screen->backupPalette[i] = screen->palette[i];
+   }
+}
+
+void Screen_RestorePalette( Screen_t* screen )
+{
+   u32 i;
+
+   for ( i = 0; i < screen->paletteColorCount; i++ )
+   {
+      screen->palette[i] = screen->backupPalette[i];
+   }
+}
+
+void Screen_ClearPalette( Screen_t* screen, u16 color )
+{
+   u32 i;
+
+   for ( i = 0; i < screen->paletteColorCount; i++ )
+   {
+      screen->palette[i] = color;
+   }
 }
 
 void Screen_WipeColor( Screen_t* screen, u16 color )

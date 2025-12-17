@@ -6,9 +6,9 @@
 internal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 index );
 internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
 
-void Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index )
+void Screen_LoadPalette( Screen_t* screen )
 {
-   UNUSED_PARAM( index );
+screen->paletteColorCount = 19;
 
    screen->palette[0] = 0x9720;
    screen->palette[1] = 0x4CE0;

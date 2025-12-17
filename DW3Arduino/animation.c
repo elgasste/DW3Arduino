@@ -2,9 +2,10 @@
 #include "screen.h"
 #include "clock.h"
 
+internal void Animation_Start( Animation_t* animation, Screen_t* screen );
 internal void Animation_TicPause( Animation_t* animation );
-internal void Animation_TicFadeOut( Animation_t* animation );
-internal void Animation_TicFadeIn( Animation_t* animation );
+internal void Animation_TicFadeOut( Animation_t* animation, Screen_t* screen );
+internal void Animation_TicFadeIn( Animation_t* animation, Screen_t* screen );
 
 void AnimationChain_Init( AnimationChain_t* chain, Screen_t* screen )
 {
@@ -45,6 +46,8 @@ void AnimationChain_Start( AnimationChain_t* chain )
    chain->curAnimation = chain->animations;
    chain->curAnimationIndex = 0;
    chain->isRunning = True;
+
+   Animation_Start( chain->curAnimation, chain->screen );
 }
 
 void AnimationChain_Tic( AnimationChain_t* chain )
@@ -59,13 +62,13 @@ void AnimationChain_Tic( AnimationChain_t* chain )
          case AnimationType_ActivePause:
             Animation_TicPause( animation );
             break;
-         case AnimationType_FadeIn:
-         case AnimationType_ActiveFadeIn:
-            Animation_TicFadeIn( animation );
-            break;
          case AnimationType_FadeOut:
          case AnimationType_ActiveFadeOut:
-            Animation_TicFadeOut( animation );
+            Animation_TicFadeOut( animation, chain->screen );
+            break;
+         case AnimationType_FadeIn:
+         case AnimationType_ActiveFadeIn:
+            Animation_TicFadeIn( animation, chain->screen );
             break;
       }
 
@@ -85,6 +88,7 @@ void AnimationChain_Tic( AnimationChain_t* chain )
          else
          {
             chain->curAnimation = chain->animations + chain->curAnimationIndex;
+            Animation_Start( chain->curAnimation, chain->screen );
          }
       }
    }
@@ -119,17 +123,68 @@ Bool_t AnimationChain_PausesAction( AnimationChain_t* chain )
    return False;
 }
 
+internal void Animation_Start( Animation_t* animation, Screen_t* screen )
+{
+   switch ( animation->type )
+   {
+      case AnimationType_FadeOut:
+      case AnimationType_ActiveFadeOut:
+         Screen_BackupPalette( screen );
+         break;
+   }
+}
+
 internal void Animation_TicPause( Animation_t* animation )
 {
    animation->elapsedSeconds += CLOCK_FRAME_SECONDS;
 }
 
-internal void Animation_TicFadeOut( Animation_t* animation )
+internal void Animation_TicFadeOut( Animation_t* animation, Screen_t* screen )
 {
+   u32 i;
+   u16 rangeR, rangeB, rangeG;
+   r32 p;
+
    animation->elapsedSeconds += CLOCK_FRAME_SECONDS;
+
+   if ( animation->elapsedSeconds > animation->totalSeconds )
+   {
+      Screen_ClearPalette( screen, COLOR16_BLACK );
+   }
+   else
+   {
+      for ( i = 0; i < screen->paletteColorCount; i++ )
+      {
+         rangeR = screen->backupPalette[i] >> 11;
+         rangeG = ( screen->backupPalette[i] & 0x7E0 ) >> 5;
+         rangeB = screen->backupPalette[i] & 0x1F;
+         p = 1.0f - ( animation->elapsedSeconds / animation->totalSeconds );
+         screen->palette[i] = ( (u16)( rangeR * p ) << 11 ) | ( (u16)( rangeG * p ) << 5 ) | (u16)( rangeB * p );
+      }
+   }
 }
 
-internal void Animation_TicFadeIn( Animation_t* animation )
+internal void Animation_TicFadeIn( Animation_t* animation, Screen_t* screen )
 {
+   u32 i;
+   u16 rangeR, rangeB, rangeG;
+   r32 p;
+
    animation->elapsedSeconds += CLOCK_FRAME_SECONDS;
+
+   if ( animation->elapsedSeconds > animation->totalSeconds )
+   {
+      Screen_RestorePalette( screen );
+   }
+   else
+   {
+      for ( i = 0; i < screen->paletteColorCount; i++ )
+      {
+         rangeR = screen->backupPalette[i] >> 11;
+         rangeG = ( screen->backupPalette[i] & 0x7E0 ) >> 5;
+         rangeB = screen->backupPalette[i] & 0x1F;
+         p = animation->elapsedSeconds / animation->totalSeconds;
+         screen->palette[i] = ( (u16)( rangeR * p ) << 11 ) | ( (u16)( rangeG * p ) << 5 ) | (u16)( rangeB * p );
+      }
+   }
 }
