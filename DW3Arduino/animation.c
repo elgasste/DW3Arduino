@@ -20,16 +20,18 @@ void AnimationChain_Reset( AnimationChain_t* chain )
 
 void AnimationChain_Push( AnimationChain_t* chain, AnimationType_t type, r32 seconds )
 {
-   AnimationChain_PushWithCallback( chain, type, seconds, 0, 0 );
+   AnimationChain_PushWithCallback( chain, type, seconds, 0, 0, 0 );
 }
 
-void AnimationChain_PushWithCallback( AnimationChain_t* chain, AnimationType_t type, r32 seconds, void ( *callback )( void* ), void* callbackPayload )
+void AnimationChain_PushWithCallback( AnimationChain_t* chain, AnimationType_t type, r32 seconds,
+                                      void ( *callback )( void*, void* ), void* callbackPayload1, void* callbackPayload2 )
 {
    Animation_t* newAnimation = chain->animations + chain->animationCount;
 
    newAnimation->type = type;
    newAnimation->callback = callback;
-   newAnimation->callbackPayload = callbackPayload;
+   newAnimation->callbackPayload1 = callbackPayload1;
+   newAnimation->callbackPayload2 = callbackPayload2;
    newAnimation->totalSeconds = seconds;
    newAnimation->elapsedSeconds = 0.0f;
 
@@ -51,7 +53,8 @@ void AnimationChain_Tic( AnimationChain_t* chain )
    {
       switch ( animation->type )
       {
-         case AnimationType_Pause:
+         case AnimationType_TotalPause:
+         case AnimationType_ActivePause:
             Animation_TicPause( animation );
             break;
       }
@@ -60,7 +63,7 @@ void AnimationChain_Tic( AnimationChain_t* chain )
       {
          if ( animation->callback )
          {
-            animation->callback( animation->callbackPayload );
+            animation->callback( animation->callbackPayload1, animation->callbackPayload2 );
          }
 
          chain->curAnimationIndex++;
@@ -69,12 +72,51 @@ void AnimationChain_Tic( AnimationChain_t* chain )
          {
             chain->isRunning = False;
          }
+         else
+         {
+            chain->curAnimation = chain->animations + chain->curAnimationIndex;
+         }
       }
    }
    else
    {
       chain->isRunning = False;
    }
+}
+
+Bool_t AnimationChain_BlocksInput( AnimationChain_t* chain )
+{
+   if ( chain->isRunning && chain->curAnimation )
+   {
+      switch ( chain->curAnimation->type )
+      {
+         case AnimationType_ActivePause:
+         case AnimationType_TotalPause:
+            return True;
+         default:
+            return False;
+      }
+   }
+   
+   return False;
+}
+
+Bool_t AnimationChain_PausesAction( AnimationChain_t* chain )
+{
+   if ( chain->isRunning && chain->curAnimation )
+   {
+      switch ( chain->curAnimation->type )
+      {
+         case AnimationType_ActivePause:
+            return False;
+         case AnimationType_TotalPause:
+            return True;
+         default:
+            return False;
+      }
+   }
+
+   return False;
 }
 
 internal void Animation_TicPause( Animation_t* animation )

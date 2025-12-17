@@ -9,7 +9,8 @@ typedef struct Screen_t Screen_t;
 
 typedef enum AnimationType_t
 {
-   AnimationType_Pause = 0
+   AnimationType_TotalPause = 0,
+   AnimationType_ActivePause
 }
 AnimationType_t;
 
@@ -18,8 +19,9 @@ typedef struct Animation_t
    AnimationType_t type;
    r32 totalSeconds;
    r32 elapsedSeconds;
-   void ( *callback )( void* );
-   void* callbackPayload;
+   void ( *callback )( void*, void* );
+   void* callbackPayload1;
+   void* callbackPayload2;
 }
 Animation_t;
 
@@ -41,9 +43,12 @@ extern "C" {
 void AnimationChain_Init( AnimationChain_t* chain, Screen_t* screen );
 void AnimationChain_Reset( AnimationChain_t* chain );
 void AnimationChain_Push( AnimationChain_t* chain, AnimationType_t type, r32 seconds );
-void AnimationChain_PushWithCallback( AnimationChain_t* chain, AnimationType_t type, r32 seconds, void ( *callback )( void* ), void* callbackPayload );
+void AnimationChain_PushWithCallback( AnimationChain_t* chain, AnimationType_t type, r32 seconds,
+                                      void ( *callback )( void*, void* ), void* callbackPayload1, void* callbackPayload2 );
 void AnimationChain_Start( AnimationChain_t* chain );
 void AnimationChain_Tic( AnimationChain_t* chain );
+Bool_t AnimationChain_BlocksInput( AnimationChain_t* chain );
+Bool_t AnimationChain_PausesAction( AnimationChain_t* chain );
 
 #if defined( __cplusplus )
 }
