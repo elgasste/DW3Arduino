@@ -9,6 +9,7 @@
 #include "clock.h"
 #include "screen.h"
 #include "input.h"
+#include "animation.h"
 #include "tile_map.h"
 #include "player.h"
 
@@ -17,6 +18,8 @@ typedef struct Game_t
    Clock_t clock;
    Screen_t screen;
    Input_t input;
+   AnimationChain_t animationChain;
+
    TileMap_t tileMap;
    Player_t player;
 

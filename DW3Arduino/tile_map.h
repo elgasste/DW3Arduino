@@ -16,6 +16,9 @@
 #define TILEMAP_MAX_TILES_X               256
 #define TILEMAP_MAX_TILES_Y               256
 
+#define TILEMAP_SWAP_FADE_SECONDS         0.3f
+#define TILEMAP_SWAP_PAUSE_SECONDS        0.2f
+
 #define TILE_GET_TEXTURE_INDEX( tile )    ( ( tile ) & 0x1F )
 #define TILE_GET_IS_PASSABLE( tile )      ( ( ( tile ) >> 5 ) & 0x01 )
 

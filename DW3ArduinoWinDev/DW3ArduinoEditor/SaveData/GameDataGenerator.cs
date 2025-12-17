@@ -49,9 +49,9 @@ namespace DW3ArduinoEditor.SaveData
 
       private void WritePaletteFunction( FileStream fs )
       {
-         WriteToFileStream( fs, "\nvoid Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index )\n" );
+         WriteToFileStream( fs, "\nvoid Screen_LoadPalette( Screen_t* screen )\n" );
          WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, "   UNUSED_PARAM( index );\n\n" );
+         WriteToFileStream( fs, string.Format( "screen->paletteColorCount = {0};\n\n", _palette?.ColorCount ) );
 
          for ( int i = 0; i < _palette?.ColorCount; i++ )
          {

@@ -22,6 +22,8 @@ typedef struct Screen_t
 {
    u16* buffer;
    u16 palette[SCREEN_PALETTE_SIZE];
+   u16 backupPalette[SCREEN_PALETTE_SIZE];
+   u32 paletteColorCount;
    r32 dayFilterIntensity;
 }
 Screen_t;
@@ -31,6 +33,9 @@ extern "C" {
 #endif
 
 void Screen_Init( Screen_t* screen, u16* buffer );
+void Screen_BackupPalette( Screen_t* screen );
+void Screen_RestorePalette( Screen_t* screen );
+void Screen_ClearPalette( Screen_t* screen, u16 color );
 void Screen_WipeColor( Screen_t* screen, u16 color );
 void Screen_DrawRect( Screen_t* screen, i32 x, i32 y, i32 w, i32 h, u16 color );
 void Screen_DrawBoundedRect( Screen_t* screen, i32 x, i32 y, i32 w, i32 h,
@@ -42,7 +47,7 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
                                 i32 leftBound, i32 topBound, i32 rightBound, i32 bottomBound );
 
 // game_data.c
-void Screen_LoadPaletteFromIndex( Screen_t* screen, u32 index );
+void Screen_LoadPalette( Screen_t* screen );
 
 // platform-specific
 void Screen_Blit( Screen_t* screen );

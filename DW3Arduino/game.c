@@ -6,15 +6,17 @@ internal void Game_HandleInput( Game_t* game );
 internal void Game_HandlePlayerMoved( Game_t* game );
 internal void Game_IncrementDayFactor( Game_t* game );
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex );
+internal void Game_EnterPortal( Game_t* game, Portal_t* portal );
 
 void Game_Init( Game_t* game, u16* screenBuffer )
 {
    Clock_Init( &game->clock );
    Screen_Init( &game->screen, screenBuffer );
    Input_Init( &game->input );
+   AnimationChain_Init( &game->animationChain, &game->screen );
    TileMap_Init( &game->tileMap );
 
-   Screen_LoadPaletteFromIndex( &game->screen, 0 );
+   Screen_LoadPalette( &game->screen );
    TileMap_LoadFromIndex( &game->tileMap, 0 );
 
    game->tileMap.viewport.w = 380;
@@ -46,9 +48,23 @@ void Game_Init( Game_t* game, u16* screenBuffer )
 void Game_Tic( Game_t* game )
 {
    Input_Read( &game->input );
-   Game_HandleInput( game );
-   TileMap_Tic( &game->tileMap );
-   Physics_Tic( game );
+
+   if ( game->animationChain.isRunning )
+   {
+      AnimationChain_Tic( &game->animationChain );
+   }
+
+   if ( !AnimationChain_BlocksInput( &game->animationChain ) )
+   {
+      Game_HandleInput( game );
+   }
+   
+   if ( !AnimationChain_PausesAction( &game->animationChain ) )
+   {
+      TileMap_Tic( &game->tileMap );
+      Physics_Tic( game );
+   }
+
    Render_DrawGame( game );
 }
 
@@ -161,34 +177,47 @@ internal void Game_IncrementDayFactor( Game_t* game )
 
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
 {
-   u32 i, destTileIndex, newPosX, newPosY;
-   Portal_t* portal;
+   u32 i;
+   Portal_t *checkPortal, *foundPortal = 0;
 
    game->player.tileIndex = tileIndex;
 
    // check regular portals first
-   for ( i = 0, portal = game->tileMap.portals; i < game->tileMap.portalCount; i++, portal++ )
+   for ( i = 0, checkPortal = game->tileMap.portals; i < game->tileMap.portalCount; i++, checkPortal++ )
    {
-      if ( portal->sourceTileIndex == tileIndex )
+      if ( checkPortal->sourceTileIndex == tileIndex )
       {
-         destTileIndex = portal->destTileIndex;
-         TileMap_LoadFromIndex( &game->tileMap, portal->destTileMapIndex );
-         TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
-         game->player.entity->pos.x = (r32)newPosX + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.w ) / 2 );
-         game->player.entity->pos.y = (r32)newPosY + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.h ) / 2 );
-         game->player.tileIndex = destTileIndex;
-         return;
+         foundPortal = checkPortal;
+         break;
       }
    }
 
    // now check for edge portals
-   if ( game->tileMap.hasEdgePortal && TileMap_TileIndexIsEdgeTile( &game->tileMap, tileIndex ) )
+   if ( !foundPortal && game->tileMap.hasEdgePortal && TileMap_TileIndexIsEdgeTile( &game->tileMap, tileIndex ) )
    {
-      destTileIndex = game->tileMap.edgePortal.destTileIndex;
-      TileMap_LoadFromIndex( &game->tileMap, game->tileMap.edgePortal.destTileMapIndex );
-      TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
-      game->player.entity->pos.x = (r32)newPosX + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.w ) / 2 );
-      game->player.entity->pos.y = (r32)newPosY + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.h ) / 2 );
-      game->player.tileIndex = destTileIndex;
+      foundPortal = &game->tileMap.edgePortal;
    }
+
+   if ( foundPortal )
+   {
+      AnimationChain_Reset( &game->animationChain );
+      AnimationChain_PushWithCallback( &game->animationChain, AnimationType_ActiveFadeOut, TILEMAP_SWAP_FADE_SECONDS, Game_EnterPortal, game, foundPortal );
+      AnimationChain_Push( &game->animationChain, AnimationType_Pause, TILEMAP_SWAP_PAUSE_SECONDS );
+      AnimationChain_Push( &game->animationChain, AnimationType_ActiveFadeIn, TILEMAP_SWAP_FADE_SECONDS );
+      AnimationChain_Start( &game->animationChain );
+   }
+}
+
+internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
+{
+   u32 newPosX, newPosY;
+   u32 destTileMapIndex = portal->destTileMapIndex;
+   u32 destTileIndex = portal->destTileIndex;
+
+   TileMap_LoadFromIndex( &game->tileMap, destTileMapIndex );
+   TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
+   game->player.entity->pos.x = (r32)newPosX + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.w ) / 2 );
+   game->player.entity->pos.y = (r32)newPosY + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.h ) / 2 );
+   game->player.tileIndex = destTileIndex;
+   TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
 }
