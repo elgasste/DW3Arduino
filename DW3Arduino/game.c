@@ -216,8 +216,7 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
 
    TileMap_LoadFromIndex( &game->tileMap, destTileMapIndex );
    TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
-   game->player.entity->pos.x = (r32)newPosX + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.w ) / 2 );
-   game->player.entity->pos.y = (r32)newPosY + ( ( TILEMAP_TILE_SIZE - game->player.entity->pos.h ) / 2 );
    game->player.tileIndex = destTileIndex;
+   TileMap_CenterEntityOnTile( &game->tileMap, game->player.entity, destTileIndex );
    TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
 }

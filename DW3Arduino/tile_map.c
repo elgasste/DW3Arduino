@@ -84,6 +84,15 @@ void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
    }
 }
 
+void TileMap_CenterEntityOnTile( TileMap_t* tileMap, Entity_t* entity, u32 tileIndex )
+{
+   u32 tileX = ( tileIndex % tileMap->tilesX ) * TILEMAP_TILE_SIZE;
+   u32 tileY = ( tileIndex / tileMap->tilesX ) * TILEMAP_TILE_SIZE;
+
+   entity->pos.x = (r32)( tileX + ( ( TILEMAP_TILE_SIZE / 2 ) - ( entity->pos.w / 2 ) ) );
+   entity->pos.y = (r32)( tileY + ( ( TILEMAP_TILE_SIZE / 2 ) - ( entity->pos.h / 2 ) ) );
+}
+
 u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, u32 x, u32 y )
 {
    return ( ( y / TILEMAP_TILE_SIZE ) * tileMap->tilesX ) + ( x / TILEMAP_TILE_SIZE );

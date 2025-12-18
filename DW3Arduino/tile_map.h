@@ -75,6 +75,7 @@ extern "C" {
 void TileMap_Init( TileMap_t* tileMap );
 void TileMap_Tic( TileMap_t* tileMap );
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity );
+void TileMap_CenterEntityOnTile( TileMap_t* tileMap, Entity_t* entity, u32 tileIndex );
 u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, u32 x, u32 y );
 void TileMap_GetPositionOfTileIndex( TileMap_t* tileMap, u32 tileIndex, u32* x, u32* y );
 Bool_t TileMap_TileIndexIsEdgeTile( TileMap_t* tileMap, u32 tileIndex );
