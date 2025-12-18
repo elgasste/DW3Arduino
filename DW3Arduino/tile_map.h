@@ -19,8 +19,14 @@
 #define TILEMAP_SWAP_FADE_SECONDS         0.3f
 #define TILEMAP_SWAP_PAUSE_SECONDS        0.2f
 
+#define TILE_WALK_SPEED_NORMAL            56.0f
+#define TILE_WALK_SPEED_SLOW              48.0f
+#define TILE_WALK_SPEED_VERY_SLOW         40.0f
+#define TILE_WALK_SPEED_CRAWL             24.0f
+
 #define TILE_GET_TEXTURE_INDEX( tile )    ( ( tile ) & 0x1F )
 #define TILE_GET_IS_PASSABLE( tile )      ( ( ( tile ) >> 5 ) & 0x01 )
+#define TILE_GET_WALKING_SPEED( tile )    ( ( ( tile ) >> 6 ) & 0x03 )
 
 typedef struct Entity_t Entity_t;
 
@@ -44,7 +50,8 @@ typedef struct TileMap_t
 
    // bits 0-4:  tile texture index
    // bit  5:    is passable
-   // bits 6-15: reserved
+   // bits 6-7:  walking speed
+   // bits 8-15: reserved
    u16 tiles[TILEMAP_MAX_TILES_X * TILEMAP_MAX_TILES_Y];
    u32 tilesX;
    u32 tilesY;
@@ -79,6 +86,7 @@ void TileMap_CenterEntityOnTile( TileMap_t* tileMap, Entity_t* entity, u32 tileI
 u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, u32 x, u32 y );
 void TileMap_GetPositionOfTileIndex( TileMap_t* tileMap, u32 tileIndex, u32* x, u32* y );
 Bool_t TileMap_TileIndexIsEdgeTile( TileMap_t* tileMap, u32 tileIndex );
+r32 TileMap_GetTileVelocity( TileMap_t* tileMap, u32 tileIndex );
 
 // game_data.c
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index );

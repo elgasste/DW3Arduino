@@ -111,3 +111,19 @@ Bool_t TileMap_TileIndexIsEdgeTile( TileMap_t* tileMap, u32 tileIndex )
           ( ( tileIndex % tileMap->tilesX ) == ( tileMap->tilesX - 1 ) ) ||      // right edge
           ( tileIndex >= ( tileMap->tilesX * ( tileMap->tilesY - 1 ) ) );        // bottom edge
 }
+
+r32 TileMap_GetTileVelocity( TileMap_t* tileMap, u32 tileIndex )
+{
+   u16 tile = tileMap->tiles[tileIndex];
+   u32 speedFactor = TILE_GET_WALKING_SPEED( tile );
+
+   switch ( speedFactor )
+   {
+      case 0: return TILE_WALK_SPEED_NORMAL;
+      case 1: return TILE_WALK_SPEED_SLOW;
+      case 2: return TILE_WALK_SPEED_VERY_SLOW;
+      case 3: return TILE_WALK_SPEED_CRAWL;
+
+      default: return TILE_WALK_SPEED_NORMAL;
+   }
+}

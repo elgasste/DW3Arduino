@@ -1,4 +1,5 @@
-﻿using DW3ArduinoEditor.ViewModels;
+﻿using DW3ArduinoEditor.Enums;
+using DW3ArduinoEditor.ViewModels;
 
 namespace DW3ArduinoEditor.SaveData
 {
@@ -7,6 +8,7 @@ namespace DW3ArduinoEditor.SaveData
       public uint Index { get; set; }
       public uint TextureIndex { get; set; }
       public bool IsPassable { get; set; }
+      public TileWalkSpeed WalkSpeed { get; set; }
 
       public TileSaveData() { }
 
@@ -15,6 +17,7 @@ namespace DW3ArduinoEditor.SaveData
          Index = index;
          TextureIndex = viewModel.TextureIndex;
          IsPassable = viewModel.IsPassable;
+         WalkSpeed = viewModel.WalkSpeed;
       }
    }
 }

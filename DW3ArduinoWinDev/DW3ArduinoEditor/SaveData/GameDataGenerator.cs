@@ -153,12 +153,11 @@ namespace DW3ArduinoEditor.SaveData
          // first pass: compile tile properties into 16-bit values and count their usage
          for ( int i = 0; i < tileMap.Tiles.Count; i++ )
          {
-            var tileValue = (ushort)tileMap.Tiles[i].TextureIndex;
-
-            if ( tileMap.Tiles[i].IsPassable )
-            {
-               tileValue |= ( 0x1 << 5 );
-            }
+            var tileValue = (ushort) (
+                  ( tileMap.Tiles[i].TextureIndex ) |
+                  ( tileMap.Tiles[i].IsPassable ? ( (uint)0x1 << 5 ) : 0x0 ) |
+                  ( (uint)tileMap.Tiles[i].WalkSpeed << 6 )
+               );
 
             tileValues.Add( tileValue );
 

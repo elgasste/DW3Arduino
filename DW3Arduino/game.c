@@ -70,8 +70,8 @@ void Game_Tic( Game_t* game )
 
 internal void Game_HandleInput( Game_t* game )
 {
-   r32 velocity = PLAYER_MAX_VELOCITY;
    Entity_t* entity = game->player.entity;
+   r32 velocity = TileMap_GetTileVelocity( &game->tileMap, game->player.tileIndex );
 
 #if defined( VISUAL_STUDIO_DEV )
    if ( g_winDebugFlags.fastWalk )
