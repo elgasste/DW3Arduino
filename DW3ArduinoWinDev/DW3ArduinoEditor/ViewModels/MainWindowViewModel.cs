@@ -1,4 +1,5 @@
 ﻿using DW3ArduinoEditor.Commands;
+using DW3ArduinoEditor.Enums;
 using DW3ArduinoEditor.Graphics;
 using DW3ArduinoEditor.SaveData;
 using System.Collections.ObjectModel;
