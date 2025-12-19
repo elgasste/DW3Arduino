@@ -11,6 +11,7 @@ namespace DW3ArduinoEditor.SaveData
       public bool Wraps { get; set; }
       public bool AffectsDaylight { get; set; }
       public uint TileTextureSetIndex { get; set; }
+      public uint StaticSpriteTextureSetIndex { get; set; }
       public List<TileSaveData> Tiles { get; set; } = [];
       public List<StaticSpriteSaveData> StaticSprites { get; set; } = [];
       public List<PortalSaveData> Portals { get; set; } = [];
@@ -29,6 +30,7 @@ namespace DW3ArduinoEditor.SaveData
          Wraps = viewModel.Wraps;
          AffectsDaylight = viewModel.AffectsDaylight;
          TileTextureSetIndex = viewModel.TileTextureSetIndex;
+         StaticSpriteTextureSetIndex = viewModel.StaticSpriteTextureSetIndex;
 
          for ( uint i = 0; i < viewModel.Tiles.Count; i++ )
          {

@@ -31,6 +31,13 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _tileTextureSetIndex, value );
       }
 
+      private uint _staticSpriteTextureSetIndex;
+      public uint StaticSpriteTextureSetIndex
+      {
+         get => _staticSpriteTextureSetIndex;
+         set => SetProperty( ref _staticSpriteTextureSetIndex, value );
+      }
+
       private uint _tilesX;
       public uint TilesX
       {
@@ -142,7 +149,7 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _edgePortal, value );
       }
 
-      public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps, bool affectsDaylight, uint tileTextureSetIndex )
+      public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps, bool affectsDaylight, uint tileTextureSetIndex, uint staticSpriteTextureSetIndex )
       {
          _index = index;
          _name = name;
@@ -151,6 +158,7 @@ namespace DW3ArduinoEditor.ViewModels
          _wraps = wraps;
          _affectsDaylight = affectsDaylight;
          _tileTextureSetIndex = tileTextureSetIndex;
+         _staticSpriteTextureSetIndex = staticSpriteTextureSetIndex;
 
          for ( int i = 0; i < _tilesX * _tilesY; i++ )
          {
@@ -167,6 +175,7 @@ namespace DW3ArduinoEditor.ViewModels
          _wraps = saveData.Wraps;
          _affectsDaylight = saveData.AffectsDaylight;
          _tileTextureSetIndex = saveData.TileTextureSetIndex;
+         _staticSpriteTextureSetIndex = saveData.StaticSpriteTextureSetIndex;
 
          if ( string.IsNullOrEmpty( _name ) )
          {

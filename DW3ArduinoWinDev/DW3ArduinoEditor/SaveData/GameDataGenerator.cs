@@ -190,6 +190,8 @@ namespace DW3ArduinoEditor.SaveData
                _gameSaveData.TileMaps[i].Portals.Count,
                _gameSaveData.TileMaps[i].EdgePortal is null ? "False" : "True" ) );
 
+            WriteToFileStream( fs, string.Format( "         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, {0} );\n", _gameSaveData.TileMaps[i].StaticSpriteTextureSetIndex ) );
+
             for ( int j = 0; j < _gameSaveData.TileMaps[i].StaticSprites.Count; j++ )
             {
                WriteToFileStream( fs, string.Format( "         tileMap->staticSprites[{0}].textureIndex = {1}; tileMap->staticSprites[{0}].tileIndex = {2}; tileMap->staticSprites[{0}].isPassable = {3};\n", j, _gameSaveData.TileMaps[i].StaticSprites[j].TextureIndex, _gameSaveData.TileMaps[i].StaticSprites[j].TileIndex, _gameSaveData.TileMaps[i].StaticSprites[j].IsPassable ? "True" : "False" ) );

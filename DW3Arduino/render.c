@@ -3,12 +3,14 @@
 
 internal void Render_DrawTileMapLayer( Game_t* game, void ( *layerFunc )( Game_t*, i32, i32, i32, i32, i32, i32 ) );
 internal void Render_DrawTileMapSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
+internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
 internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
 
 void Render_DrawGame( Game_t* game )
 {
    Screen_WipeColor( &game->screen, COLOR16_BLACK );
    Render_DrawTileMapLayer( game, Render_DrawTileMapSection );
+   Render_DrawTileMapLayer( game, Render_DrawStaticSpritesInSection );
    Render_DrawTileMapLayer( game, Render_DrawEntitiesInSection );
    Screen_Blit( &game->screen );
 }
@@ -157,6 +159,33 @@ internal void Render_DrawTileMapSection( Game_t* game, i32 vx, i32 vy, i32 vw, i
    }
 }
 
+internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
+{
+   u32 i;
+   u32 spriteX, spriteY;
+   StaticSprite_t* sprite = game->tileMap.staticSprites;
+   Vector2u32_t* viewportScreenPos = &game->tileMap.viewportScreenPos;
+
+   for ( i = 0; i < game->tileMap.staticSpriteCount; i++ )
+   {
+      TileMap_GetPositionOfTileIndex( &game->tileMap, sprite->tileIndex, &spriteX, &spriteY );
+
+      if ( Utility_RectsIntersect32i( (i32)spriteX, (i32)spriteY, (i32)( spriteX + TILEMAP_STATIC_SPRITE_SIZE ), (i32)( spriteY + TILEMAP_STATIC_SPRITE_SIZE ), vx, vy, vw, vh) )
+      {
+         Screen_DrawBoundedBuffer8( &game->screen,
+                                    game->tileMap.staticSpriteTextures[sprite->textureIndex].paletteIndexes,
+                                    TILEMAP_STATIC_SPRITE_SIZE, TILEMAP_STATIC_SPRITE_SIZE,
+                                    ( (i32)( spriteX ) - vx ) + viewportScreenPos->x + xOffset,
+                                    ( (i32)( spriteY ) - vy ) + viewportScreenPos->y + yOffset,
+                                    viewportScreenPos->x + xOffset, viewportScreenPos->y + yOffset,
+                                    viewportScreenPos->x + vw + xOffset,
+                                    viewportScreenPos->y + vh + yOffset );
+      }
+
+      sprite++;
+   }
+}
+
 internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
 {
    u32 i;
@@ -176,6 +205,7 @@ internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw
                                  viewportScreenPos->y + vh + yOffset,
                                  game->screen.palette[8] );
       }
+
       entity++;
    }
 }
