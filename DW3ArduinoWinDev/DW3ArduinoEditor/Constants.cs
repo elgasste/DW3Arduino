@@ -22,7 +22,7 @@
       public const int TileTextureSetSize = 32;
 
       public const int StaticSpriteSize = 16;
-      public const int StaticSpriteTextureSetSize = 16;
+      public const int StaticSpriteTextureSetSize = 32;
 
       public const int PaletteMaxColors = 256;
    }
