@@ -1,5 +1,4 @@
 ﻿using DW3ArduinoEditor.Commands;
-using DW3ArduinoEditor.Enums;
 using DW3ArduinoEditor.Graphics;
 using DW3ArduinoEditor.SaveData;
 using System.Collections.ObjectModel;
@@ -14,9 +13,11 @@ namespace DW3ArduinoEditor.ViewModels
    {
       private Palette _palette = new();
       private TileTexturePool? _tileTexturePool;
+      private StaticSpriteTexturePool? _staticSpriteTexturePool;
 
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
       public ObservableCollection<TileTextureSetViewModel> TileTextureSets { get; } = [];
+      public ObservableCollection<StaticSpriteTextureSetViewModel> StaticSpriteTextureSets { get; } = [];
 
       private TileMapViewModel? _selectedTileMap;
       public TileMapViewModel? SelectedTileMap
@@ -27,6 +28,7 @@ namespace DW3ArduinoEditor.ViewModels
 
       public MainWindowViewModel()
       {
+         // TODO: move all this stuff to some other function to do all the sanity checks
          try
          {
             var contents = File.ReadAllText( Constants.SaveDataFilePath );
@@ -82,6 +84,12 @@ namespace DW3ArduinoEditor.ViewModels
                {
                   TileTextureSets.Add( new( set  ) );
                }
+
+               // TODO: verify there are no more than 16 textures per set
+               foreach ( var set in saveData.StaticSpriteTextureSets )
+               {
+                  StaticSpriteTextureSets.Add( new( set ) );
+               }
             }
          }
          catch
@@ -104,6 +112,19 @@ namespace DW3ArduinoEditor.ViewModels
          catch ( Exception ex )
          {
             MessageBox.Show( string.Format( "Failed to load tile map texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+            Application.Current.Shutdown();
+         }
+
+         try
+         {
+            _staticSpriteTexturePool = new( Constants.StaticSpriteTexturePoolImagePath, _palette );
+
+            // TODO: verify our tile texture sets contain valid pool indexes, and our
+            // tile maps contain valid tile texture set indexes.
+         }
+         catch ( Exception ex )
+         {
+            MessageBox.Show( string.Format( "Failed to load static sprite texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
             Application.Current.Shutdown();
          }
       }
@@ -455,7 +476,7 @@ namespace DW3ArduinoEditor.ViewModels
          if ( result.HasValue && result.Value )
          {
             uint index = ( TileMaps.Count > 0 ) ? TileMaps[^1].Index + 1 : 0;
-            var newTileMap = new TileMapViewModel( index, window.NewTileMapName, window.NewTilesX, window.NewTilesY, window.NewWraps, window.NewAffectsDaylight, TileTextureSets[0].Index );
+            var newTileMap = new TileMapViewModel( index, window.NewTileMapName, window.NewTilesX, window.NewTilesY, window.NewWraps, window.NewAffectsDaylight, TileTextureSets[0].Index, StaticSpriteTextureSets[0].Index );
             TileMaps.Add( newTileMap );
             SelectedTileMap = newTileMap;
          }
@@ -516,7 +537,7 @@ namespace DW3ArduinoEditor.ViewModels
 
       private void WriteSaveData()
       {
-         var saveData = new GameSaveData( TileMaps, TileTextureSets );
+         var saveData = new GameSaveData( TileMaps, TileTextureSets, StaticSpriteTextureSets );
          File.WriteAllText( Constants.SaveDataFilePath, JsonSerializer.Serialize( saveData ) );
          MessageBox.Show( "Editor data has been saved." );
       }
@@ -524,7 +545,7 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( TileMaps, TileTextureSets ), _palette, _tileTexturePool );
+         generator.WriteGameDataSourceFile( new( TileMaps, TileTextureSets, StaticSpriteTextureSets ), _palette, _tileTexturePool, _staticSpriteTexturePool );
          MessageBox.Show( "Game data source file has been written." );
       }
 

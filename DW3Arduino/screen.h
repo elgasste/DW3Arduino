@@ -18,6 +18,8 @@
 #define COLOR16_YELLOW                 0xFFE0
 #define COLOR16_WHITE                  0xFFFF
 
+#define COLOR16_TRANSPARENT            0xF81F
+
 typedef struct Screen_t
 {
    u16* buffer;

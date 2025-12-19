@@ -23,18 +23,25 @@ namespace DW3ArduinoEditor.SaveData
       private GameSaveData? _gameSaveData;
       private Palette? _palette;
       private TileTexturePool? _tileTexturePool;
+      private StaticSpriteTexturePool? _staticSpriteTexturePool;
 
-      public void WriteGameDataSourceFile( GameSaveData? saveData, Palette? palette, TileTexturePool? tileTexturePool )
+      public void WriteGameDataSourceFile( GameSaveData? saveData,
+                                           Palette? palette,
+                                           TileTexturePool? tileTexturePool,
+                                           StaticSpriteTexturePool? staticSpriteTexturePool )
       {
          _gameSaveData = saveData;
          _palette = palette;
          _tileTexturePool = tileTexturePool;
+         _staticSpriteTexturePool = staticSpriteTexturePool;
 
          using FileStream fs = File.Create( Constants.GameDataSourceFilePath );
          WriteHeaderSection( fs );
          WritePaletteFunction( fs );
          WriteTileTexturesPoolFunction( fs );
          WriteTileTextureIndexesFunction( fs );
+         WriteStaticSpriteTexturesPoolFunction( fs );
+         WriteStaticSpriteTextureIndexesFunction( fs );
          WriteTileMapFunction( fs );
       }
 
@@ -45,6 +52,8 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "#include \"random.h\"\n\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
+         WriteToFileStream( fs, "internal void TileMap_LoadStaticSpriteTextureFromPoolIndex( StaticSpriteTexture_t* texture, u32 index );\n" );
+         WriteToFileStream( fs, "internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
       }
 
       private void WritePaletteFunction( FileStream fs )
@@ -104,6 +113,60 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "}\n" );
       }
 
+      private void WriteStaticSpriteTexturesPoolFunction( FileStream fs )
+      {
+         WriteToFileStream( fs, "\ninternal void TileMap_LoadStaticSpriteTextureFromPoolIndex( StaticSpriteTexture_t* texture, u32 index )\n" );
+         WriteToFileStream( fs, "{\n" );
+         WriteToFileStream( fs, "   u32 i;\n" );
+         WriteToFileStream( fs, "   u8* m = texture->paletteIndexes;\n\n" );
+         WriteToFileStream( fs, "   switch( index )\n" );
+         WriteToFileStream( fs, "   {\n" );
+
+         for ( int i = 0; i < _staticSpriteTexturePool?.StaticSpritePaletteIndexes.Count; i++ )
+         {
+            WriteToFileStream( fs, string.Format( "      case {0}:\n", i ) );
+            WriteCompressedTextureData( fs, _staticSpriteTexturePool.StaticSpritePaletteIndexes[i] );
+            WriteToFileStream( fs, "         break;\n" );
+         }
+
+         WriteToFileStream( fs, "   }\n" );
+         WriteToFileStream( fs, "}\n" );
+      }
+
+      private void WriteStaticSpriteTextureIndexesFunction( FileStream fs )
+      {
+         WriteToFileStream( fs, "\ninternal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index )\n" );
+         WriteToFileStream( fs, "{\n" );
+
+         if ( _gameSaveData?.StaticSpriteTextureSets.Count == 0 )
+         {
+            WriteToFileStream( fs, "   UNUSED_PARAM( tileMap );\n" );
+            WriteToFileStream( fs, "   UNUSED_PARAM( index );\n" );
+         }
+         else
+         {
+
+            WriteToFileStream( fs, "   switch ( index )\n" );
+            WriteToFileStream( fs, "   {\n" );
+
+            for ( int i = 0; i < _gameSaveData?.StaticSpriteTextureSets.Count; i++ )
+            {
+               WriteToFileStream( fs, string.Format( "      case {0}:\n", _gameSaveData.StaticSpriteTextureSets[i].Index ) );
+
+               for ( int j = 0; j < _gameSaveData.StaticSpriteTextureSets[i].StaticSpriteTexturePoolIndexes.Count; j++ )
+               {
+                  WriteToFileStream( fs, string.Format( "         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[{0}], {1} );\n", j, _gameSaveData.StaticSpriteTextureSets[i].StaticSpriteTexturePoolIndexes[j] ) );
+               }
+
+               WriteToFileStream( fs, "         break;\n" );
+            }
+
+            WriteToFileStream( fs, "   }\n" );
+         }
+
+         WriteToFileStream( fs, "}\n" );
+      }
+
       private void WriteTileMapFunction( FileStream fs )
       {
          WriteToFileStream( fs, "\nvoid TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )\n" );
@@ -122,9 +185,17 @@ namespace DW3ArduinoEditor.SaveData
                _gameSaveData.TileMaps[i].TilesY,
                _gameSaveData.TileMaps[i].Wraps ? "True" : "False",
                _gameSaveData.TileMaps[i].AffectsDaylight ? "True" : "False" ) );
-            WriteToFileStream( fs, string.Format( "         tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = {0}; tileMap->hasEdgePortal = {1};\n",
+            WriteToFileStream( fs, string.Format( "         tileMap->staticSpriteCount = {0}; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = {1}; tileMap->hasEdgePortal = {2};\n",
+               _gameSaveData.TileMaps[i].StaticSprites.Count,
                _gameSaveData.TileMaps[i].Portals.Count,
                _gameSaveData.TileMaps[i].EdgePortal is null ? "False" : "True" ) );
+
+            WriteToFileStream( fs, string.Format( "         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, {0} );\n", _gameSaveData.TileMaps[i].StaticSpriteTextureSetIndex ) );
+
+            for ( int j = 0; j < _gameSaveData.TileMaps[i].StaticSprites.Count; j++ )
+            {
+               WriteToFileStream( fs, string.Format( "         tileMap->staticSprites[{0}].textureIndex = {1}; tileMap->staticSprites[{0}].tileIndex = {2}; tileMap->staticSprites[{0}].isPassable = {3};\n", j, _gameSaveData.TileMaps[i].StaticSprites[j].TextureIndex, _gameSaveData.TileMaps[i].StaticSprites[j].TileIndex, _gameSaveData.TileMaps[i].StaticSprites[j].IsPassable ? "True" : "False" ) );
+            }
 
             for ( int j = 0; j < _gameSaveData.TileMaps[i].Portals.Count; j++ )
             {

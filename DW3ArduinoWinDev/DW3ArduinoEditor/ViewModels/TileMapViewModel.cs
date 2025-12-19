@@ -1,6 +1,5 @@
 ﻿using DW3ArduinoEditor.SaveData;
 using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace DW3ArduinoEditor.ViewModels
@@ -8,6 +7,7 @@ namespace DW3ArduinoEditor.ViewModels
    public class TileMapViewModel : ViewModelBase
    {
       public ObservableCollection<TileViewModel> Tiles { get; private set; } = [];
+      public ObservableCollection<StaticSpriteViewModel> StaticSprites { get; private set; } = [];
       public ObservableCollection<PortalViewModel> Portals { get; private set; } = [];
 
       private uint _index;
@@ -29,6 +29,13 @@ namespace DW3ArduinoEditor.ViewModels
       {
          get => _tileTextureSetIndex;
          set => SetProperty( ref _tileTextureSetIndex, value );
+      }
+
+      private uint _staticSpriteTextureSetIndex;
+      public uint StaticSpriteTextureSetIndex
+      {
+         get => _staticSpriteTextureSetIndex;
+         set => SetProperty( ref _staticSpriteTextureSetIndex, value );
       }
 
       private uint _tilesX;
@@ -142,7 +149,7 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _edgePortal, value );
       }
 
-      public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps, bool affectsDaylight, uint tileTextureSetIndex )
+      public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps, bool affectsDaylight, uint tileTextureSetIndex, uint staticSpriteTextureSetIndex )
       {
          _index = index;
          _name = name;
@@ -151,6 +158,7 @@ namespace DW3ArduinoEditor.ViewModels
          _wraps = wraps;
          _affectsDaylight = affectsDaylight;
          _tileTextureSetIndex = tileTextureSetIndex;
+         _staticSpriteTextureSetIndex = staticSpriteTextureSetIndex;
 
          for ( int i = 0; i < _tilesX * _tilesY; i++ )
          {
@@ -167,6 +175,7 @@ namespace DW3ArduinoEditor.ViewModels
          _wraps = saveData.Wraps;
          _affectsDaylight = saveData.AffectsDaylight;
          _tileTextureSetIndex = saveData.TileTextureSetIndex;
+         _staticSpriteTextureSetIndex = saveData.StaticSpriteTextureSetIndex;
 
          if ( string.IsNullOrEmpty( _name ) )
          {
@@ -207,6 +216,12 @@ namespace DW3ArduinoEditor.ViewModels
                   Tiles.Add( new( tile ) );
                }
             }
+         }
+
+         // TODO: check that we don't go over the maximum amount of static sprites
+         foreach ( var staticSprite in saveData.StaticSprites )
+         {
+            StaticSprites.Add( new( staticSprite ) );
          }
 
          // TODO: check that we don't go over the maximum amount of portals

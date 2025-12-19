@@ -3,7 +3,8 @@
 
 internal void Physics_MoveEntities( Game_t* game );
 internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t* entity, r32 sign, Bool_t horizontal );
-internal Bool_t Physics_EntityCollidesWithEntities( TileMap_t* tileMap, Entity_t* entity, r32 sign, Bool_t horizontal );
+internal Bool_t Physics_EntityCollidesWithRigidBodies( TileMap_t* tileMap, Entity_t* entity, r32 sign, Bool_t horizontal );
+internal Bool_t Physics_EntityCollidesWithRigidBody( TileMap_t* tileMap, Entity_t* entity, r32 rx, r32 ry, r32 rw, r32 rh, r32 sign, Bool_t horizontal );
 
 void Physics_Tic( Game_t* game )
 {
@@ -12,8 +13,6 @@ void Physics_Tic( Game_t* game )
    // reset player velocity and clamp the viewport to the player
    game->player.entity->velocity.x = 0.0f;
    game->player.entity->velocity.y = 0.0f;
-
-   TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
 }
 
 internal void Physics_MoveEntities( Game_t* game )
@@ -57,7 +56,7 @@ internal void Physics_MoveEntities( Game_t* game )
                entity->pos.x += sign;
 
                if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, True ) ||
-                    Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, True ) )
+                    Physics_EntityCollidesWithRigidBodies( &game->tileMap, entity, sign, True ) )
                {
                   entity->pos.x = prev;
                   break;
@@ -74,7 +73,7 @@ internal void Physics_MoveEntities( Game_t* game )
                entity->pos.x += deltaRemaining;
 
                if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, True ) ||
-                    Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, True ) )
+                    Physics_EntityCollidesWithRigidBodies( &game->tileMap, entity, sign, True ) )
                {
                   entity->pos.x = prev;
                }
@@ -95,7 +94,7 @@ internal void Physics_MoveEntities( Game_t* game )
                entity->pos.y += sign;
 
                if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, False ) ||
-                    Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, False ) )
+                    Physics_EntityCollidesWithRigidBodies( &game->tileMap, entity, sign, False ) )
                {
                   entity->pos.y = prev;
                   break;
@@ -112,7 +111,7 @@ internal void Physics_MoveEntities( Game_t* game )
                entity->pos.y += deltaRemaining;
 
                if ( Physics_EntityCollidesWithTileMap( &game->tileMap, entity, sign, False ) ||
-                    Physics_EntityCollidesWithEntities( &game->tileMap, entity, sign, False ) )
+                    Physics_EntityCollidesWithRigidBodies( &game->tileMap, entity, sign, False ) )
                {
                   entity->pos.y = prev;
                }
@@ -274,131 +273,154 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
    return False;
 }
 
-internal Bool_t Physics_EntityCollidesWithEntities( TileMap_t* tileMap, Entity_t* entity, r32 sign, Bool_t horizontal )
+internal Bool_t Physics_EntityCollidesWithRigidBodies( TileMap_t* tileMap, Entity_t* entity, r32 sign, Bool_t horizontal )
 {
-   u32 i;
+   u32 i, sx, sy;
    Entity_t* rigidEntity;
-   Vector4r32_t rigidPos;
-   Vector4r32_t entityPos = entity->pos;
-   r32 mapW = (r32)( tileMap->tilesX * TILEMAP_TILE_SIZE );
-   r32 mapH = (r32)( tileMap->tilesY * TILEMAP_TILE_SIZE );
 
+   // check other entities
    for ( i = 0, rigidEntity = tileMap->entities; i < tileMap->entityCount; i++, rigidEntity++ )
    {
-      rigidPos = rigidEntity->pos;
-
-      if ( entity != rigidEntity )
+      if ( entity != rigidEntity &&
+           Physics_EntityCollidesWithRigidBody( tileMap, entity,
+                                                rigidEntity->pos.x, rigidEntity->pos.y, rigidEntity->pos.w, rigidEntity->pos.h,
+                                                sign, horizontal ) )
       {
-         if ( horizontal )
+         return True;
+      }
+   }
+
+   // check unpassable static sprites
+   for ( i = 0; i < tileMap->staticSpriteCount; i++ )
+   {
+      if ( !tileMap->staticSprites[i].isPassable )
+      {
+         TileMap_GetPositionOfTileIndex( tileMap, tileMap->staticSprites[i].tileIndex, &sx, &sy );
+
+         if ( Physics_EntityCollidesWithRigidBody( tileMap, entity, (r32)sx, (r32)sy, TILEMAP_STATIC_SPRITE_SIZE, TILEMAP_STATIC_SPRITE_SIZE, sign, horizontal ) )
          {
-            if ( sign < 0.0f ) // moving left
-            {
-               if ( tileMap->wraps )
-               {
-                  if ( entityPos.x < 0.0f ) // entity is wrapping leftward
-                     entityPos.x = mapW + entityPos.x;
-                  if ( ( rigidPos.x + rigidPos.w ) >= mapW ) // rigid entity is wrapping rightward
-                     rigidPos.x = -( mapW - rigidPos.x );
-                  if ( Utility_VerticalLineIntersectsRect32r( entityPos.x, entityPos.y, entityPos.y + entityPos.h, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
-                     return True;
-                  if ( entityPos.y < 0.0f ) { // entity is wrapping upward
-                     if ( Utility_VerticalLineIntersectsRect32r( entityPos.x, mapH + entityPos.y, mapH + entityPos.y + entityPos.h, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
-                        return True;
-                  }
-                  else if ( ( entityPos.y + entityPos.h ) >= mapH ) { // entity is wrapping downward
-                     if ( Utility_VerticalLineIntersectsRect32r( entityPos.x, -( mapH - entityPos.y ), -( mapH - entityPos.y ) + entityPos.h, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
-                        return True;
-                  }
-                  else if ( ( rigidPos.y + rigidPos.h ) >= mapH ) { // rigid entity is wrapping downward
-                     if ( Utility_VerticalLineIntersectsRect32r( entityPos.x, entityPos.y, entityPos.y + entityPos.h, rigidPos.x, -( mapH - rigidPos.y ), rigidPos.w, rigidPos.h ) )
-                        return True;
-                  }
-               }
-               else if ( Utility_VerticalLineIntersectsRect32r( entityPos.x, entityPos.y, entityPos.y + entityPos.h, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
+            return True;
+         }
+      }
+   }
+
+   return False;
+}
+
+internal Bool_t Physics_EntityCollidesWithRigidBody( TileMap_t* tileMap, Entity_t* entity, r32 rx, r32 ry, r32 rw, r32 rh, r32 sign, Bool_t horizontal )
+{
+   r32 mapW = (r32)( tileMap->tilesX * TILEMAP_TILE_SIZE );
+   r32 mapH = (r32)( tileMap->tilesY * TILEMAP_TILE_SIZE );
+   Vector4r32_t entityPos = entity->pos;
+
+   if ( horizontal )
+   {
+      if ( sign < 0.0f ) // moving left
+      {
+         if ( tileMap->wraps )
+         {
+            if ( entityPos.x < 0.0f ) // entity is wrapping leftward
+               entityPos.x = mapW + entityPos.x;
+            if ( ( rx + rw ) >= mapW ) // rigid entity is wrapping rightward
+               rx = -( mapW - rx );
+            if ( Utility_VerticalLineIntersectsRect32r( entityPos.x, entityPos.y, entityPos.y + entityPos.h, rx, ry, rw, rh ) )
+               return True;
+            if ( entityPos.y < 0.0f ) { // entity is wrapping upward
+               if ( Utility_VerticalLineIntersectsRect32r( entityPos.x, mapH + entityPos.y, mapH + entityPos.y + entityPos.h, rx, ry, rw, rh ) )
                   return True;
             }
-            else // moving right
-            {
-               if ( tileMap->wraps )
-               {
-                  if ( entityPos.x + entityPos.w >= mapW ) // entity is wrapping rightward
-                     entityPos.x = -( mapW - entityPos.x );
-                  if ( rigidPos.x < 0.0f ) // rigid entity is wrapping leftward
-                     rigidPos.x = mapW + rigidPos.x;
-                  if ( Utility_VerticalLineIntersectsRect32r( entityPos.x + entityPos.w, entityPos.y, entityPos.y + entityPos.h, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
-                     return True;
-                  if ( entityPos.y < 0.0f ) { // entity is wrapping upward
-                     if ( Utility_VerticalLineIntersectsRect32r( entityPos.x + entityPos.w, mapH + entityPos.y, mapH + entityPos.y + entityPos.h, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
-                        return True;
-                  }
-                  else if ( ( entityPos.y + entityPos.h ) >= mapH ) { // entity is wrapping downward
-                     if ( Utility_VerticalLineIntersectsRect32r( entityPos.x + entityPos.w, -( mapH - entityPos.y ), -( mapH - entityPos.y ) + entityPos.h, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
-                        return True;
-                  }
-                  else if ( ( rigidPos.y + rigidPos.h ) >= mapH ) { // rigid entity is wrapping downward
-                     if ( Utility_VerticalLineIntersectsRect32r( entityPos.x + entityPos.w, entityPos.y, entityPos.y + entityPos.h, rigidPos.x, -( mapH - rigidPos.y ), rigidPos.w, rigidPos.h ) )
-                        return True;
-                  }
-               }
-               else if ( Utility_VerticalLineIntersectsRect32r( entityPos.x + entityPos.w, entityPos.y, entityPos.y + entityPos.h, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
+            else if ( ( entityPos.y + entityPos.h ) >= mapH ) { // entity is wrapping downward
+               if ( Utility_VerticalLineIntersectsRect32r( entityPos.x, -( mapH - entityPos.y ), -( mapH - entityPos.y ) + entityPos.h, rx, ry, rw, rh ) )
+                  return True;
+            }
+            else if ( ( ry + rh ) >= mapH ) { // rigid entity is wrapping downward
+               if ( Utility_VerticalLineIntersectsRect32r( entityPos.x, entityPos.y, entityPos.y + entityPos.h, rx, -( mapH - ry ), rw, rh ) )
                   return True;
             }
          }
-         else
+         else if ( Utility_VerticalLineIntersectsRect32r( entityPos.x, entityPos.y, entityPos.y + entityPos.h, rx, ry, rw, rh ) )
+            return True;
+      }
+      else // moving right
+      {
+         if ( tileMap->wraps )
          {
-            if ( sign < 0.0f ) // moving up
-            {
-               if ( tileMap->wraps )
-               {
-                  if ( entityPos.y < 0.0f ) // entity is wrapping upward
-                     entityPos.y = mapH + entityPos.y;
-                  if ( ( rigidPos.y + rigidPos.h ) >= mapH ) // rigid entity is wrapping downward
-                     rigidPos.y = -( mapH - rigidPos.y );
-                  if ( Utility_HorizontalLineIntersectsRect32r( entityPos.x, entityPos.x + entityPos.w, entityPos.y, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
-                     return True;
-                  if ( entityPos.x < 0.0f ) { // entity is wrapping leftward
-                     if ( Utility_HorizontalLineIntersectsRect32r( mapW + entityPos.x, mapW + entityPos.x + entityPos.w, entityPos.y, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
-                        return True;
-                  }
-                  else if ( ( entityPos.x + entityPos.w ) >= mapW ) { // entity is wrapping rightward
-                     if ( Utility_HorizontalLineIntersectsRect32r( -( mapW - entityPos.x ), -( mapW - entityPos.x ) + entityPos.w, entityPos.y, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
-                        return True;
-                  }
-                  else if ( ( rigidPos.x + rigidPos.w ) >= mapW ) { // rigid entity is wrapping rightward
-                     if ( Utility_HorizontalLineIntersectsRect32r( entityPos.x, entityPos.x + entityPos.w, entityPos.y, -( mapW - rigidPos.x ), rigidPos.y, rigidPos.w, rigidPos.h ) )
-                        return True;
-                  }
-               }
-               else if ( Utility_HorizontalLineIntersectsRect32r( entityPos.x, entityPos.x + entityPos.w, entityPos.y, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
+            if ( entityPos.x + entityPos.w >= mapW ) // entity is wrapping rightward
+               entityPos.x = -( mapW - entityPos.x );
+            if ( rx < 0.0f ) // rigid entity is wrapping leftward
+               rx = mapW + rx;
+            if ( Utility_VerticalLineIntersectsRect32r( entityPos.x + entityPos.w, entityPos.y, entityPos.y + entityPos.h, rx, ry, rw, rh ) )
+               return True;
+            if ( entityPos.y < 0.0f ) { // entity is wrapping upward
+               if ( Utility_VerticalLineIntersectsRect32r( entityPos.x + entityPos.w, mapH + entityPos.y, mapH + entityPos.y + entityPos.h, rx, ry, rw, rh ) )
                   return True;
             }
-            else // moving down
-            {
-               if ( tileMap->wraps )
-               {
-                  if ( entityPos.y + entityPos.h >= mapH ) // entity is wrapping downward
-                     entityPos.y = -( mapH - entityPos.y );
-                  if ( rigidPos.y < 0.0f ) // rigid entity is wrapping upward
-                     rigidPos.y = mapH + rigidPos.y;
-                  if ( Utility_HorizontalLineIntersectsRect32r( entityPos.x, entityPos.x + entityPos.w, entityPos.y + entityPos.h, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
-                     return True;
-                  if ( entityPos.x < 0.0f ) { // entity is wrapping leftward
-                     if ( Utility_HorizontalLineIntersectsRect32r( mapW + entityPos.x, mapW + entityPos.x + entityPos.w, entityPos.y + entityPos.h, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
-                        return True;
-                  }
-                  else if ( ( entityPos.x + entityPos.w ) >= mapW ) { // entity is wrapping rightward
-                     if ( Utility_HorizontalLineIntersectsRect32r( -( mapW - entityPos.x ), -( mapW - entityPos.x ) + entityPos.w, entityPos.y + entityPos.h, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
-                        return True;
-                  }
-                  else if ( ( rigidPos.x + rigidPos.w ) >= mapW ) { // rigid entity is wrapping rightward
-                     if ( Utility_HorizontalLineIntersectsRect32r( entityPos.x, entityPos.x + entityPos.w, entityPos.y + entityPos.h, -( mapW - rigidPos.x ), rigidPos.y, rigidPos.w, rigidPos.h ) )
-                        return True;
-                  }
-               }
-               else if ( Utility_HorizontalLineIntersectsRect32r( entityPos.x, entityPos.x + entityPos.w, entityPos.y + entityPos.h, rigidPos.x, rigidPos.y, rigidPos.w, rigidPos.h ) )
+            else if ( ( entityPos.y + entityPos.h ) >= mapH ) { // entity is wrapping downward
+               if ( Utility_VerticalLineIntersectsRect32r( entityPos.x + entityPos.w, -( mapH - entityPos.y ), -( mapH - entityPos.y ) + entityPos.h, rx, ry, rw, rh ) )
+                  return True;
+            }
+            else if ( ( ry + rh ) >= mapH ) { // rigid entity is wrapping downward
+               if ( Utility_VerticalLineIntersectsRect32r( entityPos.x + entityPos.w, entityPos.y, entityPos.y + entityPos.h, rx, -( mapH - ry ), rw, rh ) )
                   return True;
             }
          }
+         else if ( Utility_VerticalLineIntersectsRect32r( entityPos.x + entityPos.w, entityPos.y, entityPos.y + entityPos.h, rx, ry, rw, rh ) )
+            return True;
+      }
+   }
+   else
+   {
+      if ( sign < 0.0f ) // moving up
+      {
+         if ( tileMap->wraps )
+         {
+            if ( entityPos.y < 0.0f ) // entity is wrapping upward
+               entityPos.y = mapH + entityPos.y;
+            if ( ( ry + rh ) >= mapH ) // rigid entity is wrapping downward
+               ry = -( mapH - ry );
+            if ( Utility_HorizontalLineIntersectsRect32r( entityPos.x, entityPos.x + entityPos.w, entityPos.y, rx, ry, rw, rh ) )
+               return True;
+            if ( entityPos.x < 0.0f ) { // entity is wrapping leftward
+               if ( Utility_HorizontalLineIntersectsRect32r( mapW + entityPos.x, mapW + entityPos.x + entityPos.w, entityPos.y, rx, ry, rw, rh ) )
+                  return True;
+            }
+            else if ( ( entityPos.x + entityPos.w ) >= mapW ) { // entity is wrapping rightward
+               if ( Utility_HorizontalLineIntersectsRect32r( -( mapW - entityPos.x ), -( mapW - entityPos.x ) + entityPos.w, entityPos.y, rx, ry, rw, rh ) )
+                  return True;
+            }
+            else if ( ( rx + rw ) >= mapW ) { // rigid entity is wrapping rightward
+               if ( Utility_HorizontalLineIntersectsRect32r( entityPos.x, entityPos.x + entityPos.w, entityPos.y, -( mapW - rx ), ry, rw, rh ) )
+                  return True;
+            }
+         }
+         else if ( Utility_HorizontalLineIntersectsRect32r( entityPos.x, entityPos.x + entityPos.w, entityPos.y, rx, ry, rw, rh ) )
+            return True;
+      }
+      else // moving down
+      {
+         if ( tileMap->wraps )
+         {
+            if ( entityPos.y + entityPos.h >= mapH ) // entity is wrapping downward
+               entityPos.y = -( mapH - entityPos.y );
+            if ( ry < 0.0f ) // rigid entity is wrapping upward
+               ry = mapH + ry;
+            if ( Utility_HorizontalLineIntersectsRect32r( entityPos.x, entityPos.x + entityPos.w, entityPos.y + entityPos.h, rx, ry, rw, rh ) )
+               return True;
+            if ( entityPos.x < 0.0f ) { // entity is wrapping leftward
+               if ( Utility_HorizontalLineIntersectsRect32r( mapW + entityPos.x, mapW + entityPos.x + entityPos.w, entityPos.y + entityPos.h, rx, ry, rw, rh ) )
+                  return True;
+            }
+            else if ( ( entityPos.x + entityPos.w ) >= mapW ) { // entity is wrapping rightward
+               if ( Utility_HorizontalLineIntersectsRect32r( -( mapW - entityPos.x ), -( mapW - entityPos.x ) + entityPos.w, entityPos.y + entityPos.h, rx, ry, rw, rh ) )
+                  return True;
+            }
+            else if ( ( rx + rw ) >= mapW ) { // rigid entity is wrapping rightward
+               if ( Utility_HorizontalLineIntersectsRect32r( entityPos.x, entityPos.x + entityPos.w, entityPos.y + entityPos.h, -( mapW - rx ), ry, rw, rh ) )
+                  return True;
+            }
+         }
+         else if ( Utility_HorizontalLineIntersectsRect32r( entityPos.x, entityPos.x + entityPos.w, entityPos.y + entityPos.h, rx, ry, rw, rh ) )
+            return True;
       }
    }
 

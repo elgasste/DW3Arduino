@@ -155,11 +155,14 @@ internal void Animation_TicFadeOut( Animation_t* animation, Screen_t* screen )
    {
       for ( i = 0; i < screen->paletteColorCount; i++ )
       {
-         rangeR = screen->backupPalette[i] >> 11;
-         rangeG = ( screen->backupPalette[i] & 0x7E0 ) >> 5;
-         rangeB = screen->backupPalette[i] & 0x1F;
-         p = 1.0f - ( animation->elapsedSeconds / animation->totalSeconds );
-         screen->palette[i] = ( (u16)( rangeR * p ) << 11 ) | ( (u16)( rangeG * p ) << 5 ) | (u16)( rangeB * p );
+         if ( screen->backupPalette[i] != COLOR16_TRANSPARENT )
+         {
+            rangeR = screen->backupPalette[i] >> 11;
+            rangeG = ( screen->backupPalette[i] & 0x7E0 ) >> 5;
+            rangeB = screen->backupPalette[i] & 0x1F;
+            p = 1.0f - ( animation->elapsedSeconds / animation->totalSeconds );
+            screen->palette[i] = ( (u16)( rangeR * p ) << 11 ) | ( (u16)( rangeG * p ) << 5 ) | (u16)( rangeB * p );
+         }
       }
    }
 }
@@ -180,11 +183,14 @@ internal void Animation_TicFadeIn( Animation_t* animation, Screen_t* screen )
    {
       for ( i = 0; i < screen->paletteColorCount; i++ )
       {
-         rangeR = screen->backupPalette[i] >> 11;
-         rangeG = ( screen->backupPalette[i] & 0x7E0 ) >> 5;
-         rangeB = screen->backupPalette[i] & 0x1F;
-         p = animation->elapsedSeconds / animation->totalSeconds;
-         screen->palette[i] = ( (u16)( rangeR * p ) << 11 ) | ( (u16)( rangeG * p ) << 5 ) | (u16)( rangeB * p );
+         if ( screen->backupPalette[i] != COLOR16_TRANSPARENT )
+         {
+            rangeR = screen->backupPalette[i] >> 11;
+            rangeG = ( screen->backupPalette[i] & 0x7E0 ) >> 5;
+            rangeB = screen->backupPalette[i] & 0x1F;
+            p = animation->elapsedSeconds / animation->totalSeconds;
+            screen->palette[i] = ( (u16)( rangeR * p ) << 11 ) | ( (u16)( rangeG * p ) << 5 ) | (u16)( rangeB * p );
+         }
       }
    }
 }
