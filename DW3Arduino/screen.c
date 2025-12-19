@@ -33,7 +33,10 @@ void Screen_ClearPalette( Screen_t* screen, u16 color )
 
    for ( i = 0; i < screen->paletteColorCount; i++ )
    {
-      screen->palette[i] = color;
+      if ( screen->palette[i] != COLOR16_TRANSPARENT )
+      {
+         screen->palette[i] = color;
+      }
    }
 }
 
@@ -99,10 +102,10 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
       {
          for ( bufferCol = 0, x = screenX; bufferCol < (i32)bufferWidth; bufferCol++, x++ )
          {
-            if ( x >= leftBound && x < rightBound )
-            {
-               color = screen->palette[*bufferPos];
+            color = screen->palette[*bufferPos];
 
+            if ( color != COLOR16_TRANSPARENT && x >= leftBound && x < rightBound )
+            {
                r = ( color >> 11 ) & 0x1F; // 5 bits (0-31)
                g = ( color >> 5 ) & 0x3F;  // 6 bits (0-63)
                b = color & 0x1F;           // 5 bits (0-31)
@@ -116,7 +119,7 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
 
                newColor565 = ( (u16)( newR & 0x1F ) << 11 ) | (u16)( ( newG & 0x3F ) << 5 ) | (u16)( newB & 0x1F );
 
-               screen->buffer[ ( y * SCREEN_WIDTH ) + x ] = newColor565;
+               screen->buffer[( y * SCREEN_WIDTH ) + x] = newColor565;
             }
 
             bufferPos++;

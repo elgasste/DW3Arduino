@@ -28,6 +28,7 @@ namespace DW3ArduinoEditor.ViewModels
 
       public MainWindowViewModel()
       {
+         // TODO: move all this stuff to some other function to do all the sanity checks
          try
          {
             var contents = File.ReadAllText( Constants.SaveDataFilePath );
