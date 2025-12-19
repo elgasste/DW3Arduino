@@ -10,6 +10,7 @@
       public const string GameDataSourceFilePath = OutputBasePath + "game_data.c";
 
       public const string TileTexturePoolImagePath = AssetsBasePath + "map\\tile_texture_pool.png";
+      public const string StaticSpriteTexturePoolImagePath = AssetsBasePath + "map\\static_sprite_texture_pool.png";
 
       public const int TileSize = 16;
       public const int TileMapMinTilesX = 3;
@@ -19,6 +20,9 @@
       public const int TileMapDefaultTilesX = 24;
       public const int TileMapDefaultTilesY = 24;
       public const int TileTextureSetSize = 32;
+
+      public const int StaticSpriteSize = 16;
+      public const int StaticSpriteTextureSetSize = 16;
 
       public const int PaletteMaxColors = 256;
    }

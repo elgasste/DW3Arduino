@@ -7,10 +7,13 @@ namespace DW3ArduinoEditor.SaveData
    {
       public List<TileMapSaveData> TileMaps { get; set; } = [];
       public List<TileTextureSetSaveData> TileTextureSets { get; set; } = [];
+      public List<StaticSpriteTextureSetSaveData> StaticSpriteTextureSets { get; set; } = [];
 
       public GameSaveData() { }
 
-      public GameSaveData( ObservableCollection<TileMapViewModel> tileMapVMs, ObservableCollection<TileTextureSetViewModel> tileTextureSetVMs )
+      public GameSaveData( ObservableCollection<TileMapViewModel> tileMapVMs,
+                           ObservableCollection<TileTextureSetViewModel> tileTextureSetVMs,
+                           ObservableCollection<StaticSpriteTextureSetViewModel> staticSpriteTextureSetVMs )
       {
          foreach ( var tileMapVM in tileMapVMs )
          {
@@ -20,6 +23,11 @@ namespace DW3ArduinoEditor.SaveData
          foreach ( var tileTextureSetVM in tileTextureSetVMs )
          {
             TileTextureSets.Add( new( tileTextureSetVM ) );
+         }
+
+         foreach ( var staticSpriteTextureSetVM in staticSpriteTextureSetVMs )
+         {
+            StaticSpriteTextureSets.Add( new( staticSpriteTextureSetVM ) );
          }
       }
    }

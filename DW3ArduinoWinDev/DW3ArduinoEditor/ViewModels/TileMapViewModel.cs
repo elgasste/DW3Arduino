@@ -1,6 +1,5 @@
 ﻿using DW3ArduinoEditor.SaveData;
 using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace DW3ArduinoEditor.ViewModels
@@ -8,6 +7,7 @@ namespace DW3ArduinoEditor.ViewModels
    public class TileMapViewModel : ViewModelBase
    {
       public ObservableCollection<TileViewModel> Tiles { get; private set; } = [];
+      public ObservableCollection<StaticSpriteViewModel> StaticSprites { get; private set; } = [];
       public ObservableCollection<PortalViewModel> Portals { get; private set; } = [];
 
       private uint _index;
@@ -207,6 +207,12 @@ namespace DW3ArduinoEditor.ViewModels
                   Tiles.Add( new( tile ) );
                }
             }
+         }
+
+         // TODO: check that we don't go over the maximum amount of static sprites
+         foreach ( var staticSprite in saveData.StaticSprites )
+         {
+            StaticSprites.Add( new( staticSprite ) );
          }
 
          // TODO: check that we don't go over the maximum amount of portals
