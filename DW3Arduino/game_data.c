@@ -1470,12 +1470,15 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 0: // Overworld
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 0 );
          tileMap->tilesX = 256; tileMap->tilesY = 256; tileMap->wraps = True; tileMap->affectsDaylight = True;
-         tileMap->staticSpriteCount = 4; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 5; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 7; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 5; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
          tileMap->staticSprites[0].textureIndex = 0; tileMap->staticSprites[0].tileIndex = 55724; tileMap->staticSprites[0].isPassable = True;
          tileMap->staticSprites[1].textureIndex = 1; tileMap->staticSprites[1].tileIndex = 55725; tileMap->staticSprites[1].isPassable = True;
          tileMap->staticSprites[2].textureIndex = 2; tileMap->staticSprites[2].tileIndex = 55980; tileMap->staticSprites[2].isPassable = True;
          tileMap->staticSprites[3].textureIndex = 3; tileMap->staticSprites[3].tileIndex = 55981; tileMap->staticSprites[3].isPassable = True;
+         tileMap->staticSprites[4].textureIndex = 6; tileMap->staticSprites[4].tileIndex = 57247; tileMap->staticSprites[4].isPassable = True;
+         tileMap->staticSprites[5].textureIndex = 4; tileMap->staticSprites[5].tileIndex = 55717; tileMap->staticSprites[5].isPassable = True;
+         tileMap->staticSprites[6].textureIndex = 5; tileMap->staticSprites[6].tileIndex = 55973; tileMap->staticSprites[6].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 55980; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 817;
          tileMap->portals[1].sourceTileIndex = 55981; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 817;
          tileMap->portals[2].sourceTileIndex = 51363; tileMap->portals[2].destTileMapIndex = 12; tileMap->portals[2].destTileIndex = 1299;
