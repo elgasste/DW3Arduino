@@ -63,6 +63,7 @@ void Game_Tic( Game_t* game )
    {
       TileMap_Tic( &game->tileMap );
       Physics_Tic( game );
+      TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
    }
 
    Render_DrawGame( game );

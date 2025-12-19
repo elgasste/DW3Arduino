@@ -1467,7 +1467,7 @@ internal void TileMap_LoadStaticSpriteTextureFromPoolIndex( StaticSpriteTexture_
          break;
       case 14:
          for ( i = 0; i < 256; i++ ) m[i] = 0x04;
-         for ( i = 1; i < 15; i++ ) m[i] = 0x14; for ( i = 33; i < 47; i++ ) m[i] = 0x0D; for ( i = 68; i < 72; i++ ) m[i] = 0x02;
+         for ( i = 1; i < 16; i++ ) m[i] = 0x14; for ( i = 33; i < 47; i++ ) m[i] = 0x0D; for ( i = 68; i < 72; i++ ) m[i] = 0x02;
          for ( i = 72; i < 75; i++ ) m[i] = 0x0D; for ( i = 75; i < 77; i++ ) m[i] = 0x02; for ( i = 83; i < 87; i++ ) m[i] = 0x0D;
          for ( i = 87; i < 90; i++ ) m[i] = 0x02; for ( i = 90; i < 93; i++ ) m[i] = 0x0D; for ( i = 99; i < 102; i++ ) m[i] = 0x02;
          for ( i = 102; i < 106; i++ ) m[i] = 0x0D; for ( i = 106; i < 109; i++ ) m[i] = 0x02; for ( i = 115; i < 117; i++ ) m[i] = 0x0D;
@@ -1486,14 +1486,14 @@ internal void TileMap_LoadStaticSpriteTextureFromPoolIndex( StaticSpriteTexture_
          for ( i = 41; i < 46; i++ ) m[i] = 0x04; for ( i = 47; i < 50; i++ ) m[i] = 0x04; for ( i = 63; i < 65; i++ ) m[i] = 0x04;
          for ( i = 67; i < 69; i++ ) m[i] = 0x04; for ( i = 76; i < 78; i++ ) m[i] = 0x04; for ( i = 82; i < 84; i++ ) m[i] = 0x04;
          for ( i = 93; i < 95; i++ ) m[i] = 0x04; for ( i = 96; i < 98; i++ ) m[i] = 0x04; for ( i = 111; i < 114; i++ ) m[i] = 0x04;
-         for ( i = 114; i < 120; i++ ) m[i] = 0x14; for ( i = 121; i < 127; i++ ) m[i] = 0x14; for ( i = 127; i < 129; i++ ) m[i] = 0x04;
+         for ( i = 114; i < 120; i++ ) m[i] = 0x0C; for ( i = 121; i < 127; i++ ) m[i] = 0x0C; for ( i = 127; i < 129; i++ ) m[i] = 0x04;
          for ( i = 147; i < 158; i++ ) m[i] = 0x0D; for ( i = 166; i < 168; i++ ) m[i] = 0x0D; for ( i = 171; i < 173; i++ ) m[i] = 0x0D;
          for ( i = 181; i < 183; i++ ) m[i] = 0x04; for ( i = 186; i < 188; i++ ) m[i] = 0x04; for ( i = 199; i < 201; i++ ) m[i] = 0x04;
          for ( i = 204; i < 206; i++ ) m[i] = 0x04; for ( i = 214; i < 216; i++ ) m[i] = 0x0D; for ( i = 219; i < 221; i++ ) m[i] = 0x0D;
          for ( i = 227; i < 238; i++ ) m[i] = 0x0D; for ( i = 240; i < 242; i++ ) m[i] = 0x04;
-         m[13] = 0x0D; m[16] = 0x0D; m[22] = 0x0D; m[24] = 0x0D; m[26] = 0x0D; m[28] = 0x0D; m[29] = 0x04; m[34] = 0x14; m[46] = 0x14; m[54] = 0x04; m[56] = 0x14; m[58] = 0x04;
-         m[71] = 0x04; m[73] = 0x04; m[80] = 0x04; m[87] = 0x0D; m[89] = 0x0D; m[99] = 0x04; m[101] = 0x04; m[104] = 0x0D; m[107] = 0x04; m[109] = 0x04; m[129] = 0x14; m[136] = 0x0D;
-         m[143] = 0x14; m[144] = 0x04; m[160] = 0x04; m[162] = 0x0D; m[163] = 0x04; m[164] = 0x0D; m[165] = 0x04; m[168] = 0x04; m[169] = 0x0D; m[170] = 0x04; m[173] = 0x04; m[174] = 0x0D;
+         m[13] = 0x0D; m[16] = 0x0D; m[22] = 0x0D; m[24] = 0x0D; m[26] = 0x0D; m[28] = 0x0D; m[29] = 0x04; m[34] = 0x0C; m[46] = 0x0C; m[54] = 0x04; m[56] = 0x0C; m[58] = 0x04;
+         m[71] = 0x04; m[73] = 0x04; m[80] = 0x04; m[87] = 0x0D; m[89] = 0x0D; m[99] = 0x04; m[101] = 0x04; m[104] = 0x0D; m[107] = 0x04; m[109] = 0x04; m[129] = 0x0C; m[136] = 0x0D;
+         m[143] = 0x0C; m[144] = 0x04; m[160] = 0x04; m[162] = 0x0D; m[163] = 0x04; m[164] = 0x0D; m[165] = 0x04; m[168] = 0x04; m[169] = 0x0D; m[170] = 0x04; m[173] = 0x04; m[174] = 0x0D;
          m[176] = 0x04; m[178] = 0x0D; m[179] = 0x04; m[180] = 0x0D; m[183] = 0x0D; m[184] = 0x04; m[185] = 0x0D; m[188] = 0x0D; m[189] = 0x04; m[190] = 0x0D; m[192] = 0x04; m[194] = 0x0D;
          m[195] = 0x04; m[196] = 0x0D; m[197] = 0x04; m[198] = 0x0D; m[201] = 0x0D; m[202] = 0x04; m[203] = 0x0D; m[206] = 0x0D; m[208] = 0x04; m[210] = 0x0D; m[211] = 0x04; m[212] = 0x0D;
          m[213] = 0x04; m[216] = 0x04; m[217] = 0x0D; m[218] = 0x04; m[221] = 0x04; m[222] = 0x0D; m[224] = 0x04; m[255] = 0x04;
@@ -1521,20 +1521,20 @@ internal void TileMap_LoadStaticSpriteTextureFromPoolIndex( StaticSpriteTexture_
          break;
       case 17:
          for ( i = 0; i < 256; i++ ) m[i] = 0x04;
-         for ( i = 0; i < 2; i++ ) m[i] = 0x14; for ( i = 6; i < 18; i++ ) m[i] = 0x14; for ( i = 20; i < 22; i++ ) m[i] = 0x0D;
+         for ( i = 0; i < 3; i++ ) m[i] = 0x14; for ( i = 6; i < 18; i++ ) m[i] = 0x14; for ( i = 20; i < 22; i++ ) m[i] = 0x0D;
          for ( i = 23; i < 34; i++ ) m[i] = 0x14; for ( i = 35; i < 38; i++ ) m[i] = 0x0C; for ( i = 40; i < 50; i++ ) m[i] = 0x14;
-         for ( i = 57; i < 66; i++ ) m[i] = 0x14; for ( i = 75; i < 82; i++ ) m[i] = 0x14; for ( i = 85; i < 87; i++ ) m[i] = 0x0D;
-         for ( i = 88; i < 90; i++ ) m[i] = 0x02; for ( i = 93; i < 97; i++ ) m[i] = 0x14; for ( i = 99; i < 101; i++ ) m[i] = 0x0D;
+         for ( i = 58; i < 66; i++ ) m[i] = 0x14; for ( i = 75; i < 82; i++ ) m[i] = 0x14; for ( i = 85; i < 87; i++ ) m[i] = 0x0D;
+         for ( i = 88; i < 90; i++ ) m[i] = 0x02; for ( i = 93; i < 98; i++ ) m[i] = 0x14; for ( i = 99; i < 101; i++ ) m[i] = 0x0D;
          for ( i = 110; i < 113; i++ ) m[i] = 0x14; for ( i = 127; i < 129; i++ ) m[i] = 0x14; for ( i = 143; i < 145; i++ ) m[i] = 0x14;
          for ( i = 147; i < 149; i++ ) m[i] = 0x0D; for ( i = 159; i < 161; i++ ) m[i] = 0x14; for ( i = 165; i < 171; i++ ) m[i] = 0x0D;
          for ( i = 175; i < 177; i++ ) m[i] = 0x14; for ( i = 179; i < 181; i++ ) m[i] = 0x0D; for ( i = 191; i < 193; i++ ) m[i] = 0x14;
          for ( i = 199; i < 201; i++ ) m[i] = 0x0D; for ( i = 207; i < 210; i++ ) m[i] = 0x14; for ( i = 211; i < 213; i++ ) m[i] = 0x0D;
          for ( i = 223; i < 227; i++ ) m[i] = 0x14; for ( i = 229; i < 232; i++ ) m[i] = 0x0D; for ( i = 233; i < 235; i++ ) m[i] = 0x0D;
-         for ( i = 239; i < 244; i++ ) m[i] = 0x14; for ( i = 251; i < 253; i++ ) m[i] = 0x14; for ( i = 254; i < 256; i++ ) m[i] = 0x14;
-         m[2] = 0x0D; m[19] = 0x0C; m[38] = 0x0D; m[51] = 0x0C; m[52] = 0x0D; m[54] = 0x0C; m[55] = 0x0D; m[67] = 0x0C; m[68] = 0x0D; m[71] = 0x0C; m[72] = 0x02; m[97] = 0x0D;
-         m[105] = 0x02; m[106] = 0x0D; m[108] = 0x0D; m[114] = 0x0D; m[120] = 0x02; m[122] = 0x0C; m[123] = 0x0D; m[125] = 0x0D; m[130] = 0x0D; m[136] = 0x02; m[139] = 0x0C; m[140] = 0x0D;
-         m[156] = 0x0C; m[157] = 0x0D; m[162] = 0x0D; m[172] = 0x0C; m[173] = 0x0D; m[188] = 0x0C; m[189] = 0x0D; m[194] = 0x0D; m[197] = 0x0D; m[202] = 0x0D; m[204] = 0x0C; m[205] = 0x0D;
-         m[220] = 0x0C; m[221] = 0x0D; m[236] = 0x0C; m[237] = 0x0D; m[244] = 0x0D;
+         for ( i = 239; i < 245; i++ ) m[i] = 0x14; for ( i = 254; i < 256; i++ ) m[i] = 0x14;
+         m[19] = 0x0C; m[38] = 0x0D; m[51] = 0x0C; m[52] = 0x0D; m[54] = 0x0C; m[55] = 0x0D; m[57] = 0x02; m[67] = 0x0C; m[68] = 0x0D; m[71] = 0x0C; m[72] = 0x02; m[105] = 0x02;
+         m[106] = 0x0D; m[108] = 0x0D; m[114] = 0x0D; m[120] = 0x02; m[122] = 0x0C; m[123] = 0x0D; m[125] = 0x0D; m[130] = 0x0D; m[136] = 0x02; m[139] = 0x0C; m[140] = 0x0D; m[156] = 0x0C;
+         m[157] = 0x0D; m[162] = 0x0D; m[172] = 0x0C; m[173] = 0x0D; m[188] = 0x0C; m[189] = 0x0D; m[194] = 0x0D; m[197] = 0x0D; m[202] = 0x0D; m[204] = 0x0C; m[205] = 0x0D; m[220] = 0x0C;
+         m[221] = 0x0D; m[236] = 0x0C; m[237] = 0x0D; m[251] = 0x14;
          break;
       case 18:
          for ( i = 0; i < 256; i++ ) m[i] = 0x14;
