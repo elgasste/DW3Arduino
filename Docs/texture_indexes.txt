@@ -1,0 +1,255 @@
+=============================================================
+TILE TEXTURES
+=============================================================
+
+TILE TEXTURE POOL
+
+0  - grass
+1  - sand
+2  - forest
+3  - bush
+4  - hill
+5  - mountain
+6  - swamp
+7  - ice
+8  - black square
+9  - water
+10 - shoal
+11 - horizontal bridge
+12 - vertical bridge
+13 - left shore
+14 - top shore
+15 - right shore
+16 - bottom shore
+17 - top-left shore
+18 - top-right shore
+19 - bottom-right shore
+20 - bottom-left shore
+21 - left and right shore
+22 - top and bottom shore
+23 - left 3 shore
+24 - top 3 shore
+25 - right 3 shore
+26 - bottom 3 shore
+27 - full shore
+28 - big tree
+29 - flowers
+30 - red cobblestone floor
+31 - gray brick wall side
+32 - gray brick wall top or bottom
+33 - gray rooftop
+34 - yellow brick floor
+35 - solid blue
+36 - solid white
+37 - column on red cobblestone top
+38 - column on red cobblestone bottom
+39 - throne room carpet
+40 - throne backing
+41 - throne arm rest
+42 - curtains
+43 - brown cave wall side
+44 - brown cave wall top or bottom
+45 - cave dirt floor
+46 - green brick wall side
+47 - green brick wall top or bottom
+48 - gray brick floor
+49 - gray column on gray floor top
+50 - gray column on gray floor bottom
+51 - red brick floor
+52 - gray stone wall side pattern 1
+53 - gray stone wall side pattern 2
+54 - gray stone wall side pattern 3
+55 - gray stone wall side pattern 4
+56 - gray stone wall top or bottom pattern 1
+57 - gray stone wall top or bottom pattern 2
+58 - gray diamond floor
+59 - solid green
+60 - gray hash on red
+61 - dragon statue on red top-left
+62 - dragon statue on red top-right
+63 - dragon statue on red bottom-left
+64 - dragon status on red bottom-right
+
+TILE TEXTURE SET 0 ("overworld")
+
+0  - 0
+1  - 1
+2  - 2
+3  - 3
+4  - 4
+5  - 5
+6  - 6
+7  - 7
+8  - 8
+9  - 9
+10 - 10
+11 - 11
+12 - 12
+13 - 13
+14 - 14
+15 - 15
+16 - 16
+17 - 17
+18 - 18
+19 - 19
+20 - 20
+21 - 21
+22 - 22
+23 - 23
+24 - 24
+25 - 25
+26 - 26
+27 - 27
+28 - 8
+29 - 8
+30 - 8
+31 - 8
+
+TEXTURE TILE SET 1 ("town")
+
+0  - 0
+1  - 1
+2  - 3
+3  - 9
+4  - 28
+5  - 29
+6  - 30
+7  - 31
+8  - 32
+9  - 33
+10 - 34
+11 - 35
+12 - 36
+13 - 37
+14 - 38
+15 - 39
+16 - 40
+17 - 41
+18 - 42
+19 - 8
+20 - 8
+21 - 8
+22 - 8
+23 - 8
+24 - 8
+25 - 8
+26 - 8
+27 - 8
+28 - 8
+29 - 8
+30 - 8
+31 - 8
+
+TEXTURE TILE SET ("dungeon")
+
+0  - 9
+1  - 43
+2  - 44
+3  - 45
+4  - 46
+5  - 47
+6  - 48
+7  - 49
+8  - 50
+9  - 8
+10 - 51
+11 - 52
+12 - 53
+13 - 54
+14 - 55
+15 - 56
+16 - 57
+17 - 58
+18 - 59
+19 - 60
+20 - 61
+21 - 62
+22 - 63
+23 - 64
+24 - 8
+25 - 8
+26 - 8
+27 - 8
+28 - 8
+29 - 8
+30 - 8
+31 - 8
+
+=============================================================
+STATIC SPRITES
+=============================================================
+
+STATIC SPRITE POOL
+
+0  castle upper-left
+1  castle upper-right
+2  castle lower-left
+3  castle lower-right
+4  tower top
+5  tower bottom
+6  cave
+7  shrine
+8  town left
+9  town right
+10 pyramid
+11 village
+12 stairs going up
+13 stairs going down
+14 booth
+15 inn sign
+16 weapon store sign
+17 well
+18 bed left
+19 bed right
+20 dresser
+21 wooden chair
+22 table with sheet
+23 red treasure chest
+24 wooden stool
+25 stone table
+26 pentagram
+27 stone torch
+28 thief's key door
+29 magic key door
+30 final key door
+
+STATIC SPRITE SET 0 ("overworld")
+
+0  - 0
+1  - 1
+2  - 2
+3  - 3
+4  - 4
+5  - 5
+6  - 6
+7  - 7
+8  - 8
+9  - 9
+10 - 10
+11 - 11
+
+STATIC SPRITE SET 1 ("town")
+
+0  - 0
+1  - 1
+2  - 2
+3  - 3
+4  - 12
+5  - 13
+6  - 14
+7  - 15
+8  - 16
+9  - 17
+10 - 18
+11 - 19
+12 - 20
+13 - 21
+14 - 22
+15 - 23
+16 - 24
+17 - 25
+18 - 26
+19 - 27
+20 - 28
+21 - 29
+22 - 30
