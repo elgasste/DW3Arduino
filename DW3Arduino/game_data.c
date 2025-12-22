@@ -10,7 +10,7 @@ internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, 
 
 void Screen_LoadPalette( Screen_t* screen )
 {
-screen->paletteColorCount = 22;
+screen->paletteColorCount = 23;
 
    screen->palette[0] = 0x9720;
    screen->palette[1] = 0x4CE0;
@@ -34,6 +34,7 @@ screen->paletteColorCount = 22;
    screen->palette[19] = 0x6F67;
    screen->palette[20] = 0xF81F;
    screen->palette[21] = 0xFE36;
+   screen->palette[22] = 0xE663;
 }
 
 internal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 index )
@@ -1747,6 +1748,172 @@ internal void TileMap_LoadStaticSpriteTextureFromPoolIndex( StaticSpriteTexture_
          m[214] = 0x06; m[216] = 0x06; m[218] = 0x06; m[220] = 0x06; m[222] = 0x06; m[225] = 0x04; m[226] = 0x06; m[227] = 0x04; m[228] = 0x06; m[229] = 0x04; m[230] = 0x06; m[231] = 0x04;
          m[232] = 0x06; m[233] = 0x04; m[234] = 0x06; m[235] = 0x04; m[236] = 0x06; m[237] = 0x04; m[238] = 0x06;
          break;
+      case 31:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x07;
+         for ( i = 0; i < 4; i++ ) m[i] = 0x14; for ( i = 4; i < 9; i++ ) m[i] = 0x04; for ( i = 9; i < 18; i++ ) m[i] = 0x14;
+         for ( i = 18; i < 21; i++ ) m[i] = 0x04; for ( i = 24; i < 27; i++ ) m[i] = 0x04; for ( i = 27; i < 33; i++ ) m[i] = 0x14;
+         for ( i = 33; i < 35; i++ ) m[i] = 0x04; for ( i = 42; i < 44; i++ ) m[i] = 0x04; for ( i = 44; i < 49; i++ ) m[i] = 0x14;
+         for ( i = 51; i < 53; i++ ) m[i] = 0x03; for ( i = 56; i < 58; i++ ) m[i] = 0x03; for ( i = 60; i < 64; i++ ) m[i] = 0x14;
+         for ( i = 64; i < 66; i++ ) m[i] = 0x04; for ( i = 75; i < 77; i++ ) m[i] = 0x04; for ( i = 77; i < 80; i++ ) m[i] = 0x14;
+         for ( i = 83; i < 85; i++ ) m[i] = 0x03; for ( i = 88; i < 90; i++ ) m[i] = 0x03; for ( i = 93; i < 96; i++ ) m[i] = 0x14;
+         for ( i = 101; i < 104; i++ ) m[i] = 0x03; for ( i = 109; i < 112; i++ ) m[i] = 0x14; for ( i = 116; i < 118; i++ ) m[i] = 0x03;
+         for ( i = 119; i < 121; i++ ) m[i] = 0x03; for ( i = 125; i < 128; i++ ) m[i] = 0x14; for ( i = 133; i < 136; i++ ) m[i] = 0x03;
+         for ( i = 141; i < 144; i++ ) m[i] = 0x14; for ( i = 146; i < 155; i++ ) m[i] = 0x03; for ( i = 157; i < 160; i++ ) m[i] = 0x14;
+         for ( i = 173; i < 176; i++ ) m[i] = 0x14; for ( i = 179; i < 182; i++ ) m[i] = 0x03; for ( i = 183; i < 186; i++ ) m[i] = 0x03;
+         for ( i = 189; i < 192; i++ ) m[i] = 0x14; for ( i = 195; i < 197; i++ ) m[i] = 0x03; for ( i = 200; i < 202; i++ ) m[i] = 0x03;
+         for ( i = 205; i < 208; i++ ) m[i] = 0x14; for ( i = 210; i < 212; i++ ) m[i] = 0x06; for ( i = 212; i < 214; i++ ) m[i] = 0x03;
+         for ( i = 215; i < 217; i++ ) m[i] = 0x03; for ( i = 217; i < 219; i++ ) m[i] = 0x06; for ( i = 221; i < 224; i++ ) m[i] = 0x14;
+         for ( i = 224; i < 226; i++ ) m[i] = 0x04; for ( i = 235; i < 237; i++ ) m[i] = 0x04; for ( i = 237; i < 241; i++ ) m[i] = 0x14;
+         for ( i = 241; i < 252; i++ ) m[i] = 0x04; for ( i = 252; i < 256; i++ ) m[i] = 0x14;
+         m[37] = 0x03; m[39] = 0x03; m[49] = 0x04; m[59] = 0x04; m[69] = 0x03; m[71] = 0x03; m[80] = 0x04; m[92] = 0x04; m[96] = 0x04; m[98] = 0x03; m[106] = 0x03; m[108] = 0x04;
+         m[112] = 0x04; m[113] = 0x06; m[115] = 0x06; m[121] = 0x06; m[123] = 0x06; m[124] = 0x04; m[128] = 0x04; m[130] = 0x06; m[131] = 0x03; m[137] = 0x03; m[138] = 0x06; m[140] = 0x04;
+         m[144] = 0x04; m[156] = 0x04; m[160] = 0x04; m[161] = 0x06; m[171] = 0x06; m[172] = 0x04; m[176] = 0x04; m[178] = 0x06; m[186] = 0x06; m[188] = 0x04; m[192] = 0x04; m[194] = 0x06;
+         m[198] = 0x03; m[202] = 0x06; m[204] = 0x04; m[208] = 0x04; m[220] = 0x04;
+         break;
+      case 32:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x0A;
+         for ( i = 3; i < 11; i++ ) m[i] = 0x08; for ( i = 18; i < 20; i++ ) m[i] = 0x08; for ( i = 28; i < 30; i++ ) m[i] = 0x08;
+         for ( i = 33; i < 35; i++ ) m[i] = 0x08; for ( i = 42; i < 47; i++ ) m[i] = 0x08; for ( i = 49; i < 51; i++ ) m[i] = 0x08;
+         for ( i = 51; i < 54; i++ ) m[i] = 0x09; for ( i = 55; i < 61; i++ ) m[i] = 0x09; for ( i = 67; i < 69; i++ ) m[i] = 0x09;
+         for ( i = 74; i < 78; i++ ) m[i] = 0x09; for ( i = 78; i < 81; i++ ) m[i] = 0x08; for ( i = 82; i < 84; i++ ) m[i] = 0x09;
+         for ( i = 97; i < 99; i++ ) m[i] = 0x08; for ( i = 99; i < 101; i++ ) m[i] = 0x09; for ( i = 110; i < 114; i++ ) m[i] = 0x08;
+         for ( i = 119; i < 121; i++ ) m[i] = 0x04; for ( i = 123; i < 125; i++ ) m[i] = 0x09; for ( i = 127; i < 129; i++ ) m[i] = 0x08;
+         for ( i = 131; i < 133; i++ ) m[i] = 0x09; for ( i = 135; i < 137; i++ ) m[i] = 0x04; for ( i = 142; i < 146; i++ ) m[i] = 0x08;
+         for ( i = 155; i < 157; i++ ) m[i] = 0x09; for ( i = 157; i < 159; i++ ) m[i] = 0x08; for ( i = 172; i < 174; i++ ) m[i] = 0x09;
+         for ( i = 175; i < 178; i++ ) m[i] = 0x08; for ( i = 178; i < 182; i++ ) m[i] = 0x09; for ( i = 187; i < 189; i++ ) m[i] = 0x09;
+         for ( i = 195; i < 201; i++ ) m[i] = 0x09; for ( i = 202; i < 205; i++ ) m[i] = 0x09; for ( i = 205; i < 207; i++ ) m[i] = 0x08;
+         for ( i = 209; i < 214; i++ ) m[i] = 0x08; for ( i = 221; i < 223; i++ ) m[i] = 0x08; for ( i = 226; i < 228; i++ ) m[i] = 0x08;
+         for ( i = 236; i < 238; i++ ) m[i] = 0x08; for ( i = 245; i < 253; i++ ) m[i] = 0x08;
+         m[0] = 0x14; m[15] = 0x14; m[20] = 0x09; m[21] = 0x08; m[22] = 0x09; m[23] = 0x08; m[24] = 0x09; m[25] = 0x08; m[35] = 0x09; m[36] = 0x08; m[37] = 0x09; m[38] = 0x08;
+         m[41] = 0x09; m[61] = 0x08; m[62] = 0x09; m[63] = 0x08; m[66] = 0x08; m[70] = 0x09; m[72] = 0x09; m[92] = 0x09; m[93] = 0x08; m[94] = 0x09; m[95] = 0x08; m[96] = 0x14;
+         m[102] = 0x04; m[105] = 0x04; m[109] = 0x09; m[115] = 0x09; m[126] = 0x09; m[129] = 0x09; m[140] = 0x09; m[146] = 0x09; m[150] = 0x04; m[153] = 0x04; m[159] = 0x14; m[160] = 0x08;
+         m[161] = 0x09; m[162] = 0x08; m[163] = 0x09; m[183] = 0x09; m[185] = 0x09; m[189] = 0x08; m[192] = 0x08; m[193] = 0x09; m[194] = 0x08; m[214] = 0x09; m[217] = 0x08; m[218] = 0x09;
+         m[219] = 0x08; m[220] = 0x09; m[230] = 0x08; m[231] = 0x09; m[232] = 0x08; m[233] = 0x09; m[234] = 0x08; m[235] = 0x09; m[240] = 0x14; m[255] = 0x14;
+         break;
+      case 33:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x07;
+         for ( i = 0; i < 12; i++ ) m[i] = 0x14; for ( i = 12; i < 14; i++ ) m[i] = 0x06; for ( i = 16; i < 28; i++ ) m[i] = 0x14;
+         for ( i = 32; i < 41; i++ ) m[i] = 0x14; for ( i = 48; i < 57; i++ ) m[i] = 0x14; for ( i = 64; i < 68; i++ ) m[i] = 0x14;
+         for ( i = 80; i < 84; i++ ) m[i] = 0x14; for ( i = 95; i < 97; i++ ) m[i] = 0x06; for ( i = 123; i < 125; i++ ) m[i] = 0x06;
+         for ( i = 135; i < 137; i++ ) m[i] = 0x06; for ( i = 140; i < 142; i++ ) m[i] = 0x06; for ( i = 143; i < 145; i++ ) m[i] = 0x06;
+         for ( i = 155; i < 157; i++ ) m[i] = 0x04; for ( i = 157; i < 159; i++ ) m[i] = 0x06; for ( i = 173; i < 175; i++ ) m[i] = 0x04;
+         for ( i = 175; i < 177; i++ ) m[i] = 0x06; for ( i = 182; i < 186; i++ ) m[i] = 0x06; for ( i = 186; i < 188; i++ ) m[i] = 0x04;
+         for ( i = 188; i < 192; i++ ) m[i] = 0x06; for ( i = 202; i < 204; i++ ) m[i] = 0x06; for ( i = 205; i < 207; i++ ) m[i] = 0x06;
+         for ( i = 212; i < 214; i++ ) m[i] = 0x06; for ( i = 214; i < 217; i++ ) m[i] = 0x04; for ( i = 217; i < 221; i++ ) m[i] = 0x06;
+         for ( i = 221; i < 223; i++ ) m[i] = 0x04; for ( i = 228; i < 230; i++ ) m[i] = 0x04; for ( i = 230; i < 232; i++ ) m[i] = 0x06;
+         for ( i = 233; i < 236; i++ ) m[i] = 0x06; for ( i = 237; i < 240; i++ ) m[i] = 0x14; for ( i = 240; i < 243; i++ ) m[i] = 0x06;
+         for ( i = 244; i < 247; i++ ) m[i] = 0x06; for ( i = 249; i < 252; i++ ) m[i] = 0x04; for ( i = 252; i < 256; i++ ) m[i] = 0x14;
+         m[15] = 0x06; m[28] = 0x06; m[42] = 0x06; m[43] = 0x04; m[59] = 0x06; m[63] = 0x06; m[68] = 0x06; m[71] = 0x04; m[74] = 0x06; m[75] = 0x04; m[76] = 0x06; m[79] = 0x06;
+         m[84] = 0x06; m[87] = 0x06; m[91] = 0x04; m[98] = 0x06; m[99] = 0x04; m[103] = 0x04; m[107] = 0x06; m[115] = 0x06; m[119] = 0x04; m[131] = 0x04; m[132] = 0x06; m[138] = 0x06;
+         m[139] = 0x04; m[147] = 0x04; m[148] = 0x06; m[151] = 0x06; m[159] = 0x04; m[160] = 0x06; m[163] = 0x06; m[166] = 0x06; m[167] = 0x04; m[168] = 0x06; m[170] = 0x06; m[171] = 0x04;
+         m[172] = 0x06; m[179] = 0x06; m[195] = 0x04; m[196] = 0x06; m[199] = 0x04; m[200] = 0x06; m[201] = 0x04; m[204] = 0x04; m[207] = 0x04; m[208] = 0x06; m[210] = 0x06; m[211] = 0x04;
+         m[223] = 0x14; m[226] = 0x04; m[227] = 0x06; m[232] = 0x04; m[236] = 0x04; m[243] = 0x04; m[247] = 0x04; m[248] = 0x06;
+         break;
+      case 34:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x04;
+         for ( i = 0; i < 2; i++ ) m[i] = 0x14; for ( i = 4; i < 6; i++ ) m[i] = 0x14; for ( i = 7; i < 9; i++ ) m[i] = 0x14;
+         for ( i = 10; i < 12; i++ ) m[i] = 0x06; for ( i = 15; i < 17; i++ ) m[i] = 0x14; for ( i = 18; i < 20; i++ ) m[i] = 0x06;
+         for ( i = 25; i < 28; i++ ) m[i] = 0x06; for ( i = 33; i < 36; i++ ) m[i] = 0x06; for ( i = 47; i < 49; i++ ) m[i] = 0x14;
+         for ( i = 61; i < 63; i++ ) m[i] = 0x06; for ( i = 90; i < 93; i++ ) m[i] = 0x07; for ( i = 96; i < 98; i++ ) m[i] = 0x06;
+         for ( i = 106; i < 109; i++ ) m[i] = 0x07; for ( i = 110; i < 112; i++ ) m[i] = 0x06; for ( i = 119; i < 121; i++ ) m[i] = 0x07;
+         for ( i = 122; i < 125; i++ ) m[i] = 0x07; for ( i = 126; i < 128; i++ ) m[i] = 0x06; for ( i = 132; i < 134; i++ ) m[i] = 0x06;
+         for ( i = 134; i < 137; i++ ) m[i] = 0x07; for ( i = 137; i < 139; i++ ) m[i] = 0x06; for ( i = 147; i < 149; i++ ) m[i] = 0x07;
+         for ( i = 150; i < 153; i++ ) m[i] = 0x07; for ( i = 154; i < 156; i++ ) m[i] = 0x07; for ( i = 163; i < 165; i++ ) m[i] = 0x07;
+         for ( i = 170; i < 173; i++ ) m[i] = 0x07; for ( i = 179; i < 181; i++ ) m[i] = 0x07; for ( i = 182; i < 185; i++ ) m[i] = 0x07;
+         for ( i = 187; i < 189; i++ ) m[i] = 0x07; for ( i = 190; i < 192; i++ ) m[i] = 0x06; for ( i = 195; i < 197; i++ ) m[i] = 0x07;
+         for ( i = 199; i < 201; i++ ) m[i] = 0x07; for ( i = 221; i < 223; i++ ) m[i] = 0x06; for ( i = 224; i < 227; i++ ) m[i] = 0x06;
+         for ( i = 229; i < 231; i++ ) m[i] = 0x06; for ( i = 233; i < 235; i++ ) m[i] = 0x06; for ( i = 237; i < 240; i++ ) m[i] = 0x06;
+         for ( i = 241; i < 243; i++ ) m[i] = 0x06; for ( i = 250; i < 252; i++ ) m[i] = 0x06;
+         m[13] = 0x14; m[22] = 0x06; m[30] = 0x06; m[50] = 0x06; m[74] = 0x06; m[75] = 0x07; m[76] = 0x06; m[78] = 0x06; m[80] = 0x06; m[102] = 0x06; m[103] = 0x07; m[104] = 0x06;
+         m[113] = 0x06; m[118] = 0x06; m[121] = 0x06; m[128] = 0x14; m[130] = 0x06; m[131] = 0x07; m[139] = 0x07; m[140] = 0x06; m[144] = 0x14; m[149] = 0x06; m[153] = 0x06; m[156] = 0x06;
+         m[159] = 0x14; m[161] = 0x06; m[166] = 0x06; m[167] = 0x07; m[168] = 0x06; m[174] = 0x06; m[176] = 0x14; m[178] = 0x06; m[181] = 0x06; m[186] = 0x06; m[192] = 0x14; m[194] = 0x06;
+         m[198] = 0x06; m[203] = 0x06; m[204] = 0x07; m[209] = 0x06; m[244] = 0x14; m[246] = 0x06; m[248] = 0x14; m[254] = 0x06;
+         break;
+      case 35:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x04;
+         for ( i = 0; i < 6; i++ ) m[i] = 0x14; for ( i = 16; i < 20; i++ ) m[i] = 0x14; for ( i = 22; i < 32; i++ ) m[i] = 0x07;
+         for ( i = 32; i < 35; i++ ) m[i] = 0x14; for ( i = 36; i < 38; i++ ) m[i] = 0x07; for ( i = 48; i < 50; i++ ) m[i] = 0x14;
+         for ( i = 55; i < 57; i++ ) m[i] = 0x16; for ( i = 59; i < 61; i++ ) m[i] = 0x16; for ( i = 72; i < 74; i++ ) m[i] = 0x16;
+         for ( i = 87; i < 89; i++ ) m[i] = 0x16; for ( i = 103; i < 105; i++ ) m[i] = 0x0F; for ( i = 134; i < 144; i++ ) m[i] = 0x07;
+         for ( i = 148; i < 150; i++ ) m[i] = 0x07; for ( i = 150; i < 160; i++ ) m[i] = 0x0F; for ( i = 164; i < 166; i++ ) m[i] = 0x0F;
+         for ( i = 187; i < 189; i++ ) m[i] = 0x16; for ( i = 215; i < 217; i++ ) m[i] = 0x16; for ( i = 236; i < 238; i++ ) m[i] = 0x16;
+         m[51] = 0x07; m[57] = 0x0F; m[61] = 0x0F; m[63] = 0x0F; m[64] = 0x14; m[66] = 0x07; m[68] = 0x16; m[69] = 0x0F; m[71] = 0x0F; m[75] = 0x16; m[76] = 0x0F; m[77] = 0x16;
+         m[79] = 0x16; m[81] = 0x07; m[83] = 0x16; m[84] = 0x0F; m[85] = 0x16; m[89] = 0x0F; m[91] = 0x0F; m[92] = 0x16; m[93] = 0x0F; m[95] = 0x0F; m[97] = 0x07; m[99] = 0x0F;
+         m[100] = 0x16; m[101] = 0x0F; m[105] = 0x16; m[107] = 0x16; m[108] = 0x0F; m[109] = 0x16; m[111] = 0x16; m[113] = 0x07; m[115] = 0x16; m[116] = 0x0F; m[117] = 0x16; m[129] = 0x07;
+         m[131] = 0x0F; m[145] = 0x07; m[161] = 0x07; m[163] = 0x07; m[176] = 0x14; m[178] = 0x07; m[179] = 0x0F; m[183] = 0x0F; m[184] = 0x16; m[185] = 0x0F; m[189] = 0x0F; m[191] = 0x0F;
+         m[192] = 0x14; m[194] = 0x07; m[195] = 0x0F; m[197] = 0x16; m[199] = 0x0F; m[200] = 0x16; m[201] = 0x0F; m[203] = 0x0F; m[204] = 0x16; m[205] = 0x0F; m[207] = 0x16; m[209] = 0x07;
+         m[210] = 0x0F; m[212] = 0x0F; m[213] = 0x16; m[217] = 0x0F; m[219] = 0x0F; m[220] = 0x16; m[221] = 0x0F; m[223] = 0x16; m[225] = 0x07; m[226] = 0x0F; m[228] = 0x0F; m[229] = 0x16;
+         m[231] = 0x16; m[232] = 0x0F; m[233] = 0x16; m[235] = 0x0F; m[239] = 0x16; m[241] = 0x07; m[243] = 0x0F; m[244] = 0x16; m[245] = 0x0F; m[247] = 0x16; m[248] = 0x0F; m[249] = 0x16;
+         m[251] = 0x16; m[252] = 0x0F; m[253] = 0x16; m[255] = 0x0F;
+         break;
+      case 36:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x04;
+         for ( i = 10; i < 16; i++ ) m[i] = 0x14; for ( i = 16; i < 26; i++ ) m[i] = 0x07; for ( i = 28; i < 32; i++ ) m[i] = 0x14;
+         for ( i = 42; i < 44; i++ ) m[i] = 0x07; for ( i = 45; i < 48; i++ ) m[i] = 0x14; for ( i = 51; i < 53; i++ ) m[i] = 0x16;
+         for ( i = 55; i < 57; i++ ) m[i] = 0x0F; for ( i = 62; i < 64; i++ ) m[i] = 0x14; for ( i = 64; i < 66; i++ ) m[i] = 0x16;
+         for ( i = 71; i < 73; i++ ) m[i] = 0x16; for ( i = 87; i < 89; i++ ) m[i] = 0x0F; for ( i = 123; i < 125; i++ ) m[i] = 0x16;
+         for ( i = 128; i < 138; i++ ) m[i] = 0x07; for ( i = 144; i < 154; i++ ) m[i] = 0x0F; for ( i = 154; i < 156; i++ ) m[i] = 0x07;
+         for ( i = 170; i < 172; i++ ) m[i] = 0x0F; for ( i = 179; i < 181; i++ ) m[i] = 0x16; for ( i = 183; i < 185; i++ ) m[i] = 0x0F;
+         for ( i = 199; i < 202; i++ ) m[i] = 0x16; for ( i = 215; i < 217; i++ ) m[i] = 0x16; for ( i = 228; i < 230; i++ ) m[i] = 0x16;
+         for ( i = 231; i < 233; i++ ) m[i] = 0x16; for ( i = 247; i < 249; i++ ) m[i] = 0x0F;
+         m[48] = 0x16; m[49] = 0x0F; m[53] = 0x0F; m[57] = 0x16; m[60] = 0x07; m[67] = 0x16; m[68] = 0x0F; m[69] = 0x16; m[73] = 0x0F; m[75] = 0x16; m[77] = 0x07; m[79] = 0x14;
+         m[80] = 0x16; m[81] = 0x0F; m[83] = 0x0F; m[84] = 0x16; m[85] = 0x0F; m[89] = 0x16; m[91] = 0x0F; m[92] = 0x16; m[94] = 0x07; m[96] = 0x0F; m[97] = 0x16; m[99] = 0x16;
+         m[100] = 0x0F; m[101] = 0x16; m[103] = 0x16; m[104] = 0x0F; m[105] = 0x16; m[107] = 0x16; m[108] = 0x0F; m[110] = 0x07; m[126] = 0x07; m[140] = 0x0F; m[142] = 0x07; m[158] = 0x07;
+         m[172] = 0x07; m[174] = 0x07; m[176] = 0x16; m[177] = 0x0F; m[181] = 0x0F; m[185] = 0x16; m[188] = 0x0F; m[189] = 0x07; m[191] = 0x14; m[192] = 0x16; m[193] = 0x0F; m[195] = 0x0F;
+         m[196] = 0x16; m[197] = 0x0F; m[204] = 0x0F; m[205] = 0x07; m[207] = 0x14; m[208] = 0x16; m[209] = 0x0F; m[211] = 0x0F; m[212] = 0x16; m[213] = 0x0F; m[217] = 0x0F; m[219] = 0x16;
+         m[221] = 0x0F; m[222] = 0x07; m[224] = 0x0F; m[225] = 0x16; m[227] = 0x0F; m[233] = 0x0F; m[235] = 0x16; m[237] = 0x0F; m[238] = 0x07; m[240] = 0x0F; m[241] = 0x16; m[243] = 0x16;
+         m[244] = 0x0F; m[245] = 0x16; m[249] = 0x16; m[251] = 0x16; m[252] = 0x0F; m[254] = 0x07;
+         break;
+      case 37:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x04;
+         for ( i = 116; i < 118; i++ ) m[i] = 0x0F; for ( i = 131; i < 133; i++ ) m[i] = 0x16; for ( i = 135; i < 138; i++ ) m[i] = 0x16;
+         for ( i = 171; i < 173; i++ ) m[i] = 0x16; for ( i = 184; i < 186; i++ ) m[i] = 0x0F; for ( i = 204; i < 206; i++ ) m[i] = 0x16;
+         for ( i = 225; i < 240; i++ ) m[i] = 0x07;
+         m[3] = 0x0F; m[4] = 0x16; m[5] = 0x0F; m[7] = 0x16; m[8] = 0x0F; m[9] = 0x16; m[11] = 0x16; m[12] = 0x0F; m[13] = 0x16; m[15] = 0x16; m[17] = 0x07; m[49] = 0x07;
+         m[65] = 0x07; m[68] = 0x07; m[72] = 0x07; m[76] = 0x07; m[81] = 0x07; m[97] = 0x07; m[113] = 0x07; m[115] = 0x16; m[119] = 0x0F; m[120] = 0x16; m[121] = 0x0F; m[123] = 0x0F;
+         m[124] = 0x16; m[125] = 0x0F; m[127] = 0x0F; m[129] = 0x07; m[133] = 0x0F; m[139] = 0x16; m[140] = 0x0F; m[141] = 0x16; m[143] = 0x0F; m[147] = 0x0F; m[148] = 0x16; m[149] = 0x0F;
+         m[151] = 0x16; m[152] = 0x0F; m[153] = 0x16; m[155] = 0x16; m[156] = 0x0F; m[157] = 0x16; m[159] = 0x16; m[161] = 0x07; m[163] = 0x16; m[164] = 0x0F; m[165] = 0x16; m[167] = 0x16;
+         m[168] = 0x0F; m[169] = 0x16; m[173] = 0x0F; m[175] = 0x16; m[179] = 0x16; m[180] = 0x0F; m[181] = 0x16; m[183] = 0x16; m[187] = 0x0F; m[188] = 0x16; m[189] = 0x0F; m[191] = 0x16;
+         m[193] = 0x07; m[195] = 0x16; m[196] = 0x0F; m[197] = 0x16; m[199] = 0x0F; m[200] = 0x16; m[201] = 0x0F; m[203] = 0x0F; m[207] = 0x0F; m[209] = 0x07;
+         break;
+      case 38:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x04;
+         for ( i = 128; i < 130; i++ ) m[i] = 0x16; for ( i = 135; i < 137; i++ ) m[i] = 0x0F; for ( i = 151; i < 153; i++ ) m[i] = 0x16;
+         for ( i = 163; i < 165; i++ ) m[i] = 0x16; for ( i = 167; i < 169; i++ ) m[i] = 0x16; for ( i = 176; i < 178; i++ ) m[i] = 0x0F;
+         for ( i = 196; i < 198; i++ ) m[i] = 0x16; for ( i = 199; i < 201; i++ ) m[i] = 0x0F; for ( i = 224; i < 239; i++ ) m[i] = 0x07;
+         m[0] = 0x0F; m[1] = 0x16; m[3] = 0x16; m[4] = 0x0F; m[5] = 0x16; m[7] = 0x16; m[8] = 0x0F; m[9] = 0x16; m[11] = 0x0F; m[12] = 0x16; m[14] = 0x07; m[30] = 0x07;
+         m[43] = 0x07; m[46] = 0x07; m[58] = 0x0F; m[59] = 0x07; m[60] = 0x0F; m[62] = 0x07; m[64] = 0x07; m[68] = 0x07; m[72] = 0x07; m[74] = 0x07; m[76] = 0x07; m[78] = 0x07;
+         m[90] = 0x0F; m[91] = 0x07; m[92] = 0x0F; m[94] = 0x07; m[110] = 0x07; m[112] = 0x16; m[113] = 0x0F; m[115] = 0x0F; m[116] = 0x16; m[117] = 0x0F; m[119] = 0x0F; m[120] = 0x16;
+         m[121] = 0x0F; m[123] = 0x16; m[124] = 0x0F; m[126] = 0x07; m[131] = 0x16; m[132] = 0x0F; m[133] = 0x16; m[137] = 0x16; m[139] = 0x16; m[140] = 0x0F; m[142] = 0x07; m[144] = 0x0F;
+         m[145] = 0x16; m[147] = 0x16; m[148] = 0x0F; m[149] = 0x16; m[153] = 0x0F; m[155] = 0x16; m[156] = 0x0F; m[158] = 0x07; m[160] = 0x0F; m[161] = 0x16; m[165] = 0x0F; m[169] = 0x0F;
+         m[171] = 0x0F; m[172] = 0x16; m[174] = 0x07; m[179] = 0x0F; m[180] = 0x16; m[181] = 0x0F; m[183] = 0x16; m[184] = 0x0F; m[185] = 0x16; m[187] = 0x0F; m[188] = 0x16; m[190] = 0x07;
+         m[192] = 0x16; m[193] = 0x0F; m[195] = 0x0F; m[201] = 0x16; m[203] = 0x0F; m[204] = 0x16; m[206] = 0x07; m[222] = 0x07;
+         break;
+      case 39:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x07;
+         for ( i = 0; i < 11; i++ ) m[i] = 0x14; for ( i = 11; i < 16; i++ ) m[i] = 0x04; for ( i = 16; i < 27; i++ ) m[i] = 0x14;
+         for ( i = 32; i < 39; i++ ) m[i] = 0x14; for ( i = 39; i < 44; i++ ) m[i] = 0x04; for ( i = 48; i < 55; i++ ) m[i] = 0x14;
+         for ( i = 64; i < 67; i++ ) m[i] = 0x14; for ( i = 67; i < 72; i++ ) m[i] = 0x04; for ( i = 80; i < 83; i++ ) m[i] = 0x14;
+         for ( i = 96; i < 100; i++ ) m[i] = 0x04; for ( i = 155; i < 160; i++ ) m[i] = 0x06; for ( i = 167; i < 172; i++ ) m[i] = 0x06;
+         for ( i = 172; i < 176; i++ ) m[i] = 0x04; for ( i = 183; i < 188; i++ ) m[i] = 0x06; for ( i = 189; i < 192; i++ ) m[i] = 0x14;
+         for ( i = 195; i < 200; i++ ) m[i] = 0x06; for ( i = 200; i < 205; i++ ) m[i] = 0x04; for ( i = 205; i < 208; i++ ) m[i] = 0x14;
+         for ( i = 211; i < 216; i++ ) m[i] = 0x06; for ( i = 217; i < 224; i++ ) m[i] = 0x14; for ( i = 224; i < 228; i++ ) m[i] = 0x06;
+         for ( i = 228; i < 233; i++ ) m[i] = 0x04; for ( i = 233; i < 240; i++ ) m[i] = 0x14; for ( i = 240; i < 245; i++ ) m[i] = 0x04;
+         for ( i = 245; i < 256; i++ ) m[i] = 0x14;
+         m[27] = 0x04; m[31] = 0x06; m[47] = 0x06; m[55] = 0x04; m[59] = 0x06; m[63] = 0x06; m[75] = 0x06; m[79] = 0x06; m[83] = 0x04; m[87] = 0x06; m[91] = 0x06; m[95] = 0x06;
+         m[103] = 0x06; m[107] = 0x06; m[111] = 0x06; m[115] = 0x06; m[119] = 0x06; m[123] = 0x06; m[127] = 0x06; m[131] = 0x06; m[135] = 0x06; m[139] = 0x06; m[143] = 0x06; m[147] = 0x06;
+         m[151] = 0x06; m[163] = 0x06; m[179] = 0x06; m[188] = 0x04; m[216] = 0x04;
+         break;
+      case 40:
+         for ( i = 0; i < 256; i++ ) m[i] = 0x07;
+         for ( i = 17; i < 31; i++ ) m[i] = 0x04; for ( i = 33; i < 47; i++ ) m[i] = 0x04; for ( i = 49; i < 59; i++ ) m[i] = 0x04;
+         for ( i = 65; i < 75; i++ ) m[i] = 0x04; for ( i = 81; i < 87; i++ ) m[i] = 0x04; for ( i = 97; i < 103; i++ ) m[i] = 0x04;
+         for ( i = 113; i < 115; i++ ) m[i] = 0x04; for ( i = 129; i < 131; i++ ) m[i] = 0x04; for ( i = 209; i < 223; i++ ) m[i] = 0x04;
+         for ( i = 240; i < 256; i++ ) m[i] = 0x14;
+         m[62] = 0x06; m[78] = 0x06; m[90] = 0x06; m[94] = 0x06; m[106] = 0x06; m[110] = 0x06; m[118] = 0x06; m[122] = 0x06; m[126] = 0x06; m[134] = 0x06; m[138] = 0x06; m[142] = 0x06;
+         m[145] = 0x04; m[146] = 0x06; m[150] = 0x06; m[154] = 0x06; m[158] = 0x06; m[161] = 0x04; m[162] = 0x06; m[166] = 0x06; m[170] = 0x06; m[174] = 0x06; m[177] = 0x04; m[178] = 0x06;
+         m[182] = 0x06; m[186] = 0x06; m[190] = 0x06; m[193] = 0x04; m[194] = 0x06; m[198] = 0x06; m[202] = 0x06; m[206] = 0x06;
+         break;
    }
 }
 
@@ -1767,25 +1934,25 @@ internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, 
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[9], 9 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[10], 10 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[11], 11 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[12], 12 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[13], 13 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[14], 14 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[15], 15 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[16], 16 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[17], 17 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[18], 18 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[19], 19 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[20], 20 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[21], 21 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[22], 22 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[23], 23 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[24], 24 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[25], 25 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[26], 26 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[27], 27 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[28], 28 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[29], 29 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[30], 30 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[12], 13 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[13], 30 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[14], 32 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[15], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[16], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[17], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[18], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[19], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[20], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[21], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[22], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[23], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[24], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[25], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[26], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[27], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[28], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[29], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[30], 0 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[31], 0 );
          break;
       case 1:
@@ -1812,6 +1979,40 @@ internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, 
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[20], 28 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[21], 29 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[22], 30 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[23], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[24], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[25], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[26], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[27], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[28], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[29], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[30], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[31], 0 );
+         break;
+      case 2:
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[0], 12 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[1], 13 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[2], 28 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[3], 29 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[4], 30 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[5], 23 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[6], 31 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[7], 33 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[8], 34 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[9], 35 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[10], 36 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[11], 37 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[12], 38 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[13], 39 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[14], 40 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[15], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[16], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[17], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[18], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[19], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[20], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[21], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[22], 0 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[23], 0 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[24], 0 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[25], 0 );
@@ -3602,8 +3803,15 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 2: // Aliahan Eatery 1F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 8; tileMap->tilesY = 15; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 3; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 7; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 3; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
+         tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 18; tileMap->staticSprites[0].isPassable = False;
+         tileMap->staticSprites[1].textureIndex = 6; tileMap->staticSprites[1].tileIndex = 84; tileMap->staticSprites[1].isPassable = False;
+         tileMap->staticSprites[2].textureIndex = 4; tileMap->staticSprites[2].tileIndex = 22; tileMap->staticSprites[2].isPassable = True;
+         tileMap->staticSprites[3].textureIndex = 16; tileMap->staticSprites[3].tileIndex = 42; tileMap->staticSprites[3].isPassable = True;
+         tileMap->staticSprites[4].textureIndex = 16; tileMap->staticSprites[4].tileIndex = 44; tileMap->staticSprites[4].isPassable = True;
+         tileMap->staticSprites[5].textureIndex = 17; tileMap->staticSprites[5].tileIndex = 43; tileMap->staticSprites[5].isPassable = False;
+         tileMap->staticSprites[6].textureIndex = 15; tileMap->staticSprites[6].tileIndex = 78; tileMap->staticSprites[6].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 115; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 582;
          tileMap->portals[1].sourceTileIndex = 116; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 583;
          tileMap->portals[2].sourceTileIndex = 22; tileMap->portals[2].destTileMapIndex = 3; tileMap->portals[2].destTileIndex = 30;
@@ -3620,8 +3828,21 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 3: // Aliahan Eatery 2F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 11; tileMap->tilesY = 18; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 13; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
+         tileMap->staticSprites[0].textureIndex = 5; tileMap->staticSprites[0].tileIndex = 30; tileMap->staticSprites[0].isPassable = True;
+         tileMap->staticSprites[1].textureIndex = 6; tileMap->staticSprites[1].tileIndex = 46; tileMap->staticSprites[1].isPassable = False;
+         tileMap->staticSprites[2].textureIndex = 16; tileMap->staticSprites[2].tileIndex = 123; tileMap->staticSprites[2].isPassable = True;
+         tileMap->staticSprites[3].textureIndex = 16; tileMap->staticSprites[3].tileIndex = 125; tileMap->staticSprites[3].isPassable = True;
+         tileMap->staticSprites[4].textureIndex = 16; tileMap->staticSprites[4].tileIndex = 127; tileMap->staticSprites[4].isPassable = True;
+         tileMap->staticSprites[5].textureIndex = 16; tileMap->staticSprites[5].tileIndex = 129; tileMap->staticSprites[5].isPassable = True;
+         tileMap->staticSprites[6].textureIndex = 16; tileMap->staticSprites[6].tileIndex = 156; tileMap->staticSprites[6].isPassable = True;
+         tileMap->staticSprites[7].textureIndex = 16; tileMap->staticSprites[7].tileIndex = 160; tileMap->staticSprites[7].isPassable = True;
+         tileMap->staticSprites[8].textureIndex = 16; tileMap->staticSprites[8].tileIndex = 162; tileMap->staticSprites[8].isPassable = True;
+         tileMap->staticSprites[9].textureIndex = 17; tileMap->staticSprites[9].tileIndex = 124; tileMap->staticSprites[9].isPassable = False;
+         tileMap->staticSprites[10].textureIndex = 17; tileMap->staticSprites[10].tileIndex = 128; tileMap->staticSprites[10].isPassable = False;
+         tileMap->staticSprites[11].textureIndex = 17; tileMap->staticSprites[11].tileIndex = 157; tileMap->staticSprites[11].isPassable = False;
+         tileMap->staticSprites[12].textureIndex = 17; tileMap->staticSprites[12].tileIndex = 161; tileMap->staticSprites[12].isPassable = False;
          tileMap->portals[0].sourceTileIndex = 30; tileMap->portals[0].destTileMapIndex = 2; tileMap->portals[0].destTileIndex = 22;
          for ( i = 0; i < 198; i++ ) m[i] = 0x0026;
          for ( i = 1; i < 4; i++ ) m[i] = 0x0008; for ( i = 7; i < 10; i++ ) m[i] = 0x0008; for ( i = 10; i < 12; i++ ) m[i] = 0x0007;
@@ -3639,8 +3860,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 4: // Aliahan House 1F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
+         tileMap->staticSprites[0].textureIndex = 4; tileMap->staticSprites[0].tileIndex = 8; tileMap->staticSprites[0].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 17; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 913;
          tileMap->portals[1].sourceTileIndex = 8; tileMap->portals[1].destTileMapIndex = 5; tileMap->portals[1].destTileIndex = 14;
          for ( i = 0; i < 20; i++ ) m[i] = 0x0008;
@@ -3651,8 +3873,14 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 5: // Aliahan House 2F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 8; tileMap->tilesY = 8; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 6; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
+         tileMap->staticSprites[0].textureIndex = 5; tileMap->staticSprites[0].tileIndex = 14; tileMap->staticSprites[0].isPassable = True;
+         tileMap->staticSprites[1].textureIndex = 10; tileMap->staticSprites[1].tileIndex = 9; tileMap->staticSprites[1].isPassable = False;
+         tileMap->staticSprites[2].textureIndex = 11; tileMap->staticSprites[2].tileIndex = 10; tileMap->staticSprites[2].isPassable = False;
+         tileMap->staticSprites[3].textureIndex = 13; tileMap->staticSprites[3].tileIndex = 35; tileMap->staticSprites[3].isPassable = True;
+         tileMap->staticSprites[4].textureIndex = 13; tileMap->staticSprites[4].tileIndex = 37; tileMap->staticSprites[4].isPassable = True;
+         tileMap->staticSprites[5].textureIndex = 14; tileMap->staticSprites[5].tileIndex = 36; tileMap->staticSprites[5].isPassable = False;
          tileMap->portals[0].sourceTileIndex = 14; tileMap->portals[0].destTileMapIndex = 4; tileMap->portals[0].destTileIndex = 8;
          for ( i = 0; i < 64; i++ ) m[i] = 0x002A;
          for ( i = 1; i < 7; i++ ) m[i] = 0x0008; for ( i = 7; i < 9; i++ ) m[i] = 0x0007; for ( i = 15; i < 17; i++ ) m[i] = 0x0007;
@@ -3663,8 +3891,30 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 6: // Aliahan Castle 1F Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 30; tileMap->tilesY = 30; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 7; tileMap->hasEdgePortal = True;
+         tileMap->staticSpriteCount = 22; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 7; tileMap->hasEdgePortal = True;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
+         tileMap->staticSprites[0].textureIndex = 19; tileMap->staticSprites[0].tileIndex = 403; tileMap->staticSprites[0].isPassable = False;
+         tileMap->staticSprites[1].textureIndex = 19; tileMap->staticSprites[1].tileIndex = 406; tileMap->staticSprites[1].isPassable = False;
+         tileMap->staticSprites[2].textureIndex = 19; tileMap->staticSprites[2].tileIndex = 433; tileMap->staticSprites[2].isPassable = False;
+         tileMap->staticSprites[3].textureIndex = 19; tileMap->staticSprites[3].tileIndex = 436; tileMap->staticSprites[3].isPassable = False;
+         tileMap->staticSprites[4].textureIndex = 19; tileMap->staticSprites[4].tileIndex = 463; tileMap->staticSprites[4].isPassable = False;
+         tileMap->staticSprites[5].textureIndex = 19; tileMap->staticSprites[5].tileIndex = 466; tileMap->staticSprites[5].isPassable = False;
+         tileMap->staticSprites[6].textureIndex = 4; tileMap->staticSprites[6].tileIndex = 285; tileMap->staticSprites[6].isPassable = True;
+         tileMap->staticSprites[7].textureIndex = 20; tileMap->staticSprites[7].tileIndex = 99; tileMap->staticSprites[7].isPassable = False;
+         tileMap->staticSprites[8].textureIndex = 20; tileMap->staticSprites[8].tileIndex = 425; tileMap->staticSprites[8].isPassable = False;
+         tileMap->staticSprites[9].textureIndex = 20; tileMap->staticSprites[9].tileIndex = 537; tileMap->staticSprites[9].isPassable = False;
+         tileMap->staticSprites[10].textureIndex = 20; tileMap->staticSprites[10].tileIndex = 833; tileMap->staticSprites[10].isPassable = False;
+         tileMap->staticSprites[11].textureIndex = 21; tileMap->staticSprites[11].tileIndex = 245; tileMap->staticSprites[11].isPassable = False;
+         tileMap->staticSprites[12].textureIndex = 17; tileMap->staticSprites[12].tileIndex = 590; tileMap->staticSprites[12].isPassable = False;
+         tileMap->staticSprites[13].textureIndex = 17; tileMap->staticSprites[13].tileIndex = 592; tileMap->staticSprites[13].isPassable = False;
+         tileMap->staticSprites[14].textureIndex = 17; tileMap->staticSprites[14].tileIndex = 680; tileMap->staticSprites[14].isPassable = False;
+         tileMap->staticSprites[15].textureIndex = 17; tileMap->staticSprites[15].tileIndex = 682; tileMap->staticSprites[15].isPassable = False;
+         tileMap->staticSprites[16].textureIndex = 15; tileMap->staticSprites[16].tileIndex = 212; tileMap->staticSprites[16].isPassable = True;
+         tileMap->staticSprites[17].textureIndex = 15; tileMap->staticSprites[17].tileIndex = 213; tileMap->staticSprites[17].isPassable = True;
+         tileMap->staticSprites[18].textureIndex = 15; tileMap->staticSprites[18].tileIndex = 242; tileMap->staticSprites[18].isPassable = True;
+         tileMap->staticSprites[19].textureIndex = 15; tileMap->staticSprites[19].tileIndex = 243; tileMap->staticSprites[19].isPassable = True;
+         tileMap->staticSprites[20].textureIndex = 15; tileMap->staticSprites[20].tileIndex = 272; tileMap->staticSprites[20].isPassable = True;
+         tileMap->staticSprites[21].textureIndex = 15; tileMap->staticSprites[21].tileIndex = 273; tileMap->staticSprites[21].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 883; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 152;
          tileMap->portals[1].sourceTileIndex = 884; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 152;
          tileMap->portals[2].sourceTileIndex = 885; tileMap->portals[2].destTileMapIndex = 1; tileMap->portals[2].destTileIndex = 153;
@@ -3723,8 +3973,12 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 7: // Aliahan Castle 1F NW
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 10; tileMap->tilesY = 6; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 4; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
+         tileMap->staticSprites[0].textureIndex = 10; tileMap->staticSprites[0].tileIndex = 11; tileMap->staticSprites[0].isPassable = False;
+         tileMap->staticSprites[1].textureIndex = 11; tileMap->staticSprites[1].tileIndex = 12; tileMap->staticSprites[1].isPassable = False;
+         tileMap->staticSprites[2].textureIndex = 16; tileMap->staticSprites[2].tileIndex = 25; tileMap->staticSprites[2].isPassable = True;
+         tileMap->staticSprites[3].textureIndex = 17; tileMap->staticSprites[3].tileIndex = 26; tileMap->staticSprites[3].isPassable = False;
          tileMap->portals[0].sourceTileIndex = 39; tileMap->portals[0].destTileMapIndex = 6; tileMap->portals[0].destTileIndex = 99;
          for ( i = 0; i < 60; i++ ) m[i] = 0x0026;
          for ( i = 1; i < 9; i++ ) m[i] = 0x0008; for ( i = 9; i < 11; i++ ) m[i] = 0x0007; for ( i = 19; i < 21; i++ ) m[i] = 0x0007;
@@ -3734,8 +3988,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 8: // Aliahan Castle 1F Hallway
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 10; tileMap->tilesY = 24; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
+         tileMap->staticSprites[0].textureIndex = 5; tileMap->staticSprites[0].tileIndex = 226; tileMap->staticSprites[0].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 30; tileMap->portals[0].destTileMapIndex = 6; tileMap->portals[0].destTileIndex = 110;
          tileMap->portals[1].sourceTileIndex = 226; tileMap->portals[1].destTileMapIndex = 9; tileMap->portals[1].destTileIndex = 94;
          for ( i = 0; i < 240; i++ ) m[i] = 0x0033;
@@ -3755,8 +4010,11 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 9: // Aliahan Castle Prison Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 12; tileMap->tilesY = 11; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 3; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
+         tileMap->staticSprites[0].textureIndex = 4; tileMap->staticSprites[0].tileIndex = 94; tileMap->staticSprites[0].isPassable = True;
+         tileMap->staticSprites[1].textureIndex = 22; tileMap->staticSprites[1].tileIndex = 63; tileMap->staticSprites[1].isPassable = False;
+         tileMap->staticSprites[2].textureIndex = 22; tileMap->staticSprites[2].tileIndex = 68; tileMap->staticSprites[2].isPassable = False;
          tileMap->portals[0].sourceTileIndex = 94; tileMap->portals[0].destTileMapIndex = 8; tileMap->portals[0].destTileIndex = 226;
          tileMap->portals[1].sourceTileIndex = 122; tileMap->portals[1].destTileMapIndex = 10; tileMap->portals[1].destTileIndex = 2;
          for ( i = 0; i < 132; i++ ) m[i] = 0x0026;
@@ -3771,8 +4029,10 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 10: // Aliahan Castle Prison Hallway
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 12; tileMap->tilesY = 3; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
+         tileMap->staticSprites[0].textureIndex = 20; tileMap->staticSprites[0].tileIndex = 17; tileMap->staticSprites[0].isPassable = False;
+         tileMap->staticSprites[1].textureIndex = 5; tileMap->staticSprites[1].tileIndex = 22; tileMap->staticSprites[1].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 2; tileMap->portals[0].destTileMapIndex = 9; tileMap->portals[0].destTileIndex = 122;
          tileMap->portals[1].sourceTileIndex = 22; tileMap->portals[1].destTileMapIndex = 19; tileMap->portals[1].destTileIndex = 1887;
          for ( i = 0; i < 36; i++ ) m[i] = 0x0008;
@@ -3782,8 +4042,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 11: // Aliahan Castle Throne Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 19; tileMap->tilesY = 24; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
+         tileMap->staticSprites[0].textureIndex = 5; tileMap->staticSprites[0].tileIndex = 408; tileMap->staticSprites[0].isPassable = False;
          tileMap->portals[0].sourceTileIndex = 408; tileMap->portals[0].destTileMapIndex = 6; tileMap->portals[0].destTileIndex = 285;
          for ( i = 0; i < 456; i++ ) m[i] = 0x0026;
          for ( i = 0; i < 20; i++ ) m[i] = 0x0007; for ( i = 20; i < 37; i++ ) m[i] = 0x0012; for ( i = 37; i < 39; i++ ) m[i] = 0x0007;
@@ -3800,16 +4061,18 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          for ( i = 341; i < 343; i++ ) m[i] = 0x0007; for ( i = 349; i < 354; i++ ) m[i] = 0x002F; for ( i = 360; i < 362; i++ ) m[i] = 0x0007;
          for ( i = 379; i < 381; i++ ) m[i] = 0x0007; for ( i = 398; i < 400; i++ ) m[i] = 0x0007; for ( i = 417; i < 419; i++ ) m[i] = 0x0007;
          for ( i = 437; i < 456; i++ ) m[i] = 0x0008;
-         m[61] = 0x000D; m[64] = 0x002F; m[68] = 0x002F; m[71] = 0x000D; m[80] = 0x000E; m[83] = 0x002F; m[84] = 0x0011; m[86] = 0x0011;
-         m[87] = 0x002F; m[90] = 0x000E; m[137] = 0x000D; m[147] = 0x000D; m[156] = 0x000E; m[166] = 0x000E; m[213] = 0x000D; m[223] = 0x000D;
-         m[232] = 0x000E; m[242] = 0x000E; m[289] = 0x000D; m[299] = 0x000D; m[308] = 0x000E; m[318] = 0x000E; m[365] = 0x000D; m[375] = 0x000D;
-         m[384] = 0x000E; m[394] = 0x000E; m[436] = 0x0007;
+         m[61] = 0x000D; m[64] = 0x002F; m[68] = 0x002F; m[71] = 0x000D; m[80] = 0x000E; m[83] = 0x002F; m[84] = 0x0011; m[85] = 0x002F;
+         m[86] = 0x0011; m[87] = 0x002F; m[90] = 0x000E; m[137] = 0x000D; m[147] = 0x000D; m[156] = 0x000E; m[166] = 0x000E; m[213] = 0x000D;
+         m[223] = 0x000D; m[232] = 0x000E; m[242] = 0x000E; m[289] = 0x000D; m[299] = 0x000D; m[308] = 0x000E; m[318] = 0x000E; m[365] = 0x000D;
+         m[375] = 0x000D; m[384] = 0x000E; m[394] = 0x000E; m[436] = 0x0007;
          break;
       case 12: // Reeve Hidden Area Outside
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 49; tileMap->tilesY = 42; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 14; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 15; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSprites[0].textureIndex = 12; tileMap->staticSprites[0].tileIndex = 1001; tileMap->staticSprites[0].isPassable = True;
+         tileMap->staticSprites[1].textureIndex = 13; tileMap->staticSprites[1].tileIndex = 1009; tileMap->staticSprites[1].isPassable = False;
          tileMap->portals[0].sourceTileIndex = 755; tileMap->portals[0].destTileMapIndex = 0; tileMap->portals[0].destTileIndex = 51363;
          tileMap->portals[1].sourceTileIndex = 757; tileMap->portals[1].destTileMapIndex = 0; tileMap->portals[1].destTileIndex = 51363;
          tileMap->portals[2].sourceTileIndex = 758; tileMap->portals[2].destTileMapIndex = 0; tileMap->portals[2].destTileIndex = 51363;
@@ -3824,6 +4087,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          tileMap->portals[11].sourceTileIndex = 1295; tileMap->portals[11].destTileMapIndex = 0; tileMap->portals[11].destTileIndex = 51363;
          tileMap->portals[12].sourceTileIndex = 1299; tileMap->portals[12].destTileMapIndex = 0; tileMap->portals[12].destTileIndex = 51363;
          tileMap->portals[13].sourceTileIndex = 960; tileMap->portals[13].destTileMapIndex = 13; tileMap->portals[13].destTileIndex = 17;
+         tileMap->portals[14].sourceTileIndex = 1001; tileMap->portals[14].destTileMapIndex = 19; tileMap->portals[14].destTileIndex = 153;
          for ( i = 0; i < 2058; i++ ) m[i] = 0x0022;
          for ( i = 51; i < 54; i++ ) m[i] = 0x0004; for ( i = 55; i < 58; i++ ) m[i] = 0x0004; for ( i = 59; i < 62; i++ ) m[i] = 0x0004;
          for ( i = 63; i < 66; i++ ) m[i] = 0x0004; for ( i = 67; i < 70; i++ ) m[i] = 0x0004; for ( i = 71; i < 74; i++ ) m[i] = 0x0004;
@@ -3940,10 +4204,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 13: // Reeve Hidden Area Inside
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
          tileMap->portals[0].sourceTileIndex = 17; tileMap->portals[0].destTileMapIndex = 12; tileMap->portals[0].destTileIndex = 960;
-         tileMap->portals[1].sourceTileIndex = 7; tileMap->portals[1].destTileMapIndex = 19; tileMap->portals[1].destTileIndex = 153;
          for ( i = 0; i < 20; i++ ) m[i] = 0x0008;
          for ( i = 4; i < 6; i++ ) m[i] = 0x0007; for ( i = 6; i < 9; i++ ) m[i] = 0x0026; for ( i = 9; i < 11; i++ ) m[i] = 0x0007;
          for ( i = 11; i < 14; i++ ) m[i] = 0x0026;
@@ -3952,8 +4215,10 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 14: // Promontory Cave B1
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 10; tileMap->tilesY = 12; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
-         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
+         tileMap->staticSprites[0].textureIndex = 7; tileMap->staticSprites[0].tileIndex = 27; tileMap->staticSprites[0].isPassable = True;
+         tileMap->staticSprites[1].textureIndex = 8; tileMap->staticSprites[1].tileIndex = 92; tileMap->staticSprites[1].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 27; tileMap->portals[0].destTileMapIndex = 0; tileMap->portals[0].destTileIndex = 57247;
          tileMap->portals[1].sourceTileIndex = 92; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 1109;
          for ( i = 0; i < 120; i++ ) m[i] = 0x0001;
@@ -3965,8 +4230,10 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 15: // Promontory Cave B2 SW
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 46; tileMap->tilesY = 29; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 9; tileMap->hasEdgePortal = False;
-         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 9; tileMap->hasEdgePortal = False;
+         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
+         tileMap->staticSprites[0].textureIndex = 7; tileMap->staticSprites[0].tileIndex = 1109; tileMap->staticSprites[0].isPassable = True;
+         tileMap->staticSprites[1].textureIndex = 6; tileMap->staticSprites[1].tileIndex = 359; tileMap->staticSprites[1].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 1109; tileMap->portals[0].destTileMapIndex = 14; tileMap->portals[0].destTileIndex = 92;
          tileMap->portals[1].sourceTileIndex = 1085; tileMap->portals[1].destTileMapIndex = 16; tileMap->portals[1].destTileIndex = 40;
          tileMap->portals[2].sourceTileIndex = 1131; tileMap->portals[2].destTileMapIndex = 16; tileMap->portals[2].destTileIndex = 50;
@@ -4022,8 +4289,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 16: // Promontory Cave B2 South Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
-         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
+         tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 46; tileMap->staticSprites[0].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 40; tileMap->portals[0].destTileMapIndex = 15; tileMap->portals[0].destTileIndex = 1085;
          tileMap->portals[1].sourceTileIndex = 50; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 1131;
          for ( i = 0; i < 100; i++ ) m[i] = 0x0001;
@@ -4034,8 +4302,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 17: // Promontory Cave B2 NE
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 22; tileMap->tilesY = 26; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 4; tileMap->hasEdgePortal = False;
-         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 4; tileMap->hasEdgePortal = False;
+         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
+         tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 69; tileMap->staticSprites[0].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 204; tileMap->portals[0].destTileMapIndex = 15; tileMap->portals[0].destTileIndex = 42;
          tileMap->portals[1].sourceTileIndex = 205; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 43;
          tileMap->portals[2].sourceTileIndex = 492; tileMap->portals[2].destTileMapIndex = 15; tileMap->portals[2].destTileIndex = 597;
@@ -4071,8 +4340,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 18: // Promontory Cave B2 Stairs
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 6; tileMap->tilesY = 6; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 3; tileMap->hasEdgePortal = False;
-         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 3; tileMap->hasEdgePortal = False;
+         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
+         tileMap->staticSprites[0].textureIndex = 7; tileMap->staticSprites[0].tileIndex = 21; tileMap->staticSprites[0].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 12; tileMap->portals[0].destTileMapIndex = 15; tileMap->portals[0].destTileIndex = 137;
          tileMap->portals[1].sourceTileIndex = 18; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 183;
          tileMap->portals[2].sourceTileIndex = 21; tileMap->portals[2].destTileMapIndex = 19; tileMap->portals[2].destTileIndex = 2219;
@@ -4083,11 +4353,23 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 19: // Najima B1 Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 54; tileMap->tilesY = 46; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 8; tileMap->hasEdgePortal = False;
-         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSpriteCount = 12; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 8; tileMap->hasEdgePortal = False;
+         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
+         tileMap->staticSprites[0].textureIndex = 13; tileMap->staticSprites[0].tileIndex = 153; tileMap->staticSprites[0].isPassable = True;
+         tileMap->staticSprites[1].textureIndex = 13; tileMap->staticSprites[1].tileIndex = 1887; tileMap->staticSprites[1].isPassable = True;
+         tileMap->staticSprites[2].textureIndex = 13; tileMap->staticSprites[2].tileIndex = 2235; tileMap->staticSprites[2].isPassable = True;
+         tileMap->staticSprites[3].textureIndex = 14; tileMap->staticSprites[3].tileIndex = 2219; tileMap->staticSprites[3].isPassable = True;
+         tileMap->staticSprites[4].textureIndex = 9; tileMap->staticSprites[4].tileIndex = 580; tileMap->staticSprites[4].isPassable = False;
+         tileMap->staticSprites[5].textureIndex = 10; tileMap->staticSprites[5].tileIndex = 581; tileMap->staticSprites[5].isPassable = False;
+         tileMap->staticSprites[6].textureIndex = 11; tileMap->staticSprites[6].tileIndex = 634; tileMap->staticSprites[6].isPassable = False;
+         tileMap->staticSprites[7].textureIndex = 12; tileMap->staticSprites[7].tileIndex = 635; tileMap->staticSprites[7].isPassable = False;
+         tileMap->staticSprites[8].textureIndex = 9; tileMap->staticSprites[8].tileIndex = 558; tileMap->staticSprites[8].isPassable = False;
+         tileMap->staticSprites[9].textureIndex = 10; tileMap->staticSprites[9].tileIndex = 559; tileMap->staticSprites[9].isPassable = False;
+         tileMap->staticSprites[10].textureIndex = 11; tileMap->staticSprites[10].tileIndex = 612; tileMap->staticSprites[10].isPassable = False;
+         tileMap->staticSprites[11].textureIndex = 12; tileMap->staticSprites[11].tileIndex = 613; tileMap->staticSprites[11].isPassable = False;
          tileMap->portals[0].sourceTileIndex = 2219; tileMap->portals[0].destTileMapIndex = 18; tileMap->portals[0].destTileIndex = 21;
          tileMap->portals[1].sourceTileIndex = 1887; tileMap->portals[1].destTileMapIndex = 10; tileMap->portals[1].destTileIndex = 22;
-         tileMap->portals[2].sourceTileIndex = 153; tileMap->portals[2].destTileMapIndex = 13; tileMap->portals[2].destTileIndex = 7;
+         tileMap->portals[2].sourceTileIndex = 153; tileMap->portals[2].destTileMapIndex = 12; tileMap->portals[2].destTileIndex = 1001;
          tileMap->portals[3].sourceTileIndex = 558; tileMap->portals[3].destTileMapIndex = 20; tileMap->portals[3].destTileIndex = 39;
          tileMap->portals[4].sourceTileIndex = 612; tileMap->portals[4].destTileMapIndex = 20; tileMap->portals[4].destTileIndex = 47;
          tileMap->portals[5].sourceTileIndex = 634; tileMap->portals[5].destTileMapIndex = 21; tileMap->portals[5].destTileIndex = 4;
@@ -4192,8 +4474,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 20: // Najima B1 West Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 8; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
-         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
+         tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 27; tileMap->staticSprites[0].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 39; tileMap->portals[0].destTileMapIndex = 19; tileMap->portals[0].destTileIndex = 558;
          tileMap->portals[1].sourceTileIndex = 47; tileMap->portals[1].destTileMapIndex = 19; tileMap->portals[1].destTileIndex = 612;
          for ( i = 0; i < 80; i++ ) m[i] = 0x0004;
@@ -4204,8 +4487,10 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 21: // Najima B1 West Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
-         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
+         tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 63; tileMap->staticSprites[0].isPassable = True;
+         tileMap->staticSprites[1].textureIndex = 6; tileMap->staticSprites[1].tileIndex = 65; tileMap->staticSprites[1].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 4; tileMap->portals[0].destTileMapIndex = 19; tileMap->portals[0].destTileIndex = 634;
          tileMap->portals[1].sourceTileIndex = 5; tileMap->portals[1].destTileMapIndex = 19; tileMap->portals[1].destTileIndex = 635;
          for ( i = 0; i < 100; i++ ) m[i] = 0x0004;
@@ -4217,8 +4502,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 22: // Najima 1F Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 34; tileMap->tilesY = 44; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = True;
-         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = True;
+         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
+         tileMap->staticSprites[0].textureIndex = 14; tileMap->staticSprites[0].tileIndex = 1343; tileMap->staticSprites[0].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 1343; tileMap->portals[0].destTileMapIndex = 19; tileMap->portals[0].destTileIndex = 2235;
          tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55973;
          for ( i = 0; i < 1496; i++ ) m[i] = 0x0032;
