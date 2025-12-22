@@ -227,6 +227,8 @@ STATIC SPRITE SET 0 ("overworld")
 9  - 9
 10 - 10
 11 - 11
+12 - 12
+13 - 13
 
 STATIC SPRITE SET 1 ("town")
 

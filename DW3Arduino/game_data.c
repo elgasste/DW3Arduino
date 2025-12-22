@@ -1767,25 +1767,25 @@ internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, 
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[9], 9 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[10], 10 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[11], 11 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[12], 12 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[13], 13 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[14], 14 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[15], 15 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[16], 16 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[17], 17 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[18], 18 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[19], 19 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[20], 20 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[21], 21 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[22], 22 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[23], 23 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[24], 24 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[25], 25 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[26], 26 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[27], 27 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[28], 28 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[29], 29 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[30], 30 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[12], 13 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[13], 30 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[14], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[15], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[16], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[17], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[18], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[19], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[20], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[21], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[22], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[23], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[24], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[25], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[26], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[27], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[28], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[29], 0 );
+         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[30], 0 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[31], 0 );
          break;
       case 1:
@@ -3868,8 +3868,10 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 12: // Reeve Hidden Area Outside
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 49; tileMap->tilesY = 42; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 14; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 15; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSprites[0].textureIndex = 12; tileMap->staticSprites[0].tileIndex = 1001; tileMap->staticSprites[0].isPassable = True;
+         tileMap->staticSprites[1].textureIndex = 13; tileMap->staticSprites[1].tileIndex = 1009; tileMap->staticSprites[1].isPassable = False;
          tileMap->portals[0].sourceTileIndex = 755; tileMap->portals[0].destTileMapIndex = 0; tileMap->portals[0].destTileIndex = 51363;
          tileMap->portals[1].sourceTileIndex = 757; tileMap->portals[1].destTileMapIndex = 0; tileMap->portals[1].destTileIndex = 51363;
          tileMap->portals[2].sourceTileIndex = 758; tileMap->portals[2].destTileMapIndex = 0; tileMap->portals[2].destTileIndex = 51363;
@@ -3884,6 +3886,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          tileMap->portals[11].sourceTileIndex = 1295; tileMap->portals[11].destTileMapIndex = 0; tileMap->portals[11].destTileIndex = 51363;
          tileMap->portals[12].sourceTileIndex = 1299; tileMap->portals[12].destTileMapIndex = 0; tileMap->portals[12].destTileIndex = 51363;
          tileMap->portals[13].sourceTileIndex = 960; tileMap->portals[13].destTileMapIndex = 13; tileMap->portals[13].destTileIndex = 17;
+         tileMap->portals[14].sourceTileIndex = 1001; tileMap->portals[14].destTileMapIndex = 19; tileMap->portals[14].destTileIndex = 153;
          for ( i = 0; i < 2058; i++ ) m[i] = 0x0022;
          for ( i = 51; i < 54; i++ ) m[i] = 0x0004; for ( i = 55; i < 58; i++ ) m[i] = 0x0004; for ( i = 59; i < 62; i++ ) m[i] = 0x0004;
          for ( i = 63; i < 66; i++ ) m[i] = 0x0004; for ( i = 67; i < 70; i++ ) m[i] = 0x0004; for ( i = 71; i < 74; i++ ) m[i] = 0x0004;
@@ -4000,10 +4003,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 13: // Reeve Hidden Area Inside
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
          tileMap->portals[0].sourceTileIndex = 17; tileMap->portals[0].destTileMapIndex = 12; tileMap->portals[0].destTileIndex = 960;
-         tileMap->portals[1].sourceTileIndex = 7; tileMap->portals[1].destTileMapIndex = 19; tileMap->portals[1].destTileIndex = 153;
          for ( i = 0; i < 20; i++ ) m[i] = 0x0008;
          for ( i = 4; i < 6; i++ ) m[i] = 0x0007; for ( i = 6; i < 9; i++ ) m[i] = 0x0026; for ( i = 9; i < 11; i++ ) m[i] = 0x0007;
          for ( i = 11; i < 14; i++ ) m[i] = 0x0026;
@@ -4147,7 +4149,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
          tileMap->portals[0].sourceTileIndex = 2219; tileMap->portals[0].destTileMapIndex = 18; tileMap->portals[0].destTileIndex = 21;
          tileMap->portals[1].sourceTileIndex = 1887; tileMap->portals[1].destTileMapIndex = 10; tileMap->portals[1].destTileIndex = 22;
-         tileMap->portals[2].sourceTileIndex = 153; tileMap->portals[2].destTileMapIndex = 13; tileMap->portals[2].destTileIndex = 7;
+         tileMap->portals[2].sourceTileIndex = 153; tileMap->portals[2].destTileMapIndex = 12; tileMap->portals[2].destTileIndex = 1001;
          tileMap->portals[3].sourceTileIndex = 558; tileMap->portals[3].destTileMapIndex = 20; tileMap->portals[3].destTileIndex = 39;
          tileMap->portals[4].sourceTileIndex = 612; tileMap->portals[4].destTileMapIndex = 20; tileMap->portals[4].destTileIndex = 47;
          tileMap->portals[5].sourceTileIndex = 634; tileMap->portals[5].destTileMapIndex = 21; tileMap->portals[5].destTileIndex = 4;
