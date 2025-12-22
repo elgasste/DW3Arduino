@@ -181,77 +181,102 @@ STATIC SPRITES
 
 STATIC SPRITE POOL
 
-0  castle upper-left
-1  castle upper-right
-2  castle lower-left
-3  castle lower-right
-4  tower top
-5  tower bottom
-6  cave
-7  shrine
-8  town left
-9  town right
-10 pyramid
-11 village
-12 stairs going up
-13 stairs going down
-14 booth
-15 inn sign
-16 weapon store sign
-17 well
-18 bed left
-19 bed right
-20 dresser
-21 wooden chair
-22 table with sheet
-23 red treasure chest
-24 wooden stool
-25 stone table
-26 pentagram
-27 stone torch
-28 thief's key door
-29 magic key door
-30 final key door
+0  - castle upper-left
+1  - castle upper-right
+2  - castle lower-left
+3  - castle lower-right
+4  - tower top
+5  - tower bottom
+6  - cave
+7  - shrine
+8  - town left
+9  - town right
+10 - pyramid
+11 - village
+12 - stairs going up
+13 - stairs going down
+14 - booth
+15 - inn sign
+16 - weapon store sign
+17 - well
+18 - bed left
+19 - bed right
+20 - dresser
+21 - wooden chair
+22 - table with sheet
+23 - red treasure chest
+24 - wooden stool
+25 - stone table
+26 - pentagram
+27 - stone torch
+28 - thief's key door
+29 - magic key door
+30 - final key door
+31 - brown treasure chest
+32 - travel gate
+33 - worn stone stairs going up
+34 - worn stone stairs going down
+35 - giant thief's key door upper-left
+36 - giant thief's key door upper-right
+37 - giant thief's key door lower-left
+38 - giant thief's key door lower-right
 
 STATIC SPRITE SET 0 ("overworld")
 
-0  - 0
-1  - 1
-2  - 2
-3  - 3
-4  - 4
-5  - 5
-6  - 6
-7  - 7
-8  - 8
-9  - 9
-10 - 10
-11 - 11
-12 - 12
-13 - 13
+0  - 0   castle upper-left
+1  - 1   castle upper-right
+2  - 2   castle lower-left
+3  - 3   castle lower-right
+4  - 4   tower top
+5  - 5   tower bottom
+6  - 6   cave
+7  - 7   shrine
+8  - 8   town left
+9  - 9   town right
+10 - 10  pyramid
+11 - 11  village
+12 - 13  stairs going down
+13 - 30  final key door
+14 - 32  travel gate
 
 STATIC SPRITE SET 1 ("town")
 
-0  - 0
-1  - 1
-2  - 2
-3  - 3
-4  - 12
-5  - 13
-6  - 14
-7  - 15
-8  - 16
-9  - 17
-10 - 18
-11 - 19
-12 - 20
-13 - 21
-14 - 22
-15 - 23
-16 - 24
-17 - 25
-18 - 26
-19 - 27
-20 - 28
-21 - 29
-22 - 30
+0  - 0   castle upper-left
+1  - 1   castle upper-right
+2  - 2   castle lower-left
+3  - 3   castle lower-right
+4  - 12  stairs going up
+5  - 13  stairs going down
+6  - 14  booth
+7  - 15  inn sign
+8  - 16  weapon store sign
+9  - 17  well
+10 - 18  bed left
+11 - 19  bed right
+12 - 20  dresser
+13 - 21  wooden chair
+14 - 22  table with sheet
+15 - 23  red treasure chest
+16 - 24  wooden stool
+17 - 25  stone table
+18 - 26  pentagram
+19 - 27  stone torch
+20 - 28  thief's key door
+21 - 29  magic key door
+22 - 30  final key door
+
+STATIC SPRITE SET 2 ("dungeon")
+
+0  - 12  stairs going up
+1  - 13  stairs going down
+2  - 28  thief's key door
+3  - 29  magic key door
+4  - 30  final key door
+5  - 23  red treasure chest
+6  - 31  brown treasure chest
+7  - 33  worn stone stairs going up
+8  - 34  worn stone stairs going down
+9  - 35  giant thief's key door upper-left
+10 - 36  giant thief's key door upper-right
+11 - 37  giant thief's key door lower-left
+12 - 38  giant thief's key door lower-right
