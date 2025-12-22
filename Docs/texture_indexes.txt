@@ -193,8 +193,8 @@ STATIC SPRITE POOL
 9  - town right
 10 - pyramid
 11 - village
-12 - stairs going up
-13 - stairs going down
+12 - stairs going up, town-style
+13 - stairs going down, town-style
 14 - booth
 15 - inn sign
 16 - weapon store sign
@@ -220,6 +220,8 @@ STATIC SPRITE POOL
 36 - giant thief's key door upper-right
 37 - giant thief's key door lower-left
 38 - giant thief's key door lower-right
+39 - stairs going up, tower-style
+40 - stairs going down, tower-style
 
 STATIC SPRITE SET 0 ("overworld")
 
@@ -280,3 +282,5 @@ STATIC SPRITE SET 2 ("dungeon")
 10 - 36  giant thief's key door upper-right
 11 - 37  giant thief's key door lower-left
 12 - 38  giant thief's key door lower-right
+13 - 39  stairs going up, tower-style
+14 - 40  stairs going down, tower-style
