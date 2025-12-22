@@ -4474,8 +4474,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 20: // Najima B1 West Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 8; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
-         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
+         tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 27; tileMap->staticSprites[0].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 39; tileMap->portals[0].destTileMapIndex = 19; tileMap->portals[0].destTileIndex = 558;
          tileMap->portals[1].sourceTileIndex = 47; tileMap->portals[1].destTileMapIndex = 19; tileMap->portals[1].destTileIndex = 612;
          for ( i = 0; i < 80; i++ ) m[i] = 0x0004;
@@ -4486,8 +4487,10 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 21: // Najima B1 West Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
-         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
+         tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 63; tileMap->staticSprites[0].isPassable = True;
+         tileMap->staticSprites[1].textureIndex = 6; tileMap->staticSprites[1].tileIndex = 65; tileMap->staticSprites[1].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 4; tileMap->portals[0].destTileMapIndex = 19; tileMap->portals[0].destTileIndex = 634;
          tileMap->portals[1].sourceTileIndex = 5; tileMap->portals[1].destTileMapIndex = 19; tileMap->portals[1].destTileIndex = 635;
          for ( i = 0; i < 100; i++ ) m[i] = 0x0004;
@@ -4499,8 +4502,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
       case 22: // Najima 1F Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
          tileMap->tilesX = 34; tileMap->tilesY = 44; tileMap->wraps = False; tileMap->affectsDaylight = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = True;
-         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
+         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = True;
+         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
+         tileMap->staticSprites[0].textureIndex = 14; tileMap->staticSprites[0].tileIndex = 1343; tileMap->staticSprites[0].isPassable = True;
          tileMap->portals[0].sourceTileIndex = 1343; tileMap->portals[0].destTileMapIndex = 19; tileMap->portals[0].destTileIndex = 2235;
          tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55973;
          for ( i = 0; i < 1496; i++ ) m[i] = 0x0032;
