@@ -50,5 +50,21 @@ namespace DW3ArduinoEditor
             throw new Exception( string.Format( "Static sprite set image width should be a multiple of {0}", Constants.StaticSpriteSize ) );
          }
       }
+
+      public static void CheckTextTilesBitmapFormat( BitmapSource bitmapSource )
+      {
+         if ( bitmapSource.Format != PixelFormats.Indexed8 )
+         {
+            throw new Exception( "Text tiles image pixel format should be Indexed8" );
+         }
+         else if ( bitmapSource.PixelWidth != ( Constants.TextTileCount * Constants.TextTileSize ) )
+         {
+            throw new Exception( string.Format( "Text tiles image width should be {0}", Constants.TextTileCount * Constants.TextTileSize ) );
+         }
+         else if ( bitmapSource.PixelHeight != Constants.TextTileSize )
+         {
+            throw new Exception( string.Format( "Text tiles image height should be {0}", Constants.TextTileSize ) );
+         }
+      }
    }
 }

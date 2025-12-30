@@ -149,13 +149,13 @@ internal void Animation_TicFadeOut( Animation_t* animation, Screen_t* screen )
 
    if ( animation->elapsedSeconds > animation->totalSeconds )
    {
-      Screen_ClearPalette( screen, COLOR16_BLACK );
+      Screen_ClearPalette( screen, SCREEN_COLOR16_BLACK );
    }
    else
    {
       for ( i = 0; i < screen->paletteColorCount; i++ )
       {
-         if ( screen->backupPalette[i] != COLOR16_TRANSPARENT )
+         if ( screen->backupPalette[i] != SCREEN_COLOR16_TRANSPARENT )
          {
             rangeR = screen->backupPalette[i] >> 11;
             rangeG = ( screen->backupPalette[i] & 0x7E0 ) >> 5;
@@ -183,7 +183,7 @@ internal void Animation_TicFadeIn( Animation_t* animation, Screen_t* screen )
    {
       for ( i = 0; i < screen->paletteColorCount; i++ )
       {
-         if ( screen->backupPalette[i] != COLOR16_TRANSPARENT )
+         if ( screen->backupPalette[i] != SCREEN_COLOR16_TRANSPARENT )
          {
             rangeR = screen->backupPalette[i] >> 11;
             rangeG = ( screen->backupPalette[i] & 0x7E0 ) >> 5;

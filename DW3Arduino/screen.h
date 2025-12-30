@@ -3,28 +3,43 @@
 
 #include "common.h"
 
-#define SCREEN_WIDTH                   420
-#define SCREEN_HEIGHT                  240
-#define SCREEN_PIXELS                  ( SCREEN_WIDTH * SCREEN_HEIGHT )
+#define SCREEN_WIDTH                            420
+#define SCREEN_HEIGHT                           240
+#define SCREEN_PIXELS                           ( SCREEN_WIDTH * SCREEN_HEIGHT )
 
-#define SCREEN_PALETTE_SIZE            256
+#define SCREEN_PALETTE_SIZE                     256
 
-#define COLOR16_BLACK                  0x0000
-#define COLOR16_BLUE                   0x001F
-#define COLOR16_GREEN                  0x07E0
-#define COLOR16_CYAN                   0x07FF
-#define COLOR16_RED                    0xF800
-#define COLOR16_MAGENTA                0xF81F
-#define COLOR16_YELLOW                 0xFFE0
-#define COLOR16_WHITE                  0xFFFF
+#define SCREEN_TEXT_TILE_COUNT                  85
+#define SCREEN_TEXT_TILE_SIZE                   8
 
-#define COLOR16_TRANSPARENT            0xF81F
+#define SCREEN_COLOR16_BLACK                    0x0000
+#define SCREEN_COLOR16_BLUE                     0x001F
+#define SCREEN_COLOR16_GREEN                    0x07E0
+#define SCREEN_COLOR16_CYAN                     0x07FF
+#define SCREEN_COLOR16_RED                      0xF800
+#define SCREEN_COLOR16_MAGENTA                  0xF81F
+#define SCREEN_COLOR16_YELLOW                   0xFFE0
+#define SCREEN_COLOR16_WHITE                    0xFFFF
+
+#define SCREEN_COLOR16_TRANSPARENT              0xF81F
+
+#define SCREEN_MENU_BORDER_CHAR_TOPLEFT         1
+#define SCREEN_MENU_BORDER_CHAR_TOPRIGHT        2
+#define SCREEN_MENU_BORDER_CHAR_BOTTOMLEFT      3
+#define SCREEN_MENU_BORDER_CHAR_BOTTOMRIGHT     4
+#define SCREEN_MENU_BORDER_CHAR_LEFT            5
+#define SCREEN_MENU_BORDER_CHAR_TOP             6
+#define SCREEN_MENU_BORDER_CHAR_RIGHT           7
+#define SCREEN_MENU_BORDER_CHAR_BOTTOM          8
+
+#define SCREEN_DOWNWARD_CARAT_CHAR              9
 
 typedef struct Screen_t
 {
    u16* buffer;
    u16 palette[SCREEN_PALETTE_SIZE];
    u16 backupPalette[SCREEN_PALETTE_SIZE];
+   u8 textBitFields[SCREEN_TEXT_TILE_COUNT][SCREEN_TEXT_TILE_SIZE];
    u32 paletteColorCount;
    r32 dayFilterIntensity;
 }
@@ -47,9 +62,12 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
                                 u32 bufferWidth, u32 bufferHeight,
                                 i32 screenX, i32 screenY,
                                 i32 leftBound, i32 topBound, i32 rightBound, i32 bottomBound );
+void Screen_DrawChar( Screen_t* screen, char c, u32 x, u32 y, u16 color );
+void Screen_DrawText( Screen_t* screen, const char* text, u32 x, u32 y, u16 color );
 
 // game_data.c
 void Screen_LoadPalette( Screen_t* screen );
+void Screen_LoadTextBitFields( Screen_t* screen );
 
 // platform-specific
 void Screen_Blit( Screen_t* screen );

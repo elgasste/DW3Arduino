@@ -2,7 +2,7 @@
 {
    public static class Constants
    {
-      public const string AssetsBasePath = "..\\..\\..\\assets\\";
+      public const string AssetsBasePath = "..\\..\\..\\..\\..\\Assets\\";
       public const string DocsBasePath = "..\\..\\..\\..\\..\\Docs\\";
       public const string OutputBasePath = "..\\..\\..\\..\\..\\DW3Arduino\\";
 
@@ -11,6 +11,7 @@
 
       public const string TileTexturePoolImagePath = AssetsBasePath + "map\\tile_texture_pool.png";
       public const string StaticSpriteTexturePoolImagePath = AssetsBasePath + "map\\static_sprite_texture_pool.png";
+      public const string TextTilesFilePath = AssetsBasePath + "text_tiles.png";
 
       public const int TileSize = 16;
       public const int TileMapMinTilesX = 3;
@@ -25,5 +26,8 @@
       public const int StaticSpriteTextureSetSize = 32;
 
       public const int PaletteMaxColors = 256;
+
+      public const int TextTileSize = 8;
+      public const int TextTileCount = 85;
    }
 }

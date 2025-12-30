@@ -8,10 +8,11 @@ internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw
 
 void Render_DrawGame( Game_t* game )
 {
-   Screen_WipeColor( &game->screen, COLOR16_BLACK );
+   Screen_WipeColor( &game->screen, SCREEN_COLOR16_BLACK );
    Render_DrawTileMapLayer( game, Render_DrawTileMapSection );
    Render_DrawTileMapLayer( game, Render_DrawStaticSpritesInSection );
    Render_DrawTileMapLayer( game, Render_DrawEntitiesInSection );
+
    Screen_Blit( &game->screen );
 }
 
