@@ -37,7 +37,7 @@ namespace DW3ArduinoEditor.ViewModels
       {
          _textureIndex = saveData.TextureIndex;
          _isPassable = saveData.IsPassable;
-         _walkSpeed = TileWalkSpeed.Normal;
+         _walkSpeed = saveData.WalkSpeed;
       }
    }
 }
