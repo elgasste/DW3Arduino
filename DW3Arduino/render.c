@@ -12,6 +12,7 @@ void Render_DrawGame( Game_t* game )
    Render_DrawTileMapLayer( game, Render_DrawTileMapSection );
    Render_DrawTileMapLayer( game, Render_DrawStaticSpritesInSection );
    Render_DrawTileMapLayer( game, Render_DrawEntitiesInSection );
+
    Screen_Blit( &game->screen );
 }
 

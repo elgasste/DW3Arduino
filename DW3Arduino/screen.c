@@ -1,5 +1,7 @@
 #include "screen.h"
 
+internal i8 Screen_GetCharTileIndexFromChar( const char c );
+
 void Screen_Init( Screen_t* screen, u16* buffer )
 {
    screen->buffer = buffer;
@@ -36,7 +38,7 @@ void Screen_ClearPalette( Screen_t* screen, u16 color )
 
    for ( i = 0; i < screen->paletteColorCount; i++ )
    {
-      if ( screen->palette[i] != COLOR16_TRANSPARENT )
+      if ( screen->palette[i] != SCREEN_COLOR16_TRANSPARENT )
       {
          screen->palette[i] = color;
       }
@@ -107,7 +109,7 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
          {
             color = screen->palette[*bufferPos];
 
-            if ( color != COLOR16_TRANSPARENT && x >= leftBound && x < rightBound )
+            if ( color != SCREEN_COLOR16_TRANSPARENT && x >= leftBound && x < rightBound )
             {
                r = ( color >> 11 ) & 0x1F; // 5 bits (0-31)
                g = ( color >> 5 ) & 0x3F;  // 6 bits (0-63)
@@ -131,6 +133,150 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
       else
       {
          bufferPos += bufferWidth;
+      }
+   }
+}
+
+void Screen_DrawChar( Screen_t* screen, char c, u32 x, u32 y, u16 color )
+{
+   i32 i;
+   u32 j, row;
+   u8* bitField;
+   i8 charIndex = Screen_GetCharTileIndexFromChar( c );
+   u16* bufferPos = screen->buffer + ( y * SCREEN_WIDTH ) + x;
+
+   if ( charIndex < 0 )
+   {
+      for ( i = 0, j = 0; i < SCREEN_TEXT_TILE_SIZE * SCREEN_TEXT_TILE_SIZE; i++ )
+      {
+         *bufferPos = 0;
+         bufferPos++;
+         j++;
+
+         if ( j == SCREEN_TEXT_TILE_SIZE )
+         {
+            bufferPos += ( SCREEN_WIDTH - SCREEN_TEXT_TILE_SIZE );
+            j = 0;
+         }
+      }
+   }
+   else
+   {
+#pragma warning( disable: 4047 )
+      bitField = &( screen->textBitFields[charIndex] );
+#pragma warning( default: 4047 )
+
+      for ( row = 0; row < SCREEN_TEXT_TILE_SIZE; row++ )
+      {
+         for ( i = ( SCREEN_TEXT_TILE_SIZE - 1 ); i >= 0; i-- )
+         {
+            *bufferPos = ( bitField[row] & ( 0x01 << i ) ) ? color : 0;
+            bufferPos++;
+         }
+
+         bufferPos += ( SCREEN_WIDTH - SCREEN_TEXT_TILE_SIZE );
+      }
+   }
+}
+
+void Screen_DrawText( Screen_t* screen, const char* text, u32 x, u32 y, u16 color )
+{
+   u16 ch, j;
+   i8 charIndex, i;
+   u8 row;
+   u8* bitField;
+   u16* bufferPos;
+
+   for ( ch = 0; ch < strlen( text ); ch++ )
+   {
+      bufferPos = screen->buffer + ( y * SCREEN_WIDTH ) + x;
+      charIndex = Screen_GetCharTileIndexFromChar( text[ch] );
+
+      if ( charIndex < 0 )
+      {
+         for ( i = 0, j = 0; i < SCREEN_TEXT_TILE_SIZE * SCREEN_TEXT_TILE_SIZE; i++ )
+         {
+            *bufferPos = 0;
+            bufferPos++;
+            j++;
+
+            if ( j == SCREEN_TEXT_TILE_SIZE )
+            {
+               bufferPos += ( SCREEN_WIDTH - SCREEN_TEXT_TILE_SIZE );
+               j = 0;
+            }
+         }
+      }
+      else
+      {
+#pragma warning( disable: 4047 )
+         bitField = &( screen->textBitFields[charIndex] );
+#pragma warning( default: 4047 )
+
+         for ( row = 0; row < SCREEN_TEXT_TILE_SIZE; row++ )
+         {
+            for ( i = ( SCREEN_TEXT_TILE_SIZE - 1 ); i >= 0; i-- )
+            {
+               *bufferPos = ( bitField[row] & ( 0x01 << i ) ) ? color : 0;
+               bufferPos++;
+            }
+
+            bufferPos += ( SCREEN_WIDTH - SCREEN_TEXT_TILE_SIZE );
+         }
+      }
+
+      x += 8;
+   }
+}
+
+internal i8 Screen_GetCharTileIndexFromChar( const char c )
+{
+   if ( c >= 97 && c <= 122 )
+   {
+      // a - z (lower case letters start at 0 in our table)
+      return c - 97;
+   }
+   else if ( c >= 65 && c <= 90 )
+   {
+      // A - Z (upper case letters start at 26 in our table)
+      return c - 39;
+   }
+   else if ( c >= 48 && c <= 57 )
+   {
+      // 0 - 9 (numbers start at 52 in our table)
+      return c + 4;
+   }
+   else
+   {
+      // special characters start at 62 in our table
+      switch ( c )
+      {
+         case 44: return 62;     // comma
+         case 33: return 63;     // exclamation point
+         case 39: return 64;     // single quote
+         case 38: return 65;     // ampersand
+         case 46: return 66;     // period
+         case 34: return 67;     // double quotes
+         case 63: return 68;     // question mark
+         case 45: return 69;     // dash
+         case 62: return 70;     // greater-than
+         case 58: return 71;     // colon
+         case 47: return 72;     // forward slash
+         case 40: return 73;     // left parenthesis
+         case 41: return 74;     // right parenthesis
+         case 9:  return 75;     // downward arrow
+         case 42: return 76;     // asterisk
+
+         case SCREEN_MENU_BORDER_CHAR_TOPLEFT: return 77;
+         case SCREEN_MENU_BORDER_CHAR_TOPRIGHT: return 78;
+         case SCREEN_MENU_BORDER_CHAR_BOTTOMLEFT: return 79;
+         case SCREEN_MENU_BORDER_CHAR_BOTTOMRIGHT: return 80;
+         case SCREEN_MENU_BORDER_CHAR_LEFT: return 81;
+         case SCREEN_MENU_BORDER_CHAR_TOP: return 82;
+         case SCREEN_MENU_BORDER_CHAR_RIGHT: return 83;
+         case SCREEN_MENU_BORDER_CHAR_BOTTOM: return 84;
+
+         default: return -1;
       }
    }
 }
