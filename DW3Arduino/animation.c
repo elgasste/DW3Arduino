@@ -149,7 +149,7 @@ internal void Animation_TicFadeOut( Animation_t* animation, Screen_t* screen )
 
    if ( animation->elapsedSeconds > animation->totalSeconds )
    {
-      Screen_ClearPalette( screen, COLOR16_BLACK );
+      Screen_ClearPalette( screen, SCREEN_COLOR16_BLACK );
    }
    else
    {

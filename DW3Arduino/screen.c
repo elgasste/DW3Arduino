@@ -5,6 +5,9 @@ void Screen_Init( Screen_t* screen, u16* buffer )
    screen->buffer = buffer;
    screen->paletteColorCount = 0;
    screen->dayFilterIntensity = 1.0f;
+
+   Screen_LoadPalette( screen );
+   Screen_LoadTextBitFields( screen );
 }
 
 void Screen_BackupPalette( Screen_t* screen )

@@ -1,6 +1,8 @@
-﻿using DW3ArduinoEditor.Graphics;
-using System.IO;
+﻿using System.IO;
 using System.Text;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using DW3ArduinoEditor.Graphics;
 
 struct TileDataRun
 {
@@ -38,6 +40,7 @@ namespace DW3ArduinoEditor.SaveData
          using FileStream fs = File.Create( Constants.GameDataSourceFilePath );
          WriteHeaderSection( fs );
          WritePaletteFunction( fs );
+         WriteTextTilesFunction( fs );
          WriteTileTexturesPoolFunction( fs );
          WriteTileTextureIndexesFunction( fs );
          WriteStaticSpriteTexturesPoolFunction( fs );
@@ -65,6 +68,88 @@ namespace DW3ArduinoEditor.SaveData
          for ( int i = 0; i < _palette?.ColorCount; i++ )
          {
             WriteToFileStream( fs, string.Format( "   screen->palette[{0}] = 0x{1};\n", i, _palette?.Colors[i].ToString( "X4" ) ) );
+         }
+
+         WriteToFileStream( fs, "}\n" );
+      }
+
+      private void WriteTextTilesFunction( FileStream fs )
+      {
+         var textTextureMap = new List<byte>();
+
+         var textFileStream = new FileStream( Constants.TextTilesFilePath, FileMode.Open, FileAccess.Read, FileShare.Read );
+         var textDecoder = new PngBitmapDecoder( textFileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default );
+         BitmapSource bitmap = textDecoder.Frames[0];
+         BitmapUtils.CheckTextTilesBitmapFormat( bitmap );
+
+         for ( int row = 0; row < bitmap.PixelHeight; row++ )
+         {
+            for ( int col = 0; col < bitmap.PixelWidth; col += 8 )
+            {
+               textTextureMap.Add( 0x00 );
+
+               for ( int i = 0; i < Constants.TextTileSize; i++ )
+               {
+                  var pixelColor = BitmapUtils.GetBitmapPixelColor( bitmap, col + i, row );
+
+                  if ( !Color.AreClose( pixelColor, Color.FromArgb( 255, 0, 0, 0 ) ) )
+                  {
+                     textTextureMap[^1] |= (byte)( 1 << ( Constants.TextTileSize - i - 1 ) );
+                  }
+               }
+            }
+         }
+
+         WriteToFileStream( fs, "\nvoid Screen_LoadTextBitFields( Screen_t* screen )\n" );
+         WriteToFileStream( fs, "{\n" );
+         WriteToFileStream( fs, "   uint32_t i, j;\n\n" );
+
+         var byteCounts = new Dictionary<byte, int>();
+
+         for ( int i = 0; i < Constants.TextTileCount; i++ )
+         {
+            for ( int j = 0; j < Constants.TextTileSize; j++ )
+            {
+               byte b = textTextureMap[i + ( j * Constants.TextTileCount )];
+
+               if ( byteCounts.TryGetValue( b, out int value ) )
+               {
+                  byteCounts[b] = ++value;
+               }
+               else
+               {
+                  byteCounts[b] = 1;
+               }
+            }
+         }
+
+         int highestCount = 0;
+         byte mostCommonValue = 0;
+
+         foreach ( var pair in byteCounts )
+         {
+            if ( pair.Value > highestCount )
+            {
+               highestCount = pair.Value;
+               mostCommonValue = pair.Key;
+            }
+         }
+
+         WriteToFileStream( fs, string.Format(
+            "   for ( i = 0; i < SCREEN_TEXT_TILE_COUNT; i++ ) for ( j = 0; j < SCREEN_TEXT_TILE_SIZE; j++ ) screen->textBitFields[i][j] = 0x{0};\n",
+            mostCommonValue.ToString( "X2" ) ) );
+
+         for ( int i = 0; i < Constants.TextTileCount; i++ )
+         {
+            for ( int j = 0; j < Constants.TextTileSize; j++ )
+            {
+               byte b = textTextureMap[i + ( j * Constants.TextTileCount )];
+
+               if ( b != mostCommonValue )
+               {
+                  WriteToFileStream( fs, string.Format( "   screen->textBitFields[{0}][{1}] = 0x{2};\n", i, j, b.ToString( "X2" ) ) );
+               }
+            }
          }
 
          WriteToFileStream( fs, "}\n" );
