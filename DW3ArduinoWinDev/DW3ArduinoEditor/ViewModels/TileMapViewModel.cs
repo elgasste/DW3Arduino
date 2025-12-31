@@ -46,6 +46,13 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _activeSpriteTextureSetIndex, value );
       }
 
+      private ActiveSpriteViewModel _playerSprite;
+      public ActiveSpriteViewModel PlayerSprite
+      {
+         get => _playerSprite;
+         set => SetProperty( ref _playerSprite, value );
+      }
+
       private uint _tilesX;
       public uint TilesX
       {
@@ -173,7 +180,8 @@ namespace DW3ArduinoEditor.ViewModels
                                bool isUnderground,
                                uint tileTextureSetIndex,
                                uint staticSpriteTextureSetIndex,
-                               uint activeSpriteTextureSetIndex )
+                               uint activeSpriteTextureSetIndex,
+                               ActiveSpriteViewModel playerSprite )
       {
          _index = index;
          _name = name;
@@ -185,6 +193,7 @@ namespace DW3ArduinoEditor.ViewModels
          _tileTextureSetIndex = tileTextureSetIndex;
          _staticSpriteTextureSetIndex = staticSpriteTextureSetIndex;
          _activeSpriteTextureSetIndex = activeSpriteTextureSetIndex;
+         _playerSprite = playerSprite;
 
          for ( int i = 0; i < _tilesX * _tilesY; i++ )
          {
@@ -204,6 +213,7 @@ namespace DW3ArduinoEditor.ViewModels
          _tileTextureSetIndex = saveData.TileTextureSetIndex;
          _staticSpriteTextureSetIndex = saveData.StaticSpriteTextureSetIndex;
          _activeSpriteTextureSetIndex = saveData.ActiveSpriteTextureSetIndex;
+         _playerSprite = new( saveData.PlayerSprite );
 
          if ( string.IsNullOrEmpty( _name ) )
          {
@@ -250,6 +260,12 @@ namespace DW3ArduinoEditor.ViewModels
          foreach ( var staticSprite in saveData.StaticSprites )
          {
             StaticSprites.Add( new( staticSprite ) );
+         }
+
+         // TODO: check that we don't go over the maximum amount of active sprites
+         foreach ( var activeSprite in saveData.ActiveSprites )
+         {
+            ActiveSprites.Add( new( activeSprite ) );
          }
 
          // TODO: check that we don't go over the maximum amount of portals

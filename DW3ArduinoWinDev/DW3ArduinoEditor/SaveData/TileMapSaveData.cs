@@ -17,6 +17,7 @@ namespace DW3ArduinoEditor.SaveData
       public List<TileSaveData> Tiles { get; set; } = [];
       public List<StaticSpriteSaveData> StaticSprites { get; set; } = [];
       public List<ActiveSpriteSaveData> ActiveSprites { get; set; } = [];
+      public ActiveSpriteSaveData PlayerSprite { get; set; } = new();
       public List<PortalSaveData> Portals { get; set; } = [];
       public PortalSaveData? EdgePortal { get; set; }
       public List<EntitySaveData> Entities { get; set; } = [];
@@ -36,6 +37,7 @@ namespace DW3ArduinoEditor.SaveData
          TileTextureSetIndex = viewModel.TileTextureSetIndex;
          StaticSpriteTextureSetIndex = viewModel.StaticSpriteTextureSetIndex;
          ActiveSpriteTextureSetIndex = viewModel.ActiveSpriteTextureSetIndex;
+         PlayerSprite = new( viewModel.PlayerSprite );
 
          for ( uint i = 0; i < viewModel.Tiles.Count; i++ )
          {

@@ -369,6 +369,7 @@ namespace DW3ArduinoEditor.SaveData
 
             WriteToFileStream( fs, string.Format( "         TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, {0} );\n", _gameSaveData.TileMaps[i].ActiveSpriteTextureSetIndex ) );
 
+            // TODO: eventually we'll need to output the player sprites, when we add more players
             for ( int j = 0; j < _gameSaveData.TileMaps[i].ActiveSprites.Count; j++ )
             {
                WriteToFileStream( fs, string.Format( "         ActiveSprite_Init( tileMap->activeSprites + {0}, {1}, {2}, {3}, Direction_{4} );\n", j, _gameSaveData.TileMaps[i].ActiveSprites[j].TextureIndex, _gameSaveData.TileMaps[i].ActiveSprites[j].Offset.X, _gameSaveData.TileMaps[i].ActiveSprites[j].Offset.Y, _gameSaveData.TileMaps[i].ActiveSprites[j].StartDirection.ToString() ) );

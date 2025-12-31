@@ -1,4 +1,5 @@
 ﻿using DW3ArduinoEditor.Commands;
+using DW3ArduinoEditor.Enums;
 using DW3ArduinoEditor.Graphics;
 using DW3ArduinoEditor.SaveData;
 using System.Collections.ObjectModel;
@@ -20,6 +21,7 @@ namespace DW3ArduinoEditor.ViewModels
       public ObservableCollection<TileTextureSetViewModel> TileTextureSets { get; } = [];
       public ObservableCollection<StaticSpriteTextureSetViewModel> StaticSpriteTextureSets { get; } = [];
       public ObservableCollection<ActiveSpriteTextureSetViewModel> ActiveSpriteTextureSets { get; } = [];
+      public ActiveSpriteViewModel PlayerSprite { get; } = new();
 
       private TileMapViewModel? _selectedTileMap;
       public TileMapViewModel? SelectedTileMap
@@ -142,6 +144,8 @@ namespace DW3ArduinoEditor.ViewModels
 
             // TODO: verify our active sprite texture sets contain valid pool indexes, and our
             // tile maps contain valid active sprite texture set indexes.
+
+            // TODO: we'll need to load a player sprite pool in here as well, when we have more than one player
          }
          catch ( Exception ex )
          {
@@ -497,7 +501,17 @@ namespace DW3ArduinoEditor.ViewModels
          if ( result.HasValue && result.Value )
          {
             uint index = ( TileMaps.Count > 0 ) ? TileMaps[^1].Index + 1 : 0;
-            var newTileMap = new TileMapViewModel( index, window.NewTileMapName, window.NewTilesX, window.NewTilesY, window.NewWraps, window.NewAffectsDaylight, window.NewIsUnderground, TileTextureSets[0].Index, StaticSpriteTextureSets[0].Index, ActiveSpriteTextureSets[0].Index );
+            var newTileMap = new TileMapViewModel( index,
+                                                   window.NewTileMapName,
+                                                   window.NewTilesX,
+                                                   window.NewTilesY,
+                                                   window.NewWraps,
+                                                   window.NewAffectsDaylight,
+                                                   window.NewIsUnderground,
+                                                   TileTextureSets[0].Index,
+                                                   StaticSpriteTextureSets[0].Index,
+                                                   ActiveSpriteTextureSets[0].Index,
+                                                   PlayerSprite );
             TileMaps.Add( newTileMap );
             SelectedTileMap = newTileMap;
          }
