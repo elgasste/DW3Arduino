@@ -2,30 +2,31 @@
 #define TILE_MAP_H
 
 #include "common.h"
-#include "vector.h"
+#include "sprite.h"
 #include "entity.h"
 #include "npc.h"
 
-#define TILEMAP_TILE_SIZE                    16
-#define TILEMAP_STATIC_SPRITE_SIZE           16
+#define TILEMAP_TILE_SIZE                       16
 
-#define TILEMAP_MAX_TILE_TEXTURES            32
-#define TILEMAP_MAX_STATIC_SPRITE_TEXTURES   32
-#define TILEMAP_MAX_STATIC_SPRITES           64
-#define TILEMAP_MAX_PORTALS                  32
-#define TILEMAP_MAX_ENTITIES                 32
-#define TILEMAP_MAX_NPCS                     24
+#define TILEMAP_MAX_TILE_TEXTURES               32
+#define TILEMAP_MAX_STATIC_SPRITE_TEXTURES      32
+#define TILEMAP_MAX_STATIC_SPRITES              64
+#define TILEMAP_MAX_ACTIVE_SPRITE_TEXTURES      16
+#define TILEMAP_MAX_ACTIVE_SPRITES              32
+#define TILEMAP_MAX_PORTALS                     32
+#define TILEMAP_MAX_ENTITIES                    32
+#define TILEMAP_MAX_NPCS                        24
 
-#define TILEMAP_MAX_TILES_X                  256
-#define TILEMAP_MAX_TILES_Y                  256
+#define TILEMAP_MAX_TILES_X                     256
+#define TILEMAP_MAX_TILES_Y                     256
 
-#define TILEMAP_SWAP_FADE_SECONDS            0.3f
-#define TILEMAP_SWAP_PAUSE_SECONDS           0.2f
+#define TILEMAP_SWAP_FADE_SECONDS               0.3f
+#define TILEMAP_SWAP_PAUSE_SECONDS              0.2f
 
-#define TILE_WALK_SPEED_NORMAL               56.0f
-#define TILE_WALK_SPEED_SLOW                 48.0f
-#define TILE_WALK_SPEED_VERY_SLOW            40.0f
-#define TILE_WALK_SPEED_CRAWL                24.0f
+#define TILE_WALK_SPEED_NORMAL                  56.0f
+#define TILE_WALK_SPEED_SLOW                    48.0f
+#define TILE_WALK_SPEED_VERY_SLOW               40.0f
+#define TILE_WALK_SPEED_CRAWL                   24.0f
 
 #define TILE_GET_TEXTURE_INDEX( tile )       ( ( tile ) & 0x1F )
 #define TILE_GET_IS_PASSABLE( tile )         ( ( ( tile ) >> 5 ) & 0x01 )
@@ -39,20 +40,6 @@ typedef struct TileTexture_t
 }
 TileTexture_t;
 
-typedef struct StaticSpriteTexture_t
-{
-   u8 paletteIndexes[TILEMAP_STATIC_SPRITE_SIZE * TILEMAP_STATIC_SPRITE_SIZE];
-}
-StaticSpriteTexture_t;
-
-typedef struct StaticSprite_t
-{
-   u32 textureIndex;
-   u32 tileIndex;
-   Bool_t isPassable;
-}
-StaticSprite_t;
-
 typedef struct Portal_t
 {
    u32 sourceTileIndex;
@@ -65,6 +52,7 @@ typedef struct TileMap_t
 {
    TileTexture_t tileTextures[TILEMAP_MAX_TILE_TEXTURES];
    StaticSpriteTexture_t staticSpriteTextures[TILEMAP_MAX_STATIC_SPRITE_TEXTURES];
+   ActiveSpriteTexture_t activeSpriteTextures[TILEMAP_MAX_ACTIVE_SPRITE_TEXTURES];
 
    // bits 0-4:  tile texture index
    // bit  5:    is passable
@@ -83,6 +71,10 @@ typedef struct TileMap_t
    StaticSprite_t staticSprites[TILEMAP_MAX_STATIC_SPRITES];
    u32 staticSpriteCount;
 
+   ActiveSprite_t activeSprites[TILEMAP_MAX_ACTIVE_SPRITES];
+   u32 activeSpriteCount;
+   ActiveSprite_t playerSprite;
+
    Portal_t portals[TILEMAP_MAX_PORTALS];
    u32 portalCount;
 
@@ -91,6 +83,7 @@ typedef struct TileMap_t
 
    Entity_t entities[TILEMAP_MAX_ENTITIES];
    u32 entityCount;
+   Entity_t playerEntity;
 
    Npc_t npcs[TILEMAP_MAX_NPCS];
    u32 npcCount;

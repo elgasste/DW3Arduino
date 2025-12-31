@@ -143,6 +143,7 @@
     <ClInclude Include="..\..\DW3Arduino\random.h" />
     <ClInclude Include="..\..\DW3Arduino\screen.h" />
     <ClInclude Include="..\..\DW3Arduino\game.h" />
+    <ClInclude Include="..\..\DW3Arduino\sprite.h" />
     <ClInclude Include="..\..\DW3Arduino\tile_map.h" />
     <ClInclude Include="..\..\DW3Arduino\utility.h" />
     <ClInclude Include="..\..\DW3Arduino\vector.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="..\..\DW3Arduino\random.c" />
     <ClCompile Include="..\..\DW3Arduino\render.c" />
     <ClCompile Include="..\..\DW3Arduino\screen.c" />
+    <ClCompile Include="..\..\DW3Arduino\sprite.c" />
     <ClCompile Include="..\..\DW3Arduino\tile_map.c" />
     <ClCompile Include="..\..\DW3Arduino\utility.c" />
     <ClCompile Include="win_clock.c" />

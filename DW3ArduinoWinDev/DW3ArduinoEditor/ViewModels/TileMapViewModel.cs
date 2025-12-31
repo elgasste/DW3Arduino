@@ -8,6 +8,7 @@ namespace DW3ArduinoEditor.ViewModels
    {
       public ObservableCollection<TileViewModel> Tiles { get; private set; } = [];
       public ObservableCollection<StaticSpriteViewModel> StaticSprites { get; private set; } = [];
+      public ObservableCollection<ActiveSpriteViewModel> ActiveSprites { get; private set; } = [];
       public ObservableCollection<PortalViewModel> Portals { get; private set; } = [];
 
       private uint _index;
@@ -36,6 +37,20 @@ namespace DW3ArduinoEditor.ViewModels
       {
          get => _staticSpriteTextureSetIndex;
          set => SetProperty( ref _staticSpriteTextureSetIndex, value );
+      }
+
+      private uint _activeSpriteTextureSetIndex;
+      public uint ActiveSpriteTextureSetIndex
+      {
+         get => _activeSpriteTextureSetIndex;
+         set => SetProperty( ref _activeSpriteTextureSetIndex, value );
+      }
+
+      private ActiveSpriteViewModel _playerSprite;
+      public ActiveSpriteViewModel PlayerSprite
+      {
+         get => _playerSprite;
+         set => SetProperty( ref _playerSprite, value );
       }
 
       private uint _tilesX;
@@ -156,7 +171,17 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _edgePortal, value );
       }
 
-      public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps, bool affectsDaylight, bool isUnderground, uint tileTextureSetIndex, uint staticSpriteTextureSetIndex )
+      public TileMapViewModel( uint index,
+                               string name,
+                               uint tilesX,
+                               uint tilesY,
+                               bool wraps,
+                               bool affectsDaylight,
+                               bool isUnderground,
+                               uint tileTextureSetIndex,
+                               uint staticSpriteTextureSetIndex,
+                               uint activeSpriteTextureSetIndex,
+                               ActiveSpriteViewModel playerSprite )
       {
          _index = index;
          _name = name;
@@ -167,6 +192,8 @@ namespace DW3ArduinoEditor.ViewModels
          _isUnderground = isUnderground;
          _tileTextureSetIndex = tileTextureSetIndex;
          _staticSpriteTextureSetIndex = staticSpriteTextureSetIndex;
+         _activeSpriteTextureSetIndex = activeSpriteTextureSetIndex;
+         _playerSprite = playerSprite;
 
          for ( int i = 0; i < _tilesX * _tilesY; i++ )
          {
@@ -185,6 +212,8 @@ namespace DW3ArduinoEditor.ViewModels
          _isUnderground = saveData.IsUnderground;
          _tileTextureSetIndex = saveData.TileTextureSetIndex;
          _staticSpriteTextureSetIndex = saveData.StaticSpriteTextureSetIndex;
+         _activeSpriteTextureSetIndex = saveData.ActiveSpriteTextureSetIndex;
+         _playerSprite = new( saveData.PlayerSprite );
 
          if ( string.IsNullOrEmpty( _name ) )
          {
@@ -231,6 +260,12 @@ namespace DW3ArduinoEditor.ViewModels
          foreach ( var staticSprite in saveData.StaticSprites )
          {
             StaticSprites.Add( new( staticSprite ) );
+         }
+
+         // TODO: check that we don't go over the maximum amount of active sprites
+         foreach ( var activeSprite in saveData.ActiveSprites )
+         {
+            ActiveSprites.Add( new( activeSprite ) );
          }
 
          // TODO: check that we don't go over the maximum amount of portals

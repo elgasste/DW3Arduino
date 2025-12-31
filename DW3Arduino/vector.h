@@ -35,4 +35,4 @@ typedef struct Vector4r32_t
 }
 Vector4r32_t;
 
-#endif
+#endif // VECTOR_H
