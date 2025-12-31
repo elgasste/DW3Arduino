@@ -9,10 +9,11 @@
 #define GIGA_SHIELD_WIDTH           480
 #define GIGA_SHIELD_HEIGHT          800
 #define GIGA_SHIELD_PIXELS          384000
-#define GIGA_PLAY_AREA_OFFSET_X     30
-#define GIGA_PLAY_AREA_OFFSET_Y     280
+#define GIGA_PLAY_AREA_OFFSET_X     112
+#define GIGA_PLAY_AREA_OFFSET_Y     288
 
-class GigaShield : public Adafruit_GFX {
+class GigaShield : public Adafruit_GFX
+{
    public:
       GigaShield();
       ~GigaShield() { };

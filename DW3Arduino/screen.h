@@ -3,8 +3,8 @@
 
 #include "common.h"
 
-#define SCREEN_WIDTH                            420
-#define SCREEN_HEIGHT                           240
+#define SCREEN_WIDTH                            256
+#define SCREEN_HEIGHT                           224
 #define SCREEN_PIXELS                           ( SCREEN_WIDTH * SCREEN_HEIGHT )
 
 #define SCREEN_PALETTE_SIZE                     256

@@ -18,10 +18,10 @@ void Game_Init( Game_t* game, u16* screenBuffer )
 
    TileMap_LoadFromIndex( &game->tileMap, 0 );
 
-   game->tileMap.viewport.w = 380;
-   game->tileMap.viewport.h = 220;
-   game->tileMap.viewportScreenPos.x = 20;
-   game->tileMap.viewportScreenPos.y = 10;
+   game->tileMap.viewport.w = SCREEN_WIDTH;
+   game->tileMap.viewport.h = SCREEN_HEIGHT;
+   game->tileMap.viewportScreenPos.x = 0;
+   game->tileMap.viewportScreenPos.y = 0;
 
    game->player.entity = &game->tileMap.entities[0];
    game->player.entity->pos.x = 2722.0f;
