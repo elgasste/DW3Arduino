@@ -18,6 +18,7 @@ namespace DW3ArduinoEditor.ViewModels
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
       public ObservableCollection<TileTextureSetViewModel> TileTextureSets { get; } = [];
       public ObservableCollection<StaticSpriteTextureSetViewModel> StaticSpriteTextureSets { get; } = [];
+      public ObservableCollection<ActiveSpriteTextureSetViewModel> ActiveSpriteTextureSets { get; } = [];
 
       private TileMapViewModel? _selectedTileMap;
       public TileMapViewModel? SelectedTileMap
@@ -537,7 +538,7 @@ namespace DW3ArduinoEditor.ViewModels
 
       private void WriteSaveData()
       {
-         var saveData = new GameSaveData( TileMaps, TileTextureSets, StaticSpriteTextureSets );
+         var saveData = new GameSaveData( TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets );
          File.WriteAllText( Constants.SaveDataFilePath, JsonSerializer.Serialize( saveData ) );
          MessageBox.Show( "Editor data has been saved." );
       }
@@ -545,7 +546,7 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( TileMaps, TileTextureSets, StaticSpriteTextureSets ), _palette, _tileTexturePool, _staticSpriteTexturePool );
+         generator.WriteGameDataSourceFile( new( TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets ), _palette, _tileTexturePool, _staticSpriteTexturePool );
          MessageBox.Show( "Game data source file has been written." );
       }
 

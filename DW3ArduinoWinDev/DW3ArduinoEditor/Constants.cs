@@ -11,6 +11,7 @@
 
       public const string TileTexturePoolImagePath = AssetsBasePath + "map\\tile_texture_pool.png";
       public const string StaticSpriteTexturePoolImagePath = AssetsBasePath + "map\\static_sprite_texture_pool.png";
+      public const string ActiveSpriteTexturePoolImagePath = AssetsBasePath + "map\\active_sprite_texture_pool.png";
       public const string TextTilesFilePath = AssetsBasePath + "text_tiles.png";
 
       public const int TileSize = 16;
@@ -24,6 +25,7 @@
 
       public const int StaticSpriteSize = 16;
       public const int StaticSpriteTextureSetSize = 32;
+      public const int ActiveSpriteTextureSetSize = 16;
 
       public const int PaletteMaxColors = 256;
 
