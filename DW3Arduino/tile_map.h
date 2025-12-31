@@ -2,14 +2,11 @@
 #define TILE_MAP_H
 
 #include "common.h"
-#include "vector.h"
+#include "sprite.h"
 #include "entity.h"
 #include "npc.h"
 
 #define TILEMAP_TILE_SIZE                       16
-#define TILEMAP_STATIC_SPRITE_SIZE              16
-#define TILEMAP_ACTIVE_SPRITE_TEXTURE_WIDTH     32
-#define TILEMAP_ACTIVE_SPRITE_TEXTURE_HEIGHT    64
 
 #define TILEMAP_MAX_TILE_TEXTURES               32
 #define TILEMAP_MAX_STATIC_SPRITE_TEXTURES      32
@@ -37,48 +34,11 @@
 
 typedef struct Entity_t Entity_t;
 
-typedef enum Direction_t
-{
-   Direction_Left = 0,
-   Direction_Up,
-   Direction_Right,
-   Direction_Down
-}
-Direction_t;
-
 typedef struct TileTexture_t
 {
    u8 paletteIndexes[TILEMAP_TILE_SIZE * TILEMAP_TILE_SIZE];
 }
 TileTexture_t;
-
-typedef struct StaticSpriteTexture_t
-{
-   u8 paletteIndexes[TILEMAP_STATIC_SPRITE_SIZE * TILEMAP_STATIC_SPRITE_SIZE];
-}
-StaticSpriteTexture_t;
-
-typedef struct StaticSprite_t
-{
-   u32 textureIndex;
-   u32 tileIndex;
-   Bool_t isPassable;
-}
-StaticSprite_t;
-
-typedef struct ActiveSpriteTexture_t
-{
-   u8 paletteIndexes[TILEMAP_ACTIVE_SPRITE_TEXTURE_WIDTH * TILEMAP_ACTIVE_SPRITE_TEXTURE_HEIGHT];
-}
-ActiveSpriteTexture_t;
-
-typedef struct ActiveSprite_t
-{
-   u32 textureIndex;
-   Direction_t direction;
-   Vector2u32_t offset;
-}
-ActiveSprite_t;
 
 typedef struct Portal_t
 {

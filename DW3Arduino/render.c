@@ -197,11 +197,11 @@ internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i
    {
       TileMap_GetPositionOfTileIndex( &game->tileMap, sprite->tileIndex, &spriteX, &spriteY );
 
-      if ( Utility_RectsIntersect32i( (i32)spriteX, (i32)spriteY, (i32)( spriteX + TILEMAP_STATIC_SPRITE_SIZE ), (i32)( spriteY + TILEMAP_STATIC_SPRITE_SIZE ), vx, vy, vw, vh) )
+      if ( Utility_RectsIntersect32i( (i32)spriteX, (i32)spriteY, (i32)( spriteX + STATIC_SPRITE_SIZE ), (i32)( spriteY + STATIC_SPRITE_SIZE ), vx, vy, vw, vh) )
       {
          Screen_DrawBoundedBuffer8( &game->screen,
                                     game->tileMap.staticSpriteTextures[sprite->textureIndex].paletteIndexes,
-                                    TILEMAP_STATIC_SPRITE_SIZE, TILEMAP_STATIC_SPRITE_SIZE,
+                                    STATIC_SPRITE_SIZE, STATIC_SPRITE_SIZE,
                                     ( (i32)( spriteX ) - vx ) + viewportScreenPos->x + xOffset,
                                     ( (i32)( spriteY ) - vy ) + viewportScreenPos->y + yOffset,
                                     viewportScreenPos->x + xOffset, viewportScreenPos->y + yOffset,
