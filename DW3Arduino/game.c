@@ -4,7 +4,7 @@
 
 internal void Game_HandleInput( Game_t* game );
 internal void Game_HandlePlayerMoved( Game_t* game );
-internal void Game_IncrementDayFactor( Game_t* game );
+internal void Game_IncrementDaylightFactor( Game_t* game );
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex );
 internal void Game_EnterPortal( Game_t* game, Portal_t* portal );
 
@@ -129,7 +129,7 @@ internal void Game_HandlePlayerMoved( Game_t* game )
 
    if ( game->tileMap.affectsDaylight )
    {
-      Game_IncrementDayFactor( game );
+      Game_IncrementDaylightFactor( game );
    }
 
    tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap,
@@ -140,10 +140,9 @@ internal void Game_HandlePlayerMoved( Game_t* game )
    {
       Game_SteppedOnTile( game, tileIndex );
    }
-
 }
 
-internal void Game_IncrementDayFactor( Game_t* game )
+internal void Game_IncrementDaylightFactor( Game_t* game )
 {
    game->daylightFactor += game->isAM
       ? ( 1 / ( DAY_FACTOR_TOTAL_SECONDS * (r32)CLOCK_FPS ) )
@@ -158,20 +157,6 @@ internal void Game_IncrementDayFactor( Game_t* game )
    {
       game->daylightFactor = 0.0f;
       game->isAM = True;
-   }
-
-   // use cutoffs to determine when the sun rises and sets
-   if ( game->daylightFactor < DAY_FACTOR_LOW_CUTOFF )
-   {
-      game->screen.dayFilterIntensity = 0.0f;
-   }
-   else if ( game->daylightFactor > DAY_FACTOR_HIGH_CUTOFF )
-   {
-      game->screen.dayFilterIntensity = 1.0f;
-   }
-   else
-   {
-      game->screen.dayFilterIntensity = ( game->daylightFactor - DAY_FACTOR_LOW_CUTOFF ) / ( DAY_FACTOR_HIGH_CUTOFF - DAY_FACTOR_LOW_CUTOFF );
    }
 }
 
