@@ -8,6 +8,7 @@
 #define ACTIVE_SPRITE_TEXTURE_WIDTH          32
 #define ACTIVE_SPRITE_TEXTURE_HEIGHT         64
 #define ACTIVE_SPRITE_FRAME_SIZE             16
+#define ACTIVE_SPRITE_FRAME_PIXELS           ( ACTIVE_SPRITE_FRAME_SIZE * ACTIVE_SPRITE_FRAME_SIZE )
 #define ACTIVE_SPRITE_FRAMES                 2
 #define ACTIVE_SPRITE_FRAME_TOTAL_SECONDS    0.5f
 
@@ -16,7 +17,9 @@ typedef enum Direction_t
    Direction_Left = 0,
    Direction_Up,
    Direction_Right,
-   Direction_Down
+   Direction_Down,
+
+   Direction_Count
 }
 Direction_t;
 

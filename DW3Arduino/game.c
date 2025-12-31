@@ -25,6 +25,9 @@ void Game_Init( Game_t* game, u16* screenBuffer )
 
    game->player.entity = &game->tileMap.entities[0];
    game->player.entity->sprite = &game->tileMap.playerSprite;
+   game->player.entity->sprite->textureIndex = 0;
+   game->player.entity->sprite->offset.x = 2;
+   game->player.entity->sprite->offset.y = 4;
    game->player.entity->pos.x = 2722.0f;
    game->player.entity->pos.y = 3538.0f;
    game->player.entity->pos.w = 12.0f;
@@ -36,6 +39,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
                                                             (u32)game->player.entity->pos.x,
                                                             (u32)game->player.entity->pos.y );
 
+   ActiveSprite_SetDirection( &game->tileMap.playerSprite, Direction_Down );
    TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
 
    game->isAM = False;

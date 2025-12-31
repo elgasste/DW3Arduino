@@ -14,7 +14,9 @@ typedef enum AnimationType_t
    AnimationType_FadeOut,
    AnimationType_ActiveFadeOut,
    AnimationType_FadeIn,
-   AnimationType_ActiveFadeIn
+   AnimationType_ActiveFadeIn,
+
+   AnimationType_Count
 }
 AnimationType_t;
 

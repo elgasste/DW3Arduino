@@ -215,7 +215,7 @@ internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i
 
 internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
 {
-   u32 i;
+   u32 i, startPos;
    Entity_t* entity = game->tileMap.entities;
    Vector2u32_t* viewportScreenPos = &game->tileMap.viewportScreenPos;
 
@@ -223,14 +223,16 @@ internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw
    {
       if ( Utility_RectsIntersect32i( (i32)entity->pos.x, (i32)entity->pos.y, (i32)entity->pos.w, (i32)entity->pos.h, vx, vy, vw, vh ) )
       {
-         Screen_DrawBoundedRect( &game->screen,
-                                 ( (i32)( entity->pos.x ) - vx ) + viewportScreenPos->x + xOffset,
-                                 ( (i32)( entity->pos.y ) - vy ) + viewportScreenPos->y + yOffset,
-                                 (i32)( entity->pos.w ), (i32)( entity->pos.h ),
-                                 viewportScreenPos->x + xOffset, viewportScreenPos->y + yOffset,
-                                 viewportScreenPos->x + vw + xOffset,
-                                 viewportScreenPos->y + vh + yOffset,
-                                 game->screen.palette[8] );
+         startPos = ( ACTIVE_SPRITE_FRAME_PIXELS * ACTIVE_SPRITE_FRAMES ) * entity->sprite->direction + ( ACTIVE_SPRITE_FRAME_PIXELS * entity->sprite->frame );
+
+         Screen_DrawBoundedBuffer8( &game->screen,
+                                    game->tileMap.activeSpriteTextures[entity->sprite->textureIndex].paletteIndexes + startPos,
+                                    ACTIVE_SPRITE_FRAME_SIZE, ACTIVE_SPRITE_FRAME_SIZE,
+                                    ( (i32)( entity->pos.x ) - vx - entity->sprite->offset.x ) + viewportScreenPos->x + xOffset,
+                                    ( (i32)( entity->pos.y ) - vy - entity->sprite->offset.y ) + viewportScreenPos->y + yOffset,
+                                    viewportScreenPos->x + xOffset, viewportScreenPos->y + yOffset,
+                                    viewportScreenPos->x + vw + xOffset,
+                                    viewportScreenPos->y + vh + yOffset );
       }
 
       entity++;
