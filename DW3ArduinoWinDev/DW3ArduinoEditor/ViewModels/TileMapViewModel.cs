@@ -8,6 +8,7 @@ namespace DW3ArduinoEditor.ViewModels
    {
       public ObservableCollection<TileViewModel> Tiles { get; private set; } = [];
       public ObservableCollection<StaticSpriteViewModel> StaticSprites { get; private set; } = [];
+      public ObservableCollection<ActiveSpriteViewModel> ActiveSprites { get; private set; } = [];
       public ObservableCollection<PortalViewModel> Portals { get; private set; } = [];
 
       private uint _index;
@@ -36,6 +37,13 @@ namespace DW3ArduinoEditor.ViewModels
       {
          get => _staticSpriteTextureSetIndex;
          set => SetProperty( ref _staticSpriteTextureSetIndex, value );
+      }
+
+      private uint _activeSpriteTextureSetIndex;
+      public uint ActiveSpriteTextureSetIndex
+      {
+         get => _activeSpriteTextureSetIndex;
+         set => SetProperty( ref _activeSpriteTextureSetIndex, value );
       }
 
       private uint _tilesX;
@@ -156,7 +164,16 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _edgePortal, value );
       }
 
-      public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps, bool affectsDaylight, bool isUnderground, uint tileTextureSetIndex, uint staticSpriteTextureSetIndex )
+      public TileMapViewModel( uint index,
+                               string name,
+                               uint tilesX,
+                               uint tilesY,
+                               bool wraps,
+                               bool affectsDaylight,
+                               bool isUnderground,
+                               uint tileTextureSetIndex,
+                               uint staticSpriteTextureSetIndex,
+                               uint activeSpriteTextureSetIndex )
       {
          _index = index;
          _name = name;
@@ -167,6 +184,7 @@ namespace DW3ArduinoEditor.ViewModels
          _isUnderground = isUnderground;
          _tileTextureSetIndex = tileTextureSetIndex;
          _staticSpriteTextureSetIndex = staticSpriteTextureSetIndex;
+         _activeSpriteTextureSetIndex = activeSpriteTextureSetIndex;
 
          for ( int i = 0; i < _tilesX * _tilesY; i++ )
          {
@@ -185,6 +203,7 @@ namespace DW3ArduinoEditor.ViewModels
          _isUnderground = saveData.IsUnderground;
          _tileTextureSetIndex = saveData.TileTextureSetIndex;
          _staticSpriteTextureSetIndex = saveData.StaticSpriteTextureSetIndex;
+         _activeSpriteTextureSetIndex = saveData.ActiveSpriteTextureSetIndex;
 
          if ( string.IsNullOrEmpty( _name ) )
          {
