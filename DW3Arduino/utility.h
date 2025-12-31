@@ -1,7 +1,6 @@
 #if !defined( UTILITY_H )
 #define UTILITY_H
 
-
 #include "common.h"
 #include "vector.h"
 

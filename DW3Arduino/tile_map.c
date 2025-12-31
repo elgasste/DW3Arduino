@@ -4,6 +4,7 @@
 void TileMap_Init( TileMap_t* tileMap )
 {
    tileMap->staticSpriteCount = 0;
+   tileMap->activeSpriteCount = 0;
    tileMap->entityCount = 0;
    tileMap->npcCount = 0;
 }
