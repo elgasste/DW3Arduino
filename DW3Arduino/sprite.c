@@ -10,8 +10,11 @@ void ActiveSprite_Reset( ActiveSprite_t* sprite )
 
 void ActiveSprite_SetDirection( ActiveSprite_t* sprite, Direction_t direction )
 {
-   sprite->frame = 0;
-   sprite->direction = direction;
+   if ( sprite->direction != direction )
+   {
+      sprite->frame = 0;
+      sprite->direction = direction;
+   }
 }
 
 void ActiveSprite_Tic( ActiveSprite_t* sprite )

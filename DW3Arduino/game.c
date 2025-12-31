@@ -71,6 +71,7 @@ void Game_Tic( Game_t* game )
 internal void Game_HandleInput( Game_t* game )
 {
    Entity_t* entity = game->player.entity;
+   ActiveSprite_t* sprite = &game->tileMap.playerSprite;
    r32 velocity = TileMap_GetTileVelocity( &game->tileMap, game->player.tileIndex );
 
 #if defined( VISUAL_STUDIO_DEV )
@@ -89,6 +90,12 @@ internal void Game_HandleInput( Game_t* game )
    {
       entity->velocity.x = -velocity;
 
+      if ( !( upIsDown && sprite->direction == Direction_Up ) &&
+           !( downIsDown && sprite->direction == Direction_Down ) )
+      {
+         ActiveSprite_SetDirection( sprite, Direction_Left );
+      }
+
       if ( upIsDown || downIsDown )
       {
          entity->velocity.x *= DIAGONAL_SCALAR;
@@ -97,6 +104,12 @@ internal void Game_HandleInput( Game_t* game )
    else if ( rightIsDown && !leftIsDown )
    {
       entity->velocity.x = velocity;
+
+      if ( !( upIsDown && sprite->direction == Direction_Up ) &&
+           !( downIsDown && sprite->direction == Direction_Down ) )
+      {
+         ActiveSprite_SetDirection( sprite, Direction_Right );
+      }
 
       if ( upIsDown || downIsDown )
       {
@@ -107,6 +120,12 @@ internal void Game_HandleInput( Game_t* game )
    {
       entity->velocity.y = -velocity;
 
+      if ( !( leftIsDown && sprite->direction == Direction_Left ) &&
+           !( rightIsDown && sprite->direction == Direction_Right ) )
+      {
+         ActiveSprite_SetDirection( sprite, Direction_Up );
+      }
+
       if ( leftIsDown || rightIsDown )
       {
          entity->velocity.y *= DIAGONAL_SCALAR;
@@ -115,6 +134,12 @@ internal void Game_HandleInput( Game_t* game )
    else if ( downIsDown && !upIsDown )
    {
       entity->velocity.y = velocity;
+
+      if ( !( leftIsDown && sprite->direction == Direction_Left ) &&
+           !( rightIsDown && sprite->direction == Direction_Right ) )
+      {
+         ActiveSprite_SetDirection( sprite, Direction_Down );
+      }
 
       if ( leftIsDown || rightIsDown )
       {
