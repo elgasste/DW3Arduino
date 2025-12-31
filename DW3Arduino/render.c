@@ -21,25 +21,24 @@ void Render_DrawGame( Game_t* game )
 
 internal void Render_UpdateDayFilterIntensity( Game_t* game )
 {
-   if ( game->tileMap.isUnderground )
+   // use cutoffs to determine when the sun rises and sets
+   if ( game->daylightFactor < DAY_FACTOR_LOW_CUTOFF )
+   {
+      game->screen.dayFilterIntensity = 0.0f;
+   }
+   else if ( game->daylightFactor > DAY_FACTOR_HIGH_CUTOFF )
    {
       game->screen.dayFilterIntensity = 1.0f;
    }
    else
    {
-      // use cutoffs to determine when the sun rises and sets
-      if ( game->daylightFactor < DAY_FACTOR_LOW_CUTOFF )
-      {
-         game->screen.dayFilterIntensity = 0.0f;
-      }
-      else if ( game->daylightFactor > DAY_FACTOR_HIGH_CUTOFF )
-      {
-         game->screen.dayFilterIntensity = 1.0f;
-      }
-      else
-      {
-         game->screen.dayFilterIntensity = ( game->daylightFactor - DAY_FACTOR_LOW_CUTOFF ) / ( DAY_FACTOR_HIGH_CUTOFF - DAY_FACTOR_LOW_CUTOFF );
-      }
+      game->screen.dayFilterIntensity = ( game->daylightFactor - DAY_FACTOR_LOW_CUTOFF ) / ( DAY_FACTOR_HIGH_CUTOFF - DAY_FACTOR_LOW_CUTOFF );
+   }
+
+   // if we're underground, don't go full-nighttime
+   if ( game->tileMap.isUnderground && game->screen.dayFilterIntensity < DAY_FACTOR_UNDERGROUND_THRESHOLD )
+   {
+      game->screen.dayFilterIntensity = DAY_FACTOR_UNDERGROUND_THRESHOLD;
    }
 }
 
