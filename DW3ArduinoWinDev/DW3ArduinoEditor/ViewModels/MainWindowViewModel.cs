@@ -14,6 +14,7 @@ namespace DW3ArduinoEditor.ViewModels
       private Palette _palette = new();
       private TileTexturePool? _tileTexturePool;
       private StaticSpriteTexturePool? _staticSpriteTexturePool;
+      private ActiveSpriteTexturePool? _activeSpriteTexturePool;
 
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
       public ObservableCollection<TileTextureSetViewModel> TileTextureSets { get; } = [];
@@ -126,12 +127,25 @@ namespace DW3ArduinoEditor.ViewModels
          {
             _staticSpriteTexturePool = new( Constants.StaticSpriteTexturePoolImagePath, _palette );
 
-            // TODO: verify our tile texture sets contain valid pool indexes, and our
-            // tile maps contain valid tile texture set indexes.
+            // TODO: verify our static sprite texture sets contain valid pool indexes, and our
+            // tile maps contain valid static sprite texture set indexes.
          }
          catch ( Exception ex )
          {
             MessageBox.Show( string.Format( "Failed to load static sprite texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+            Application.Current.Shutdown();
+         }
+
+         try
+         {
+            _activeSpriteTexturePool = new( Constants.ActiveSpriteTexturePoolImagePath, _palette );
+
+            // TODO: verify our active sprite texture sets contain valid pool indexes, and our
+            // tile maps contain valid active sprite texture set indexes.
+         }
+         catch ( Exception ex )
+         {
+            MessageBox.Show( string.Format( "Failed to load active sprite texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
             Application.Current.Shutdown();
          }
       }

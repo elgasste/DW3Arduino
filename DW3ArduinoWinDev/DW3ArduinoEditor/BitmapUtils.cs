@@ -27,11 +27,11 @@ namespace DW3ArduinoEditor
          }
          else if ( bitmapSource.PixelHeight != Constants.TileSize )
          {
-            throw new Exception( string.Format( "Tile texture set image height should be {0}", Constants.TileSize ) );
+            throw new Exception( string.Format( "Tile texture pool image height should be {0}", Constants.TileSize ) );
          }
          else if ( bitmapSource.PixelWidth % Constants.TileSize != 0 )
          {
-            throw new Exception( string.Format( "Tile texture set image width should be a multiple of {0}", Constants.TileSize ) );
+            throw new Exception( string.Format( "Tile texture pool image width should be a multiple of {0}", Constants.TileSize ) );
          }
       }
 
@@ -41,13 +41,29 @@ namespace DW3ArduinoEditor
          {
             throw new Exception( "Static sprite texture image pixel format should be Indexed8" );
          }
-         else if ( bitmapSource.PixelHeight != Constants.StaticSpriteSize )
+         else if ( bitmapSource.PixelHeight != Constants.StaticSpriteTextureSize )
          {
-            throw new Exception( string.Format( "Static sprite set image height should be {0}", Constants.StaticSpriteSize ) );
+            throw new Exception( string.Format( "Static sprite pool image height should be {0}", Constants.StaticSpriteTextureSize ) );
          }
-         else if ( bitmapSource.PixelWidth % Constants.StaticSpriteSize != 0 )
+         else if ( bitmapSource.PixelWidth % Constants.StaticSpriteTextureSize != 0 )
          {
-            throw new Exception( string.Format( "Static sprite set image width should be a multiple of {0}", Constants.StaticSpriteSize ) );
+            throw new Exception( string.Format( "Static sprite pool image width should be a multiple of {0}", Constants.StaticSpriteTextureSize ) );
+         }
+      }
+
+      public static void CheckActiveSpriteTexturePoolBitmapFormat( BitmapSource bitmapSource )
+      {
+         if ( bitmapSource.Format != PixelFormats.Indexed8 )
+         {
+            throw new Exception( "Active sprite texture image pixel format should be Indexed8" );
+         }
+         else if ( bitmapSource.PixelHeight != Constants.ActiveSpriteTextureHeight )
+         {
+            throw new Exception( string.Format( "Active sprite pool image height should be {0}", Constants.ActiveSpriteTextureHeight ) );
+         }
+         else if ( bitmapSource.PixelWidth % Constants.ActiveSpriteTextureWidth != 0 )
+         {
+            throw new Exception( string.Format( "Active sprite pool image width should be a multiple of {0}", Constants.ActiveSpriteTextureWidth ) );
          }
       }
 

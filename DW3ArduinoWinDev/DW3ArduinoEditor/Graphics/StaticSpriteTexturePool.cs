@@ -22,37 +22,37 @@ namespace DW3ArduinoEditor.Graphics
 
          BitmapUtils.CheckStaticSpriteTexturePoolBitmapFormat( bitmapSource );
          ReadStaticSpriteTextureBitmaps( bitmapSource );
-         UpdatePalette( bitmapSource.PixelWidth / Constants.StaticSpriteSize );
+         UpdatePalette( bitmapSource.PixelWidth / Constants.StaticSpriteTextureSize );
 
          // Extract the static sprites as C# sprites
          var staticSpriteSheet = Sprite.LoadFromFile( imagePath );
-         int staticSpriteCount = staticSpriteSheet.Width / Constants.StaticSpriteSize;
+         int staticSpriteCount = staticSpriteSheet.Width / Constants.StaticSpriteTextureSize;
 
          for ( int textureIndex = 0; textureIndex < staticSpriteCount; textureIndex++ )
          {
-            int srcX = textureIndex * Constants.StaticSpriteSize;
+            int srcX = textureIndex * Constants.StaticSpriteTextureSize;
             int srcY = 0;
 
-            var staticSpriteSprite = staticSpriteSheet.Extract( srcX, srcY, Constants.StaticSpriteSize, Constants.StaticSpriteSize );
+            var staticSpriteSprite = staticSpriteSheet.Extract( srcX, srcY, Constants.StaticSpriteTextureSize, Constants.StaticSpriteTextureSize );
             _staticSpriteTextureSprites.Add( staticSpriteSprite );
          }
       }
 
       private void ReadStaticSpriteTextureBitmaps( BitmapSource bitmapSource )
       {
-         for ( int i = 0; i < ( bitmapSource.PixelWidth / Constants.StaticSpriteSize ); i++ )
+         for ( int i = 0; i < ( bitmapSource.PixelWidth / Constants.StaticSpriteTextureSize ); i++ )
          {
             int stride = bitmapSource.PixelWidth * ( bitmapSource.Format.BitsPerPixel / 8 );
             var data = new byte[stride * bitmapSource.PixelHeight];
             bitmapSource.CopyPixels( data, stride, 0 );
-            _staticSpriteTextureBitmaps.Add( new WriteableBitmap( Constants.StaticSpriteSize, bitmapSource.PixelHeight, bitmapSource.DpiX, bitmapSource.DpiY, bitmapSource.Format, bitmapSource.Palette ) );
-            _staticSpriteTextureBitmaps[i].WritePixels( new Int32Rect( 0, 0, Constants.StaticSpriteSize, Constants.StaticSpriteSize ), data, stride, Constants.StaticSpriteSize * i );
+            _staticSpriteTextureBitmaps.Add( new WriteableBitmap( Constants.StaticSpriteTextureSize, bitmapSource.PixelHeight, bitmapSource.DpiX, bitmapSource.DpiY, bitmapSource.Format, bitmapSource.Palette ) );
+            _staticSpriteTextureBitmaps[i].WritePixels( new Int32Rect( 0, 0, Constants.StaticSpriteTextureSize, Constants.StaticSpriteTextureSize ), data, stride, Constants.StaticSpriteTextureSize * i );
          }
       }
 
       private void UpdatePalette( int staticSpriteTextureCount )
       {
-         int staticSpritePixels = Constants.StaticSpriteSize * Constants.StaticSpriteSize;
+         int staticSpritePixels = Constants.StaticSpriteTextureSize * Constants.StaticSpriteTextureSize;
 
          for ( int i = 0; i < staticSpriteTextureCount; i++ )
          {
@@ -75,7 +75,7 @@ namespace DW3ArduinoEditor.Graphics
                   var pixelColor = ColorUtils.GetPixelColor( staticSpriteBitmap, x, y );
                   var pixelColor16 = ColorUtils.ColorToUInt16( pixelColor );
                   _palette.AddColor( pixelColor16 );
-                  StaticSpritePaletteIndexes[i][( y * Constants.StaticSpriteSize ) + x] = _palette.GetIndexForColor( pixelColor16 );
+                  StaticSpritePaletteIndexes[i][( y * Constants.StaticSpriteTextureSize ) + x] = _palette.GetIndexForColor( pixelColor16 );
                }
             }
          }
