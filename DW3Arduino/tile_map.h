@@ -73,6 +73,7 @@ typedef struct TileMap_t
 
    ActiveSprite_t activeSprites[TILEMAP_MAX_ACTIVE_SPRITES];
    u32 activeSpriteCount;
+   ActiveSprite_t playerSprite;
 
    Portal_t portals[TILEMAP_MAX_PORTALS];
    u32 portalCount;

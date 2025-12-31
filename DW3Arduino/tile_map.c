@@ -17,6 +17,13 @@ void TileMap_Tic( TileMap_t* tileMap )
    {
       Npc_Tic( tileMap->npcs + i );
    }
+
+   for ( i = 0; i < tileMap->activeSpriteCount; i++ )
+   {
+      ActiveSprite_Tic( tileMap->activeSprites + i );
+   }
+
+   ActiveSprite_Tic( &tileMap->playerSprite );
 }
 
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
