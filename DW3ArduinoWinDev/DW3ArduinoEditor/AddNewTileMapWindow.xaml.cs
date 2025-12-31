@@ -11,6 +11,7 @@ namespace DW3ArduinoEditor
       public uint NewTilesY { get; private set; } = 0;
       public bool NewWraps { get; private set; } = false;
       public bool NewAffectsDaylight { get; private set; } = false;
+      public bool NewIsUnderground { get; private set; } = false;
 
       public AddNewTileMapWindow()
       {
@@ -64,6 +65,8 @@ namespace DW3ArduinoEditor
          NewTilesX = uint.Parse( HorizontalTilesTextBox.Text );
          NewTilesY = uint.Parse( VerticalTilesTextBox.Text );
          NewWraps = WrapsCheckBox.IsChecked ?? false;
+         NewAffectsDaylight = AffectsDaylightCheckBox.IsChecked ?? false;
+         NewIsUnderground = IsUndergroundCheckBox.IsChecked ?? false;
          DialogResult = true;
          Close();
       }

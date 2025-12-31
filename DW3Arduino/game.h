@@ -1,9 +1,10 @@
 #if !defined( GAME_H )
 #define GAME_H
 
-#define DAY_FACTOR_TOTAL_SECONDS    60
-#define DAY_FACTOR_LOW_CUTOFF       0.3f
-#define DAY_FACTOR_HIGH_CUTOFF      0.7f
+#define DAY_FACTOR_TOTAL_SECONDS          60
+#define DAY_FACTOR_LOW_CUTOFF             0.3f
+#define DAY_FACTOR_HIGH_CUTOFF            0.7f
+#define DAY_FACTOR_UNDERGROUND_THRESHOLD  0.4f
 
 #include "common.h"
 #include "clock.h"

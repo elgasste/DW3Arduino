@@ -142,6 +142,13 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _affectsDaylight, value );
       }
 
+      private bool _isUnderground;
+      public bool IsUnderground
+      {
+         get => _isUnderground;
+         set => SetProperty( ref _isUnderground, value );
+      }
+
       private PortalViewModel? _edgePortal;
       public PortalViewModel? EdgePortal
       {
@@ -149,7 +156,7 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _edgePortal, value );
       }
 
-      public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps, bool affectsDaylight, uint tileTextureSetIndex, uint staticSpriteTextureSetIndex )
+      public TileMapViewModel( uint index, string name, uint tilesX, uint tilesY, bool wraps, bool affectsDaylight, bool isUnderground, uint tileTextureSetIndex, uint staticSpriteTextureSetIndex )
       {
          _index = index;
          _name = name;
@@ -157,6 +164,7 @@ namespace DW3ArduinoEditor.ViewModels
          _tilesY = tilesY;
          _wraps = wraps;
          _affectsDaylight = affectsDaylight;
+         _isUnderground = isUnderground;
          _tileTextureSetIndex = tileTextureSetIndex;
          _staticSpriteTextureSetIndex = staticSpriteTextureSetIndex;
 
@@ -174,6 +182,7 @@ namespace DW3ArduinoEditor.ViewModels
          _tilesY = saveData.TilesY;
          _wraps = saveData.Wraps;
          _affectsDaylight = saveData.AffectsDaylight;
+         _isUnderground = saveData.IsUnderground;
          _tileTextureSetIndex = saveData.TileTextureSetIndex;
          _staticSpriteTextureSetIndex = saveData.StaticSpriteTextureSetIndex;
 
