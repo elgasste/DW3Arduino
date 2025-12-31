@@ -476,7 +476,7 @@ namespace DW3ArduinoEditor.ViewModels
          if ( result.HasValue && result.Value )
          {
             uint index = ( TileMaps.Count > 0 ) ? TileMaps[^1].Index + 1 : 0;
-            var newTileMap = new TileMapViewModel( index, window.NewTileMapName, window.NewTilesX, window.NewTilesY, window.NewWraps, window.NewAffectsDaylight, TileTextureSets[0].Index, StaticSpriteTextureSets[0].Index );
+            var newTileMap = new TileMapViewModel( index, window.NewTileMapName, window.NewTilesX, window.NewTilesY, window.NewWraps, window.NewAffectsDaylight, window.NewIsUnderground, TileTextureSets[0].Index, StaticSpriteTextureSets[0].Index );
             TileMaps.Add( newTileMap );
             SelectedTileMap = newTileMap;
          }

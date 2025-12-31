@@ -265,11 +265,12 @@ namespace DW3ArduinoEditor.SaveData
          {
             WriteToFileStream( fs, string.Format( "      case {0}: // {1}\n", _gameSaveData.TileMaps[i].Index, _gameSaveData.TileMaps[i].Name ) );
             WriteToFileStream( fs, string.Format( "         TileMap_LoadTileTexturesFromSetIndex( tileMap, {0} );\n", _gameSaveData.TileMaps[i].TileTextureSetIndex ) );
-            WriteToFileStream( fs, string.Format( "         tileMap->tilesX = {0}; tileMap->tilesY = {1}; tileMap->wraps = {2}; tileMap->affectsDaylight = {3};\n",
+            WriteToFileStream( fs, string.Format( "         tileMap->tilesX = {0}; tileMap->tilesY = {1}; tileMap->wraps = {2}; tileMap->affectsDaylight = {3}; tileMap->isUnderground = {4};\n",
                _gameSaveData.TileMaps[i].TilesX,
                _gameSaveData.TileMaps[i].TilesY,
                _gameSaveData.TileMaps[i].Wraps ? "True" : "False",
-               _gameSaveData.TileMaps[i].AffectsDaylight ? "True" : "False" ) );
+               _gameSaveData.TileMaps[i].AffectsDaylight ? "True" : "False",
+               _gameSaveData.TileMaps[i].IsUnderground ? "True" : "False" ) );
             WriteToFileStream( fs, string.Format( "         tileMap->staticSpriteCount = {0}; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = {1}; tileMap->hasEdgePortal = {2};\n",
                _gameSaveData.TileMaps[i].StaticSprites.Count,
                _gameSaveData.TileMaps[i].Portals.Count,

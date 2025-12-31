@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DW3ArduinoEditor"
         mc:Ignorable="d"
         Title="Add New Tile Map"
-        Height="202"
+        Height="228"
         Width="300"
         ResizeMode="NoResize">
    <Grid>
@@ -16,6 +16,7 @@
          <ColumnDefinition />
       </Grid.ColumnDefinitions>
       <Grid.RowDefinitions>
+         <RowDefinition Height="26" />
          <RowDefinition Height="26" />
          <RowDefinition Height="26" />
          <RowDefinition Height="26" />
@@ -75,18 +76,27 @@
       
       <!-- Affects Daylight -->
       <CheckBox x:Name="AffectsDaylightCheckBox"
-          Grid.Column="0"
-          Grid.Row="4"
-          HorizontalAlignment="Right"
-          VerticalAlignment="Center"/>
+                Grid.Column="0"
+                Grid.Row="4"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"/>
       <TextBlock Grid.Column="1"
-           Grid.Row="4"
-           Margin="3"
-           Text="Affects Daylight"/>
+                 Grid.Row="4"
+                 Margin="3"
+                 Text="Affects Daylight"/>
+      <CheckBox x:Name="IsUndergroundCheckBox"
+                Grid.Column="0"
+                Grid.Row="5"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"/>
+      <TextBlock Grid.Column="1"
+                 Grid.Row="5"
+                 Margin="3"
+                 Text="Is Underground" />
 
       <!-- Create/Cancel buttons -->
       <StackPanel Grid.Column="0"
-                  Grid.Row="5"
+                  Grid.Row="6"
                   Grid.ColumnSpan="2"
                   Orientation="Horizontal"
                   HorizontalAlignment="Right"

@@ -2586,7 +2586,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
    {
       case 0: // Overworld
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 0 );
-         tileMap->tilesX = 256; tileMap->tilesY = 256; tileMap->wraps = True; tileMap->affectsDaylight = True;
+         tileMap->tilesX = 256; tileMap->tilesY = 256; tileMap->wraps = True; tileMap->affectsDaylight = True; tileMap->isUnderground = False;
          tileMap->staticSpriteCount = 7; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 5; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
          tileMap->staticSprites[0].textureIndex = 0; tileMap->staticSprites[0].tileIndex = 55724; tileMap->staticSprites[0].isPassable = True;
@@ -4244,7 +4244,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 1: // Aliahan Town
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 34; tileMap->tilesY = 40; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 34; tileMap->tilesY = 40; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
          tileMap->staticSpriteCount = 10; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 5; tileMap->hasEdgePortal = True;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 759; tileMap->staticSprites[0].isPassable = False;
@@ -4353,7 +4353,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 2: // Aliahan Eatery 1F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 8; tileMap->tilesY = 15; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 8; tileMap->tilesY = 15; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
          tileMap->staticSpriteCount = 7; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 3; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 18; tileMap->staticSprites[0].isPassable = False;
@@ -4378,7 +4378,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 3: // Aliahan Eatery 2F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 11; tileMap->tilesY = 18; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 11; tileMap->tilesY = 18; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
          tileMap->staticSpriteCount = 13; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          tileMap->staticSprites[0].textureIndex = 5; tileMap->staticSprites[0].tileIndex = 30; tileMap->staticSprites[0].isPassable = True;
@@ -4410,7 +4410,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 4: // Aliahan House 1F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
          tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          tileMap->staticSprites[0].textureIndex = 4; tileMap->staticSprites[0].tileIndex = 8; tileMap->staticSprites[0].isPassable = True;
@@ -4423,7 +4423,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 5: // Aliahan House 2F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 8; tileMap->tilesY = 8; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 8; tileMap->tilesY = 8; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
          tileMap->staticSpriteCount = 6; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          tileMap->staticSprites[0].textureIndex = 5; tileMap->staticSprites[0].tileIndex = 14; tileMap->staticSprites[0].isPassable = True;
@@ -4441,7 +4441,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 6: // Aliahan Castle 1F Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 30; tileMap->tilesY = 30; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 30; tileMap->tilesY = 30; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
          tileMap->staticSpriteCount = 22; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 7; tileMap->hasEdgePortal = True;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          tileMap->staticSprites[0].textureIndex = 19; tileMap->staticSprites[0].tileIndex = 403; tileMap->staticSprites[0].isPassable = False;
@@ -4523,7 +4523,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 7: // Aliahan Castle 1F NW
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 10; tileMap->tilesY = 6; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 10; tileMap->tilesY = 6; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
          tileMap->staticSpriteCount = 4; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          tileMap->staticSprites[0].textureIndex = 10; tileMap->staticSprites[0].tileIndex = 11; tileMap->staticSprites[0].isPassable = False;
@@ -4538,7 +4538,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 8: // Aliahan Castle 1F Hallway
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 10; tileMap->tilesY = 24; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 10; tileMap->tilesY = 24; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
          tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          tileMap->staticSprites[0].textureIndex = 5; tileMap->staticSprites[0].tileIndex = 226; tileMap->staticSprites[0].isPassable = True;
@@ -4560,7 +4560,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 9: // Aliahan Castle Prison Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 12; tileMap->tilesY = 11; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 12; tileMap->tilesY = 11; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
          tileMap->staticSpriteCount = 3; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          tileMap->staticSprites[0].textureIndex = 4; tileMap->staticSprites[0].tileIndex = 94; tileMap->staticSprites[0].isPassable = True;
@@ -4579,7 +4579,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 10: // Aliahan Castle Prison Hallway
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 12; tileMap->tilesY = 3; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 12; tileMap->tilesY = 3; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
          tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          tileMap->staticSprites[0].textureIndex = 20; tileMap->staticSprites[0].tileIndex = 17; tileMap->staticSprites[0].isPassable = False;
@@ -4592,7 +4592,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 11: // Aliahan Castle Throne Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 19; tileMap->tilesY = 24; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 19; tileMap->tilesY = 24; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
          tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          tileMap->staticSprites[0].textureIndex = 5; tileMap->staticSprites[0].tileIndex = 408; tileMap->staticSprites[0].isPassable = False;
@@ -4619,7 +4619,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 12: // Reeve Hidden Area Outside
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 49; tileMap->tilesY = 42; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 49; tileMap->tilesY = 42; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
          tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 15; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
          tileMap->staticSprites[0].textureIndex = 12; tileMap->staticSprites[0].tileIndex = 1001; tileMap->staticSprites[0].isPassable = True;
@@ -4754,7 +4754,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 13: // Reeve Hidden Area Inside
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
          tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
          tileMap->portals[0].sourceTileIndex = 17; tileMap->portals[0].destTileMapIndex = 12; tileMap->portals[0].destTileIndex = 960;
@@ -4765,7 +4765,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 14: // Promontory Cave B1
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 10; tileMap->tilesY = 12; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 10; tileMap->tilesY = 12; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
          tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          tileMap->staticSprites[0].textureIndex = 7; tileMap->staticSprites[0].tileIndex = 27; tileMap->staticSprites[0].isPassable = True;
@@ -4780,7 +4780,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 15: // Promontory Cave B2 SW
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 46; tileMap->tilesY = 29; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 46; tileMap->tilesY = 29; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
          tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 9; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          tileMap->staticSprites[0].textureIndex = 7; tileMap->staticSprites[0].tileIndex = 1109; tileMap->staticSprites[0].isPassable = True;
@@ -4839,7 +4839,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 16: // Promontory Cave B2 South Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
          tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 46; tileMap->staticSprites[0].isPassable = True;
@@ -4852,7 +4852,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 17: // Promontory Cave B2 NE
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 22; tileMap->tilesY = 26; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 22; tileMap->tilesY = 26; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
          tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 4; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 69; tileMap->staticSprites[0].isPassable = True;
@@ -4890,7 +4890,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 18: // Promontory Cave B2 Stairs
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 6; tileMap->tilesY = 6; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 6; tileMap->tilesY = 6; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
          tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 3; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          tileMap->staticSprites[0].textureIndex = 7; tileMap->staticSprites[0].tileIndex = 21; tileMap->staticSprites[0].isPassable = True;
@@ -4903,7 +4903,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 19: // Najima B1 Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 54; tileMap->tilesY = 46; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 54; tileMap->tilesY = 46; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
          tileMap->staticSpriteCount = 12; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 8; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          tileMap->staticSprites[0].textureIndex = 13; tileMap->staticSprites[0].tileIndex = 153; tileMap->staticSprites[0].isPassable = True;
@@ -5024,7 +5024,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 20: // Najima B1 West Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 8; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 8; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
          tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 27; tileMap->staticSprites[0].isPassable = True;
@@ -5035,9 +5035,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          for ( i = 30; i < 32; i++ ) m[i] = 0x0005; for ( i = 34; i < 40; i++ ) m[i] = 0x0026; for ( i = 42; i < 48; i++ ) m[i] = 0x0026;
          for ( i = 50; i < 54; i++ ) m[i] = 0x0026; for ( i = 58; i < 62; i++ ) m[i] = 0x0026; for ( i = 72; i < 80; i++ ) m[i] = 0x0005;
          break;
-      case 21: // Najima B1 West Room
+      case 21: // Najima B1 East Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
          tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 63; tileMap->staticSprites[0].isPassable = True;
@@ -5052,7 +5052,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 22: // Najima 1F Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 34; tileMap->tilesY = 44; tileMap->wraps = False; tileMap->affectsDaylight = False;
+         tileMap->tilesX = 34; tileMap->tilesY = 44; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
          tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = True;
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          tileMap->staticSprites[0].textureIndex = 14; tileMap->staticSprites[0].tileIndex = 1343; tileMap->staticSprites[0].isPassable = True;
