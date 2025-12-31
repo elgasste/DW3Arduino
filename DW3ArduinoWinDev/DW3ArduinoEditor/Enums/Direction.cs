@@ -5,6 +5,8 @@
       Left = 0,
       Up,
       Right,
-      Down
+      Down,
+      
+      Count
    }
 }

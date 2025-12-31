@@ -1,11 +1,14 @@
 #include "sprite.h"
 #include "clock.h"
 
-void ActiveSprite_Reset( ActiveSprite_t* sprite )
+void ActiveSprite_Init( ActiveSprite_t* sprite, u32 textureIndex, u32 offsetX, u32 offsetY, Direction_t direction )
 {
+   sprite->textureIndex = textureIndex;
+   sprite->offset.x = offsetX;
+   sprite->offset.y = offsetY;
+   sprite->direction = direction;
    sprite->frame = 0;
    sprite->frameSeconds = 0.0f;
-   sprite->direction = Direction_Down;
 }
 
 void ActiveSprite_SetDirection( ActiveSprite_t* sprite, Direction_t direction )

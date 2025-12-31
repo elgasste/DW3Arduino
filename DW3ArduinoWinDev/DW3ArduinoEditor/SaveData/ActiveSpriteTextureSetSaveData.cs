@@ -13,7 +13,7 @@ namespace DW3ArduinoEditor.SaveData
       {
          Index = index;
 
-         for ( int i = 0; i < Constants.StaticSpriteTextureSetSize; i++ )
+         for ( int i = 0; i < Constants.ActiveSpriteTextureSetSize; i++ )
          {
             ActiveSpriteTexturePoolIndexes.Add( 0 );
          }

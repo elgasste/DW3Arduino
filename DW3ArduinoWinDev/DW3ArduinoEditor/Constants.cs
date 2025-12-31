@@ -27,6 +27,8 @@
       public const int StaticSpriteTextureSetSize = 32;
       public const int ActiveSpriteTextureWidth = 32;
       public const int ActiveSpriteTextureHeight = 64;
+      public const int ActiveSpriteFrames = 2;
+      public const int ActiveSpriteTextureFrameSize = 16;
       public const int ActiveSpriteTextureSetSize = 16;
 
       public const int PaletteMaxColors = 256;

@@ -100,9 +100,9 @@ namespace DW3ArduinoEditor.ViewModels
                }
             }
          }
-         catch
+         catch ( Exception ex )
          {
-            MessageBox.Show( "Something went wrong when loading save data, file is possibly corrupt! Starting from scratch.", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+            MessageBox.Show( string.Format( "Something went wrong when loading save data, file is possibly corrupt: \"{0}\". Starting from scratch.", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
          }
 
          if ( TileTextureSets.Count == 0 )
@@ -566,7 +566,7 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets ), _palette, _tileTexturePool, _staticSpriteTexturePool );
+         generator.WriteGameDataSourceFile( new( TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets ), _palette, _tileTexturePool, _staticSpriteTexturePool, _activeSpriteTexturePool );
          MessageBox.Show( "Game data source file has been written." );
       }
 

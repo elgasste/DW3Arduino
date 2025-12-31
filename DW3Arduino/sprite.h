@@ -10,7 +10,7 @@
 #define ACTIVE_SPRITE_FRAME_SIZE             16
 #define ACTIVE_SPRITE_FRAME_PIXELS           ( ACTIVE_SPRITE_FRAME_SIZE * ACTIVE_SPRITE_FRAME_SIZE )
 #define ACTIVE_SPRITE_FRAMES                 2
-#define ACTIVE_SPRITE_FRAME_TOTAL_SECONDS    0.5f
+#define ACTIVE_SPRITE_FRAME_TOTAL_SECONDS    0.35f
 
 typedef enum Direction_t
 {
@@ -57,7 +57,7 @@ ActiveSprite_t;
 extern "C" {
 #endif
 
-void ActiveSprite_Reset( ActiveSprite_t* sprite );
+void ActiveSprite_Init( ActiveSprite_t* sprite, u32 textureIndex, u32 offsetX, u32 offsetY, Direction_t direction );
 void ActiveSprite_SetDirection( ActiveSprite_t* sprite, Direction_t direction );
 void ActiveSprite_Tic( ActiveSprite_t* sprite );
 
