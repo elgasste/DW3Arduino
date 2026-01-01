@@ -1,4 +1,5 @@
-﻿using DW3ArduinoEditor.ViewModels;
+﻿using DW3ArduinoEditor.Enums;
+using DW3ArduinoEditor.ViewModels;
 
 namespace DW3ArduinoEditor.SaveData
 {
@@ -7,6 +8,7 @@ namespace DW3ArduinoEditor.SaveData
       public uint SourceTileIndex { get; set; }
       public uint DestTileMapIndex { get; set; }
       public uint DestTileIndex { get; set; }
+      public Direction DestDirection { get; set; }
 
       public PortalSaveData() { }
 
@@ -15,6 +17,7 @@ namespace DW3ArduinoEditor.SaveData
          SourceTileIndex = viewModel.SourceTileIndex;
          DestTileMapIndex = viewModel.DestTileMapIndex;
          DestTileIndex = viewModel.DestTileIndex;
+         DestDirection = viewModel.DestDirection;
       }
    }
 }

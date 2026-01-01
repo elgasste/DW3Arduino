@@ -1,4 +1,5 @@
-﻿using DW3ArduinoEditor.SaveData;
+﻿using DW3ArduinoEditor.Enums;
+using DW3ArduinoEditor.SaveData;
 
 namespace DW3ArduinoEditor.ViewModels
 {
@@ -25,11 +26,19 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _destTileIndex, value );
       }
 
-      public PortalViewModel( uint sourceTileIndex, uint destTileMapIndex, uint destTileIndex )
+      private Direction _destDirection;
+      public Direction DestDirection
+      {
+         get => _destDirection;
+         set => SetProperty( ref _destDirection, value );
+      }
+
+      public PortalViewModel( uint sourceTileIndex, uint destTileMapIndex, uint destTileIndex, Direction destDirection )
       {
          _sourceTileIndex = sourceTileIndex;
          _destTileMapIndex = destTileMapIndex;
          _destTileIndex = destTileIndex;
+         _destDirection = DestDirection;
       }
 
       public PortalViewModel( PortalSaveData saveData )
@@ -37,6 +46,7 @@ namespace DW3ArduinoEditor.ViewModels
          _sourceTileIndex = saveData.SourceTileIndex;
          _destTileMapIndex = saveData.DestTileMapIndex;
          _destTileIndex = saveData.DestTileIndex;
+         _destDirection = saveData.DestDirection;
       }
    }
 }

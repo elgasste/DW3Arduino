@@ -228,6 +228,7 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
    u32 i, newPosX, newPosY;
    u32 destTileMapIndex = portal->destTileMapIndex;
    u32 destTileIndex = portal->destTileIndex;
+   Direction_t destDirection = portal->destDirection;
 
    TileMap_LoadFromIndex( &game->tileMap, destTileMapIndex );
    TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
@@ -237,6 +238,6 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
 
    for ( i = 0; i < game->tileMap.playerSpriteCount; i++ )
    {
-      ActiveSprite_SetDirection( game->tileMap.playerSprites + i, portal->destDirection );
+      ActiveSprite_SetDirection( game->tileMap.playerSprites + i, destDirection );
    }
 }

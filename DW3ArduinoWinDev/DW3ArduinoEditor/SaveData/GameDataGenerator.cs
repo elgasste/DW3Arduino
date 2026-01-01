@@ -393,7 +393,7 @@ namespace DW3ArduinoEditor.SaveData
 
             for ( int j = 0; j < _gameSaveData.TileMaps[i].Portals.Count; j++ )
             {
-               WriteToFileStream( fs, string.Format( "         tileMap->portals[{0}].sourceTileIndex = {1}; tileMap->portals[{0}].destTileMapIndex = {2}; tileMap->portals[{0}].destTileIndex = {3};\n", j, _gameSaveData.TileMaps[i].Portals[j].SourceTileIndex, _gameSaveData.TileMaps[i].Portals[j].DestTileMapIndex, _gameSaveData.TileMaps[i].Portals[j].DestTileIndex ) );
+               WriteToFileStream( fs, string.Format( "         tileMap->portals[{0}].sourceTileIndex = {1}; tileMap->portals[{0}].destTileMapIndex = {2}; tileMap->portals[{0}].destTileIndex = {3}; tileMap->portals[{0}].destDirection = Direction_{4};\n", j, _gameSaveData.TileMaps[i].Portals[j].SourceTileIndex, _gameSaveData.TileMaps[i].Portals[j].DestTileMapIndex, _gameSaveData.TileMaps[i].Portals[j].DestTileIndex, _gameSaveData.TileMaps[i].Portals[j].DestDirection ) );
             }
 
             if ( _gameSaveData.TileMaps[i].EdgePortal is not null )
