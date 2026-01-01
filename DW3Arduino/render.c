@@ -218,15 +218,17 @@ internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw
    u32 i, startPos;
    Entity_t* entity = game->tileMap.entities;
    Vector2u32_t* viewportScreenPos = &game->tileMap.viewportScreenPos;
+   ActiveSpriteTexture_t* textures;
 
    for ( i = 0; i < game->tileMap.entityCount; i++ )
    {
       if ( Utility_RectsIntersect32i( (i32)entity->pos.x, (i32)entity->pos.y, (i32)entity->pos.w, (i32)entity->pos.h, vx, vy, vw, vh ) )
       {
          startPos = ( ACTIVE_SPRITE_FRAME_PIXELS * ACTIVE_SPRITE_FRAMES ) * entity->sprite->direction + ( ACTIVE_SPRITE_FRAME_PIXELS * entity->sprite->frame );
+         textures = ( entity == game->player.entity ) ? game->tileMap.playerSpriteTextures : game->tileMap.activeSpriteTextures;
 
          Screen_DrawBoundedBuffer8( &game->screen,
-                                    game->tileMap.activeSpriteTextures[entity->sprite->textureIndex].paletteIndexes + startPos,
+                                    textures[entity->sprite->textureIndex].paletteIndexes + startPos,
                                     ACTIVE_SPRITE_FRAME_SIZE, ACTIVE_SPRITE_FRAME_SIZE,
                                     ( (i32)( entity->pos.x ) - vx - entity->sprite->offset.x ) + viewportScreenPos->x + xOffset,
                                     ( (i32)( entity->pos.y ) - vy - entity->sprite->offset.y ) + viewportScreenPos->y + yOffset,

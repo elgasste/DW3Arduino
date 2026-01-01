@@ -38,6 +38,9 @@ extern "C" {
 void Game_Init( Game_t* game, u16* screenBuffer );
 void Game_Tic( Game_t* game );
 
+// game_data.c
+void Game_LoadPlayerSprites( Game_t* game );
+
 // physics.c
 void Physics_Tic( Game_t* game );
 

@@ -51,6 +51,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteStaticSpriteTextureIndexesFunction( fs );
          WriteActiveSpriteTexturesPoolFunction( fs );
          WriteActiveSpriteTextureIndexesFunction( fs );
+         WritePlayerSpritesFunction( fs );
          WriteTileMapFunction( fs );
       }
 
@@ -309,18 +310,18 @@ namespace DW3ArduinoEditor.SaveData
 
          if ( _gameSaveData?.ActiveSpriteTextureSets.Count == 0 )
          {
-            WriteToFileStream( fs, "   UNUSED_PARAM( tileMap );\n" );
             WriteToFileStream( fs, "   UNUSED_PARAM( index );\n" );
+            WriteToFileStream( fs, "   tileMap->activeSpriteCount = 0;\n" );
          }
          else
          {
-
             WriteToFileStream( fs, "   switch ( index )\n" );
             WriteToFileStream( fs, "   {\n" );
 
             for ( int i = 0; i < _gameSaveData?.ActiveSpriteTextureSets.Count; i++ )
             {
                WriteToFileStream( fs, string.Format( "      case {0}:\n", _gameSaveData.ActiveSpriteTextureSets[i].Index ) );
+               WriteToFileStream( fs, string.Format( "         tileMap->activeSpriteCount = {0};\n", _gameSaveData.ActiveSpriteTextureSets[i].ActiveSpriteTexturePoolIndexes.Count ) );
 
                for ( int j = 0; j < _gameSaveData.ActiveSpriteTextureSets[i].ActiveSpriteTexturePoolIndexes.Count; j++ )
                {
@@ -332,6 +333,21 @@ namespace DW3ArduinoEditor.SaveData
 
             WriteToFileStream( fs, "   }\n" );
          }
+
+         WriteToFileStream( fs, "}\n" );
+      }
+
+      private void WritePlayerSpritesFunction( FileStream fs )
+      {
+         WriteToFileStream( fs, "\nvoid Game_LoadPlayerSprites( Game_t* game )\n" );
+         WriteToFileStream( fs, "{\n" );
+
+         // TODO: implement multiple party members
+         WriteToFileStream( fs, "   TileMap_LoadActiveSpriteTextureFromPoolIndex( game->tileMap.playerSpriteTextures, 0 );\n" );
+         WriteToFileStream( fs, "   game->tileMap.playerSpriteCount = 1;\n" );
+         WriteToFileStream( fs, "   game->tileMap.playerSprites[0].textureIndex = 0;\n" );
+         WriteToFileStream( fs, "   game->tileMap.playerSprites[0].offset.x = 2;\n" );
+         WriteToFileStream( fs, "   game->tileMap.playerSprites[0].offset.y = 4;\n" );
 
          WriteToFileStream( fs, "}\n" );
       }

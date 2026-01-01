@@ -23,11 +23,11 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->tileMap.viewportScreenPos.x = 0;
    game->tileMap.viewportScreenPos.y = 0;
 
-   game->player.entity = &game->tileMap.entities[0];
-   game->player.entity->sprite = &game->tileMap.playerSprite;
-   game->player.entity->sprite->textureIndex = 0;
-   game->player.entity->sprite->offset.x = 2;
-   game->player.entity->sprite->offset.y = 4;
+   Game_LoadPlayerSprites( game );
+
+   game->player.entity = game->tileMap.entities;
+   game->player.entity->sprite = game->tileMap.playerSprites;
+   game->player.entity->sprite->direction = Direction_Down;
    game->player.entity->pos.x = 2722.0f;
    game->player.entity->pos.y = 3538.0f;
    game->player.entity->pos.w = 12.0f;
@@ -39,7 +39,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
                                                             (u32)game->player.entity->pos.x,
                                                             (u32)game->player.entity->pos.y );
 
-   ActiveSprite_SetDirection( &game->tileMap.playerSprite, Direction_Down );
+   ActiveSprite_SetDirection( game->player.entity->sprite, Direction_Down );
    TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
 
    game->isAM = False;
@@ -76,7 +76,7 @@ void Game_Tic( Game_t* game )
 internal void Game_HandleInput( Game_t* game )
 {
    Entity_t* entity = game->player.entity;
-   ActiveSprite_t* sprite = &game->tileMap.playerSprite;
+   ActiveSprite_t* sprite = game->player.entity->sprite;
    r32 velocity = TileMap_GetTileVelocity( &game->tileMap, game->player.tileIndex );
 
 #if defined( VISUAL_STUDIO_DEV )
