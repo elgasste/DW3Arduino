@@ -225,7 +225,7 @@ internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
 
 internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
 {
-   u32 newPosX, newPosY;
+   u32 i, newPosX, newPosY;
    u32 destTileMapIndex = portal->destTileMapIndex;
    u32 destTileIndex = portal->destTileIndex;
 
@@ -234,4 +234,9 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
    game->player.tileIndex = destTileIndex;
    TileMap_CenterEntityOnTile( &game->tileMap, game->player.entity, destTileIndex );
    TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
+
+   for ( i = 0; i < game->tileMap.playerSpriteCount; i++ )
+   {
+      ActiveSprite_SetDirection( game->tileMap.playerSprites + i, portal->destDirection );
+   }
 }
