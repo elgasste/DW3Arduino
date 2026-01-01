@@ -23,7 +23,10 @@ void TileMap_Tic( TileMap_t* tileMap )
       ActiveSprite_Tic( tileMap->activeSprites + i );
    }
 
-   ActiveSprite_Tic( &tileMap->playerSprite );
+   for ( i = 0; i < tileMap->playerSpriteCount; i++ )
+   {
+      ActiveSprite_Tic( tileMap->playerSprites + i );
+   }
 }
 
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )

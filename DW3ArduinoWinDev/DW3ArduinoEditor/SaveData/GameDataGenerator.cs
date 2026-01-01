@@ -51,6 +51,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteStaticSpriteTextureIndexesFunction( fs );
          WriteActiveSpriteTexturesPoolFunction( fs );
          WriteActiveSpriteTextureIndexesFunction( fs );
+         WritePlayerSpritesFunction( fs );
          WriteTileMapFunction( fs );
       }
 
@@ -65,6 +66,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadActiveSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
+         WriteToFileStream( fs, "internal void TileMap_LoadPlayerSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );\n" );
       }
 
       private void WritePaletteFunction( FileStream fs )
@@ -332,6 +334,21 @@ namespace DW3ArduinoEditor.SaveData
 
             WriteToFileStream( fs, "   }\n" );
          }
+
+         WriteToFileStream( fs, "}\n" );
+      }
+
+      private void WritePlayerSpritesFunction( FileStream fs )
+      {
+         WriteToFileStream( fs, "void Game_LoadPlayerSprites( Game_t* game )\n" );
+         WriteToFileStream( fs, "{\n" );
+
+         // TODO: implement multiple party members
+         WriteToFileStream( fs, "   TileMap_LoadActiveSpriteTextureFromPoolIndex( game->tileMap.playerSpriteTextures, 0 );\n" );
+         WriteToFileStream( fs, "   game->tileMap.playerSpriteCount = 1;\n" );
+         WriteToFileStream( fs, "   game->tileMap.playerSprites[0].textureIndex = 0;\n" );
+         WriteToFileStream( fs, "   game->tileMap.playerSprites[0].offset.x = 2;\n" );
+         WriteToFileStream( fs, "   game->tileMap.playerSprites[0].offset.y = 4;\n" );
 
          WriteToFileStream( fs, "}\n" );
       }

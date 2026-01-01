@@ -9,6 +9,7 @@ internal void TileMap_LoadStaticSpriteTextureFromPoolIndex( StaticSpriteTexture_
 internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
 internal void TileMap_LoadActiveSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );
 internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
+internal void TileMap_LoadPlayerSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );
 
 void Screen_LoadPalette( Screen_t* screen )
 {
@@ -2758,6 +2759,14 @@ internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, 
          TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[15], 0 );
          break;
    }
+}
+void Game_LoadPlayerSprites( Game_t* game )
+{
+   TileMap_LoadActiveSpriteTextureFromPoolIndex( game->tileMap.playerSpriteTextures, 0 );
+   game->tileMap.playerSpriteCount = 1;
+   game->tileMap.playerSprites[0].textureIndex = 0;
+   game->tileMap.playerSprites[0].offset.x = 2;
+   game->tileMap.playerSprites[0].offset.y = 4;
 }
 
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
