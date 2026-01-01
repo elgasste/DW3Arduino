@@ -66,7 +66,6 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadActiveSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
-         WriteToFileStream( fs, "internal void TileMap_LoadPlayerSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );\n" );
       }
 
       private void WritePaletteFunction( FileStream fs )

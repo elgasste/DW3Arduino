@@ -9,7 +9,6 @@ internal void TileMap_LoadStaticSpriteTextureFromPoolIndex( StaticSpriteTexture_
 internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
 internal void TileMap_LoadActiveSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );
 internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
-internal void TileMap_LoadPlayerSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );
 
 void Screen_LoadPalette( Screen_t* screen )
 {
@@ -1669,10 +1668,6 @@ internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 inde
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[25], 25 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[26], 26 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[27], 27 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[28], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[29], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[30], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[31], 8 );
          break;
       case 1:
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[0], 0 );
@@ -1695,18 +1690,6 @@ internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 inde
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[17], 41 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[18], 42 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[19], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[20], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[21], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[22], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[23], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[24], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[25], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[26], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[27], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[28], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[29], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[30], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[31], 8 );
          break;
       case 2:
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[0], 9 );
@@ -1734,13 +1717,6 @@ internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 inde
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[22], 63 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[23], 64 );
          TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[24], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[25], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[26], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[27], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[28], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[29], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[30], 8 );
-         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[31], 8 );
          break;
    }
 }
@@ -2492,23 +2468,6 @@ internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, 
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[12], 13 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[13], 30 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[14], 32 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[15], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[16], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[17], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[18], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[19], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[20], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[21], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[22], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[23], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[24], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[25], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[26], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[27], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[28], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[29], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[30], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[31], 0 );
          break;
       case 1:
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[0], 0 );
@@ -2534,15 +2493,6 @@ internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, 
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[20], 28 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[21], 29 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[22], 30 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[23], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[24], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[25], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[26], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[27], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[28], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[29], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[30], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[31], 0 );
          break;
       case 2:
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[0], 12 );
@@ -2560,23 +2510,6 @@ internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, 
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[12], 38 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[13], 39 );
          TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[14], 40 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[15], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[16], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[17], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[18], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[19], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[20], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[21], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[22], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[23], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[24], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[25], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[26], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[27], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[28], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[29], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[30], 0 );
-         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[31], 0 );
          break;
    }
 }
