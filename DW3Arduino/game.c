@@ -25,7 +25,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
 
    Game_LoadPlayerSprites( game );
 
-   game->player.entity = &game->tileMap.entities[0];
+   game->player.entity = game->tileMap.entities;
    game->player.entity->sprite = game->tileMap.playerSprites;
    game->player.entity->sprite->direction = Direction_Down;
    game->player.entity->pos.x = 2722.0f;

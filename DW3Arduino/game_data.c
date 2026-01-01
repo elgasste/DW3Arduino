@@ -2738,28 +2738,10 @@ internal void TileMap_LoadActiveSpriteTextureFromPoolIndex( ActiveSpriteTexture_
 
 internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index )
 {
-   switch ( index )
-   {
-      case 0:
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[0], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[1], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[2], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[3], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[4], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[5], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[6], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[7], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[8], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[9], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[10], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[11], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[12], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[13], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[14], 0 );
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[15], 0 );
-         break;
-   }
+   UNUSED_PARAM( index );
+   tileMap->activeSpriteCount = 0;
 }
+
 void Game_LoadPlayerSprites( Game_t* game )
 {
    TileMap_LoadActiveSpriteTextureFromPoolIndex( game->tileMap.playerSpriteTextures, 0 );
