@@ -47,6 +47,7 @@ typedef struct Portal_t
    u32 sourceTileIndex;
    u32 destTileMapIndex;
    u32 destTileIndex;
+   Direction_t destDirection;
 }
 Portal_t;
 
