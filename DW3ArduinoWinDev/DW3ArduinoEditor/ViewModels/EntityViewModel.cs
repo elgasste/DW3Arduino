@@ -1,12 +1,12 @@
-﻿using System.Numerics;
-using DW3ArduinoEditor.SaveData;
+﻿using DW3ArduinoEditor.SaveData;
+using DW3ArduinoEditor.Types;
 
 namespace DW3ArduinoEditor.ViewModels
 {
    public class EntityViewModel : ViewModelBase
    {
-      private Vector4 _pos;
-      public Vector4 Pos
+      private Vector4f _pos;
+      public Vector4f Pos
       {
          get => _pos;
          set => SetProperty( ref _pos, value );
@@ -19,7 +19,7 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _spriteIndex, value );
       }
 
-      public EntityViewModel( Vector4 pos, uint spriteIndex )
+      public EntityViewModel( Vector4f pos, uint spriteIndex )
       {
          _pos = pos;
          _spriteIndex = spriteIndex;

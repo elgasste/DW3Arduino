@@ -6,6 +6,7 @@ void TileMap_Init( TileMap_t* tileMap )
    tileMap->staticSpriteCount = 0;
    tileMap->activeSpriteCount = 0;
    tileMap->entityCount = 0;
+   tileMap->playerCount = 0;
    tileMap->npcCount = 0;
 }
 
@@ -23,7 +24,7 @@ void TileMap_Tic( TileMap_t* tileMap )
       ActiveSprite_Tic( tileMap->activeSprites + i );
    }
 
-   for ( i = 0; i < tileMap->playerSpriteCount; i++ )
+   for ( i = 0; i < tileMap->playerCount; i++ )
    {
       ActiveSprite_Tic( tileMap->playerSprites + i );
    }

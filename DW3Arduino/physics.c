@@ -17,16 +17,25 @@ void Physics_Tic( Game_t* game )
 
 internal void Physics_MoveEntities( Game_t* game )
 {
-   u32 i;
+   i32 i;
    i32 pixelsRemaining;
    r32 deltaX, deltaY, deltaRemaining, sign, prev;
-   Entity_t* entity;
-
-   // the idea for this came from Maddy Thorson's game, Celeste. instead of setting an entity's
-   // new position and doing collision resolution, we just move a pixel at a time and check for collisions.
-   // it may not be very performant though, we'll have to keep an eye on that.
-   for ( i = 0, entity = game->tileMap.entities; i < game->tileMap.entityCount; i++, entity++ )
+   Entity_t* entity = 0;
+      
+   for ( i = 0; i < (i32)game->tileMap.entityCount + 1; i++ )
    {
+      // clip the player first (we only need to check the player that's being controlled,
+      // the other player entities should be allowed to clip)
+      if ( entity == 0 )
+      {
+         i = -1;
+         entity = game->player.entity;
+      }
+      else if ( i == (i32)game->tileMap.entityCount )
+      {
+         break;
+      }
+
       entity->prevPos = entity->pos;
 
       deltaX = entity->velocity.x * CLOCK_FRAME_SECONDS;
@@ -41,6 +50,10 @@ internal void Physics_MoveEntities( Game_t* game )
       else
       {
 #endif
+
+         // the idea for this came from Maddy Thorson's game, Celeste. instead of setting an entity's
+         // new position and doing collision resolution, we just move a pixel at a time and check for collisions.
+         // it may not be very performant though, we'll have to keep an eye on that.
 
          // horizontal pass
          if ( deltaX != 0.0f )
@@ -184,6 +197,15 @@ internal void Physics_MoveEntities( Game_t* game )
       if ( entity == game->player.entity && ( entity->pos.x != entity->prevPos.x || entity->pos.y != entity->prevPos.y ) )
       {
          game->playerMovedCallback( game );
+      }
+
+      if ( i == -1 )
+      {
+         entity = game->tileMap.entities;
+      }
+      else
+      {
+         entity++;
       }
    }
 }

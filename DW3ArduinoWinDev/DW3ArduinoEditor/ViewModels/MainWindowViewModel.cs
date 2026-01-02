@@ -2,6 +2,7 @@
 using DW3ArduinoEditor.Enums;
 using DW3ArduinoEditor.Graphics;
 using DW3ArduinoEditor.SaveData;
+using DW3ArduinoEditor.Types;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;

@@ -16,37 +16,14 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    AnimationChain_Init( &game->animationChain, &game->screen );
    TileMap_Init( &game->tileMap );
 
-   TileMap_LoadFromIndex( &game->tileMap, 0 );
-
    game->tileMap.viewport.w = SCREEN_WIDTH;
    game->tileMap.viewport.h = SCREEN_HEIGHT;
    game->tileMap.viewportScreenPos.x = 0;
    game->tileMap.viewportScreenPos.y = 0;
 
-   Game_LoadPlayerSprites( game );
-
-   game->player.entity = game->tileMap.entities;
-   game->player.entity->sprite = game->tileMap.playerSprites;
-   game->player.entity->sprite->direction = Direction_Down;
-   game->player.entity->pos.x = 2722.0f;
-   game->player.entity->pos.y = 3538.0f;
-   game->player.entity->pos.w = 12.0f;
-   game->player.entity->pos.h = 12.0f;
-   game->player.entity->prevPos = game->player.entity->pos;
-   game->player.entity->velocity.x = 0.0f;
-   game->player.entity->velocity.y = 0.0f;
-   game->player.tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap,
-                                                            (u32)game->player.entity->pos.x,
-                                                            (u32)game->player.entity->pos.y );
-
-   ActiveSprite_SetDirection( game->player.entity->sprite, Direction_Down );
-   TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
-
-   game->isAM = False;
-   game->daylightFactor = 1.0f; // noon
-   game->screen.dayFilterIntensity = 1.0f;
-
    game->playerMovedCallback = Game_HandlePlayerMoved;
+
+   Game_Reset( game );
 }
 
 void Game_Tic( Game_t* game )
@@ -236,7 +213,7 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
    TileMap_CenterEntityOnTile( &game->tileMap, game->player.entity, destTileIndex );
    TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
 
-   for ( i = 0; i < game->tileMap.playerSpriteCount; i++ )
+   for ( i = 0; i < game->tileMap.playerCount; i++ )
    {
       ActiveSprite_SetDirection( game->tileMap.playerSprites + i, destDirection );
    }

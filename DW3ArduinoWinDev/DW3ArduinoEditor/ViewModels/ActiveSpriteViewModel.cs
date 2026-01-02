@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using DW3ArduinoEditor.Enums;
 using DW3ArduinoEditor.SaveData;
+using DW3ArduinoEditor.Types;
 
 namespace DW3ArduinoEditor.ViewModels
 {
@@ -13,8 +14,8 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _textureIndex, value );
       }
 
-      private Vector2 _offset;
-      public Vector2 Offset
+      private Vector2f _offset = new( 0, 0 );
+      public Vector2f Offset
       {
          get => _offset;
          set => SetProperty( ref _offset, value );
@@ -30,7 +31,7 @@ namespace DW3ArduinoEditor.ViewModels
       public ActiveSpriteViewModel()
       {
          TextureIndex = 0;
-         Offset = Vector2.Zero;
+         Offset = new( 0, 0 );
          StartDirection = Direction.Down;
       }
 

@@ -13,8 +13,7 @@
 #define TILEMAP_MAX_STATIC_SPRITES              64
 #define TILEMAP_MAX_ACTIVE_SPRITE_TEXTURES      16
 #define TILEMAP_MAX_ACTIVE_SPRITES              32
-#define TILEMAP_MAX_PLAYER_SPRITE_TEXTURES      4
-#define TILEMAP_MAX_PLAYER_SPRITES              4
+#define TILEMAP_MAX_PLAYER_OBJECTS              4
 #define TILEMAP_MAX_PORTALS                     32
 #define TILEMAP_MAX_ENTITIES                    32
 #define TILEMAP_MAX_NPCS                        24
@@ -56,7 +55,7 @@ typedef struct TileMap_t
    TileTexture_t tileTextures[TILEMAP_MAX_TILE_TEXTURES];
    StaticSpriteTexture_t staticSpriteTextures[TILEMAP_MAX_STATIC_SPRITE_TEXTURES];
    ActiveSpriteTexture_t activeSpriteTextures[TILEMAP_MAX_ACTIVE_SPRITE_TEXTURES];
-   ActiveSpriteTexture_t playerSpriteTextures[TILEMAP_MAX_PLAYER_SPRITE_TEXTURES];
+   ActiveSpriteTexture_t playerSpriteTextures[TILEMAP_MAX_PLAYER_OBJECTS];
 
    // bits 0-4:  tile texture index
    // bit  5:    is passable
@@ -78,8 +77,9 @@ typedef struct TileMap_t
    ActiveSprite_t activeSprites[TILEMAP_MAX_ACTIVE_SPRITES];
    u32 activeSpriteCount;
 
-   ActiveSprite_t playerSprites[TILEMAP_MAX_PLAYER_SPRITES];
-   u32 playerSpriteCount;
+   ActiveSprite_t playerSprites[TILEMAP_MAX_PLAYER_OBJECTS];
+   Entity_t playerEntities[TILEMAP_MAX_PLAYER_OBJECTS];
+   u32 playerCount;
 
    Portal_t portals[TILEMAP_MAX_PORTALS];
    u32 portalCount;
