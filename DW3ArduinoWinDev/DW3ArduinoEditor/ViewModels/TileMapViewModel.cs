@@ -10,6 +10,7 @@ namespace DW3ArduinoEditor.ViewModels
       public ObservableCollection<StaticSpriteViewModel> StaticSprites { get; private set; } = [];
       public ObservableCollection<ActiveSpriteViewModel> ActiveSprites { get; private set; } = [];
       public ObservableCollection<PortalViewModel> Portals { get; private set; } = [];
+      public ObservableCollection<EntityViewModel> Entities { get; private set; } = [];
 
       private uint _index;
       public uint Index
@@ -277,6 +278,12 @@ namespace DW3ArduinoEditor.ViewModels
          if ( saveData.EdgePortal is not null )
          {
             _edgePortal = new( saveData.EdgePortal );
+         }
+
+         // TODO: check that we don't go over the maximum amount of entities
+         foreach ( var entity in saveData.Entities )
+         {
+            Entities.Add( new( entity ) );
          }
       }
    }

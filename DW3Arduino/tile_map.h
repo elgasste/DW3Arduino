@@ -89,7 +89,6 @@ typedef struct TileMap_t
 
    Entity_t entities[TILEMAP_MAX_ENTITIES];
    u32 entityCount;
-   Entity_t playerEntity;
 
    Npc_t npcs[TILEMAP_MAX_NPCS];
    u32 npcCount;

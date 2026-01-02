@@ -63,6 +63,11 @@ namespace DW3ArduinoEditor.SaveData
          {
             EdgePortal = new( viewModel.EdgePortal );
          }
+
+         foreach ( var entity in viewModel.Entities )
+         {
+            Entities.Add( new( entity ) );
+         }
       }
    }
 }
