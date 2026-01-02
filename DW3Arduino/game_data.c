@@ -9,6 +9,32 @@ internal void TileMap_LoadStaticSpriteTextureFromPoolIndex( StaticSpriteTexture_
 internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
 internal void TileMap_LoadActiveSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );
 internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
+internal void TileMap_LoadPlayerSprites( TileMap_t* tileMap );
+
+internal void TileMap_LoadInitialData( TileMap_t* tm, u32 tx, u32 ty, Bool_t w, Bool_t d, Bool_t u, u32 ssc, u32 asc, u32 pc, Bool_t ep, u32 ec, u32 nc )
+{
+   tm->tilesX = tx; tm->tilesY = ty; tm->wraps = w; tm->affectsDaylight = d; tm->isUnderground = u; tm->staticSpriteCount = ssc; tm->activeSpriteCount = asc; tm->portalCount = pc, tm->hasEdgePortal = ep, tm->entityCount = ec; tm->npcCount = nc;
+}
+
+internal void TileMap_LoadStaticSpriteData( StaticSprite_t* s, u32 txi, u32 ti, Bool_t p )
+{
+   s->textureIndex = txi; s->tileIndex = ti; s->isPassable = p;
+}
+
+internal void TileMap_LoadActiveSpriteData( ActiveSprite_t* s, u32 txi, u32 ox, u32 oy, Direction_t d )
+{
+   s->textureIndex = txi; s->offset.x = ox; s->offset.y = oy; s->direction = d;
+}
+
+internal void TileMap_LoadPortalData( Portal_t* p, u32 st, u32 dm, u32 di, Direction_t dd )
+{
+   p->sourceTileIndex = st; p->destTileMapIndex = dm; p->destTileIndex = di; p->destDirection = dd;
+}
+
+internal void TileMap_LoadEntityData( Entity_t* e, r32 x, r32 y, r32 w, r32 h, ActiveSprite_t* s )
+{
+   e->pos.x = x; e->pos.y = y; e->pos.w = w; e->pos.h = h; e->sprite = s;
+}
 
 void Screen_LoadPalette( Screen_t* screen )
 {
@@ -2675,13 +2701,11 @@ internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, 
    tileMap->activeSpriteCount = 0;
 }
 
-void Game_LoadPlayerSprites( Game_t* game )
+void TileMap_LoadPlayerSprites( TileMap_t* tileMap )
 {
-   TileMap_LoadActiveSpriteTextureFromPoolIndex( game->tileMap.playerSpriteTextures, 0 );
-   game->tileMap.playerSpriteCount = 1;
-   game->tileMap.playerSprites[0].textureIndex = 0;
-   game->tileMap.playerSprites[0].offset.x = 2;
-   game->tileMap.playerSprites[0].offset.y = 4;
+   TileMap_LoadActiveSpriteTextureFromPoolIndex( tileMap->playerSpriteTextures, 0 );
+   tileMap->playerCount = 1;
+   TileMap_LoadActiveSpriteData( tileMap->playerSprites, 0, 2, 4, Direction_Down );
 }
 
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
@@ -2693,22 +2717,21 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
    {
       case 0: // Overworld
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 0 );
-         tileMap->tilesX = 256; tileMap->tilesY = 256; tileMap->wraps = True; tileMap->affectsDaylight = True; tileMap->isUnderground = False;
-         tileMap->staticSpriteCount = 7; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 5; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 256, 256, True, True, False, 7, 0, 5, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->staticSprites[0].textureIndex = 0; tileMap->staticSprites[0].tileIndex = 55724; tileMap->staticSprites[0].isPassable = True;
-         tileMap->staticSprites[1].textureIndex = 1; tileMap->staticSprites[1].tileIndex = 55725; tileMap->staticSprites[1].isPassable = True;
-         tileMap->staticSprites[2].textureIndex = 2; tileMap->staticSprites[2].tileIndex = 55980; tileMap->staticSprites[2].isPassable = True;
-         tileMap->staticSprites[3].textureIndex = 3; tileMap->staticSprites[3].tileIndex = 55981; tileMap->staticSprites[3].isPassable = True;
-         tileMap->staticSprites[4].textureIndex = 6; tileMap->staticSprites[4].tileIndex = 57247; tileMap->staticSprites[4].isPassable = True;
-         tileMap->staticSprites[5].textureIndex = 4; tileMap->staticSprites[5].tileIndex = 55717; tileMap->staticSprites[5].isPassable = True;
-         tileMap->staticSprites[6].textureIndex = 5; tileMap->staticSprites[6].tileIndex = 55973; tileMap->staticSprites[6].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 0, 55724, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 1, 55725, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 2, 55980, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 3, 3, 55981, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 4, 6, 57247, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 5, 4, 55717, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 6, 5, 55973, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 55980; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 817; tileMap->portals[0].destDirection = Direction_Right;
-         tileMap->portals[1].sourceTileIndex = 55981; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 817; tileMap->portals[1].destDirection = Direction_Right;
-         tileMap->portals[2].sourceTileIndex = 51363; tileMap->portals[2].destTileMapIndex = 12; tileMap->portals[2].destTileIndex = 1299; tileMap->portals[2].destDirection = Direction_Up;
-         tileMap->portals[3].sourceTileIndex = 57247; tileMap->portals[3].destTileMapIndex = 14; tileMap->portals[3].destTileIndex = 27; tileMap->portals[3].destDirection = Direction_Left;
-         tileMap->portals[4].sourceTileIndex = 55973; tileMap->portals[4].destTileMapIndex = 22; tileMap->portals[4].destTileIndex = 1444; tileMap->portals[4].destDirection = Direction_Up;
+         TileMap_LoadPortalData( tileMap->portals + 0, 55980, 1, 817, Direction_Right );
+         TileMap_LoadPortalData( tileMap->portals + 1, 55981, 1, 817, Direction_Right );
+         TileMap_LoadPortalData( tileMap->portals + 2, 51363, 12, 1299, Direction_Up );
+         TileMap_LoadPortalData( tileMap->portals + 3, 57247, 14, 27, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 4, 55973, 22, 1444, Direction_Up );
          for ( i = 0; i < 65536; i++ ) m[i] = 0x0009;
          for ( i = 3638; i < 3642; i++ ) m[i] = 0x0010; for ( i = 3772; i < 3779; i++ ) m[i] = 0x0010; for ( i = 3883; i < 3889; i++ ) m[i] = 0x0010;
          for ( i = 3894; i < 3898; i++ ) m[i] = 0x0062; for ( i = 3899; i < 3902; i++ ) m[i] = 0x0010; for ( i = 4023; i < 4027; i++ ) m[i] = 0x0010;
@@ -4352,25 +4375,24 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 1: // Aliahan Town
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 34; tileMap->tilesY = 40; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
-         tileMap->staticSpriteCount = 10; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 5; tileMap->hasEdgePortal = True;
+         TileMap_LoadInitialData( tileMap, 34, 40, False, False, False, 10, 0, 5, True, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 759; tileMap->staticSprites[0].isPassable = False;
-         tileMap->staticSprites[1].textureIndex = 6; tileMap->staticSprites[1].tileIndex = 999; tileMap->staticSprites[1].isPassable = False;
-         tileMap->staticSprites[2].textureIndex = 6; tileMap->staticSprites[2].tileIndex = 1075; tileMap->staticSprites[2].isPassable = False;
-         tileMap->staticSprites[3].textureIndex = 7; tileMap->staticSprites[3].tileIndex = 967; tileMap->staticSprites[3].isPassable = False;
-         tileMap->staticSprites[4].textureIndex = 8; tileMap->staticSprites[4].tileIndex = 1180; tileMap->staticSprites[4].isPassable = False;
-         tileMap->staticSprites[5].textureIndex = 9; tileMap->staticSprites[5].tileIndex = 1151; tileMap->staticSprites[5].isPassable = False;
-         tileMap->staticSprites[6].textureIndex = 0; tileMap->staticSprites[6].tileIndex = 118; tileMap->staticSprites[6].isPassable = True;
-         tileMap->staticSprites[7].textureIndex = 1; tileMap->staticSprites[7].tileIndex = 119; tileMap->staticSprites[7].isPassable = True;
-         tileMap->staticSprites[8].textureIndex = 2; tileMap->staticSprites[8].tileIndex = 152; tileMap->staticSprites[8].isPassable = True;
-         tileMap->staticSprites[9].textureIndex = 3; tileMap->staticSprites[9].tileIndex = 153; tileMap->staticSprites[9].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 6, 759, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 6, 999, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 6, 1075, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 3, 7, 967, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 4, 8, 1180, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 5, 9, 1151, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 6, 0, 118, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 7, 1, 119, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 8, 2, 152, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 9, 3, 153, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 582; tileMap->portals[0].destTileMapIndex = 2; tileMap->portals[0].destTileIndex = 115; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 583; tileMap->portals[1].destTileMapIndex = 2; tileMap->portals[1].destTileIndex = 116; tileMap->portals[1].destDirection = Direction_Left;
-         tileMap->portals[2].sourceTileIndex = 913; tileMap->portals[2].destTileMapIndex = 4; tileMap->portals[2].destTileIndex = 17; tileMap->portals[2].destDirection = Direction_Left;
-         tileMap->portals[3].sourceTileIndex = 152; tileMap->portals[3].destTileMapIndex = 6; tileMap->portals[3].destTileIndex = 884; tileMap->portals[3].destDirection = Direction_Left;
-         tileMap->portals[4].sourceTileIndex = 153; tileMap->portals[4].destTileMapIndex = 6; tileMap->portals[4].destTileIndex = 885; tileMap->portals[4].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 582, 2, 115, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 583, 2, 116, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 2, 913, 4, 17, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 3, 152, 6, 884, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 4, 153, 6, 885, Direction_Left );
          tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55980;
          for ( i = 0; i < 1360; i++ ) m[i] = 0x0020;
          for ( i = 1; i < 34; i++ ) m[i] = 0x0003; for ( i = 35; i < 48; i++ ) m[i] = 0x0003; for ( i = 48; i < 54; i++ ) m[i] = 0x0004;
@@ -4462,20 +4484,19 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 2: // Aliahan Eatery 1F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 8; tileMap->tilesY = 15; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
-         tileMap->staticSpriteCount = 7; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 3; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 8, 15, False, False, False, 7, 0, 3, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 18; tileMap->staticSprites[0].isPassable = False;
-         tileMap->staticSprites[1].textureIndex = 6; tileMap->staticSprites[1].tileIndex = 84; tileMap->staticSprites[1].isPassable = False;
-         tileMap->staticSprites[2].textureIndex = 4; tileMap->staticSprites[2].tileIndex = 22; tileMap->staticSprites[2].isPassable = True;
-         tileMap->staticSprites[3].textureIndex = 16; tileMap->staticSprites[3].tileIndex = 42; tileMap->staticSprites[3].isPassable = True;
-         tileMap->staticSprites[4].textureIndex = 16; tileMap->staticSprites[4].tileIndex = 44; tileMap->staticSprites[4].isPassable = True;
-         tileMap->staticSprites[5].textureIndex = 17; tileMap->staticSprites[5].tileIndex = 43; tileMap->staticSprites[5].isPassable = False;
-         tileMap->staticSprites[6].textureIndex = 15; tileMap->staticSprites[6].tileIndex = 78; tileMap->staticSprites[6].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 6, 18, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 6, 84, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 4, 22, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 3, 16, 42, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 4, 16, 44, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 5, 17, 43, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 6, 15, 78, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 115; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 582; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 116; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 583; tileMap->portals[1].destDirection = Direction_Left;
-         tileMap->portals[2].sourceTileIndex = 22; tileMap->portals[2].destTileMapIndex = 3; tileMap->portals[2].destTileIndex = 30; tileMap->portals[2].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 115, 1, 582, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 116, 1, 583, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 2, 22, 3, 30, Direction_Left );
          for ( i = 0; i < 120; i++ ) m[i] = 0x0026;
          for ( i = 1; i < 4; i++ ) m[i] = 0x0008; for ( i = 5; i < 7; i++ ) m[i] = 0x0008; for ( i = 7; i < 9; i++ ) m[i] = 0x0007;
          for ( i = 15; i < 17; i++ ) m[i] = 0x0007; for ( i = 19; i < 21; i++ ) m[i] = 0x0008; for ( i = 23; i < 25; i++ ) m[i] = 0x0007;
@@ -4488,24 +4509,23 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 3: // Aliahan Eatery 2F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 11; tileMap->tilesY = 18; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
-         tileMap->staticSpriteCount = 13; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 11, 18, False, False, False, 13, 0, 1, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         tileMap->staticSprites[0].textureIndex = 5; tileMap->staticSprites[0].tileIndex = 30; tileMap->staticSprites[0].isPassable = True;
-         tileMap->staticSprites[1].textureIndex = 6; tileMap->staticSprites[1].tileIndex = 46; tileMap->staticSprites[1].isPassable = False;
-         tileMap->staticSprites[2].textureIndex = 16; tileMap->staticSprites[2].tileIndex = 123; tileMap->staticSprites[2].isPassable = True;
-         tileMap->staticSprites[3].textureIndex = 16; tileMap->staticSprites[3].tileIndex = 125; tileMap->staticSprites[3].isPassable = True;
-         tileMap->staticSprites[4].textureIndex = 16; tileMap->staticSprites[4].tileIndex = 127; tileMap->staticSprites[4].isPassable = True;
-         tileMap->staticSprites[5].textureIndex = 16; tileMap->staticSprites[5].tileIndex = 129; tileMap->staticSprites[5].isPassable = True;
-         tileMap->staticSprites[6].textureIndex = 16; tileMap->staticSprites[6].tileIndex = 156; tileMap->staticSprites[6].isPassable = True;
-         tileMap->staticSprites[7].textureIndex = 16; tileMap->staticSprites[7].tileIndex = 160; tileMap->staticSprites[7].isPassable = True;
-         tileMap->staticSprites[8].textureIndex = 16; tileMap->staticSprites[8].tileIndex = 162; tileMap->staticSprites[8].isPassable = True;
-         tileMap->staticSprites[9].textureIndex = 17; tileMap->staticSprites[9].tileIndex = 124; tileMap->staticSprites[9].isPassable = False;
-         tileMap->staticSprites[10].textureIndex = 17; tileMap->staticSprites[10].tileIndex = 128; tileMap->staticSprites[10].isPassable = False;
-         tileMap->staticSprites[11].textureIndex = 17; tileMap->staticSprites[11].tileIndex = 157; tileMap->staticSprites[11].isPassable = False;
-         tileMap->staticSprites[12].textureIndex = 17; tileMap->staticSprites[12].tileIndex = 161; tileMap->staticSprites[12].isPassable = False;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 5, 30, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 6, 46, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 16, 123, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 3, 16, 125, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 4, 16, 127, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 5, 16, 129, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 6, 16, 156, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 7, 16, 160, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 8, 16, 162, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 9, 17, 124, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 10, 17, 128, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 11, 17, 157, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 12, 17, 161, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 30; tileMap->portals[0].destTileMapIndex = 2; tileMap->portals[0].destTileIndex = 22; tileMap->portals[0].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 30, 2, 22, Direction_Left );
          for ( i = 0; i < 198; i++ ) m[i] = 0x0026;
          for ( i = 1; i < 4; i++ ) m[i] = 0x0008; for ( i = 7; i < 10; i++ ) m[i] = 0x0008; for ( i = 10; i < 12; i++ ) m[i] = 0x0007;
          for ( i = 21; i < 23; i++ ) m[i] = 0x0007; for ( i = 32; i < 34; i++ ) m[i] = 0x0007; for ( i = 43; i < 45; i++ ) m[i] = 0x0007;
@@ -4521,13 +4541,12 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 4: // Aliahan House 1F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
-         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 5, 4, False, False, False, 1, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         tileMap->staticSprites[0].textureIndex = 4; tileMap->staticSprites[0].tileIndex = 8; tileMap->staticSprites[0].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 4, 8, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 17; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 913; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 8; tileMap->portals[1].destTileMapIndex = 5; tileMap->portals[1].destTileIndex = 14; tileMap->portals[1].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 17, 1, 913, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 8, 5, 14, Direction_Left );
          for ( i = 0; i < 20; i++ ) m[i] = 0x0008;
          for ( i = 4; i < 6; i++ ) m[i] = 0x0007; for ( i = 6; i < 9; i++ ) m[i] = 0x0026; for ( i = 9; i < 11; i++ ) m[i] = 0x0007;
          for ( i = 11; i < 14; i++ ) m[i] = 0x0026;
@@ -4535,17 +4554,16 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 5: // Aliahan House 2F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 8; tileMap->tilesY = 8; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
-         tileMap->staticSpriteCount = 6; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 8, 8, False, False, False, 6, 0, 1, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         tileMap->staticSprites[0].textureIndex = 5; tileMap->staticSprites[0].tileIndex = 14; tileMap->staticSprites[0].isPassable = True;
-         tileMap->staticSprites[1].textureIndex = 10; tileMap->staticSprites[1].tileIndex = 9; tileMap->staticSprites[1].isPassable = False;
-         tileMap->staticSprites[2].textureIndex = 11; tileMap->staticSprites[2].tileIndex = 10; tileMap->staticSprites[2].isPassable = False;
-         tileMap->staticSprites[3].textureIndex = 13; tileMap->staticSprites[3].tileIndex = 35; tileMap->staticSprites[3].isPassable = True;
-         tileMap->staticSprites[4].textureIndex = 13; tileMap->staticSprites[4].tileIndex = 37; tileMap->staticSprites[4].isPassable = True;
-         tileMap->staticSprites[5].textureIndex = 14; tileMap->staticSprites[5].tileIndex = 36; tileMap->staticSprites[5].isPassable = False;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 5, 14, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 10, 9, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 11, 10, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 3, 13, 35, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 4, 13, 37, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 5, 14, 36, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 14; tileMap->portals[0].destTileMapIndex = 4; tileMap->portals[0].destTileIndex = 8; tileMap->portals[0].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 14, 4, 8, Direction_Left );
          for ( i = 0; i < 64; i++ ) m[i] = 0x002A;
          for ( i = 1; i < 7; i++ ) m[i] = 0x0008; for ( i = 7; i < 9; i++ ) m[i] = 0x0007; for ( i = 15; i < 17; i++ ) m[i] = 0x0007;
          for ( i = 23; i < 25; i++ ) m[i] = 0x0007; for ( i = 31; i < 33; i++ ) m[i] = 0x0007; for ( i = 39; i < 41; i++ ) m[i] = 0x0007;
@@ -4554,39 +4572,38 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 6: // Aliahan Castle 1F Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 30; tileMap->tilesY = 30; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
-         tileMap->staticSpriteCount = 22; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 7; tileMap->hasEdgePortal = True;
+         TileMap_LoadInitialData( tileMap, 30, 30, False, False, False, 22, 0, 7, True, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         tileMap->staticSprites[0].textureIndex = 19; tileMap->staticSprites[0].tileIndex = 403; tileMap->staticSprites[0].isPassable = False;
-         tileMap->staticSprites[1].textureIndex = 19; tileMap->staticSprites[1].tileIndex = 406; tileMap->staticSprites[1].isPassable = False;
-         tileMap->staticSprites[2].textureIndex = 19; tileMap->staticSprites[2].tileIndex = 433; tileMap->staticSprites[2].isPassable = False;
-         tileMap->staticSprites[3].textureIndex = 19; tileMap->staticSprites[3].tileIndex = 436; tileMap->staticSprites[3].isPassable = False;
-         tileMap->staticSprites[4].textureIndex = 19; tileMap->staticSprites[4].tileIndex = 463; tileMap->staticSprites[4].isPassable = False;
-         tileMap->staticSprites[5].textureIndex = 19; tileMap->staticSprites[5].tileIndex = 466; tileMap->staticSprites[5].isPassable = False;
-         tileMap->staticSprites[6].textureIndex = 4; tileMap->staticSprites[6].tileIndex = 285; tileMap->staticSprites[6].isPassable = True;
-         tileMap->staticSprites[7].textureIndex = 20; tileMap->staticSprites[7].tileIndex = 99; tileMap->staticSprites[7].isPassable = False;
-         tileMap->staticSprites[8].textureIndex = 20; tileMap->staticSprites[8].tileIndex = 425; tileMap->staticSprites[8].isPassable = False;
-         tileMap->staticSprites[9].textureIndex = 20; tileMap->staticSprites[9].tileIndex = 537; tileMap->staticSprites[9].isPassable = False;
-         tileMap->staticSprites[10].textureIndex = 20; tileMap->staticSprites[10].tileIndex = 833; tileMap->staticSprites[10].isPassable = False;
-         tileMap->staticSprites[11].textureIndex = 21; tileMap->staticSprites[11].tileIndex = 245; tileMap->staticSprites[11].isPassable = False;
-         tileMap->staticSprites[12].textureIndex = 17; tileMap->staticSprites[12].tileIndex = 590; tileMap->staticSprites[12].isPassable = False;
-         tileMap->staticSprites[13].textureIndex = 17; tileMap->staticSprites[13].tileIndex = 592; tileMap->staticSprites[13].isPassable = False;
-         tileMap->staticSprites[14].textureIndex = 17; tileMap->staticSprites[14].tileIndex = 680; tileMap->staticSprites[14].isPassable = False;
-         tileMap->staticSprites[15].textureIndex = 17; tileMap->staticSprites[15].tileIndex = 682; tileMap->staticSprites[15].isPassable = False;
-         tileMap->staticSprites[16].textureIndex = 15; tileMap->staticSprites[16].tileIndex = 212; tileMap->staticSprites[16].isPassable = True;
-         tileMap->staticSprites[17].textureIndex = 15; tileMap->staticSprites[17].tileIndex = 213; tileMap->staticSprites[17].isPassable = True;
-         tileMap->staticSprites[18].textureIndex = 15; tileMap->staticSprites[18].tileIndex = 242; tileMap->staticSprites[18].isPassable = True;
-         tileMap->staticSprites[19].textureIndex = 15; tileMap->staticSprites[19].tileIndex = 243; tileMap->staticSprites[19].isPassable = True;
-         tileMap->staticSprites[20].textureIndex = 15; tileMap->staticSprites[20].tileIndex = 272; tileMap->staticSprites[20].isPassable = True;
-         tileMap->staticSprites[21].textureIndex = 15; tileMap->staticSprites[21].tileIndex = 273; tileMap->staticSprites[21].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 19, 403, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 19, 406, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 19, 433, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 3, 19, 436, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 4, 19, 463, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 5, 19, 466, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 6, 4, 285, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 7, 20, 99, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 8, 20, 425, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 9, 20, 537, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 10, 20, 833, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 11, 21, 245, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 12, 17, 590, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 13, 17, 592, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 14, 17, 680, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 15, 17, 682, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 16, 15, 212, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 17, 15, 213, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 18, 15, 242, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 19, 15, 243, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 20, 15, 272, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 21, 15, 273, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 883; tileMap->portals[0].destTileMapIndex = 1; tileMap->portals[0].destTileIndex = 152; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 884; tileMap->portals[1].destTileMapIndex = 1; tileMap->portals[1].destTileIndex = 152; tileMap->portals[1].destDirection = Direction_Left;
-         tileMap->portals[2].sourceTileIndex = 885; tileMap->portals[2].destTileMapIndex = 1; tileMap->portals[2].destTileIndex = 153; tileMap->portals[2].destDirection = Direction_Left;
-         tileMap->portals[3].sourceTileIndex = 886; tileMap->portals[3].destTileMapIndex = 1; tileMap->portals[3].destTileIndex = 153; tileMap->portals[3].destDirection = Direction_Left;
-         tileMap->portals[4].sourceTileIndex = 99; tileMap->portals[4].destTileMapIndex = 7; tileMap->portals[4].destTileIndex = 39; tileMap->portals[4].destDirection = Direction_Left;
-         tileMap->portals[5].sourceTileIndex = 110; tileMap->portals[5].destTileMapIndex = 8; tileMap->portals[5].destTileIndex = 30; tileMap->portals[5].destDirection = Direction_Left;
-         tileMap->portals[6].sourceTileIndex = 285; tileMap->portals[6].destTileMapIndex = 11; tileMap->portals[6].destTileIndex = 408; tileMap->portals[6].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 883, 1, 152, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 884, 1, 152, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 2, 885, 1, 153, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 3, 886, 1, 153, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 4, 99, 7, 39, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 5, 110, 8, 30, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 6, 285, 11, 408, Direction_Left );
          tileMap->edgePortal.destTileMapIndex = 1; tileMap->edgePortal.destTileIndex = 152;
          for ( i = 0; i < 900; i++ ) m[i] = 0x0026;
          for ( i = 0; i < 10; i++ ) m[i] = 0x0009; for ( i = 10; i < 20; i++ ) m[i] = 0x0020; for ( i = 20; i < 40; i++ ) m[i] = 0x0009;
@@ -4637,15 +4654,14 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 7: // Aliahan Castle 1F NW
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 10; tileMap->tilesY = 6; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
-         tileMap->staticSpriteCount = 4; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 10, 6, False, False, False, 4, 0, 1, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         tileMap->staticSprites[0].textureIndex = 10; tileMap->staticSprites[0].tileIndex = 11; tileMap->staticSprites[0].isPassable = False;
-         tileMap->staticSprites[1].textureIndex = 11; tileMap->staticSprites[1].tileIndex = 12; tileMap->staticSprites[1].isPassable = False;
-         tileMap->staticSprites[2].textureIndex = 16; tileMap->staticSprites[2].tileIndex = 25; tileMap->staticSprites[2].isPassable = True;
-         tileMap->staticSprites[3].textureIndex = 17; tileMap->staticSprites[3].tileIndex = 26; tileMap->staticSprites[3].isPassable = False;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 10, 11, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 11, 12, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 16, 25, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 3, 17, 26, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 39; tileMap->portals[0].destTileMapIndex = 6; tileMap->portals[0].destTileIndex = 99; tileMap->portals[0].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 39, 6, 99, Direction_Left );
          for ( i = 0; i < 60; i++ ) m[i] = 0x0026;
          for ( i = 1; i < 9; i++ ) m[i] = 0x0008; for ( i = 9; i < 11; i++ ) m[i] = 0x0007; for ( i = 19; i < 21; i++ ) m[i] = 0x0007;
          for ( i = 50; i < 60; i++ ) m[i] = 0x0008;
@@ -4653,13 +4669,12 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 8: // Aliahan Castle 1F Hallway
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 10; tileMap->tilesY = 24; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
-         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 10, 24, False, False, False, 1, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         tileMap->staticSprites[0].textureIndex = 5; tileMap->staticSprites[0].tileIndex = 226; tileMap->staticSprites[0].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 5, 226, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 30; tileMap->portals[0].destTileMapIndex = 6; tileMap->portals[0].destTileIndex = 110; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 226; tileMap->portals[1].destTileMapIndex = 9; tileMap->portals[1].destTileIndex = 94; tileMap->portals[1].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 30, 6, 110, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 226, 9, 94, Direction_Left );
          for ( i = 0; i < 240; i++ ) m[i] = 0x0033;
          for ( i = 1; i < 9; i++ ) m[i] = 0x0008; for ( i = 9; i < 11; i++ ) m[i] = 0x0007; for ( i = 11; i < 19; i++ ) m[i] = 0x0026;
          for ( i = 21; i < 29; i++ ) m[i] = 0x0026; for ( i = 30; i < 39; i++ ) m[i] = 0x0026; for ( i = 39; i < 41; i++ ) m[i] = 0x0007;
@@ -4676,15 +4691,14 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 9: // Aliahan Castle Prison Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 12; tileMap->tilesY = 11; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
-         tileMap->staticSpriteCount = 3; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 12, 11, False, False, True, 3, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         tileMap->staticSprites[0].textureIndex = 4; tileMap->staticSprites[0].tileIndex = 94; tileMap->staticSprites[0].isPassable = True;
-         tileMap->staticSprites[1].textureIndex = 22; tileMap->staticSprites[1].tileIndex = 63; tileMap->staticSprites[1].isPassable = False;
-         tileMap->staticSprites[2].textureIndex = 22; tileMap->staticSprites[2].tileIndex = 68; tileMap->staticSprites[2].isPassable = False;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 4, 94, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 22, 63, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 22, 68, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 94; tileMap->portals[0].destTileMapIndex = 8; tileMap->portals[0].destTileIndex = 226; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 122; tileMap->portals[1].destTileMapIndex = 10; tileMap->portals[1].destTileIndex = 2; tileMap->portals[1].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 94, 8, 226, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 122, 10, 2, Direction_Left );
          for ( i = 0; i < 132; i++ ) m[i] = 0x0026;
          for ( i = 1; i < 5; i++ ) m[i] = 0x0008; for ( i = 6; i < 11; i++ ) m[i] = 0x0008; for ( i = 11; i < 13; i++ ) m[i] = 0x0007;
          for ( i = 23; i < 25; i++ ) m[i] = 0x0007; for ( i = 35; i < 37; i++ ) m[i] = 0x0007; for ( i = 47; i < 49; i++ ) m[i] = 0x0007;
@@ -4696,26 +4710,24 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 10: // Aliahan Castle Prison Hallway
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 12; tileMap->tilesY = 3; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
-         tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 12, 3, False, False, True, 2, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         tileMap->staticSprites[0].textureIndex = 20; tileMap->staticSprites[0].tileIndex = 17; tileMap->staticSprites[0].isPassable = False;
-         tileMap->staticSprites[1].textureIndex = 5; tileMap->staticSprites[1].tileIndex = 22; tileMap->staticSprites[1].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 20, 17, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 5, 22, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 2; tileMap->portals[0].destTileMapIndex = 9; tileMap->portals[0].destTileIndex = 122; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 22; tileMap->portals[1].destTileMapIndex = 19; tileMap->portals[1].destTileIndex = 1887; tileMap->portals[1].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 2, 9, 122, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 22, 19, 1887, Direction_Left );
          for ( i = 0; i < 36; i++ ) m[i] = 0x0008;
          for ( i = 11; i < 13; i++ ) m[i] = 0x0007; for ( i = 13; i < 23; i++ ) m[i] = 0x0026;
          m[0] = 0x0007; m[2] = 0x0026; m[23] = 0x0007;
          break;
       case 11: // Aliahan Castle Throne Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 19; tileMap->tilesY = 24; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
-         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 19, 24, False, False, False, 1, 0, 1, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         tileMap->staticSprites[0].textureIndex = 5; tileMap->staticSprites[0].tileIndex = 408; tileMap->staticSprites[0].isPassable = False;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 5, 408, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 408; tileMap->portals[0].destTileMapIndex = 6; tileMap->portals[0].destTileIndex = 285; tileMap->portals[0].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 408, 6, 285, Direction_Left );
          for ( i = 0; i < 456; i++ ) m[i] = 0x0026;
          for ( i = 0; i < 20; i++ ) m[i] = 0x0007; for ( i = 20; i < 37; i++ ) m[i] = 0x0012; for ( i = 37; i < 39; i++ ) m[i] = 0x0007;
          for ( i = 45; i < 50; i++ ) m[i] = 0x002F; for ( i = 56; i < 58; i++ ) m[i] = 0x0007; for ( i = 65; i < 68; i++ ) m[i] = 0x0010;
@@ -4738,27 +4750,26 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 12: // Reeve Hidden Area Outside
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 49; tileMap->tilesY = 42; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
-         tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 15; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 49, 42, False, False, False, 2, 0, 15, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->staticSprites[0].textureIndex = 12; tileMap->staticSprites[0].tileIndex = 1001; tileMap->staticSprites[0].isPassable = True;
-         tileMap->staticSprites[1].textureIndex = 13; tileMap->staticSprites[1].tileIndex = 1009; tileMap->staticSprites[1].isPassable = False;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 12, 1001, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 13, 1009, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 755; tileMap->portals[0].destTileMapIndex = 0; tileMap->portals[0].destTileIndex = 51363; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 757; tileMap->portals[1].destTileMapIndex = 0; tileMap->portals[1].destTileIndex = 51363; tileMap->portals[1].destDirection = Direction_Left;
-         tileMap->portals[2].sourceTileIndex = 758; tileMap->portals[2].destTileMapIndex = 0; tileMap->portals[2].destTileIndex = 51363; tileMap->portals[2].destDirection = Direction_Left;
-         tileMap->portals[3].sourceTileIndex = 759; tileMap->portals[3].destTileMapIndex = 0; tileMap->portals[3].destTileIndex = 51363; tileMap->portals[3].destDirection = Direction_Left;
-         tileMap->portals[4].sourceTileIndex = 761; tileMap->portals[4].destTileMapIndex = 0; tileMap->portals[4].destTileIndex = 51363; tileMap->portals[4].destDirection = Direction_Left;
-         tileMap->portals[5].sourceTileIndex = 947; tileMap->portals[5].destTileMapIndex = 0; tileMap->portals[5].destTileIndex = 51363; tileMap->portals[5].destDirection = Direction_Left;
-         tileMap->portals[6].sourceTileIndex = 996; tileMap->portals[6].destTileMapIndex = 0; tileMap->portals[6].destTileIndex = 51363; tileMap->portals[6].destDirection = Direction_Left;
-         tileMap->portals[7].sourceTileIndex = 1012; tileMap->portals[7].destTileMapIndex = 0; tileMap->portals[7].destTileIndex = 51363; tileMap->portals[7].destDirection = Direction_Left;
-         tileMap->portals[8].sourceTileIndex = 1143; tileMap->portals[8].destTileMapIndex = 0; tileMap->portals[8].destTileIndex = 51363; tileMap->portals[8].destDirection = Direction_Left;
-         tileMap->portals[9].sourceTileIndex = 1192; tileMap->portals[9].destTileMapIndex = 0; tileMap->portals[9].destTileIndex = 51363; tileMap->portals[9].destDirection = Direction_Left;
-         tileMap->portals[10].sourceTileIndex = 1291; tileMap->portals[10].destTileMapIndex = 0; tileMap->portals[10].destTileIndex = 51363; tileMap->portals[10].destDirection = Direction_Left;
-         tileMap->portals[11].sourceTileIndex = 1295; tileMap->portals[11].destTileMapIndex = 0; tileMap->portals[11].destTileIndex = 51363; tileMap->portals[11].destDirection = Direction_Left;
-         tileMap->portals[12].sourceTileIndex = 1299; tileMap->portals[12].destTileMapIndex = 0; tileMap->portals[12].destTileIndex = 51363; tileMap->portals[12].destDirection = Direction_Left;
-         tileMap->portals[13].sourceTileIndex = 960; tileMap->portals[13].destTileMapIndex = 13; tileMap->portals[13].destTileIndex = 17; tileMap->portals[13].destDirection = Direction_Left;
-         tileMap->portals[14].sourceTileIndex = 1001; tileMap->portals[14].destTileMapIndex = 19; tileMap->portals[14].destTileIndex = 153; tileMap->portals[14].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 755, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 757, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 2, 758, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 3, 759, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 4, 761, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 5, 947, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 6, 996, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 7, 1012, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 8, 1143, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 9, 1192, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 10, 1291, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 11, 1295, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 12, 1299, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 13, 960, 13, 17, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 14, 1001, 19, 153, Direction_Left );
          for ( i = 0; i < 2058; i++ ) m[i] = 0x0022;
          for ( i = 51; i < 54; i++ ) m[i] = 0x0004; for ( i = 55; i < 58; i++ ) m[i] = 0x0004; for ( i = 59; i < 62; i++ ) m[i] = 0x0004;
          for ( i = 63; i < 66; i++ ) m[i] = 0x0004; for ( i = 67; i < 70; i++ ) m[i] = 0x0004; for ( i = 71; i < 74; i++ ) m[i] = 0x0004;
@@ -4874,11 +4885,10 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 13: // Reeve Hidden Area Inside
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         tileMap->tilesX = 5; tileMap->tilesY = 4; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
-         tileMap->staticSpriteCount = 0; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 5, 4, False, False, False, 0, 0, 1, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 17; tileMap->portals[0].destTileMapIndex = 12; tileMap->portals[0].destTileIndex = 960; tileMap->portals[0].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 17, 12, 960, Direction_Left );
          for ( i = 0; i < 20; i++ ) m[i] = 0x0008;
          for ( i = 4; i < 6; i++ ) m[i] = 0x0007; for ( i = 6; i < 9; i++ ) m[i] = 0x0026; for ( i = 9; i < 11; i++ ) m[i] = 0x0007;
          for ( i = 11; i < 14; i++ ) m[i] = 0x0026;
@@ -4886,14 +4896,13 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 14: // Promontory Cave B1
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 10; tileMap->tilesY = 12; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
-         tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 10, 12, False, False, True, 2, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
-         tileMap->staticSprites[0].textureIndex = 7; tileMap->staticSprites[0].tileIndex = 27; tileMap->staticSprites[0].isPassable = True;
-         tileMap->staticSprites[1].textureIndex = 8; tileMap->staticSprites[1].tileIndex = 92; tileMap->staticSprites[1].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 7, 27, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 8, 92, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 27; tileMap->portals[0].destTileMapIndex = 0; tileMap->portals[0].destTileIndex = 57247; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 92; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 1109; tileMap->portals[1].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 27, 0, 57247, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 92, 15, 1109, Direction_Left );
          for ( i = 0; i < 120; i++ ) m[i] = 0x0001;
          for ( i = 12; i < 18; i++ ) m[i] = 0x0002; for ( i = 22; i < 28; i++ ) m[i] = 0x0023; for ( i = 32; i < 38; i++ ) m[i] = 0x0023;
          for ( i = 42; i < 48; i++ ) m[i] = 0x0023; for ( i = 52; i < 58; i++ ) m[i] = 0x0023; for ( i = 62; i < 68; i++ ) m[i] = 0x0023;
@@ -4902,21 +4911,20 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 15: // Promontory Cave B2 SW
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 46; tileMap->tilesY = 29; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
-         tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 9; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 46, 29, False, False, True, 2, 0, 9, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
-         tileMap->staticSprites[0].textureIndex = 7; tileMap->staticSprites[0].tileIndex = 1109; tileMap->staticSprites[0].isPassable = True;
-         tileMap->staticSprites[1].textureIndex = 6; tileMap->staticSprites[1].tileIndex = 359; tileMap->staticSprites[1].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 7, 1109, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 6, 359, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 1109; tileMap->portals[0].destTileMapIndex = 14; tileMap->portals[0].destTileIndex = 92; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 1085; tileMap->portals[1].destTileMapIndex = 16; tileMap->portals[1].destTileIndex = 40; tileMap->portals[1].destDirection = Direction_Left;
-         tileMap->portals[2].sourceTileIndex = 1131; tileMap->portals[2].destTileMapIndex = 16; tileMap->portals[2].destTileIndex = 50; tileMap->portals[2].destDirection = Direction_Left;
-         tileMap->portals[3].sourceTileIndex = 42; tileMap->portals[3].destTileMapIndex = 17; tileMap->portals[3].destTileIndex = 204; tileMap->portals[3].destDirection = Direction_Left;
-         tileMap->portals[4].sourceTileIndex = 43; tileMap->portals[4].destTileMapIndex = 17; tileMap->portals[4].destTileIndex = 205; tileMap->portals[4].destDirection = Direction_Left;
-         tileMap->portals[5].sourceTileIndex = 597; tileMap->portals[5].destTileMapIndex = 17; tileMap->portals[5].destTileIndex = 492; tileMap->portals[5].destDirection = Direction_Left;
-         tileMap->portals[6].sourceTileIndex = 643; tileMap->portals[6].destTileMapIndex = 17; tileMap->portals[6].destTileIndex = 514; tileMap->portals[6].destDirection = Direction_Left;
-         tileMap->portals[7].sourceTileIndex = 137; tileMap->portals[7].destTileMapIndex = 18; tileMap->portals[7].destTileIndex = 12; tileMap->portals[7].destDirection = Direction_Left;
-         tileMap->portals[8].sourceTileIndex = 183; tileMap->portals[8].destTileMapIndex = 18; tileMap->portals[8].destTileIndex = 18; tileMap->portals[8].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 1109, 14, 92, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 1085, 16, 40, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 2, 1131, 16, 50, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 3, 42, 17, 204, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 4, 43, 17, 205, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 5, 597, 17, 492, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 6, 643, 17, 514, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 7, 137, 18, 12, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 8, 183, 18, 18, Direction_Left );
          for ( i = 0; i < 1334; i++ ) m[i] = 0x0029;
          for ( i = 32; i < 42; i++ ) m[i] = 0x0001; for ( i = 42; i < 44; i++ ) m[i] = 0x0023; for ( i = 44; i < 46; i++ ) m[i] = 0x0001;
          for ( i = 78; i < 80; i++ ) m[i] = 0x0001; for ( i = 80; i < 88; i++ ) m[i] = 0x0002; for ( i = 88; i < 90; i++ ) m[i] = 0x0023;
@@ -4962,13 +4970,12 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 16: // Promontory Cave B2 South Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
-         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 10, 10, False, False, True, 1, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
-         tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 46; tileMap->staticSprites[0].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 6, 46, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 40; tileMap->portals[0].destTileMapIndex = 15; tileMap->portals[0].destTileIndex = 1085; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 50; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 1131; tileMap->portals[1].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 40, 15, 1085, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 50, 15, 1131, Direction_Left );
          for ( i = 0; i < 100; i++ ) m[i] = 0x0001;
          for ( i = 12; i < 18; i++ ) m[i] = 0x0002; for ( i = 22; i < 28; i++ ) m[i] = 0x0023; for ( i = 30; i < 32; i++ ) m[i] = 0x0002;
          for ( i = 32; i < 38; i++ ) m[i] = 0x0023; for ( i = 40; i < 48; i++ ) m[i] = 0x0023; for ( i = 50; i < 58; i++ ) m[i] = 0x0023;
@@ -4976,15 +4983,14 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 17: // Promontory Cave B2 NE
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 22; tileMap->tilesY = 26; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
-         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 4; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 22, 26, False, False, True, 1, 0, 4, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
-         tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 69; tileMap->staticSprites[0].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 6, 69, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 204; tileMap->portals[0].destTileMapIndex = 15; tileMap->portals[0].destTileIndex = 42; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 205; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 43; tileMap->portals[1].destDirection = Direction_Left;
-         tileMap->portals[2].sourceTileIndex = 492; tileMap->portals[2].destTileMapIndex = 15; tileMap->portals[2].destTileIndex = 597; tileMap->portals[2].destDirection = Direction_Left;
-         tileMap->portals[3].sourceTileIndex = 514; tileMap->portals[3].destTileMapIndex = 15; tileMap->portals[3].destTileIndex = 643; tileMap->portals[3].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 204, 15, 42, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 205, 15, 43, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 2, 492, 15, 597, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 3, 514, 15, 643, Direction_Left );
          for ( i = 0; i < 572; i++ ) m[i] = 0x0029;
          for ( i = 0; i < 14; i++ ) m[i] = 0x0001; for ( i = 22; i < 24; i++ ) m[i] = 0x0001; for ( i = 24; i < 34; i++ ) m[i] = 0x0002;
          for ( i = 34; i < 36; i++ ) m[i] = 0x0001; for ( i = 44; i < 46; i++ ) m[i] = 0x0001; for ( i = 46; i < 56; i++ ) m[i] = 0x0023;
@@ -5015,44 +5021,42 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 18: // Promontory Cave B2 Stairs
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 6; tileMap->tilesY = 6; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
-         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 3; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 6, 6, False, False, True, 1, 0, 3, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
-         tileMap->staticSprites[0].textureIndex = 7; tileMap->staticSprites[0].tileIndex = 21; tileMap->staticSprites[0].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 7, 21, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 12; tileMap->portals[0].destTileMapIndex = 15; tileMap->portals[0].destTileIndex = 137; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 18; tileMap->portals[1].destTileMapIndex = 15; tileMap->portals[1].destTileIndex = 183; tileMap->portals[1].destDirection = Direction_Left;
-         tileMap->portals[2].sourceTileIndex = 21; tileMap->portals[2].destTileMapIndex = 19; tileMap->portals[2].destTileIndex = 2219; tileMap->portals[2].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 12, 15, 137, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 18, 15, 183, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 2, 21, 19, 2219, Direction_Left );
          for ( i = 0; i < 36; i++ ) m[i] = 0x0001;
          for ( i = 6; i < 10; i++ ) m[i] = 0x0002; for ( i = 12; i < 16; i++ ) m[i] = 0x0023; for ( i = 18; i < 22; i++ ) m[i] = 0x0023;
          for ( i = 30; i < 36; i++ ) m[i] = 0x0002;
          break;
       case 19: // Najima B1 Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 54; tileMap->tilesY = 46; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
-         tileMap->staticSpriteCount = 12; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 8; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 54, 46, False, False, True, 12, 0, 8, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
-         tileMap->staticSprites[0].textureIndex = 13; tileMap->staticSprites[0].tileIndex = 153; tileMap->staticSprites[0].isPassable = True;
-         tileMap->staticSprites[1].textureIndex = 13; tileMap->staticSprites[1].tileIndex = 1887; tileMap->staticSprites[1].isPassable = True;
-         tileMap->staticSprites[2].textureIndex = 13; tileMap->staticSprites[2].tileIndex = 2235; tileMap->staticSprites[2].isPassable = True;
-         tileMap->staticSprites[3].textureIndex = 14; tileMap->staticSprites[3].tileIndex = 2219; tileMap->staticSprites[3].isPassable = True;
-         tileMap->staticSprites[4].textureIndex = 9; tileMap->staticSprites[4].tileIndex = 580; tileMap->staticSprites[4].isPassable = False;
-         tileMap->staticSprites[5].textureIndex = 10; tileMap->staticSprites[5].tileIndex = 581; tileMap->staticSprites[5].isPassable = False;
-         tileMap->staticSprites[6].textureIndex = 11; tileMap->staticSprites[6].tileIndex = 634; tileMap->staticSprites[6].isPassable = False;
-         tileMap->staticSprites[7].textureIndex = 12; tileMap->staticSprites[7].tileIndex = 635; tileMap->staticSprites[7].isPassable = False;
-         tileMap->staticSprites[8].textureIndex = 9; tileMap->staticSprites[8].tileIndex = 558; tileMap->staticSprites[8].isPassable = False;
-         tileMap->staticSprites[9].textureIndex = 10; tileMap->staticSprites[9].tileIndex = 559; tileMap->staticSprites[9].isPassable = False;
-         tileMap->staticSprites[10].textureIndex = 11; tileMap->staticSprites[10].tileIndex = 612; tileMap->staticSprites[10].isPassable = False;
-         tileMap->staticSprites[11].textureIndex = 12; tileMap->staticSprites[11].tileIndex = 613; tileMap->staticSprites[11].isPassable = False;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 13, 153, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 13, 1887, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 13, 2235, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 3, 14, 2219, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 4, 9, 580, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 5, 10, 581, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 6, 11, 634, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 7, 12, 635, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 8, 9, 558, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 9, 10, 559, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 10, 11, 612, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 11, 12, 613, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 2219; tileMap->portals[0].destTileMapIndex = 18; tileMap->portals[0].destTileIndex = 21; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 1887; tileMap->portals[1].destTileMapIndex = 10; tileMap->portals[1].destTileIndex = 22; tileMap->portals[1].destDirection = Direction_Left;
-         tileMap->portals[2].sourceTileIndex = 153; tileMap->portals[2].destTileMapIndex = 12; tileMap->portals[2].destTileIndex = 1001; tileMap->portals[2].destDirection = Direction_Left;
-         tileMap->portals[3].sourceTileIndex = 558; tileMap->portals[3].destTileMapIndex = 20; tileMap->portals[3].destTileIndex = 39; tileMap->portals[3].destDirection = Direction_Left;
-         tileMap->portals[4].sourceTileIndex = 612; tileMap->portals[4].destTileMapIndex = 20; tileMap->portals[4].destTileIndex = 47; tileMap->portals[4].destDirection = Direction_Left;
-         tileMap->portals[5].sourceTileIndex = 634; tileMap->portals[5].destTileMapIndex = 21; tileMap->portals[5].destTileIndex = 4; tileMap->portals[5].destDirection = Direction_Left;
-         tileMap->portals[6].sourceTileIndex = 635; tileMap->portals[6].destTileMapIndex = 21; tileMap->portals[6].destTileIndex = 5; tileMap->portals[6].destDirection = Direction_Left;
-         tileMap->portals[7].sourceTileIndex = 2235; tileMap->portals[7].destTileMapIndex = 22; tileMap->portals[7].destTileIndex = 1343; tileMap->portals[7].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 2219, 18, 21, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 1887, 10, 22, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 2, 153, 12, 1001, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 3, 558, 20, 39, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 4, 612, 20, 47, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 5, 634, 21, 4, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 6, 635, 21, 5, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 7, 2235, 22, 1343, Direction_Left );
          for ( i = 0; i < 2484; i++ ) m[i] = 0x0029;
          for ( i = 42; i < 48; i++ ) m[i] = 0x0004; for ( i = 96; i < 98; i++ ) m[i] = 0x0004; for ( i = 98; i < 100; i++ ) m[i] = 0x0005;
          for ( i = 100; i < 102; i++ ) m[i] = 0x0004; for ( i = 150; i < 152; i++ ) m[i] = 0x0004; for ( i = 152; i < 154; i++ ) m[i] = 0x0026;
@@ -5151,13 +5155,12 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 20: // Najima B1 West Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 8; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
-         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 8, 10, False, False, True, 1, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
-         tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 27; tileMap->staticSprites[0].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 6, 27, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 39; tileMap->portals[0].destTileMapIndex = 19; tileMap->portals[0].destTileIndex = 558; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 47; tileMap->portals[1].destTileMapIndex = 19; tileMap->portals[1].destTileIndex = 612; tileMap->portals[1].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 39, 19, 558, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 47, 19, 612, Direction_Left );
          for ( i = 0; i < 80; i++ ) m[i] = 0x0004;
          for ( i = 10; i < 14; i++ ) m[i] = 0x0005; for ( i = 18; i < 22; i++ ) m[i] = 0x0026; for ( i = 26; i < 30; i++ ) m[i] = 0x0026;
          for ( i = 30; i < 32; i++ ) m[i] = 0x0005; for ( i = 34; i < 40; i++ ) m[i] = 0x0026; for ( i = 42; i < 48; i++ ) m[i] = 0x0026;
@@ -5165,14 +5168,13 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 21: // Najima B1 East Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 10; tileMap->tilesY = 10; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = True;
-         tileMap->staticSpriteCount = 2; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 2; tileMap->hasEdgePortal = False;
+         TileMap_LoadInitialData( tileMap, 10, 10, False, False, True, 2, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
-         tileMap->staticSprites[0].textureIndex = 6; tileMap->staticSprites[0].tileIndex = 63; tileMap->staticSprites[0].isPassable = True;
-         tileMap->staticSprites[1].textureIndex = 6; tileMap->staticSprites[1].tileIndex = 65; tileMap->staticSprites[1].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 6, 63, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 6, 65, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 4; tileMap->portals[0].destTileMapIndex = 19; tileMap->portals[0].destTileIndex = 634; tileMap->portals[0].destDirection = Direction_Left;
-         tileMap->portals[1].sourceTileIndex = 5; tileMap->portals[1].destTileMapIndex = 19; tileMap->portals[1].destTileIndex = 635; tileMap->portals[1].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 4, 19, 634, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 5, 19, 635, Direction_Left );
          for ( i = 0; i < 100; i++ ) m[i] = 0x0004;
          for ( i = 4; i < 6; i++ ) m[i] = 0x0026; for ( i = 12; i < 14; i++ ) m[i] = 0x0005; for ( i = 14; i < 16; i++ ) m[i] = 0x0026;
          for ( i = 16; i < 18; i++ ) m[i] = 0x0005; for ( i = 22; i < 28; i++ ) m[i] = 0x0026; for ( i = 32; i < 38; i++ ) m[i] = 0x0026;
@@ -5181,12 +5183,11 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 22: // Najima 1F Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         tileMap->tilesX = 34; tileMap->tilesY = 44; tileMap->wraps = False; tileMap->affectsDaylight = False; tileMap->isUnderground = False;
-         tileMap->staticSpriteCount = 1; tileMap->entityCount = 1; tileMap->npcCount = 0; tileMap->portalCount = 1; tileMap->hasEdgePortal = True;
+         TileMap_LoadInitialData( tileMap, 34, 44, False, False, False, 1, 0, 1, True, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
-         tileMap->staticSprites[0].textureIndex = 14; tileMap->staticSprites[0].tileIndex = 1343; tileMap->staticSprites[0].isPassable = True;
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 14, 1343, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         tileMap->portals[0].sourceTileIndex = 1343; tileMap->portals[0].destTileMapIndex = 19; tileMap->portals[0].destTileIndex = 2235; tileMap->portals[0].destDirection = Direction_Left;
+         TileMap_LoadPortalData( tileMap->portals + 0, 1343, 19, 2235, Direction_Left );
          tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55973;
          for ( i = 0; i < 1496; i++ ) m[i] = 0x0032;
          for ( i = 144; i < 146; i++ ) m[i] = 0x002A; for ( i = 152; i < 154; i++ ) m[i] = 0x002A; for ( i = 160; i < 162; i++ ) m[i] = 0x002A;
@@ -5308,4 +5309,27 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          m[1418] = 0x000F; m[1419] = 0x0010; m[1420] = 0x000F; m[1421] = 0x0010;
          break;
    }
+
+   TileMap_LoadPlayerSprites( tileMap );
+}
+
+void Game_Reset( Game_t* game )
+{
+   TileMap_LoadFromIndex( &game->tileMap, 0 );
+   TileMap_LoadPlayerSprites( &game->tileMap );
+   game->player.entity = game->tileMap.playerEntities;
+   game->player.entity->sprite = game->tileMap.playerSprites;
+   game->player.entity->pos.x = 2722.0f;
+   game->player.entity->pos.y = 3538.0f;
+   game->player.entity->pos.w = 12.0f;
+   game->player.entity->pos.h = 12.0f;
+   game->player.entity->prevPos = game->player.entity->pos;
+   game->player.entity->velocity.x = 0.0f;
+   game->player.entity->velocity.y = 0.0f;
+   game->player.tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->player.entity->pos.x, (u32)game->player.entity->pos.y );
+   ActiveSprite_SetDirection( game->player.entity->sprite, Direction_Down );
+   TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
+   game->isAM = False;
+   game->daylightFactor = 1.0f; // noon
+   game->screen.dayFilterIntensity = 1.0f;
 }
