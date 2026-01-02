@@ -9,6 +9,7 @@ namespace DW3ArduinoEditor.ViewModels
       public ObservableCollection<TileViewModel> Tiles { get; private set; } = [];
       public ObservableCollection<StaticSpriteViewModel> StaticSprites { get; private set; } = [];
       public ObservableCollection<ActiveSpriteViewModel> ActiveSprites { get; private set; } = [];
+      public ObservableCollection<ActiveSpriteViewModel> PlayerSprites { get; private set; } = [];
       public ObservableCollection<PortalViewModel> Portals { get; private set; } = [];
       public ObservableCollection<EntityViewModel> Entities { get; private set; } = [];
 
@@ -45,13 +46,6 @@ namespace DW3ArduinoEditor.ViewModels
       {
          get => _activeSpriteTextureSetIndex;
          set => SetProperty( ref _activeSpriteTextureSetIndex, value );
-      }
-
-      private ActiveSpriteViewModel _playerSprite;
-      public ActiveSpriteViewModel PlayerSprite
-      {
-         get => _playerSprite;
-         set => SetProperty( ref _playerSprite, value );
       }
 
       private uint _tilesX;
@@ -194,7 +188,6 @@ namespace DW3ArduinoEditor.ViewModels
          _tileTextureSetIndex = tileTextureSetIndex;
          _staticSpriteTextureSetIndex = staticSpriteTextureSetIndex;
          _activeSpriteTextureSetIndex = activeSpriteTextureSetIndex;
-         _playerSprite = playerSprite;
 
          for ( int i = 0; i < _tilesX * _tilesY; i++ )
          {
@@ -214,7 +207,6 @@ namespace DW3ArduinoEditor.ViewModels
          _tileTextureSetIndex = saveData.TileTextureSetIndex;
          _staticSpriteTextureSetIndex = saveData.StaticSpriteTextureSetIndex;
          _activeSpriteTextureSetIndex = saveData.ActiveSpriteTextureSetIndex;
-         _playerSprite = new( saveData.PlayerSprite );
 
          if ( string.IsNullOrEmpty( _name ) )
          {
@@ -267,6 +259,12 @@ namespace DW3ArduinoEditor.ViewModels
          foreach ( var activeSprite in saveData.ActiveSprites )
          {
             ActiveSprites.Add( new( activeSprite ) );
+         }
+
+         // TODO: check that we don't go over the maximum amount of player sprites
+         foreach ( var playerSprite in saveData.PlayerSprites )
+         {
+            PlayerSprites.Add( new( playerSprite ) );
          }
 
          // TODO: check that we don't go over the maximum amount of portals

@@ -210,11 +210,12 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
    TileMap_LoadFromIndex( &game->tileMap, destTileMapIndex );
    TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
    game->player.tileIndex = destTileIndex;
-   TileMap_CenterEntityOnTile( &game->tileMap, game->player.entity, destTileIndex );
-   TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
 
    for ( i = 0; i < game->tileMap.playerCount; i++ )
    {
+      TileMap_CenterEntityOnTile( &game->tileMap, game->tileMap.playerEntities + i, destTileIndex );
       ActiveSprite_SetDirection( game->tileMap.playerSprites + i, destDirection );
    }
+
+   TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
 }

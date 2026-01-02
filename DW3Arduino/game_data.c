@@ -5321,12 +5321,12 @@ void Game_Reset( Game_t* game )
    game->player.entity->sprite = game->tileMap.playerSprites;
    game->player.entity->pos.x = 2722.0f;
    game->player.entity->pos.y = 3538.0f;
+   game->player.entity->pos.w = 12.0f;
+   game->player.entity->pos.h = 12.0f;
    game->player.entity->prevPos = game->player.entity->pos;
    game->player.entity->velocity.x = 0.0f;
    game->player.entity->velocity.y = 0.0f;
-   game->player.tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap,
-                                                            (u32)game->player.entity->pos.x,
-                                                            (u32)game->player.entity->pos.y );
+   game->player.tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->player.entity->pos.x, (u32)game->player.entity->pos.y );
    ActiveSprite_SetDirection( game->player.entity->sprite, Direction_Down );
    TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
    game->isAM = False;
