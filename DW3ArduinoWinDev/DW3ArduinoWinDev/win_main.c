@@ -99,6 +99,7 @@ int CALLBACK WinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
    g_winDebugFlags.showDiagnostics = False;
    g_winDebugFlags.noClip = False;
    g_winDebugFlags.fastWalk = False;
+   g_winDebugFlags.showHitBoxes = False;
 
    while ( 1 )
    {
@@ -330,6 +331,13 @@ internal void DrawDiagnostics( HDC* dcMem )
       r.top += 16;
    }
 
+   if ( g_winDebugFlags.showHitBoxes )
+   {
+      strcpy( str, "Show hit boxes" );
+      DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
+      r.top += 16;
+   }
+
    SelectObject( *dcMem, oldFont );
 }
 
@@ -371,6 +379,9 @@ internal void HandleKeyboardInput( u32 keyCode, LPARAM flags )
                break;
             case VK_FASTWALK:
                TOGGLE_BOOL( g_winDebugFlags.fastWalk );
+               break;
+            case VK_SHOWHITBOXES:
+               TOGGLE_BOOL( g_winDebugFlags.showHitBoxes );
                break;
          }
       }
