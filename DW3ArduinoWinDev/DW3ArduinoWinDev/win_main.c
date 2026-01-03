@@ -216,7 +216,15 @@ internal void DrawDiagnostics( HDC* dcMem )
    RECT r = { 10, 10, 0, 0 };
    char str[STRING_SIZE_DEFAULT];
    char sunMsg[STRING_SIZE_DEFAULT];
-   HFONT oldFont = (HFONT)SelectObject( *dcMem, g_winGlobals.hFont );
+   HBRUSH brush, oldBrush;
+   HFONT oldFont;
+
+   brush = CreateSolidBrush( RGB( 0, 0, 128 ) );
+   oldBrush = (HBRUSH)SelectObject( *dcMem, brush );
+   Rectangle( *dcMem, 0, 0, 360, 244 );
+   SelectObject( *dcMem, oldBrush );
+
+   oldFont = (HFONT)SelectObject( *dcMem, g_winGlobals.hFont );
 
    if ( g_winGlobals.game.isAM )
    {
@@ -281,62 +289,56 @@ internal void DrawDiagnostics( HDC* dcMem )
    r.top += 16;
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "  |" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Up].down ? 0x00FFFFFF : 0x00333333 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Up].down ? 0x00FFFFFF : 0x00666666 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "--" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Left].down ? 0x00FFFFFF : 0x00333333 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Left].down ? 0x00FFFFFF : 0x00666666 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "   --" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Right].down ? 0x00FFFFFF : 0x00333333 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Right].down ? 0x00FFFFFF : 0x00666666 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "      SEL" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Select].down ? 0x00FFFFFF : 0x00333333 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Select].down ? 0x00FFFFFF : 0x00666666 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "          STR" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Start].down ? 0x00FFFFFF : 0x00333333 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Start].down ? 0x00FFFFFF : 0x00666666 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "              B" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_B].down ? 0x00FFFFFF : 0x00333333 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_B].down ? 0x00FFFFFF : 0x00666666 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "                A" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_A].down ? 0x00FFFFFF : 0x00333333 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_A].down ? 0x00FFFFFF : 0x00666666 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "  |" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Down].down ? 0x00FFFFFF : 0x00333333 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Down].down ? 0x00FFFFFF : 0x00666666 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
    SetTextColor( *dcMem, 0x00FFFFFF );
 
-   if ( g_winDebugFlags.noClip )
-   {
-      strcpy( str, "No clip" );
-      DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
-      r.top += 16;
-   }
+   strcpy( str, "1 - No clip" );
+   SetTextColor( *dcMem, g_winDebugFlags.noClip ? 0x00FFFFFF : 0x00666666 );
+   DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
+   r.top += 16;
 
-   if ( g_winDebugFlags.fastWalk )
-   {
-      strcpy( str, "Fast walk" );
-      DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
-      r.top += 16;
-   }
+   strcpy( str, "2 - Fast walk" );
+   SetTextColor( *dcMem, g_winDebugFlags.fastWalk ? 0x00FFFFFF : 0x00666666 );
+   DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
+   r.top += 16;
 
-   if ( g_winDebugFlags.showHitBoxes )
-   {
-      strcpy( str, "Show hit boxes" );
-      DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
-      r.top += 16;
-   }
+   strcpy( str, "3 - Show hit boxes" );
+   SetTextColor( *dcMem, g_winDebugFlags.showHitBoxes ? 0x00FFFFFF : 0x00666666 );
+   DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
+   r.top += 16;
 
    SelectObject( *dcMem, oldFont );
 }
