@@ -215,39 +215,6 @@ internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i
    }
 }
 
-internal void Render_FunDrawFunction( Game_t* game, Entity_t** entities, u32 entityCount, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
-{
-   u32 i, startPos;
-   ActiveSpriteTexture_t* textures;
-   Entity_t* entity;
-   Vector2u32_t* viewportScreenPos = &game->tileMap.viewportScreenPos;
-
-   for ( i = 0; i < entityCount; i++, entity++ )
-   {
-      entity = entities[i];
-
-      if ( Utility_RectsIntersect32i( (i32)entity->pos.x, (i32)entity->pos.y, (i32)entity->pos.w, (i32)entity->pos.h, vx, vy, vw, vh ) )
-      {
-         if ( entity->sprite->frame > 0 )
-         {
-            entity->sprite->frame = entity->sprite->frame;
-         }
-
-         startPos = ( ACTIVE_SPRITE_FRAME_PIXELS * ACTIVE_SPRITE_FRAMES ) * entity->sprite->direction + ( ACTIVE_SPRITE_FRAME_PIXELS * entity->sprite->frame );
-         textures = ( entity == game->player.entity ) ? game->tileMap.playerSpriteTextures : game->tileMap.activeSpriteTextures;
-
-         Screen_DrawBoundedBuffer8( &game->screen,
-                                    textures[entity->sprite->textureIndex].paletteIndexes + startPos,
-                                    ACTIVE_SPRITE_FRAME_SIZE, ACTIVE_SPRITE_FRAME_SIZE,
-                                    ( (i32)( entity->pos.x ) - vx - entity->sprite->offset.x ) + viewportScreenPos->x + xOffset,
-                                    ( (i32)( entity->pos.y ) - vy - entity->sprite->offset.y ) + viewportScreenPos->y + yOffset,
-                                    viewportScreenPos->x + xOffset, viewportScreenPos->y + yOffset,
-                                    viewportScreenPos->x + vw + xOffset,
-                                    viewportScreenPos->y + vh + yOffset );
-      }
-   }
-}
-
 internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
 {
    Entity_t* sortedEntities[TILEMAP_MAX_ENTITIES + TILEMAP_MAX_PLAYER_OBJECTS];
