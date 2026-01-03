@@ -5,8 +5,9 @@ internal void Render_UpdateDayFilterIntensity( Game_t* game );
 internal void Render_DrawTileMapLayer( Game_t* game, void ( *layerFunc )( Game_t*, i32, i32, i32, i32, i32, i32 ) );
 internal void Render_DrawTileMapSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
 internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
-internal void Render_DrawAllEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
-internal void Render_DrawSpecificEntitiesInSection( Game_t* game, Entity_t* entities, u32 entityCount, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
+internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
+internal void Render_SortEntities( Entity_t* entities, u32 entityCount, Entity_t** sortedEntities, u32* sortCount );
+internal void Render_DrawSortedEntities( Game_t* game, Entity_t** sortedEntities, u32 entityCount, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
 
 void Render_DrawGame( Game_t* game )
 {
@@ -15,7 +16,7 @@ void Render_DrawGame( Game_t* game )
 
    Render_DrawTileMapLayer( game, Render_DrawTileMapSection );
    Render_DrawTileMapLayer( game, Render_DrawStaticSpritesInSection );
-   Render_DrawTileMapLayer( game, Render_DrawAllEntitiesInSection );
+   Render_DrawTileMapLayer( game, Render_DrawEntitiesInSection );
 
    Screen_Blit( &game->screen );
 }
@@ -214,21 +215,93 @@ internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i
    }
 }
 
-internal void Render_DrawAllEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
-{
-   Render_DrawSpecificEntitiesInSection( game, game->tileMap.entities, game->tileMap.entityCount, vx, vy, vw, vh, xOffset, yOffset );
-   Render_DrawSpecificEntitiesInSection( game, game->tileMap.playerEntities, game->tileMap.playerCount, vx, vy, vw, vh, xOffset, yOffset );
-}
-
-internal void Render_DrawSpecificEntitiesInSection( Game_t* game, Entity_t* entities, u32 entityCount, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
+internal void Render_FunDrawFunction( Game_t* game, Entity_t** entities, u32 entityCount, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
 {
    u32 i, startPos;
    ActiveSpriteTexture_t* textures;
-   Entity_t* entity = entities;
+   Entity_t* entity;
    Vector2u32_t* viewportScreenPos = &game->tileMap.viewportScreenPos;
 
    for ( i = 0; i < entityCount; i++, entity++ )
    {
+      entity = entities[i];
+
+      if ( Utility_RectsIntersect32i( (i32)entity->pos.x, (i32)entity->pos.y, (i32)entity->pos.w, (i32)entity->pos.h, vx, vy, vw, vh ) )
+      {
+         if ( entity->sprite->frame > 0 )
+         {
+            entity->sprite->frame = entity->sprite->frame;
+         }
+
+         startPos = ( ACTIVE_SPRITE_FRAME_PIXELS * ACTIVE_SPRITE_FRAMES ) * entity->sprite->direction + ( ACTIVE_SPRITE_FRAME_PIXELS * entity->sprite->frame );
+         textures = ( entity == game->player.entity ) ? game->tileMap.playerSpriteTextures : game->tileMap.activeSpriteTextures;
+
+         Screen_DrawBoundedBuffer8( &game->screen,
+                                    textures[entity->sprite->textureIndex].paletteIndexes + startPos,
+                                    ACTIVE_SPRITE_FRAME_SIZE, ACTIVE_SPRITE_FRAME_SIZE,
+                                    ( (i32)( entity->pos.x ) - vx - entity->sprite->offset.x ) + viewportScreenPos->x + xOffset,
+                                    ( (i32)( entity->pos.y ) - vy - entity->sprite->offset.y ) + viewportScreenPos->y + yOffset,
+                                    viewportScreenPos->x + xOffset, viewportScreenPos->y + yOffset,
+                                    viewportScreenPos->x + vw + xOffset,
+                                    viewportScreenPos->y + vh + yOffset );
+      }
+   }
+}
+
+internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
+{
+   Entity_t* sortedEntities[TILEMAP_MAX_ENTITIES + TILEMAP_MAX_PLAYER_OBJECTS];
+   u32 sortCount = 0;
+
+   Render_SortEntities( game->tileMap.entities, game->tileMap.entityCount, sortedEntities, &sortCount );
+   Render_SortEntities( game->tileMap.playerEntities, game->tileMap.playerCount, sortedEntities, &sortCount );
+   Render_DrawSortedEntities( game, sortedEntities, sortCount, vx, vy, vw, vh, xOffset, yOffset );
+}
+
+internal void Render_SortEntities( Entity_t* entities, u32 entityCount, Entity_t** sortedEntities, u32* sortCount )
+{
+   u32 i, j, k;
+   Bool_t inserted;
+   Entity_t* entity;
+
+   for ( i = 0; i < entityCount; i++, ( *sortCount )++ )
+   {
+      entity = entities + i;
+      inserted = False;
+
+      for ( j = 0; j < *sortCount; j++ )
+      {
+         if ( entity->pos.y < sortedEntities[j]->pos.y )
+         {
+            for ( k = *sortCount; k > j; k-- )
+            {
+               sortedEntities[k] = sortedEntities[k - 1];
+            }
+
+            sortedEntities[j] = entity;
+            inserted = True;
+            break;
+         }
+      }
+
+      if ( !inserted )
+      {
+         sortedEntities[*sortCount] = entity;
+      }
+   }
+}
+
+internal void Render_DrawSortedEntities( Game_t* game, Entity_t** sortedEntities, u32 entityCount, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
+{
+   u32 i, startPos;
+   ActiveSpriteTexture_t* textures;
+   Entity_t* entity;
+   Vector2u32_t* viewportScreenPos = &game->tileMap.viewportScreenPos;
+
+   for ( i = 0; i < entityCount; i++ )
+   {
+      entity = sortedEntities[i];
+
       if ( Utility_RectsIntersect32i( (i32)entity->pos.x, (i32)entity->pos.y, (i32)entity->pos.w, (i32)entity->pos.h, vx, vy, vw, vh ) )
       {
          if ( entity->sprite->frame > 0 )
