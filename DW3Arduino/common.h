@@ -60,6 +60,7 @@ typedef struct WinDebugFlags_t
    Bool_t showDiagnostics;
    Bool_t noClip;
    Bool_t fastWalk;
+   Bool_t showHitBoxes;
 }
 WinDebugFlags_t;
 

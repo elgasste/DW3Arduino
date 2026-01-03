@@ -287,6 +287,20 @@ internal void Render_DrawSortedEntities( Game_t* game, Entity_t** sortedEntities
                                     viewportScreenPos->x + xOffset, viewportScreenPos->y + yOffset,
                                     viewportScreenPos->x + vw + xOffset,
                                     viewportScreenPos->y + vh + yOffset );
+
+#if defined( VISUAL_STUDIO_DEV )
+         if ( g_winDebugFlags.showHitBoxes )
+         {
+            Screen_DrawBoundedRect( &game->screen,
+                                    ( (i32)( entity->pos.x ) - vx ) + viewportScreenPos->x + xOffset,
+                                    ( (i32)( entity->pos.y ) - vy ) + viewportScreenPos->y + yOffset,
+                                    (i32)( entity->pos.w ), (i32)( entity->pos.h ),
+                                    viewportScreenPos->x + xOffset, viewportScreenPos->y + yOffset,
+                                    viewportScreenPos->x + vw + xOffset,
+                                    viewportScreenPos->y + vh + yOffset,
+                                    SCREEN_COLOR16_MAGENTA );
+         }
+#endif
       }
    }
 }

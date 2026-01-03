@@ -9,6 +9,7 @@
 
 #define VK_NOCLIP                   49    // 1
 #define VK_FASTWALK                 50    // 2
+#define VK_SHOWHITBOXES             51    // 3
 
 #include <Windows.h>
 #include <mmsystem.h>
