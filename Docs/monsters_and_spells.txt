@@ -1,0 +1,582 @@
+          ====================================================
+          The Dragon Warrior Three Chart in Spiffy .txt Format
+          ====================================================
+
+  Ver: 0.5
+  By Malignity
+
+  -----------------
+  Table 'o Contents
+  -----------------
+
+     1.0  Monster List
+     2.0  Spell List
+       2.1  Direct Attack
+       2.2  Indirect Attack
+       2.3  Healing
+       2.4  Defensive
+       2.5  Miscellaneous
+     3.0  Blah Blah
+ 
+ ----------------
+ 1.0 Monster List
+ ----------------
+                            Hp          Exp         Gold
+                                                           
+ Slime                       8            5            2 
+ Red Slime                   6           10            2 
+ Metal Slime                 4         4968            6  
+                                                             
+ Healer                     30           26            6 
+ Curer                      50          334           45
+ Man O' War                 40          216           45
+                                                          
+ Froggore                   15           14            3
+ Poison Toad                26           24           10
+ King Froggore              38           84           27
+                        
+ Masked Moth                12            8            4
+ Man Eater Moth             26           66           18
+ Stingwing                  40          198           42
+
+ Giant Anteater             13           10            3
+ Demon Anteater             17           15            8
+ Tonguebear                 50          132           30
+
+ Scorpion Wasp              12           10            4
+ Killer Bee                 25           32           15
+ Hunter Fly                 30          118           30
+
+ Magician                   23           16           12
+ Evil Mage                  95         1980          102
+ Archmage                  130         3420          168
+
+ Caterpillar                40           38           14
+ Poison Silkworm            35           57           24
+ Flamapede                  45           87           42
+                                        
+ Humanabat                  28           35           15
+ Vampire                    74           22           22
+ Barnabas                   58          282           50
+
+ Babble                     10           15            7
+ Metal Babble                6        48240           12
+
+ Marine Slime               38          237           42
+ Slime Snail                20          252           21
+
+ Black Raven                 9            6            2
+ Avenger Raven              25           54           18
+
+ Horned Rabbit              10            9            2
+ Spiked Hare                20           17            9
+
+ Putrepup                   50           35           18
+ Madhound                   40           64           16
+ Avenger Jackal             42          114           18
+
+ Army Crab                  28           42           18
+ Infernus Crab              40           94           27
+ Crabus                     50          348           54
+
+ Gas Cloud                  25           42           16
+ Heat Cloud                 37          126           33
+ Frost Cloud                80         1284           81
+
+ Demon Toadstool            24           47           21
+ Deadly Toadstool           30           68           18
+ Mage Toadstool             40          111           24
+
+ Trick Bag                  40            6          420
+ Dancing Jewel              50           12         1227
+
+ Wild Ape                   50           72           21
+ Simiac                     40          204           42
+ Kong                       95          519           81
+
+ Vampire Cat                35           78           24
+ Catula                     35          162           30
+
+ Rouge Knight               55           82           36
+ Kandar's Henchman          60           96            0
+ Infernus Knight            60          378           56
+ Lethal Armor               70          502           96
+
+ Mummy Man                  35           88           14
+ Mummy                      55           99           43
+
+ Witch                      54          366           62
+ Old Hag                    70          556           75
+
+ Lumpus                     35           99           30
+ Nev                        42          154           38
+ Deranger                   80          412           57
+
+ Hork                       98          144           18
+ Venom Zombie               80          442           30
+ Ghoul                     170         1524           57
+
+ Rammore                    60          195           54
+ Goategon                   70          357           54
+ Bighorn                    75          424           69
+
+ Executioner                45          180           24
+ Eliminator                120          452           63
+ Kandar                    150         2640            0
+ Kandar                    400         5760            0
+ Avenger                   115         1128           50
+
+ Great Beak                 43          210           36
+ Avenger Beak               55          274           44
+ Blue Beak                  60          447           38
+
+ Demonite                   70          120           30
+ Mini Demon                 80          705           82
+
+ Garuda                     60          264           85
+ Hade's Condor             100          441           78
+ Elysium Bird               90         1176          102
+
+ Marzon                     54          288           45
+ Marzonician                60          316           61
+ King Marzon               120         1908          108
+
+ King Squid                135          426           84
+ Tentacles                 200         1536          120
+ Kragacles                 450         2508          192 
+
+ Witch Doctor               93          430           48
+ Voodoo Shaman             120          808          114
+ Voodoo Warlock            150         2316          126
+
+ Fierce Bear                90          528           66
+ Grizzly                   110          628           66
+ Darthbear                 150         2496          156
+
+ Lava Basher                60          501           61
+ Glacier Basher            140          486           64
+ Gold Basher               210          468         1227
+
+ Man-Eater Chest           120          165           30
+ Mimic                     240          882           50
+
+ Sky Dragon                 80          960          216
+ Snow Dragon               110          528          108
+ Salamander                200         7200          216
+
+ Bomb Crag                 500          792          126
+
+ Terror Shadow              70          892           87
+ Hologhost                  85         1248           50
+ Shadow                      ?            ?            ?
+ Vile Shadow               130         2052           80
+
+ Lion Head                 115         1620          105
+ Leona                     140         3336          108
+ Lionroar                  160         3672          144
+
+ Skeleton                   75         1012           69
+ Marauder                  130         1428           87
+ Swordoid                  170         3816           80
+
+ Tortragon                  68          783          105
+ King Tortragon            120         1704          104
+
+ Troll                     250         1236          126
+ Boss Troll                320         3000          126
+ Troll King                250         3660          144
+
+ Stone Hulk                195         2136           74
+ Granite Titan             350         3000          180
+
+ Orochi                    300         9648          240
+ Hydra                     150         3708           90
+ King Hydra                550        11400          420
+
+ Goopi                      70          854           93
+
+ Scalgon                   200         2820           69
+ Putregon                  350         4200           69
+ Baramos Gonus             900        17160           18
+
+ Winged Demon              125         2988          108
+ Barog                      93         3924           96
+
+ Wyvern                     80         2136           90
+ Magiwyvern                100         2688          150
+
+ Green Dragon              120         3120          128
+
+ Baramos                   900            0            0
+ Baramos Bomus             456        14640          540
+
+ Zoma                     1023            0             0
+
+
+ --------------
+ 2.0 Spell List
+ --------------
+ 
+ 2.1 ATTACK SPELLS - Direct Attack Type
+ --------------------------------------
+
+ Blaze Family
+
+
+ Blaze        Wz: 1   2 Mp      Creates a small ball  of fire at fingertips
+              Hr: 2               which is  then thrown at one enemy.  Will
+                                  cause about 10 damage points on the enemy.
+             
+ Blazemore    Wz:17   6 Mp      A stronger  form  of the  Blaze.  A blazing
+                                  fireball will engulf one enemy, resulting
+                                  in a severe burn on the enemy. Will cause
+                                  about  80  damage  points  on  the  enemy.
+
+ Blazemost    Wz:36   12 Mp     The strongest of the Blaze Family spells. A
+                                  giant fireball  will  burn even the bones
+                                  of  the  victim.  Will  cause  about  180
+                                  damage points on the enemy.
+
+ Incandescent Fire Family
+
+
+ Firebal      Wz: 7    4 Mp     Converts  the  energy  of  lightning  to  a
+              Hr:10               belt of fire which is then wrapped around
+                                  one  group  of  enemies.  Will  cause  20
+                                  damage points on each enemy in the group.
+
+ Firebane     Wz:14    6 Mp     Stronger form  of  Firebal. A wall of white
+              Hr:23               fire will surround  one  group of enemies
+                                  The  heat  will   cause  about  35 damage
+                                  points on each enemy in the group.
+
+ Firevolt     Wz:29   12 Mp     The strongest  of  Incandescent Fire Family
+                                  spells. A scorching,  white fire  will be
+                                  thrust  at  one  group  of  enemies. Will
+                                  cause  more  than  100  damage  points on
+                                  each enemy in the group.
+
+ Explosion Family
+
+
+ Bang         Wz:11    5 Mp     Delivers  an  explosion  over enemies. Will
+              Hr:13               cause  about  20  damage  points  on  all
+                                  enemies   present  at  a   battle.  Quite
+                                  useful  when   many  different  kinds  of
+                                  enemies appear.
+
+ Boom         Wz:23    9 Mp     A few times  stronger than Bang. Will cause
+                                  about  60  damage  points  on all enemies
+                                  present  at  a  battle.  It  is  possible
+                                  to  demolish  one  entire band of enemies
+                                  with one Boom.
+
+ Explodet     Wz:38   18 Mp     Concentrates  the  atoms  in  the  air  and
+                                  lets  them   fuse  to  cause  a  horrific
+                                  explosion  in the  center of the enemies.
+                                  Will cause  about  140  damage  points on
+                                  all enemies present.
+
+ Lightning Family
+
+
+ Zap          Hr:26    8 Mp     Calls  thunder  clouds above and lets bolts
+                                  of lightning strike the crown of the head
+                                  of one enemy.  More than 80 damage points
+                                  will be caused on the enemy.
+
+ Lightning    Hr:41   30 Mp     The strongest of all the attack spells. One
+                                  Large  bolt  of lightning will strike all
+                                  enemies.  Will  cause  about  200  damage
+                                  points on each enemy present. However, it
+                                  consumes a tremendous amount of MP.
+
+ Frigid Family
+
+
+ IceBolt      Wz: 5    3 Mp     Shoots a bolt made of  hardened ice at  one
+                                  enemy.  The  enemy  will suffer frostbite
+                                  around  the wound  and lose about  30 Hit
+                                  Points.
+
+ SnowBlast    Wz:20    6 Mp     A gust  of frigid air with  snowflakes will
+                                  hit  one  group  of  enemies.  Will cause
+                                  about 50  damage  points  on  each of the
+                                  group with frostbite.
+
+ IceSpears    Wz:26    9 Mp     A countless number  of  spears made  of ice
+                                  will   fall   upon  an  entire   band  of
+                                  enemies.   Will  cause   about  70 damage
+                                  points on each of the enemies present.
+
+ Snowstorm    Wz:32   12 Mp     A severe  snowstorm  swallows up one  group
+                                  of enemies.  Will cause  about 100 damage
+                                  points  on  each.  The  most  powerful of
+                                  the Frigid Family spells.
+
+ Vacuum Family
+
+
+ Infernos     Pr:12    4 Mp     Creates  a  vacuous  hole  in  the air  and
+                                  throws  it at one group  of enemies.  The
+                                  high   atmospheric   pressure  difference
+                                  between  the  hole and the air will slash
+                                  through enemies  causing  about 15 damage
+                                  points on  each of the group.
+
+ Infermore    Pr:26    6 Mp     A  larger  vacuous   hole   with  a  higher
+                                  atmospheric   pressure   than   that   of 
+                                  Infernos is  created  and  thrown  at one
+                                  group  of  enemies.   Will   cause  about
+                                  40  damage points  on each  enemy  in the
+                                  group.
+
+ Infermost    Pr:36    9 Mp     A  still larger racuous hole  hole  will be
+                                  made  into a tornado  to  suck  up all of
+                                  one   group   of  enemies.  Each  of  the
+                                  enemies  sucked  up  will suffer  serious
+                                  lacerations  over its body and lose about
+                                  100 hit points.
+
+ Defeat Family
+
+
+ Beat         Pr:22    7 Mp     Based upon  some  ancient "Words of Ruins",
+                                  this spell  should  have  the  effect  of
+                                  stopping all the vital  functions  of one
+                                  enemy regardless of its HP left.
+
+ Defeat       Pr:28    7 Mp     Similar   to   Beat;   however,  Defeat  is
+                                  intended  to work  on all the  enemies in
+                                  one  group  rather  than  only  one enemy
+                                  enemy. As a trade off, the probability of
+                                  Defeat working successfully is less  than
+                                  that of Beat.
+
+ Others
+
+
+ Sacrifice    Pr:41    1 Mp     When the party is facing seemingly imminent
+                                  defeat,  this  spell may be the only hope
+                                  for survival. When this  spell is chanted,
+                                  all the enemies will be smashed into bits,
+                                  however, the chanter will die.
+                                  
+ BeDragon     Wz:34   24 Mp     Transforms the one who chants this spell to
+                                  a dragon. The dragon will keep emitting a
+                                  blaze  on  enemies  until the battle ends
+                                  and will not be  able to  transform  back
+                                  into the original self.
+
+
+ 2.2 ATTACK SPELLS - Indirect Attack Type
+ ----------------------------------------
+
+ Expell       Pr: 2    2 Mp     A form of exorcising spells. Will expel one
+              Hr: 6               group   of   enemies   to   some  unknown
+                                  dimension.  You  will not gain experience
+                                  points  and  Gold  pieces  from  expelled
+                                  enemies.  Works  best  on  enemies at low
+                                  levels.
+        
+ Sleep        Pr: 2    3 Mp     Deprives the enemies in one  group of brain
+              Hr:16               functions and  puts  them  to  sleep. The
+                                  effect wears off gradually, but while the
+                                  enemies are sleeping, you can attack them
+                                  as much as you want to.
+
+ SpeedUp      Pr: 5    3 Mp     Increases  the  agility  of all members  of
+                                  your   party  during  a  battle,  thereby
+                                  increasing   the   chance   of  attacking
+                                  enemies before they attack.
+
+ Sap          Pr: 8    3 Mp     Decreases   one   enemy's   defence   power
+                                  dramatically. Enemies protected by shells
+                                  and armor  which  usually  do  not suffer
+                                  much  damage  will become  easy to attack
+                                  when affected by this spell.
+
+ Defense      Pr:18    4 Mp     Similar to Sap,  but  works on each  of one
+                                  group of enemies. The  effect  on each is
+                                  slightly lower than that of Sap, however.
+
+ Limbo        Pr:20    7 Mp     Unlike Expel,  this  spell  can  expel  one
+                                  enemy which is more powerful than you are
+                                  to  limbo.  When it  works,  you will not
+                                  gain any experience points from the enemy,
+                                  but you will gain its Gold pieces.
+
+ Slow         Wz:12    3 Mp     The spirit of terra firma twines around the
+                                  around  the limbs of  each  of one  enemy
+                                  group to  deprive them of agility. Should
+                                  be used on agile enemies.
+
+ RobMagic     Wz:15    0 Mp     Robs MP from enemies  with magic capability.
+                                  The MP consumption is zero; therefore you
+                                  can use this  spell when  deprived  of MP
+                                  completely  to get a chance to  use other
+                                  magic spells again.
+
+ Bikill       Wz:21    6 Mp     Doubles the attacking power of one of your
+                                  allies.  The effect lasts throughout the
+                                  battle. Since the spell  is chanted upon
+                                  your ally, it always works.
+
+ Chaos        Wz:27    5 Mp     Confuses and  disorients  one  enemy.  The
+                                  affected   enemy  starts  attacking  the
+                                  other enemies.
+
+ Transform    Wz:37   12 Mp     Transforms the  chanter  into another ally
+                                  in  the  party   during  a  battle.  For
+                                  example, a  Wizard can become a  Soldier
+                                  to  fight  effectively  during a  battle,
+                                  but the  ability to cast spells will not
+                                  be available until the battle ends.
+
+
+ 2.3 HEALING SPELLS
+ ------------------
+
+ Heal         Pr: 1    3 Mp     Restores about 30  points of the HP to one
+              Hr: 4               of your allies.
+
+ Healmore     Pr:14    5 Mp     Restores about 85  points of the HP to one
+              Hr:29               of your allies.
+
+ Heallall     Pr:30    7 Mp     Restores  the  maximum  HP to one  of your
+              Hr:33               allies.
+
+ Healus       Pr:34   18 Mp     Restores  the HP of all of  your allies by
+                                  about 50  points.  When there is no time
+                                  to heal the  allies,  one by one, during
+                                  a    battle,    this    spell    becomes
+                                  indispensible.
+
+ Healusall    Hr:38   62 Mp     The  strongest  form  of  all the  healing
+                                  spells  known.   Restores  every  ally's
+                                  maximum  HP.  Beware,  though,  of  this
+                                  spell's extraordinary MP consumption.
+
+ Antidote     Pr:11    3 Mp     Treats a poisened ally by neutralizing the
+                                  poison in the body
+
+ Numboff      Pr:15    6 Mp     Treats an  ally's  suffering  from  body's
+                                  numbness and immobility. 
+
+ Awake        Pr:16    3 Mp     Wakes an ally  who is  put to sleep by the
+                                  Sleep  spell  or  enemies' sweet  breath
+                                  attack.
+
+ Vivify       Pr:24   10 Mp     Attempts to revive a  deceased  ally.  The
+              Hr:35               probability  of success is about 50%. If
+                                  successfully  revived,  the ally  should
+                                  have his/her HP restored to about a half
+                                  of the maximum value.
+
+ Revive       Pr:38   20 Mp     Revives a dead ally. Unlike Vivify, Revive
+                                  always  works.  When  revived,  the ally
+                                  should have his/her maximum HP restored.
+
+ CurseOff     Wz:30   18 Mp     Once  equipped, cursed weapons, armor, and
+                                  other similar items  cannot be taken off.
+                                  This spell should break them into pieces.
+
+
+ 2.4 DEFENSIVE SPELLS
+ --------------------
+
+
+ Upper        Wz: 4    3 Mp     Increases the defense power of one of your
+                                  allies.  The  affected ally will receive
+                                  less damage than usual.
+
+ Increase     Wz: 9    4 Mp     The effectiveness on an individual will be
+                                  less than that of Upper,  but this spell
+                                  works on all allies.
+
+ StopSpell    Pr:13    3 Mp     There are many  enemies  which  cast magic
+              Hr:18               spells. This spell may stop their spells
+                                  from    enmanating,   thus   effectively
+                                  blocking them.
+
+ Bounce       Wz:24    8 Mp     Builds a mirror-like wall of light  around
+                                  you to  bounce off spells aimed  at you.
+                                  The enemy which casts the spell will end
+                                  up receiving the effect itself!
+
+ Surround     Pr: 7    4 Mp     Surrounds  one  group  of  enemies  with a
+                                  magical mist which  will  cast a  mirage.
+                                  The  enemies  will  start  attacking the
+                                  mirage instead of you.
+
+ Barrier      Pr:32    6 Mp     Builds a barrier  which can protect all of
+                                  your  allies  from the  damage caused by
+                                  blazes and snowstorms emitted by enemies.
+
+ Ironize      Hr:12    6 Mp     Turn everyone in your party into a mass of
+                                  of iron.  No  damage  will  be  incurred
+                                  while ironized, but you will not be able
+                                  to attack enemies either.  The effective
+                                  usage is to access the attack pattern of
+                                  new enemies.
+
+
+ 2.5  MISCELLANEOUS SPELLS
+ -------------------------
+
+
+ Return       Wz:12    8 Mp     Lets you and  your  allies be  transported
+              Hr: 7               back to the designated place. Only those
+                                  places  you  and  your allies visited at
+                                  least   once  will   be   available   as
+                                  destinations.  Does not  work in  towers
+                                  and dungeons.
+
+ Outside      Wz: 9    8 Mp     Lets  you  and  your  allies  escape  from
+              Hr:14               towers  and dungeons.  A real  lifesaver
+                                  when lost  and/or HP and MP  are getting
+                                  low on towers of dungeons.
+
+ X-Ray        Wz:18    3 Mp     Tells if a treasure  chest is safe to open
+                                  or not.  If the chest  glows blue, it is
+                                  safe;  if the chest glows red,  a fierce
+                                  enemy is hiding inside.
+
+ Stepguard    Wz:19    2 Mp     There are  barriers in  some  places which
+                                  cause  damage to  your HP when  you walk
+                                  over them.  This spell  protects you and
+                                  your allies from barrier's ill effects.
+
+ Repel        Hr:19    4 Mp     Wards  off  weak  enemies  for  a  limited
+                                  length of time.  Will not work in towers
+                                  and dungeons or against enemies stronger
+                                  than you.
+
+ Day-Night    Wz:25   12 Mp     Reverses  day and night. Chant this  spell
+                                  to control the  night and day element of
+                                  the game.
+
+ Invisible    Wz:33   15 Mp     Makes you and all of your allies invisible
+                                  to humans  for a limited  lenght of time.
+                                  Will not let you deceive enemies, though.
+
+ Open         Wz:35    0 Mp     There  are  three  kinds of  locked  doors.
+                                  With this spell, any door may be opened.
+
+ Chance       Wz:40   20 Mp     The spell with unknown effects.  May  have
+                                  many different possible effects, but may
+                                  have a harmful effect on the chanter. It
+                                  is  recommended  that  you  SAVE  before
+                                  trying to cast this spell.
+
+
+
+ -------------
+ 3.0 Blah Blah
+ -------------
+
+ This  is a reproduction  of the chart  included with  Dragon  Warrior III,
+ complete  with all typos.  As of this  writing,  it comprises  of but one
+ side of the chart.  This will be completed  sometime before the year 2067.
+
+ The Dragon Warrior III Chart is (c) 1991 Enix Corporation.
