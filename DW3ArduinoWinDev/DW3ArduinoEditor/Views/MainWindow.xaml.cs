@@ -1,7 +1,7 @@
 ﻿using DW3ArduinoEditor.ViewModels;
 using System.Windows;
 
-namespace DW3ArduinoEditor
+namespace DW3ArduinoEditor.Views
 {
    public partial class MainWindow : Window
    {
