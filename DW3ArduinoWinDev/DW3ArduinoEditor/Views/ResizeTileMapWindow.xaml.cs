@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace DW3ArduinoEditor
+namespace DW3ArduinoEditor.Views
 {
    public partial class ResizeTileMapWindow : Window
    {

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DW3ArduinoEditor
+namespace DW3ArduinoEditor.Views
 {
    public partial class RenameTileMapWindow : Window
    {
