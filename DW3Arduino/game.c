@@ -1,4 +1,5 @@
 #include "game.h"
+#include "random.h"
 
 #define DIAGONAL_SCALAR 0.707f
 
@@ -218,4 +219,5 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
    }
 
    TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
+   Random_Seed();
 }

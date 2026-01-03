@@ -48,16 +48,16 @@ void Npc_Tic( Npc_t* npc )
 
          if ( Random_u32( 0, 1 ) == 0 ) // move horizontal
          {
-            movingLeft = ( vx < 0.0f ) ? True : False;
-            movingRight = ( vx > 0.0f ) ? True : False;
             npc->entity->velocity.x = ( Random_u32( 0, 1 ) == 0 ) ? -vx : vx;
+            movingLeft = ( npc->entity->velocity.x < 0.0f ) ? True : False;
+            movingRight = ( npc->entity->velocity.x > 0.0f ) ? True : False;
          }
          
          if ( Random_u32( 0, 1 ) == 0 ) // move vertical
          {
-            movingUp = ( vy < 0.0f ) ? True : False;
-            movingDown = ( vy > 0.0f ) ? True : False;
             npc->entity->velocity.y = ( Random_u32( 0, 1 ) == 0 ) ? -vy : vy;
+            movingUp = ( npc->entity->velocity.y < 0.0f ) ? True : False;
+            movingDown = ( npc->entity->velocity.y > 0.0f ) ? True : False;
          }
 
          if ( movingLeft || movingUp || movingRight || movingDown )
@@ -66,17 +66,17 @@ void Npc_Tic( Npc_t* npc )
             {
                ActiveSprite_SetDirection( npc->entity->sprite, movingUp ? Direction_Up : movingRight ? Direction_Right : Direction_Down );
             }
-            else if ( npc->entity->sprite->direction == Direction_Right && !movingRight )
-            {
-               ActiveSprite_SetDirection( npc->entity->sprite, movingUp ? Direction_Up : movingLeft ? Direction_Left : Direction_Down );
-            }
             else if ( npc->entity->sprite->direction == Direction_Up && !movingUp )
             {
-               ActiveSprite_SetDirection( npc->entity->sprite, movingLeft ? Direction_Left : movingDown ? Direction_Down : Direction_Right );
+               ActiveSprite_SetDirection( npc->entity->sprite, movingRight ? Direction_Right : movingDown ? Direction_Down : Direction_Left );
+            }
+            else if ( npc->entity->sprite->direction == Direction_Right && !movingRight )
+            {
+               ActiveSprite_SetDirection( npc->entity->sprite, movingDown ? Direction_Down : movingLeft ? Direction_Left : Direction_Up );
             }
             else if ( npc->entity->sprite->direction == Direction_Down && !movingDown )
             {
-               ActiveSprite_SetDirection( npc->entity->sprite, movingLeft ? Direction_Left : movingUp ? Direction_Right : Direction_Right );
+               ActiveSprite_SetDirection( npc->entity->sprite, movingLeft ? Direction_Left : movingUp ? Direction_Up : Direction_Right );
             }
          }
       }
