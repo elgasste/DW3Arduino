@@ -300,6 +300,18 @@ internal Bool_t Physics_EntityCollidesWithRigidBodies( TileMap_t* tileMap, Entit
    u32 i, sx, sy;
    Entity_t* rigidEntity;
 
+   // check player entities
+   for ( i = 0, rigidEntity = tileMap->playerEntities; i < tileMap->playerCount; i++, rigidEntity++ )
+   {
+      if ( entity != rigidEntity &&
+           Physics_EntityCollidesWithRigidBody( tileMap, entity,
+                                                rigidEntity->pos.x, rigidEntity->pos.y, rigidEntity->pos.w, rigidEntity->pos.h,
+                                                sign, horizontal ) )
+      {
+         return True;
+      }
+   }
+
    // check other entities
    for ( i = 0, rigidEntity = tileMap->entities; i < tileMap->entityCount; i++, rigidEntity++ )
    {

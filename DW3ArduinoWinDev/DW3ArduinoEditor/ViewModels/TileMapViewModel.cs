@@ -12,6 +12,7 @@ namespace DW3ArduinoEditor.ViewModels
       public ObservableCollection<ActiveSpriteViewModel> PlayerSprites { get; private set; } = [];
       public ObservableCollection<PortalViewModel> Portals { get; private set; } = [];
       public ObservableCollection<EntityViewModel> Entities { get; private set; } = [];
+      public ObservableCollection<NpcViewModel> Npcs { get; private set; } = [];
 
       private uint _index;
       public uint Index
@@ -282,6 +283,12 @@ namespace DW3ArduinoEditor.ViewModels
          foreach ( var entity in saveData.Entities )
          {
             Entities.Add( new( entity ) );
+         }
+
+         // TODO: check that we don't go over the maximum amount of NPCs
+         foreach ( var npc in saveData.Npcs )
+         {
+            Npcs.Add( new( npc ) );
          }
       }
    }
