@@ -1,4 +1,6 @@
-﻿namespace DW3ArduinoEditor.SaveData
+﻿using DW3ArduinoEditor.ViewModels;
+
+namespace DW3ArduinoEditor.SaveData
 {
    public class NpcSaveData
    {
@@ -6,5 +8,11 @@
       public bool Wanders {  get; set; }
 
       public NpcSaveData() { }
+
+      public NpcSaveData( NpcViewModel viewModel )
+      {
+         EntityIndex = viewModel.EntityIndex;
+         Wanders = viewModel.Wanders;
+      }
    }
 }

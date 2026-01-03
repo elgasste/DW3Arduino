@@ -356,7 +356,7 @@ namespace DW3ArduinoEditor.SaveData
 
                for ( int j = 0; j < _gameSaveData.ActiveSpriteTextureSets[i].ActiveSpriteTexturePoolIndexes.Count; j++ )
                {
-                  WriteToFileStream( fs, string.Format( "         TileMap_LoadActiveSpriteTextureFromPoolIndex( &tileMap->activeSpriteTextures[{0}], {1} );\n", j, _gameSaveData.ActiveSpriteTextureSets[i].ActiveSpriteTexturePoolIndexes[j] ) );
+                  WriteToFileStream( fs, string.Format( "         TileMap_LoadActiveSpriteTextureFromPoolIndex( tileMap->activeSpriteTextures + {0}, {1} );\n", j, _gameSaveData.ActiveSpriteTextureSets[i].ActiveSpriteTexturePoolIndexes[j] ) );
                }
 
                WriteToFileStream( fs, "         break;\n" );
@@ -405,13 +405,12 @@ namespace DW3ArduinoEditor.SaveData
                _gameSaveData.TileMaps[i].Portals.Count,
                _gameSaveData.TileMaps[i].EdgePortal is null ? "False" : "True",
                _gameSaveData.TileMaps[i].Entities.Count,
-               0 ) );   // TODO: fill in with actual NPC count
+               _gameSaveData.TileMaps[i].Npcs.Count ) );
 
             WriteToFileStream( fs, string.Format( "         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, {0} );\n", _gameSaveData.TileMaps[i].StaticSpriteTextureSetIndex ) );
 
             for ( int j = 0; j < _gameSaveData.TileMaps[i].StaticSprites.Count; j++ )
             {
-               //TileMap_LoadStaticSpriteData
                WriteToFileStream( fs, string.Format( "         TileMap_LoadStaticSpriteData( tileMap->staticSprites + {0}, {1}, {2}, {3} );\n",
                   j,
                   _gameSaveData.TileMaps[i].StaticSprites[j].TextureIndex,
@@ -457,6 +456,14 @@ namespace DW3ArduinoEditor.SaveData
                   _gameSaveData.TileMaps[i].Entities[j].Pos.W,
                   _gameSaveData.TileMaps[i].Entities[j].Pos.H,
                   _gameSaveData.TileMaps[i].Entities[j].SpriteIndex ) );
+            }
+
+            for ( int j = 0; j < _gameSaveData.TileMaps[i].Npcs.Count; j++ )
+            {
+               WriteToFileStream( fs, string.Format( "         Npc_Init( tileMap->npcs + {0}, tileMap->entities + {1}, {2} );\n",
+                  j,
+                  _gameSaveData.TileMaps[i].Npcs[j].EntityIndex,
+                  _gameSaveData.TileMaps[i].Npcs[j].Wanders ? "True" : "False" ) );
             }
 
             WriteCompressedTileData( fs, _gameSaveData.TileMaps[i] );

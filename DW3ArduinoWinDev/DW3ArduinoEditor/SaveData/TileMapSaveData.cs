@@ -72,6 +72,11 @@ namespace DW3ArduinoEditor.SaveData
          {
             Entities.Add( new( entity ) );
          }
+
+         foreach ( var npc in viewModel.Npcs )
+         {
+            Npcs.Add( new( npc ) );
+         }
       }
    }
 }
