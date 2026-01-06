@@ -514,7 +514,8 @@ namespace DW3ArduinoEditor.SaveData
                   ( tileMap.Tiles[i].TextureIndex ) |
                   ( tileMap.Tiles[i].IsPassable ? ( (uint)0x1 << 5 ) : 0x0 ) |
                   ( (uint)tileMap.Tiles[i].WalkSpeed << 6 ) |
-                  ( (uint)tileMap.Tiles[i].EncounterRate << 8 )
+                  ( (uint)tileMap.Tiles[i].EncounterRate << 8 ) |
+                  ( (uint)tileMap.Tiles[i].DamageRate << 10 )
                );
 
             tileValues.Add( tileValue );

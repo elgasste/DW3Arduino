@@ -10,6 +10,7 @@ namespace DW3ArduinoEditor.SaveData
       public bool IsPassable { get; set; }
       public TileWalkSpeed WalkSpeed { get; set; }
       public EncounterRate EncounterRate { get; set; }
+      public TileDamageRate DamageRate { get; set; }
 
       public TileSaveData() { }
 
@@ -20,6 +21,7 @@ namespace DW3ArduinoEditor.SaveData
          IsPassable = viewModel.IsPassable;
          WalkSpeed = viewModel.WalkSpeed;
          EncounterRate = viewModel.EncounterRate;
+         DamageRate = viewModel.DamageRate;
       }
    }
 }
