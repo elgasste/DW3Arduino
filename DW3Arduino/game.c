@@ -9,6 +9,7 @@ internal void Game_IncrementDaylightFactor( Game_t* game );
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex );
 internal Bool_t Game_TryEnterPortal( Game_t* game );
 internal void Game_EnterPortal( Game_t* game, Portal_t* portal );
+internal void Game_ApplyTileDamage( Game_t* game );
 internal Bool_t Game_TryEncounter( Game_t* game );
 
 void Game_Init( Game_t* game, u16* screenBuffer )
@@ -179,6 +180,11 @@ internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
       return;
    }
    
+   // TODO: eventually this will be on a per-player basis
+   Game_ApplyTileDamage( game );
+
+   // TODO: check if the player has died before going any further
+
    if ( Game_TryEncounter( game ) )
    {
       // TODO: battle!
@@ -239,6 +245,17 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
 
    TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
    Random_Seed();
+}
+
+internal void Game_ApplyTileDamage( Game_t* game )
+{
+   u16 tile = game->tileMap.tiles[game->player.tileIndex];
+
+   switch ( TILE_GET_DAMAGE_RATE( tile ) )
+   {
+      // TODO: actually apply damage to the player based on the rate
+      default: return;
+   }
 }
 
 internal Bool_t Game_TryEncounter( Game_t* game )
