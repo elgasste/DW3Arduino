@@ -10,7 +10,6 @@ void Physics_Tic( Game_t* game )
 {
    Physics_MoveEntities( game );
 
-   // reset player velocity and clamp the viewport to the player
    game->player.entity->velocity.x = 0.0f;
    game->player.entity->velocity.y = 0.0f;
 }
