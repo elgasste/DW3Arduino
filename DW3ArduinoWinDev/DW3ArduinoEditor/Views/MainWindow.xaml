@@ -97,6 +97,10 @@
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
                             IsChecked="{Binding SelectedTileMap.IsUnderground, Mode=TwoWay}"/>
+                  <CheckBox Content="Has Encounters"
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            IsChecked="{Binding SelectedTileMap.HasEncounters, Mode=TwoWay}"/>
                </StackPanel>
 
             </StackPanel>
