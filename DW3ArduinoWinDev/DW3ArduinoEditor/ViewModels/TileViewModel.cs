@@ -33,12 +33,20 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _encounterRate, value );
       }
 
+      private TileDamageRate _damageRate;
+      public TileDamageRate DamageRate
+      {
+         get => _damageRate;
+         set => SetProperty( ref _damageRate, value );
+      }
+
       public TileViewModel()
       {
          _textureIndex = 0;
          _isPassable = true;
          _walkSpeed = TileWalkSpeed.Normal;
          _encounterRate = EncounterRate.None;
+         _damageRate = TileDamageRate.None;
       }
 
       public TileViewModel( TileSaveData saveData )
@@ -47,6 +55,7 @@ namespace DW3ArduinoEditor.ViewModels
          _isPassable = saveData.IsPassable;
          _walkSpeed = saveData.WalkSpeed;
          _encounterRate = saveData.EncounterRate;
+         _damageRate = saveData.DamageRate;
       }
    }
 }

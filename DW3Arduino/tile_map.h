@@ -32,7 +32,8 @@
 #define TILE_GET_TEXTURE_INDEX( tile )       ( ( tile ) & 0x1F )
 #define TILE_GET_IS_PASSABLE( tile )         ( ( ( tile ) >> 5 ) & 0x01 )
 #define TILE_GET_WALKING_SPEED( tile )       ( ( ( tile ) >> 6 ) & 0x03 )
-#define TILE_GET_ENCOUNTER_RATE( tile )      ( ( EncounterRate_t )( ( ( tile ) >> 8 ) & 0x03 ) )
+#define TILE_GET_ENCOUNTER_RATE( tile )      ( ( EncounterRate_t  )( ( ( tile ) >> 8  ) & 0x03 ) )
+#define TILE_GET_DAMAGE_RATE( tile )         ( ( TileDamageRate_t )( ( ( tile ) >> 10 ) & 0x03 ) )
 
 typedef struct Entity_t Entity_t;
 
@@ -62,6 +63,17 @@ typedef enum EncounterRate_t
 }
 EncounterRate_t;
 
+typedef enum TileDamageRate_t
+{
+   TileDamageRate_None = 0,
+   TileDamageRate_Low,
+   TileDamageRate_Medium,
+   TileDamageRate_High,
+
+   TileDamageRate_Count
+}
+TileDamageRate_t;
+
 typedef struct TileMap_t
 {
    TileTexture_t tileTextures[TILEMAP_MAX_TILE_TEXTURES];
@@ -73,7 +85,8 @@ typedef struct TileMap_t
    // bit  5:     is passable
    // bits 6-7:   walking speed
    // bits 8-9:   encounter rate
-   // bits 10-15: reserved
+   // bits 10-11: damage rate
+   // bits 12-15: reserved
    u16 tiles[TILEMAP_MAX_TILES_X * TILEMAP_MAX_TILES_Y];
    u32 tilesX;
    u32 tilesY;
