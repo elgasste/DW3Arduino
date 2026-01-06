@@ -103,7 +103,7 @@ namespace DW3ArduinoEditor.SaveData
       {
          WriteToFileStream( fs, "\nvoid Screen_LoadPalette( Screen_t* screen )\n" );
          WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, string.Format( "screen->paletteColorCount = {0};\n\n", _palette?.ColorCount ) );
+         WriteToFileStream( fs, string.Format( "   screen->paletteColorCount = {0};\n\n", _palette?.ColorCount ) );
 
          for ( int i = 0; i < _palette?.ColorCount; i++ )
          {
@@ -142,7 +142,7 @@ namespace DW3ArduinoEditor.SaveData
 
          WriteToFileStream( fs, "\nvoid Screen_LoadTextBitFields( Screen_t* screen )\n" );
          WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, "   uint32_t i, j;\n\n" );
+         WriteToFileStream( fs, "   u32 i, j;\n\n" );
 
          var byteCounts = new Dictionary<byte, int>();
 
