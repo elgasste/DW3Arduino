@@ -221,7 +221,7 @@ internal void DrawDiagnostics( HDC* dcMem )
 
    brush = CreateSolidBrush( RGB( 0, 0, 128 ) );
    oldBrush = (HBRUSH)SelectObject( *dcMem, brush );
-   Rectangle( *dcMem, 0, 0, 360, 244 );
+   Rectangle( *dcMem, 0, 0, 360, 260 );
    SelectObject( *dcMem, oldBrush );
 
    oldFont = (HFONT)SelectObject( *dcMem, g_winGlobals.hFont );
@@ -285,6 +285,10 @@ internal void DrawDiagnostics( HDC* dcMem )
    r.top += 16;
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "      Tile Index: %u", g_winGlobals.game.player.tileIndex );
+   DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
+   r.top += 16;
+
+   sprintf_s( str, STRING_SIZE_DEFAULT, "  Encounter Rate: %u", TILE_GET_ENCOUNTER_RATE( g_winGlobals.game.tileMap.tiles[g_winGlobals.game.player.tileIndex] ) );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
