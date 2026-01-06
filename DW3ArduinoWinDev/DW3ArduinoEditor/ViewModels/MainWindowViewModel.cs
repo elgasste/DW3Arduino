@@ -1,8 +1,6 @@
 ﻿using DW3ArduinoEditor.Commands;
-using DW3ArduinoEditor.Enums;
 using DW3ArduinoEditor.Graphics;
 using DW3ArduinoEditor.SaveData;
-using DW3ArduinoEditor.Types;
 using DW3ArduinoEditor.Views;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -109,9 +107,10 @@ namespace DW3ArduinoEditor.ViewModels
             MessageBox.Show( string.Format( "Something went wrong when loading save data, file is possibly corrupt: \"{0}\". Starting from scratch.", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
          }
 
+         // TODO: check static/active sprite sets as well? or should this not be here?
          if ( TileTextureSets.Count == 0 )
          {
-            TileTextureSets.Add( new( 0 ) );
+            TileTextureSets.Add( new( 0, "Default" ) );
          }
 
          try

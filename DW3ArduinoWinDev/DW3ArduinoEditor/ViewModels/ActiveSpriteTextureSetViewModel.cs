@@ -12,11 +12,19 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _index, value );
       }
 
+      private string _name;
+      public string Name
+      {
+         get => _name;
+         set => SetProperty( ref _name, value );
+      }
+
       public ObservableCollection<int> ActiveSpriteTexturePoolIndexes { get; private set; } = [];
 
-      public ActiveSpriteTextureSetViewModel( uint index )
+      public ActiveSpriteTextureSetViewModel( uint index, string name )
       {
          _index = index;
+         _name = name;
 
          for ( int i = 0; i < Constants.ActiveSpriteTextureSetSize; i++ )
          {
@@ -27,6 +35,7 @@ namespace DW3ArduinoEditor.ViewModels
       public ActiveSpriteTextureSetViewModel( ActiveSpriteTextureSetSaveData saveData )
       {
          _index = saveData.Index;
+         _name = saveData.Name;
 
          if ( saveData.ActiveSpriteTexturePoolIndexes.Count > Constants.ActiveSpriteTextureSetSize )
          {
