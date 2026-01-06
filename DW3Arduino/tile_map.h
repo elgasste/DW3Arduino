@@ -32,6 +32,7 @@
 #define TILE_GET_TEXTURE_INDEX( tile )       ( ( tile ) & 0x1F )
 #define TILE_GET_IS_PASSABLE( tile )         ( ( ( tile ) >> 5 ) & 0x01 )
 #define TILE_GET_WALKING_SPEED( tile )       ( ( ( tile ) >> 6 ) & 0x03 )
+#define TILE_GET_ENCOUNTER_RATE( tile )      ( ( EncounterRate_t )( ( ( tile ) >> 8 ) & 0x03 ) )
 
 typedef struct Entity_t Entity_t;
 
@@ -50,6 +51,17 @@ typedef struct Portal_t
 }
 Portal_t;
 
+typedef enum EncounterRate_t
+{
+   EncounterRate_None = 0,
+   EncounterRate_Low,
+   EncounterRate_Medium,
+   EncounterRate_High,
+
+   EncounterRate_Count
+}
+EncounterRate_t;
+
 typedef struct TileMap_t
 {
    TileTexture_t tileTextures[TILEMAP_MAX_TILE_TEXTURES];
@@ -57,10 +69,11 @@ typedef struct TileMap_t
    ActiveSpriteTexture_t activeSpriteTextures[TILEMAP_MAX_ACTIVE_SPRITE_TEXTURES];
    ActiveSpriteTexture_t playerSpriteTextures[TILEMAP_MAX_PLAYER_OBJECTS];
 
-   // bits 0-4:  tile texture index
-   // bit  5:    is passable
-   // bits 6-7:  walking speed
-   // bits 8-15: reserved
+   // bits 0-4:   tile texture index
+   // bit  5:     is passable
+   // bits 6-7:   walking speed
+   // bits 8-9:   encounter rate
+   // bits 10-15: reserved
    u16 tiles[TILEMAP_MAX_TILES_X * TILEMAP_MAX_TILES_Y];
    u32 tilesX;
    u32 tilesY;

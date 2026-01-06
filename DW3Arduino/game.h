@@ -6,6 +6,10 @@
 #define DAY_FACTOR_HIGH_CUTOFF            0.7f
 #define DAY_FACTOR_UNDERGROUND_THRESHOLD  0.4f
 
+#define ENCOUNTER_CHANCE_LOW              24    // 1 out of 24 chance
+#define ENCOUNTER_CHANCE_MEDIUM           16    // 1 out of 16 chance
+#define ENCOUNTER_CHANCE_HIGH             8     // 1 out of 8 chance
+
 #include "common.h"
 #include "clock.h"
 #include "screen.h"

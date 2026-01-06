@@ -7,7 +7,9 @@ internal void Game_HandleInput( Game_t* game );
 internal void Game_HandlePlayerMoved( Game_t* game );
 internal void Game_IncrementDaylightFactor( Game_t* game );
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex );
+internal Bool_t Game_TryEnterPortal( Game_t* game );
 internal void Game_EnterPortal( Game_t* game, Portal_t* portal );
+internal Bool_t Game_TryEncounter( Game_t* game );
 
 void Game_Init( Game_t* game, u16* screenBuffer )
 {
@@ -170,15 +172,28 @@ internal void Game_IncrementDaylightFactor( Game_t* game )
 
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
 {
-   u32 i;
-   Portal_t *checkPortal, *foundPortal = 0;
-
    game->player.tileIndex = tileIndex;
+
+   if ( Game_TryEnterPortal( game ) )
+   {
+      return;
+   }
+   
+   if ( Game_TryEncounter( game ) )
+   {
+      // TODO: battle!
+   }
+}
+
+internal Bool_t Game_TryEnterPortal( Game_t* game )
+{
+   u32 i;
+   Portal_t* checkPortal, * foundPortal = 0;
 
    // check regular portals first
    for ( i = 0, checkPortal = game->tileMap.portals; i < game->tileMap.portalCount; i++, checkPortal++ )
    {
-      if ( checkPortal->sourceTileIndex == tileIndex )
+      if ( checkPortal->sourceTileIndex == game->player.tileIndex )
       {
          foundPortal = checkPortal;
          break;
@@ -186,7 +201,7 @@ internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
    }
 
    // now check for edge portals
-   if ( !foundPortal && game->tileMap.hasEdgePortal && TileMap_TileIndexIsEdgeTile( &game->tileMap, tileIndex ) )
+   if ( !foundPortal && game->tileMap.hasEdgePortal && TileMap_TileIndexIsEdgeTile( &game->tileMap, game->player.tileIndex ) )
    {
       foundPortal = &game->tileMap.edgePortal;
    }
@@ -198,7 +213,11 @@ internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
       AnimationChain_Push( &game->animationChain, AnimationType_Pause, TILEMAP_SWAP_PAUSE_SECONDS );
       AnimationChain_Push( &game->animationChain, AnimationType_ActiveFadeIn, TILEMAP_SWAP_FADE_SECONDS );
       AnimationChain_Start( &game->animationChain );
+
+      return True;
    }
+
+   return False;
 }
 
 internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
@@ -220,4 +239,25 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
 
    TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
    Random_Seed();
+}
+
+internal Bool_t Game_TryEncounter( Game_t* game )
+{
+   u16 tile;
+
+   if ( !game->tileMap.hasEncounters )
+   {
+      return False;
+   }
+
+   tile = game->tileMap.tiles[game->player.tileIndex];
+
+   switch ( TILE_GET_ENCOUNTER_RATE( tile ) )
+   {
+      case EncounterRate_Low: return ( Random_u32( 1, ENCOUNTER_CHANCE_LOW ) == 1 ) ? True : False;
+      case EncounterRate_Medium: return ( Random_u32( 1, ENCOUNTER_CHANCE_MEDIUM ) == 1 ) ? True : False;
+      case EncounterRate_High: return ( Random_u32( 1, ENCOUNTER_CHANCE_HIGH ) == 1 ) ? True : False;
+
+      default: return False;
+   }
 }
