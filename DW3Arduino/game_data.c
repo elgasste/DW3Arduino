@@ -11,9 +11,9 @@ internal void TileMap_LoadActiveSpriteTextureFromPoolIndex( ActiveSpriteTexture_
 internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
 internal void TileMap_LoadPlayerSprites( TileMap_t* tileMap );
 
-internal void TileMap_LoadInitialData( TileMap_t* tm, u32 tx, u32 ty, Bool_t w, Bool_t d, Bool_t u, u32 ssc, u32 asc, u32 pc, Bool_t ep, u32 ec, u32 nc )
+internal void TileMap_LoadInitialData( TileMap_t* tm, u32 tx, u32 ty, Bool_t w, Bool_t d, Bool_t u, Bool_t he, u32 ssc, u32 asc, u32 pc, Bool_t ep, u32 ec, u32 nc )
 {
-   tm->tilesX = tx; tm->tilesY = ty; tm->wraps = w; tm->affectsDaylight = d; tm->isUnderground = u; tm->staticSpriteCount = ssc; tm->activeSpriteCount = asc; tm->portalCount = pc, tm->hasEdgePortal = ep, tm->entityCount = ec; tm->npcCount = nc;
+   tm->tilesX = tx; tm->tilesY = ty; tm->wraps = w; tm->affectsDaylight = d; tm->isUnderground = u; tm->hasEncounters = he, tm->staticSpriteCount = ssc; tm->activeSpriteCount = asc; tm->portalCount = pc, tm->hasEdgePortal = ep, tm->entityCount = ec; tm->npcCount = nc;
 }
 
 internal void TileMap_LoadStaticSpriteData( StaticSprite_t* s, u32 txi, u32 ti, Bool_t p )
@@ -2831,7 +2831,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
    {
       case 0: // Overworld
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 0 );
-         TileMap_LoadInitialData( tileMap, 256, 256, True, True, False, 7, 0, 5, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 256, 256, True, True, False, True, 7, 0, 5, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 0, 55724, True );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 1, 55725, True );
@@ -4489,7 +4489,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 1: // Aliahan Town
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 34, 40, False, False, False, 10, 1, 5, True, 1, 1 );
+         TileMap_LoadInitialData( tileMap, 34, 40, False, False, False, False, 10, 1, 5, True, 1, 1 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 6, 759, False );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 6, 999, False );
@@ -4601,7 +4601,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 2: // Aliahan Eatery 1F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 8, 15, False, False, False, 7, 0, 3, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 8, 15, False, False, False, False, 7, 0, 3, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 6, 18, False );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 6, 84, False );
@@ -4626,7 +4626,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 3: // Aliahan Eatery 2F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 11, 18, False, False, False, 13, 0, 1, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 11, 18, False, False, False, False, 13, 0, 1, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 5, 30, True );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 6, 46, False );
@@ -4658,7 +4658,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 4: // Aliahan House 1F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 5, 4, False, False, False, 1, 0, 2, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 5, 4, False, False, False, False, 1, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 4, 8, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
@@ -4671,7 +4671,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 5: // Aliahan House 2F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 8, 8, False, False, False, 6, 0, 1, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 8, 8, False, False, False, False, 6, 0, 1, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 5, 14, True );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 10, 9, False );
@@ -4689,7 +4689,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 6: // Aliahan Castle 1F Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 30, 30, False, False, False, 22, 0, 7, True, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 30, 30, False, False, False, False, 22, 0, 7, True, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 19, 403, False );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 19, 406, False );
@@ -4771,7 +4771,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 7: // Aliahan Castle 1F NW
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 10, 6, False, False, False, 4, 0, 1, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 10, 6, False, False, False, False, 4, 0, 1, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 10, 11, False );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 11, 12, False );
@@ -4786,7 +4786,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 8: // Aliahan Castle 1F Hallway
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 10, 24, False, False, False, 1, 0, 2, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 10, 24, False, False, False, False, 1, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 5, 226, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
@@ -4808,7 +4808,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 9: // Aliahan Castle Prison Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 12, 11, False, False, True, 3, 0, 2, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 12, 11, False, False, True, False, 3, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 4, 94, True );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 22, 63, False );
@@ -4827,7 +4827,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 10: // Aliahan Castle Prison Hallway
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 12, 3, False, False, True, 2, 0, 2, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 12, 3, False, False, True, False, 2, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 20, 17, False );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 5, 22, True );
@@ -4840,7 +4840,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 11: // Aliahan Castle Throne Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 19, 24, False, False, False, 1, 0, 1, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 19, 24, False, False, False, False, 1, 0, 1, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 5, 408, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
@@ -4867,7 +4867,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 12: // Reeve Hidden Area Outside
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 49, 42, False, False, False, 2, 0, 15, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 49, 42, False, False, False, False, 2, 0, 15, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 12, 1001, True );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 13, 1009, False );
@@ -5002,7 +5002,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 13: // Reeve Hidden Area Inside
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 5, 4, False, False, False, 0, 0, 1, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 5, 4, False, False, False, False, 0, 0, 1, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
          TileMap_LoadPortalData( tileMap->portals + 0, 17, 12, 960, Direction_Left );
@@ -5013,7 +5013,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 14: // Promontory Cave B1
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         TileMap_LoadInitialData( tileMap, 10, 12, False, False, True, 2, 0, 2, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 10, 12, False, False, True, True, 2, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 7, 27, True );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 8, 92, True );
@@ -5028,7 +5028,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 15: // Promontory Cave B2 SW
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         TileMap_LoadInitialData( tileMap, 46, 29, False, False, True, 2, 0, 9, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 46, 29, False, False, True, True, 2, 0, 9, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 7, 1109, True );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 6, 359, True );
@@ -5087,7 +5087,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 16: // Promontory Cave B2 South Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         TileMap_LoadInitialData( tileMap, 10, 10, False, False, True, 1, 0, 2, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 10, 10, False, False, True, True, 1, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 6, 46, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
@@ -5100,7 +5100,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 17: // Promontory Cave B2 NE
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         TileMap_LoadInitialData( tileMap, 22, 26, False, False, True, 1, 0, 4, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 22, 26, False, False, True, True, 1, 0, 4, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 6, 69, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
@@ -5138,7 +5138,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 18: // Promontory Cave B2 Stairs
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         TileMap_LoadInitialData( tileMap, 6, 6, False, False, True, 1, 0, 3, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 6, 6, False, False, True, True, 1, 0, 3, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 7, 21, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
@@ -5151,7 +5151,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 19: // Najima B1 Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         TileMap_LoadInitialData( tileMap, 54, 46, False, False, True, 12, 0, 8, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 54, 46, False, False, True, True, 12, 0, 8, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 13, 153, True );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 13, 1887, True );
@@ -5272,7 +5272,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 20: // Najima B1 West Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         TileMap_LoadInitialData( tileMap, 8, 10, False, False, True, 1, 0, 2, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 8, 10, False, False, True, True, 1, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 6, 27, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
@@ -5285,7 +5285,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 21: // Najima B1 East Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         TileMap_LoadInitialData( tileMap, 10, 10, False, False, True, 2, 0, 2, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 10, 10, False, False, True, True, 2, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 6, 63, True );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 6, 65, True );
@@ -5300,7 +5300,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 22: // Najima 1F Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 2 );
-         TileMap_LoadInitialData( tileMap, 34, 44, False, False, False, 1, 0, 1, True, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 34, 44, False, False, False, True, 1, 0, 1, True, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 2 );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 14, 1343, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );

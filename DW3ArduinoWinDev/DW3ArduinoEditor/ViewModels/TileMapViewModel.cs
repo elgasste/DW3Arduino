@@ -160,6 +160,13 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _isUnderground, value );
       }
 
+      private bool _hasEncounters;
+      public bool HasEncounters
+      {
+         get => _hasEncounters;
+         set => SetProperty( ref _hasEncounters, value );
+      }
+
       private PortalViewModel? _edgePortal;
       public PortalViewModel? EdgePortal
       {
@@ -174,6 +181,7 @@ namespace DW3ArduinoEditor.ViewModels
                                bool wraps,
                                bool affectsDaylight,
                                bool isUnderground,
+                               bool hasEncounters,
                                uint tileTextureSetIndex,
                                uint staticSpriteTextureSetIndex,
                                uint activeSpriteTextureSetIndex,
@@ -186,6 +194,7 @@ namespace DW3ArduinoEditor.ViewModels
          _wraps = wraps;
          _affectsDaylight = affectsDaylight;
          _isUnderground = isUnderground;
+         _hasEncounters = hasEncounters;
          _tileTextureSetIndex = tileTextureSetIndex;
          _staticSpriteTextureSetIndex = staticSpriteTextureSetIndex;
          _activeSpriteTextureSetIndex = activeSpriteTextureSetIndex;
@@ -205,6 +214,7 @@ namespace DW3ArduinoEditor.ViewModels
          _wraps = saveData.Wraps;
          _affectsDaylight = saveData.AffectsDaylight;
          _isUnderground = saveData.IsUnderground;
+         _hasEncounters = saveData.HasEncounters;
          _tileTextureSetIndex = saveData.TileTextureSetIndex;
          _staticSpriteTextureSetIndex = saveData.StaticSpriteTextureSetIndex;
          _activeSpriteTextureSetIndex = saveData.ActiveSpriteTextureSetIndex;
