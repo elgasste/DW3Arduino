@@ -12,6 +12,7 @@ namespace DW3ArduinoEditor.Views
       public bool NewWraps { get; private set; } = false;
       public bool NewAffectsDaylight { get; private set; } = false;
       public bool NewIsUnderground { get; private set; } = false;
+      public bool NewHasEncounters { get; private set; } = false;
 
       public AddNewTileMapWindow()
       {
@@ -67,6 +68,7 @@ namespace DW3ArduinoEditor.Views
          NewWraps = WrapsCheckBox.IsChecked ?? false;
          NewAffectsDaylight = AffectsDaylightCheckBox.IsChecked ?? false;
          NewIsUnderground = IsUndergroundCheckBox.IsChecked ?? false;
+         NewHasEncounters = HasEncountersCheckBox.IsChecked ?? false;
          DialogResult = true;
          Close();
       }

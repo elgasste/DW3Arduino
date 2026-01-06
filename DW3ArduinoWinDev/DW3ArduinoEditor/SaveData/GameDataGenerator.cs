@@ -73,9 +73,9 @@ namespace DW3ArduinoEditor.SaveData
 
       private void WriteHelperFunctions( FileStream fs )
       {
-         WriteToFileStream( fs, "\ninternal void TileMap_LoadInitialData( TileMap_t* tm, u32 tx, u32 ty, Bool_t w, Bool_t d, Bool_t u, u32 ssc, u32 asc, u32 pc, Bool_t ep, u32 ec, u32 nc )\n" );
+         WriteToFileStream( fs, "\ninternal void TileMap_LoadInitialData( TileMap_t* tm, u32 tx, u32 ty, Bool_t w, Bool_t d, Bool_t u, Bool_t he, u32 ssc, u32 asc, u32 pc, Bool_t ep, u32 ec, u32 nc )\n" );
          WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, "   tm->tilesX = tx; tm->tilesY = ty; tm->wraps = w; tm->affectsDaylight = d; tm->isUnderground = u; tm->staticSpriteCount = ssc; tm->activeSpriteCount = asc; tm->portalCount = pc, tm->hasEdgePortal = ep, tm->entityCount = ec; tm->npcCount = nc;\n" );
+         WriteToFileStream( fs, "   tm->tilesX = tx; tm->tilesY = ty; tm->wraps = w; tm->affectsDaylight = d; tm->isUnderground = u; tm->hasEncounters = he, tm->staticSpriteCount = ssc; tm->activeSpriteCount = asc; tm->portalCount = pc, tm->hasEdgePortal = ep, tm->entityCount = ec; tm->npcCount = nc;\n" );
          WriteToFileStream( fs, "}\n" );
 
          WriteToFileStream( fs, "\ninternal void TileMap_LoadStaticSpriteData( StaticSprite_t* s, u32 txi, u32 ti, Bool_t p )\n" );
@@ -394,12 +394,13 @@ namespace DW3ArduinoEditor.SaveData
          {
             WriteToFileStream( fs, string.Format( "      case {0}: // {1}\n", _gameSaveData.TileMaps[i].Index, _gameSaveData.TileMaps[i].Name ) );
             WriteToFileStream( fs, string.Format( "         TileMap_LoadTileTexturesFromSetIndex( tileMap, {0} );\n", _gameSaveData.TileMaps[i].TileTextureSetIndex ) );
-            WriteToFileStream( fs, string.Format( "         TileMap_LoadInitialData( tileMap, {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10} );\n",
+            WriteToFileStream( fs, string.Format( "         TileMap_LoadInitialData( tileMap, {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11} );\n",
                _gameSaveData.TileMaps[i].TilesX,
                _gameSaveData.TileMaps[i].TilesY,
                _gameSaveData.TileMaps[i].Wraps ? "True" : "False",
                _gameSaveData.TileMaps[i].AffectsDaylight ? "True" : "False",
                _gameSaveData.TileMaps[i].IsUnderground ? "True" : "False",
+               _gameSaveData.TileMaps[i].HasEncounters ? "True" : "False",
                _gameSaveData.TileMaps[i].StaticSprites.Count,
                _gameSaveData.TileMaps[i].ActiveSprites.Count,
                _gameSaveData.TileMaps[i].Portals.Count,
@@ -512,7 +513,8 @@ namespace DW3ArduinoEditor.SaveData
             var tileValue = (ushort) (
                   ( tileMap.Tiles[i].TextureIndex ) |
                   ( tileMap.Tiles[i].IsPassable ? ( (uint)0x1 << 5 ) : 0x0 ) |
-                  ( (uint)tileMap.Tiles[i].WalkSpeed << 6 )
+                  ( (uint)tileMap.Tiles[i].WalkSpeed << 6 ) |
+                  ( (uint)tileMap.Tiles[i].EncounterRate << 8 )
                );
 
             tileValues.Add( tileValue );

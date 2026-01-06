@@ -9,6 +9,7 @@ namespace DW3ArduinoEditor.SaveData
       public uint TextureIndex { get; set; }
       public bool IsPassable { get; set; }
       public TileWalkSpeed WalkSpeed { get; set; }
+      public EncounterRate EncounterRate { get; set; }
 
       public TileSaveData() { }
 
@@ -18,6 +19,7 @@ namespace DW3ArduinoEditor.SaveData
          TextureIndex = viewModel.TextureIndex;
          IsPassable = viewModel.IsPassable;
          WalkSpeed = viewModel.WalkSpeed;
+         EncounterRate = viewModel.EncounterRate;
       }
    }
 }

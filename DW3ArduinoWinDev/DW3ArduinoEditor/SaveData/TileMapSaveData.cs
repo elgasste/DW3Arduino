@@ -11,6 +11,7 @@ namespace DW3ArduinoEditor.SaveData
       public bool Wraps { get; set; }
       public bool AffectsDaylight { get; set; }
       public bool IsUnderground { get; set; }
+      public bool HasEncounters { get; set; }
       public uint TileTextureSetIndex { get; set; }
       public uint StaticSpriteTextureSetIndex { get; set; }
       public uint ActiveSpriteTextureSetIndex { get; set; }
@@ -34,6 +35,7 @@ namespace DW3ArduinoEditor.SaveData
          Wraps = viewModel.Wraps;
          AffectsDaylight = viewModel.AffectsDaylight;
          IsUnderground = viewModel.IsUnderground;
+         HasEncounters = viewModel.HasEncounters;
          TileTextureSetIndex = viewModel.TileTextureSetIndex;
          StaticSpriteTextureSetIndex = viewModel.StaticSpriteTextureSetIndex;
          ActiveSpriteTextureSetIndex = viewModel.ActiveSpriteTextureSetIndex;
