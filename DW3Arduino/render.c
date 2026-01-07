@@ -217,7 +217,7 @@ internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i
 
 internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
 {
-   Entity_t* sortedEntities[TILEMAP_MAX_ENTITIES + TILEMAP_MAX_PLAYER_OBJECTS];
+   Entity_t* sortedEntities[TILEMAP_MAX_ENTITIES + MAX_PLAYERS];
    u32 sortCount = 0;
 
    Render_SortEntities( game->tileMap.entities, game->tileMap.entityCount, sortedEntities, &sortCount );
