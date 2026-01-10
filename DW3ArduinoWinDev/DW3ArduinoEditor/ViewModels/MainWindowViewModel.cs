@@ -156,6 +156,8 @@ namespace DW3ArduinoEditor.ViewModels
          try
          {
             _playerSpriteTexturePool = new( Constants.PlayerSpriteTexturePoolImagePath, _palette );
+
+            // TODO: verify the number of sprites matches the number of player classes
          }
          catch ( Exception ex )
          {
