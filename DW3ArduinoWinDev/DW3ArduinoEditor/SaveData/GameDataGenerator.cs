@@ -422,8 +422,8 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "   u32 i;\n\n" );
          WriteToFileStream( fs, "   for ( i = 0; i < tileMap->getPlayerCountFunc( tileMap->playerCountProvider ); i++ )\n" );
          WriteToFileStream( fs, "   {\n" );
-         WriteToFileStream( fs, "      TileMap_LoadPlayerSpriteTextureFromPoolIndex( tileMap->playerSpriteTextures, (u32)( tileMap->players[i].class ) );\n" );
-         WriteToFileStream( fs, "      TileMap_LoadActiveSpriteData( tileMap->playerSprites + i, 0, 2, 4, Direction_Down );\n" );
+         WriteToFileStream( fs, "      TileMap_LoadPlayerSpriteTextureFromPoolIndex( tileMap->playerSpriteTextures + i, (u32)( tileMap->players[i].class ) );\n" );
+         WriteToFileStream( fs, "      TileMap_LoadActiveSpriteData( tileMap->playerSprites + i, i, 2, 4, Direction_Down );\n" );
          WriteToFileStream( fs, "   }\n" );
          WriteToFileStream( fs, "}\n" );
       }
