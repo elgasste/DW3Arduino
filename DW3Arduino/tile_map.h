@@ -23,16 +23,16 @@
 #define TILEMAP_SWAP_FADE_SECONDS               0.3f
 #define TILEMAP_SWAP_PAUSE_SECONDS              0.2f
 
-#define TILE_WALK_SPEED_NORMAL                  56.0f
+#define TILE_WALK_SPEED_NORMAL                  56.0f    // pixels per second
 #define TILE_WALK_SPEED_SLOW                    48.0f
 #define TILE_WALK_SPEED_VERY_SLOW               40.0f
 #define TILE_WALK_SPEED_CRAWL                   24.0f
 
-#define TILE_GET_TEXTURE_INDEX( tile )       ( ( tile ) & 0x1F )
-#define TILE_GET_IS_PASSABLE( tile )         ( ( ( tile ) >> 5 ) & 0x01 )
-#define TILE_GET_WALKING_SPEED( tile )       ( ( ( tile ) >> 6 ) & 0x03 )
-#define TILE_GET_ENCOUNTER_RATE( tile )      ( ( EncounterRate_t  )( ( ( tile ) >> 8  ) & 0x03 ) )
-#define TILE_GET_DAMAGE_RATE( tile )         ( ( TileDamageRate_t )( ( ( tile ) >> 10 ) & 0x03 ) )
+#define TILE_GET_TEXTURE_INDEX( tile )          ( ( tile ) & 0x1F )
+#define TILE_GET_IS_PASSABLE( tile )            ( ( ( tile ) >> 5 ) & 0x01 )
+#define TILE_GET_WALKING_SPEED( tile )          ( ( ( tile ) >> 6 ) & 0x03 )
+#define TILE_GET_ENCOUNTER_RATE( tile )         ( ( EncounterRate_t  )( ( ( tile ) >> 8  ) & 0x03 ) )
+#define TILE_GET_DAMAGE_RATE( tile )            ( ( TileDamageRate_t )( ( ( tile ) >> 10 ) & 0x03 ) )
 
 typedef struct Entity_t Entity_t;
 
