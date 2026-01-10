@@ -49,7 +49,7 @@ void Game_Tic( Game_t* game )
    {
       TileMap_Tic( &game->tileMap );
       Physics_Tic( game );
-      TileMap_ClampViewportToEntity( &game->tileMap, game->frontPlayer->entity );
+      TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
    }
 
    Render_DrawGame( game );
@@ -62,9 +62,9 @@ internal u32 Game_GetPlayerCount( Game_t* game )
 
 internal void Game_HandleInput( Game_t* game )
 {
-   Entity_t* entity = game->frontPlayer->entity;
-   ActiveSprite_t* sprite = game->frontPlayer->entity->sprite;
-   r32 velocity = TileMap_GetTileVelocity( &game->tileMap, game->frontPlayer->tileIndex );
+   Entity_t* entity = game->players->entity;
+   ActiveSprite_t* sprite = game->players->entity->sprite;
+   r32 velocity = TileMap_GetTileVelocity( &game->tileMap, game->players->tileIndex );
 
 #if defined( VISUAL_STUDIO_DEV )
    if ( g_winDebugFlags.fastWalk )
@@ -150,10 +150,10 @@ internal void Game_HandlePlayerMoved( Game_t* game )
    }
 
    tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap,
-                                               (u32)( game->frontPlayer->entity->pos.x + ( game->frontPlayer->entity->pos.w / 2 ) ),
-                                               (u32)( game->frontPlayer->entity->pos.y + ( game->frontPlayer->entity->pos.h / 2 ) ) );
+                                               (u32)( game->players->entity->pos.x + ( game->players->entity->pos.w / 2 ) ),
+                                               (u32)( game->players->entity->pos.y + ( game->players->entity->pos.h / 2 ) ) );
 
-   if ( tileIndex != game->frontPlayer->tileIndex )
+   if ( tileIndex != game->players->tileIndex )
    {
       Game_SteppedOnTile( game, tileIndex );
    }
@@ -179,7 +179,7 @@ internal void Game_IncrementDaylightFactor( Game_t* game )
 
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
 {
-   game->frontPlayer->tileIndex = tileIndex;
+   game->players->tileIndex = tileIndex;
 
    if ( Game_TryEnterPortal( game ) )
    {
@@ -205,7 +205,7 @@ internal Bool_t Game_TryEnterPortal( Game_t* game )
    // check regular portals first
    for ( i = 0, checkPortal = game->tileMap.portals; i < game->tileMap.portalCount; i++, checkPortal++ )
    {
-      if ( checkPortal->sourceTileIndex == game->frontPlayer->tileIndex )
+      if ( checkPortal->sourceTileIndex == game->players->tileIndex )
       {
          foundPortal = checkPortal;
          break;
@@ -213,7 +213,7 @@ internal Bool_t Game_TryEnterPortal( Game_t* game )
    }
 
    // now check for edge portals
-   if ( !foundPortal && game->tileMap.hasEdgePortal && TileMap_TileIndexIsEdgeTile( &game->tileMap, game->frontPlayer->tileIndex ) )
+   if ( !foundPortal && game->tileMap.hasEdgePortal && TileMap_TileIndexIsEdgeTile( &game->tileMap, game->players->tileIndex ) )
    {
       foundPortal = &game->tileMap.edgePortal;
    }
@@ -241,7 +241,7 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
 
    TileMap_LoadFromIndex( &game->tileMap, destTileMapIndex );
    TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
-   game->frontPlayer->tileIndex = destTileIndex;
+   game->players->tileIndex = destTileIndex;
 
    for ( i = 0; i < game->playerCount; i++ )
    {
@@ -249,13 +249,13 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
       ActiveSprite_SetDirection( game->tileMap.playerSprites + i, destDirection );
    }
 
-   TileMap_ClampViewportToEntity( &game->tileMap, game->frontPlayer->entity );
+   TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
    Random_Seed();
 }
 
 internal void Game_ApplyTileDamage( Game_t* game )
 {
-   u16 tile = game->tileMap.tiles[game->frontPlayer->tileIndex];
+   u16 tile = game->tileMap.tiles[game->players->tileIndex];
 
    switch ( TILE_GET_DAMAGE_RATE( tile ) )
    {
@@ -273,7 +273,7 @@ internal Bool_t Game_TryEncounter( Game_t* game )
       return False;
    }
 
-   tile = game->tileMap.tiles[game->frontPlayer->tileIndex];
+   tile = game->tileMap.tiles[game->players->tileIndex];
 
    switch ( TILE_GET_ENCOUNTER_RATE( tile ) )
    {

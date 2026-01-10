@@ -28,7 +28,6 @@ typedef struct Game_t
 
    Player_t players[MAX_PLAYERS];
    u32 playerCount;
-   Player_t* frontPlayer;
 
    Bool_t isAM;
    r32 daylightFactor;

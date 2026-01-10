@@ -5446,7 +5446,6 @@ void Game_Reset( Game_t* game )
    ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );
    TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
    game->playerCount = 1;
-   game->frontPlayer = game->players;
    game->isAM = False;
    game->daylightFactor = 1.0f; // noon
    game->screen.dayFilterIntensity = 1.0f;

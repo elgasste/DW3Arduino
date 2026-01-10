@@ -496,7 +496,6 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "   ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );\n" );
          WriteToFileStream( fs, "   TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );\n" );
          WriteToFileStream( fs, "   game->playerCount = 1;\n" );
-         WriteToFileStream( fs, "   game->frontPlayer = game->players;\n" );
          WriteToFileStream( fs, "   game->isAM = False;\n" );
          WriteToFileStream( fs, "   game->daylightFactor = 1.0f; // noon\n" );
          WriteToFileStream( fs, "   game->screen.dayFilterIntensity = 1.0f;\n" );
