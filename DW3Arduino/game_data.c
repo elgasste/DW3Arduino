@@ -38,7 +38,7 @@ internal void TileMap_LoadEntityData( Entity_t* e, r32 x, r32 y, r32 w, r32 h, A
 
 void Screen_LoadPalette( Screen_t* screen )
 {
-screen->paletteColorCount = 24;
+   screen->paletteColorCount = 24;
 
    screen->palette[0] = 0x9720;
    screen->palette[1] = 0x4CE0;
@@ -68,7 +68,7 @@ screen->paletteColorCount = 24;
 
 void Screen_LoadTextBitFields( Screen_t* screen )
 {
-   uint32_t i, j;
+   u32 i, j;
 
    for ( i = 0; i < SCREEN_TEXT_TILE_COUNT; i++ ) for ( j = 0; j < SCREEN_TEXT_TILE_SIZE; j++ ) screen->textBitFields[i][j] = 0x00;
    screen->textBitFields[0][1] = 0x78;
@@ -2818,7 +2818,6 @@ internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, 
 void TileMap_LoadPlayerSprites( TileMap_t* tileMap )
 {
    TileMap_LoadActiveSpriteTextureFromPoolIndex( tileMap->playerSpriteTextures, 0 );
-   tileMap->playerCount = 1;
    TileMap_LoadActiveSpriteData( tileMap->playerSprites, 0, 2, 4, Direction_Down );
 }
 
@@ -5434,18 +5433,20 @@ void Game_Reset( Game_t* game )
 {
    TileMap_LoadFromIndex( &game->tileMap, 0 );
    TileMap_LoadPlayerSprites( &game->tileMap );
-   game->player.entity = game->tileMap.playerEntities;
-   game->player.entity->sprite = game->tileMap.playerSprites;
-   game->player.entity->pos.x = 2722.0f;
-   game->player.entity->pos.y = 3538.0f;
-   game->player.entity->pos.w = 12.0f;
-   game->player.entity->pos.h = 12.0f;
-   game->player.entity->prevPos = game->player.entity->pos;
-   game->player.entity->velocity.x = 0.0f;
-   game->player.entity->velocity.y = 0.0f;
-   game->player.tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->player.entity->pos.x, (u32)game->player.entity->pos.y );
-   ActiveSprite_SetDirection( game->player.entity->sprite, Direction_Down );
-   TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
+   game->players->entity = game->tileMap.playerEntities;
+   game->players->entity->sprite = game->tileMap.playerSprites;
+   game->players->entity->pos.x = 2722.0f;
+   game->players->entity->pos.y = 3538.0f;
+   game->players->entity->pos.w = 12.0f;
+   game->players->entity->pos.h = 12.0f;
+   game->players->entity->prevPos = game->players->entity->pos;
+   game->players->entity->velocity.x = 0.0f;
+   game->players->entity->velocity.y = 0.0f;
+   game->players->tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players->entity->pos.x, (u32)game->players->entity->pos.y );
+   ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );
+   TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
+   game->playerCount = 1;
+   game->frontPlayer = game->players;
    game->isAM = False;
    game->daylightFactor = 1.0f; // noon
    game->screen.dayFilterIntensity = 1.0f;

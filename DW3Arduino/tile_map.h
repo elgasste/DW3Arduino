@@ -105,7 +105,8 @@ typedef struct TileMap_t
 
    ActiveSprite_t playerSprites[MAX_PLAYERS];
    Entity_t playerEntities[MAX_PLAYERS];
-   u32 playerCount;
+   u32 ( *getPlayerCountFunc )( void* );
+   void* playerCountProvider;
 
    Portal_t portals[TILEMAP_MAX_PORTALS];
    u32 portalCount;
@@ -125,7 +126,7 @@ TileMap_t;
 extern "C" {
 #endif
 
-void TileMap_Init( TileMap_t* tileMap );
+void TileMap_Init( TileMap_t* tileMap, u32 ( *getPlayerCountFunc )( void* ), void* playerCountProvider );
 void TileMap_Tic( TileMap_t* tileMap );
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity );
 void TileMap_CenterEntityOnTile( TileMap_t* tileMap, Entity_t* entity, u32 tileIndex );

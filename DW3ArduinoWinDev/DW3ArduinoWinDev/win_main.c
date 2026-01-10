@@ -280,15 +280,15 @@ internal void DrawDiagnostics( HDC* dcMem )
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
-   sprintf_s( str, STRING_SIZE_DEFAULT, "        Position: %.3f, %.3f", g_winGlobals.game.player.entity->pos.x, g_winGlobals.game.player.entity->pos.y );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "        Position: %.3f, %.3f", g_winGlobals.game.frontPlayer->entity->pos.x, g_winGlobals.game.frontPlayer->entity->pos.y );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
-   sprintf_s( str, STRING_SIZE_DEFAULT, "      Tile Index: %u", g_winGlobals.game.player.tileIndex );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "      Tile Index: %u", g_winGlobals.game.frontPlayer->tileIndex );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
-   sprintf_s( str, STRING_SIZE_DEFAULT, "  Encounter Rate: %u", TILE_GET_ENCOUNTER_RATE( g_winGlobals.game.tileMap.tiles[g_winGlobals.game.player.tileIndex] ) );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "  Encounter Rate: %u", TILE_GET_ENCOUNTER_RATE( g_winGlobals.game.tileMap.tiles[g_winGlobals.game.frontPlayer->tileIndex] ) );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
