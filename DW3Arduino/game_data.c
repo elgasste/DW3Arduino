@@ -2817,8 +2817,13 @@ internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, 
 
 void TileMap_LoadPlayerSprites( TileMap_t* tileMap )
 {
-   TileMap_LoadActiveSpriteTextureFromPoolIndex( tileMap->playerSpriteTextures, 0 );
-   TileMap_LoadActiveSpriteData( tileMap->playerSprites, 0, 2, 4, Direction_Down );
+   u32 i;
+
+   for ( i = 0; i < tileMap->getPlayerCountFunc( tileMap->playerCountProvider ); i++ )
+   {
+      TileMap_LoadActiveSpriteTextureFromPoolIndex( tileMap->playerSpriteTextures, (u32)( tileMap->players[i].class ) );
+      TileMap_LoadActiveSpriteData( tileMap->playerSprites + i, 0, 2, 4, Direction_Down );
+   }
 }
 
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
@@ -5425,13 +5430,12 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          m[1418] = 0x020F; m[1419] = 0x0210; m[1420] = 0x020F; m[1421] = 0x0210;
          break;
    }
-
-   TileMap_LoadPlayerSprites( tileMap );
 }
 
 void Game_Reset( Game_t* game )
 {
    TileMap_LoadFromIndex( &game->tileMap, 0 );
+   game->playerCount = 1;
    TileMap_LoadPlayerSprites( &game->tileMap );
    game->players->entity = game->tileMap.playerEntities;
    game->players->entity->sprite = game->tileMap.playerSprites;
@@ -5445,7 +5449,6 @@ void Game_Reset( Game_t* game )
    game->players->tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players->entity->pos.x, (u32)game->players->entity->pos.y );
    ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );
    TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
-   game->playerCount = 1;
    game->isAM = False;
    game->daylightFactor = 1.0f; // noon
    game->screen.dayFilterIntensity = 1.0f;

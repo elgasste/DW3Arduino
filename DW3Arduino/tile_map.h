@@ -35,6 +35,7 @@
 #define TILE_GET_DAMAGE_RATE( tile )            ( ( TileDamageRate_t )( ( ( tile ) >> 10 ) & 0x03 ) )
 
 typedef struct Entity_t Entity_t;
+typedef struct Player_t Player_t;
 
 typedef struct TileTexture_t
 {
@@ -105,6 +106,8 @@ typedef struct TileMap_t
 
    ActiveSprite_t playerSprites[MAX_PLAYERS];
    Entity_t playerEntities[MAX_PLAYERS];
+
+   Player_t* players;
    u32 ( *getPlayerCountFunc )( void* );
    void* playerCountProvider;
 
@@ -126,7 +129,7 @@ TileMap_t;
 extern "C" {
 #endif
 
-void TileMap_Init( TileMap_t* tileMap, u32 ( *getPlayerCountFunc )( void* ), void* playerCountProvider );
+void TileMap_Init( TileMap_t* tileMap, Player_t* players, u32 ( *getPlayerCountFunc )( void* ), void* playerCountProvider );
 void TileMap_Tic( TileMap_t* tileMap );
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity );
 void TileMap_CenterEntityOnTile( TileMap_t* tileMap, Entity_t* entity, u32 tileIndex );

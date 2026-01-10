@@ -19,7 +19,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    Screen_Init( &game->screen, screenBuffer );
    Input_Init( &game->input );
    AnimationChain_Init( &game->animationChain, &game->screen );
-   TileMap_Init( &game->tileMap, &Game_GetPlayerCount, game );
+   TileMap_Init( &game->tileMap, game->players, &Game_GetPlayerCount, game );
 
    game->tileMap.viewport.w = SCREEN_WIDTH;
    game->tileMap.viewport.h = SCREEN_HEIGHT;

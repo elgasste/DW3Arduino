@@ -372,11 +372,12 @@ namespace DW3ArduinoEditor.SaveData
       {
          WriteToFileStream( fs, "\nvoid TileMap_LoadPlayerSprites( TileMap_t* tileMap )\n" );
          WriteToFileStream( fs, "{\n" );
-
-         // TODO: implement multiple party members
-         WriteToFileStream( fs, "   TileMap_LoadActiveSpriteTextureFromPoolIndex( tileMap->playerSpriteTextures, 0 );\n" );
-         WriteToFileStream( fs, "   TileMap_LoadActiveSpriteData( tileMap->playerSprites, 0, 2, 4, Direction_Down );\n" );
-
+         WriteToFileStream( fs, "   u32 i;\n\n" );
+         WriteToFileStream( fs, "   for ( i = 0; i < tileMap->getPlayerCountFunc( tileMap->playerCountProvider ); i++ )\n" );
+         WriteToFileStream( fs, "   {\n" );
+         WriteToFileStream( fs, "      TileMap_LoadActiveSpriteTextureFromPoolIndex( tileMap->playerSpriteTextures, (u32)( tileMap->players[i].class ) );\n" );
+         WriteToFileStream( fs, "      TileMap_LoadActiveSpriteData( tileMap->playerSprites + i, 0, 2, 4, Direction_Down );\n" );
+         WriteToFileStream( fs, "   }\n" );
          WriteToFileStream( fs, "}\n" );
       }
 
@@ -471,8 +472,7 @@ namespace DW3ArduinoEditor.SaveData
             WriteToFileStream( fs, "         break;\n" );
          }
                   
-         WriteToFileStream( fs, "   }\n\n" );
-         WriteToFileStream( fs, "   TileMap_LoadPlayerSprites( tileMap );\n" );
+         WriteToFileStream( fs, "   }\n" );
          WriteToFileStream( fs, "}\n" );
       }
 
@@ -482,6 +482,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "\nvoid Game_Reset( Game_t* game )\n" );
          WriteToFileStream( fs, "{\n" );
          WriteToFileStream( fs, "   TileMap_LoadFromIndex( &game->tileMap, 0 );\n" );
+         WriteToFileStream( fs, "   game->playerCount = 1;\n" );
          WriteToFileStream( fs, "   TileMap_LoadPlayerSprites( &game->tileMap );\n" );
          WriteToFileStream( fs, "   game->players->entity = game->tileMap.playerEntities;\n" );
          WriteToFileStream( fs, "   game->players->entity->sprite = game->tileMap.playerSprites;\n" );
@@ -495,7 +496,6 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "   game->players->tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players->entity->pos.x, (u32)game->players->entity->pos.y );\n" );
          WriteToFileStream( fs, "   ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );\n" );
          WriteToFileStream( fs, "   TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );\n" );
-         WriteToFileStream( fs, "   game->playerCount = 1;\n" );
          WriteToFileStream( fs, "   game->isAM = False;\n" );
          WriteToFileStream( fs, "   game->daylightFactor = 1.0f; // noon\n" );
          WriteToFileStream( fs, "   game->screen.dayFilterIntensity = 1.0f;\n" );

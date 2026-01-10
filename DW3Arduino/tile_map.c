@@ -1,8 +1,9 @@
 #include "tile_map.h"
 #include "entity.h"
 
-void TileMap_Init( TileMap_t* tileMap, u32( *getPlayerCountFunc )( void* ), void* playerCountProvider )
+void TileMap_Init( TileMap_t* tileMap, Player_t* players, u32( *getPlayerCountFunc )( void* ), void* playerCountProvider )
 {
+   tileMap->players = players;
    tileMap->getPlayerCountFunc = getPlayerCountFunc;
    tileMap->playerCountProvider = playerCountProvider;
 
