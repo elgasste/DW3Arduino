@@ -14,7 +14,6 @@ typedef enum PlayerClass_t
    PlayerClass_Fighter,
    PlayerClass_Merchant,
    PlayerClass_GoofOff,
-   PlayerClass_Sage,
 
    PlayerClass_Count
 }

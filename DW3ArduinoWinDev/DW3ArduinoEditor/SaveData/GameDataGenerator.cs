@@ -530,7 +530,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "{\n" );
          WriteToFileStream( fs, "   TileMap_LoadFromIndex( &game->tileMap, 0 );\n" );
          WriteToFileStream( fs, "   game->playerCount = 1;\n" );
-         WriteToFileStream( fs, "   TileMap_LoadPlayerSprites( &game->tileMap );\n" );
+         WriteToFileStream( fs, "   game->players->class = PlayerClass_Hero;\n" );
          WriteToFileStream( fs, "   game->players->entity = game->tileMap.playerEntities;\n" );
          WriteToFileStream( fs, "   game->players->entity->sprite = game->tileMap.playerSprites;\n" );
          WriteToFileStream( fs, "   game->players->entity->pos.x = 2722.0f;\n" );
@@ -541,6 +541,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "   game->players->entity->velocity.x = 0.0f;\n" );
          WriteToFileStream( fs, "   game->players->entity->velocity.y = 0.0f;\n" );
          WriteToFileStream( fs, "   game->players->tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players->entity->pos.x, (u32)game->players->entity->pos.y );\n" );
+         WriteToFileStream( fs, "   TileMap_LoadPlayerSprites( &game->tileMap );\n" );
          WriteToFileStream( fs, "   ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );\n" );
          WriteToFileStream( fs, "   TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );\n" );
          WriteToFileStream( fs, "   game->isAM = False;\n" );
