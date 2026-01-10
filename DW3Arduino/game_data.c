@@ -6184,7 +6184,7 @@ void Game_Reset( Game_t* game )
    TileMap_LoadFromIndex( &game->tileMap, 0 );
 
    // MUFFINS: testing
-   game->playerCount = 2;
+   game->playerCount = 4;
 
    game->players[0].class = PlayerClass_Hero;
    game->players[0].entity = game->tileMap.playerEntities;
@@ -6197,6 +6197,9 @@ void Game_Reset( Game_t* game )
    game->players[0].entity->velocity.x = 0.0f;
    game->players[0].entity->velocity.y = 0.0f;
    game->players[0].tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players[0].entity->pos.x, (u32)game->players[0].entity->pos.y );
+   game->players[0].moveHistoryIndex = 0;
+   game->players[0].moveChainIndex = 0;
+   game->players[0].chainNextPlayer = False;
 
    game->players[1].class = PlayerClass_Wizard;
    game->players[1].entity = game->tileMap.playerEntities + 1;
@@ -6209,6 +6212,39 @@ void Game_Reset( Game_t* game )
    game->players[1].entity->velocity.x = 0.0f;
    game->players[1].entity->velocity.y = 0.0f;
    game->players[1].tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players[1].entity->pos.x, (u32)game->players[1].entity->pos.y );
+   game->players[1].moveHistoryIndex = 0;
+   game->players[1].moveChainIndex = 0;
+   game->players[1].chainNextPlayer = False;
+
+   game->players[2].class = PlayerClass_Merchant;
+   game->players[2].entity = game->tileMap.playerEntities + 2;
+   game->players[2].entity->sprite = game->tileMap.playerSprites + 2;
+   game->players[2].entity->pos.x = 2722.0f;
+   game->players[2].entity->pos.y = 3538.0f;
+   game->players[2].entity->pos.w = 12.0f;
+   game->players[2].entity->pos.h = 12.0f;
+   game->players[2].entity->prevPos = game->players[2].entity->pos;
+   game->players[2].entity->velocity.x = 0.0f;
+   game->players[2].entity->velocity.y = 0.0f;
+   game->players[2].tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players[2].entity->pos.x, (u32)game->players[2].entity->pos.y );
+   game->players[2].moveHistoryIndex = 0;
+   game->players[2].moveChainIndex = 0;
+   game->players[2].chainNextPlayer = False;
+
+   game->players[3].class = PlayerClass_GoofOff;
+   game->players[3].entity = game->tileMap.playerEntities + 3;
+   game->players[3].entity->sprite = game->tileMap.playerSprites + 3;
+   game->players[3].entity->pos.x = 2722.0f;
+   game->players[3].entity->pos.y = 3538.0f;
+   game->players[3].entity->pos.w = 12.0f;
+   game->players[3].entity->pos.h = 12.0f;
+   game->players[3].entity->prevPos = game->players[3].entity->pos;
+   game->players[3].entity->velocity.x = 0.0f;
+   game->players[3].entity->velocity.y = 0.0f;
+   game->players[3].tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players[3].entity->pos.x, (u32)game->players[3].entity->pos.y );
+   game->players[3].moveHistoryIndex = 0;
+   game->players[3].moveChainIndex = 0;
+   game->players[3].chainNextPlayer = False;
 
    TileMap_LoadPlayerSprites( &game->tileMap );
    ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );

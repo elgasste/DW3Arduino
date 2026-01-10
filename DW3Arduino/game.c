@@ -6,6 +6,7 @@
 internal u32 Game_GetPlayerCount( Game_t* game );
 internal void Game_HandleInput( Game_t* game );
 internal void Game_HandlePlayerMoved( Game_t* game );
+internal void Game_AnchorRearPlayers( Game_t* game );
 internal void Game_IncrementDaylightFactor( Game_t* game );
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex );
 internal Bool_t Game_TryEnterPortal( Game_t* game );
@@ -143,6 +144,20 @@ internal void Game_HandleInput( Game_t* game )
 internal void Game_HandlePlayerMoved( Game_t* game )
 {
    u32 tileIndex;
+   Player_t* frontPlayer = game->players;
+
+   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newPos.x = frontPlayer->entity->pos.x;
+   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newPos.y = frontPlayer->entity->pos.y;
+   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newDir = frontPlayer->entity->sprite->direction;
+   frontPlayer->moveHistoryIndex++;
+
+   if ( frontPlayer->moveHistoryIndex >= PLAYER_MOVE_HISTORY_SIZE )
+   {
+      frontPlayer->chainNextPlayer = True;
+      frontPlayer->moveHistoryIndex = 0;
+   }
+
+   Game_AnchorRearPlayers( game );
 
    if ( game->tileMap.affectsDaylight )
    {
@@ -156,6 +171,45 @@ internal void Game_HandlePlayerMoved( Game_t* game )
    if ( tileIndex != game->players->tileIndex )
    {
       Game_SteppedOnTile( game, tileIndex );
+   }
+}
+
+internal void Game_AnchorRearPlayers( Game_t* game )
+{
+   u32 i;
+   Player_t *player, *prevPlayer = game->players;
+
+   for ( i = 1; i < game->playerCount; i++ )
+   {
+      if ( !prevPlayer->chainNextPlayer )
+      {
+         break;
+      }
+
+      player = game->players + i;
+
+      player->entity->pos.x = prevPlayer->moveHistory[prevPlayer->moveChainIndex].newPos.x;
+      player->entity->pos.y = prevPlayer->moveHistory[prevPlayer->moveChainIndex].newPos.y;
+      ActiveSprite_SetDirection( player->entity->sprite, prevPlayer->moveHistory[prevPlayer->moveChainIndex].newDir );
+      prevPlayer->moveChainIndex++;
+
+      if ( prevPlayer->moveChainIndex >= PLAYER_MOVE_HISTORY_SIZE )
+      {
+         player->chainNextPlayer = True;
+         prevPlayer->moveChainIndex = 0;
+      }
+
+      player->moveHistory[player->moveHistoryIndex].newPos.x = player->entity->pos.x;
+      player->moveHistory[player->moveHistoryIndex].newPos.y = player->entity->pos.y;
+      player->moveHistory[player->moveHistoryIndex].newDir = player->entity->sprite->direction;
+      player->moveHistoryIndex++;
+
+      if ( player->moveHistoryIndex >= PLAYER_MOVE_HISTORY_SIZE )
+      {
+         player->moveHistoryIndex = 0;
+      }
+
+      prevPlayer = player;
    }
 }
 
