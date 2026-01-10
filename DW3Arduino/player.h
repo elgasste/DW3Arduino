@@ -11,9 +11,8 @@ typedef enum PlayerClass_t
    PlayerClass_Soldier,
    PlayerClass_Pilgrim,
    PlayerClass_Wizard,
-   PlayerClass_Merchant,
    PlayerClass_Fighter,
-   PlayerClass_Thief,
+   PlayerClass_Merchant,
    PlayerClass_GoofOff,
    PlayerClass_Sage,
 
