@@ -24,9 +24,10 @@ typedef struct Game_t
    Screen_t screen;
    Input_t input;
    AnimationChain_t animationChain;
-
    TileMap_t tileMap;
-   Player_t player;
+
+   Player_t players[MAX_PLAYERS];
+   u32 playerCount;
 
    Bool_t isAM;
    r32 daylightFactor;

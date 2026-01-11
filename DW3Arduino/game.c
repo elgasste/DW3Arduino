@@ -3,8 +3,10 @@
 
 #define DIAGONAL_SCALAR 0.707f
 
+internal u32 Game_GetPlayerCount( Game_t* game );
 internal void Game_HandleInput( Game_t* game );
 internal void Game_HandlePlayerMoved( Game_t* game );
+internal void Game_AnchorRearPlayers( Game_t* game );
 internal void Game_IncrementDaylightFactor( Game_t* game );
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex );
 internal Bool_t Game_TryEnterPortal( Game_t* game );
@@ -18,7 +20,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    Screen_Init( &game->screen, screenBuffer );
    Input_Init( &game->input );
    AnimationChain_Init( &game->animationChain, &game->screen );
-   TileMap_Init( &game->tileMap );
+   TileMap_Init( &game->tileMap, game->players, &Game_GetPlayerCount, game );
 
    game->tileMap.viewport.w = SCREEN_WIDTH;
    game->tileMap.viewport.h = SCREEN_HEIGHT;
@@ -48,17 +50,22 @@ void Game_Tic( Game_t* game )
    {
       TileMap_Tic( &game->tileMap );
       Physics_Tic( game );
-      TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
+      TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
    }
 
    Render_DrawGame( game );
 }
 
+internal u32 Game_GetPlayerCount( Game_t* game )
+{
+   return game->playerCount;
+}
+
 internal void Game_HandleInput( Game_t* game )
 {
-   Entity_t* entity = game->player.entity;
-   ActiveSprite_t* sprite = game->player.entity->sprite;
-   r32 velocity = TileMap_GetTileVelocity( &game->tileMap, game->player.tileIndex );
+   Entity_t* entity = game->players->entity;
+   ActiveSprite_t* sprite = game->players->entity->sprite;
+   r32 velocity = TileMap_GetTileVelocity( &game->tileMap, game->players->tileIndex );
 
 #if defined( VISUAL_STUDIO_DEV )
    if ( g_winDebugFlags.fastWalk )
@@ -137,6 +144,20 @@ internal void Game_HandleInput( Game_t* game )
 internal void Game_HandlePlayerMoved( Game_t* game )
 {
    u32 tileIndex;
+   Player_t* frontPlayer = game->players;
+
+   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newPos.x = frontPlayer->entity->pos.x;
+   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newPos.y = frontPlayer->entity->pos.y;
+   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newDir = frontPlayer->entity->sprite->direction;
+   frontPlayer->moveHistoryIndex++;
+
+   if ( frontPlayer->moveHistoryIndex >= PLAYER_MOVE_HISTORY_SIZE )
+   {
+      frontPlayer->chainNextPlayer = True;
+      frontPlayer->moveHistoryIndex = 0;
+   }
+
+   Game_AnchorRearPlayers( game );
 
    if ( game->tileMap.affectsDaylight )
    {
@@ -144,12 +165,51 @@ internal void Game_HandlePlayerMoved( Game_t* game )
    }
 
    tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap,
-                                               (u32)( game->player.entity->pos.x + ( game->player.entity->pos.w / 2 ) ),
-                                               (u32)( game->player.entity->pos.y + ( game->player.entity->pos.h / 2 ) ) );
+                                               (u32)( game->players->entity->pos.x + ( game->players->entity->pos.w / 2 ) ),
+                                               (u32)( game->players->entity->pos.y + ( game->players->entity->pos.h / 2 ) ) );
 
-   if ( tileIndex != game->player.tileIndex )
+   if ( tileIndex != game->players->tileIndex )
    {
       Game_SteppedOnTile( game, tileIndex );
+   }
+}
+
+internal void Game_AnchorRearPlayers( Game_t* game )
+{
+   u32 i;
+   Player_t *player, *prevPlayer = game->players;
+
+   for ( i = 1; i < game->playerCount; i++ )
+   {
+      if ( !prevPlayer->chainNextPlayer )
+      {
+         break;
+      }
+
+      player = game->players + i;
+
+      player->entity->pos.x = prevPlayer->moveHistory[prevPlayer->moveChainIndex].newPos.x;
+      player->entity->pos.y = prevPlayer->moveHistory[prevPlayer->moveChainIndex].newPos.y;
+      ActiveSprite_SetDirection( player->entity->sprite, prevPlayer->moveHistory[prevPlayer->moveChainIndex].newDir );
+      prevPlayer->moveChainIndex++;
+
+      if ( prevPlayer->moveChainIndex >= PLAYER_MOVE_HISTORY_SIZE )
+      {
+         player->chainNextPlayer = True;
+         prevPlayer->moveChainIndex = 0;
+      }
+
+      player->moveHistory[player->moveHistoryIndex].newPos.x = player->entity->pos.x;
+      player->moveHistory[player->moveHistoryIndex].newPos.y = player->entity->pos.y;
+      player->moveHistory[player->moveHistoryIndex].newDir = player->entity->sprite->direction;
+      player->moveHistoryIndex++;
+
+      if ( player->moveHistoryIndex >= PLAYER_MOVE_HISTORY_SIZE )
+      {
+         player->moveHistoryIndex = 0;
+      }
+
+      prevPlayer = player;
    }
 }
 
@@ -173,7 +233,7 @@ internal void Game_IncrementDaylightFactor( Game_t* game )
 
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
 {
-   game->player.tileIndex = tileIndex;
+   game->players->tileIndex = tileIndex;
 
    if ( Game_TryEnterPortal( game ) )
    {
@@ -199,7 +259,7 @@ internal Bool_t Game_TryEnterPortal( Game_t* game )
    // check regular portals first
    for ( i = 0, checkPortal = game->tileMap.portals; i < game->tileMap.portalCount; i++, checkPortal++ )
    {
-      if ( checkPortal->sourceTileIndex == game->player.tileIndex )
+      if ( checkPortal->sourceTileIndex == game->players->tileIndex )
       {
          foundPortal = checkPortal;
          break;
@@ -207,7 +267,7 @@ internal Bool_t Game_TryEnterPortal( Game_t* game )
    }
 
    // now check for edge portals
-   if ( !foundPortal && game->tileMap.hasEdgePortal && TileMap_TileIndexIsEdgeTile( &game->tileMap, game->player.tileIndex ) )
+   if ( !foundPortal && game->tileMap.hasEdgePortal && TileMap_TileIndexIsEdgeTile( &game->tileMap, game->players->tileIndex ) )
    {
       foundPortal = &game->tileMap.edgePortal;
    }
@@ -235,21 +295,21 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
 
    TileMap_LoadFromIndex( &game->tileMap, destTileMapIndex );
    TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
-   game->player.tileIndex = destTileIndex;
+   game->players->tileIndex = destTileIndex;
 
-   for ( i = 0; i < game->tileMap.playerCount; i++ )
+   for ( i = 0; i < game->playerCount; i++ )
    {
       TileMap_CenterEntityOnTile( &game->tileMap, game->tileMap.playerEntities + i, destTileIndex );
       ActiveSprite_SetDirection( game->tileMap.playerSprites + i, destDirection );
    }
 
-   TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );
+   TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
    Random_Seed();
 }
 
 internal void Game_ApplyTileDamage( Game_t* game )
 {
-   u16 tile = game->tileMap.tiles[game->player.tileIndex];
+   u16 tile = game->tileMap.tiles[game->players->tileIndex];
 
    switch ( TILE_GET_DAMAGE_RATE( tile ) )
    {
@@ -267,7 +327,7 @@ internal Bool_t Game_TryEncounter( Game_t* game )
       return False;
    }
 
-   tile = game->tileMap.tiles[game->player.tileIndex];
+   tile = game->tileMap.tiles[game->players->tileIndex];
 
    switch ( TILE_GET_ENCOUNTER_RATE( tile ) )
    {

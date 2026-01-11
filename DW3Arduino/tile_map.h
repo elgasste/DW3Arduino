@@ -13,7 +13,6 @@
 #define TILEMAP_MAX_STATIC_SPRITES              64
 #define TILEMAP_MAX_ACTIVE_SPRITE_TEXTURES      16
 #define TILEMAP_MAX_ACTIVE_SPRITES              32
-#define TILEMAP_MAX_PLAYER_OBJECTS              4
 #define TILEMAP_MAX_PORTALS                     32
 #define TILEMAP_MAX_ENTITIES                    32
 #define TILEMAP_MAX_NPCS                        24
@@ -24,18 +23,19 @@
 #define TILEMAP_SWAP_FADE_SECONDS               0.3f
 #define TILEMAP_SWAP_PAUSE_SECONDS              0.2f
 
-#define TILE_WALK_SPEED_NORMAL                  56.0f
+#define TILE_WALK_SPEED_NORMAL                  56.0f    // pixels per second
 #define TILE_WALK_SPEED_SLOW                    48.0f
 #define TILE_WALK_SPEED_VERY_SLOW               40.0f
 #define TILE_WALK_SPEED_CRAWL                   24.0f
 
-#define TILE_GET_TEXTURE_INDEX( tile )       ( ( tile ) & 0x1F )
-#define TILE_GET_IS_PASSABLE( tile )         ( ( ( tile ) >> 5 ) & 0x01 )
-#define TILE_GET_WALKING_SPEED( tile )       ( ( ( tile ) >> 6 ) & 0x03 )
-#define TILE_GET_ENCOUNTER_RATE( tile )      ( ( EncounterRate_t  )( ( ( tile ) >> 8  ) & 0x03 ) )
-#define TILE_GET_DAMAGE_RATE( tile )         ( ( TileDamageRate_t )( ( ( tile ) >> 10 ) & 0x03 ) )
+#define TILE_GET_TEXTURE_INDEX( tile )          ( ( tile ) & 0x1F )
+#define TILE_GET_IS_PASSABLE( tile )            ( ( ( tile ) >> 5 ) & 0x01 )
+#define TILE_GET_WALKING_SPEED( tile )          ( ( ( tile ) >> 6 ) & 0x03 )
+#define TILE_GET_ENCOUNTER_RATE( tile )         ( ( EncounterRate_t  )( ( ( tile ) >> 8  ) & 0x03 ) )
+#define TILE_GET_DAMAGE_RATE( tile )            ( ( TileDamageRate_t )( ( ( tile ) >> 10 ) & 0x03 ) )
 
 typedef struct Entity_t Entity_t;
+typedef struct Player_t Player_t;
 
 typedef struct TileTexture_t
 {
@@ -79,7 +79,7 @@ typedef struct TileMap_t
    TileTexture_t tileTextures[TILEMAP_MAX_TILE_TEXTURES];
    StaticSpriteTexture_t staticSpriteTextures[TILEMAP_MAX_STATIC_SPRITE_TEXTURES];
    ActiveSpriteTexture_t activeSpriteTextures[TILEMAP_MAX_ACTIVE_SPRITE_TEXTURES];
-   ActiveSpriteTexture_t playerSpriteTextures[TILEMAP_MAX_PLAYER_OBJECTS];
+   ActiveSpriteTexture_t playerSpriteTextures[MAX_PLAYERS];
 
    // bits 0-4:   tile texture index
    // bit  5:     is passable
@@ -104,9 +104,12 @@ typedef struct TileMap_t
    ActiveSprite_t activeSprites[TILEMAP_MAX_ACTIVE_SPRITES];
    u32 activeSpriteCount;
 
-   ActiveSprite_t playerSprites[TILEMAP_MAX_PLAYER_OBJECTS];
-   Entity_t playerEntities[TILEMAP_MAX_PLAYER_OBJECTS];
-   u32 playerCount;
+   ActiveSprite_t playerSprites[MAX_PLAYERS];
+   Entity_t playerEntities[MAX_PLAYERS];
+
+   Player_t* players;
+   u32 ( *getPlayerCountFunc )( void* );
+   void* playerCountProvider;
 
    Portal_t portals[TILEMAP_MAX_PORTALS];
    u32 portalCount;
@@ -126,7 +129,7 @@ TileMap_t;
 extern "C" {
 #endif
 
-void TileMap_Init( TileMap_t* tileMap );
+void TileMap_Init( TileMap_t* tileMap, Player_t* players, u32 ( *getPlayerCountFunc )( void* ), void* playerCountProvider );
 void TileMap_Tic( TileMap_t* tileMap );
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity );
 void TileMap_CenterEntityOnTile( TileMap_t* tileMap, Entity_t* entity, u32 tileIndex );

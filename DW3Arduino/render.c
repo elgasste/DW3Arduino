@@ -217,11 +217,11 @@ internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i
 
 internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
 {
-   Entity_t* sortedEntities[TILEMAP_MAX_ENTITIES + TILEMAP_MAX_PLAYER_OBJECTS];
+   Entity_t* sortedEntities[TILEMAP_MAX_ENTITIES + MAX_PLAYERS];
    u32 sortCount = 0;
 
    Render_SortEntities( game->tileMap.entities, game->tileMap.entityCount, sortedEntities, &sortCount );
-   Render_SortEntities( game->tileMap.playerEntities, game->tileMap.playerCount, sortedEntities, &sortCount );
+   Render_SortEntities( game->tileMap.playerEntities, game->playerCount, sortedEntities, &sortCount );
    Render_DrawSortedEntities( game, sortedEntities, sortCount, vx, vy, vw, vh, xOffset, yOffset );
 }
 
@@ -260,7 +260,7 @@ internal void Render_SortEntities( Entity_t* entities, u32 entityCount, Entity_t
 
 internal void Render_DrawSortedEntities( Game_t* game, Entity_t** sortedEntities, u32 entityCount, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
 {
-   u32 i, startPos;
+   u32 i, j, startPos;
    ActiveSpriteTexture_t* textures;
    Entity_t* entity;
    Vector2u32_t* viewportScreenPos = &game->tileMap.viewportScreenPos;
@@ -277,7 +277,21 @@ internal void Render_DrawSortedEntities( Game_t* game, Entity_t** sortedEntities
          }
 
          startPos = ( ACTIVE_SPRITE_FRAME_PIXELS * ACTIVE_SPRITE_FRAMES ) * entity->sprite->direction + ( ACTIVE_SPRITE_FRAME_PIXELS * entity->sprite->frame );
-         textures = ( entity == game->player.entity ) ? game->tileMap.playerSpriteTextures : game->tileMap.activeSpriteTextures;
+         textures = 0;
+
+         for ( j = 0; j < game->playerCount; j++ )
+         {
+            if ( entity == game->players[j].entity )
+            {
+               textures = game->tileMap.playerSpriteTextures;
+               break;
+            }
+         }
+
+         if ( !textures )
+         {
+            textures = game->tileMap.activeSpriteTextures;
+         }
 
          Screen_DrawBoundedBuffer8( &game->screen,
                                     textures[entity->sprite->textureIndex].paletteIndexes + startPos,

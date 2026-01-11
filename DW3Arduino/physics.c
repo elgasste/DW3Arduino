@@ -10,8 +10,8 @@ void Physics_Tic( Game_t* game )
 {
    Physics_MoveEntities( game );
 
-   game->player.entity->velocity.x = 0.0f;
-   game->player.entity->velocity.y = 0.0f;
+   game->players->entity->velocity.x = 0.0f;
+   game->players->entity->velocity.y = 0.0f;
 }
 
 internal void Physics_MoveEntities( Game_t* game )
@@ -28,7 +28,7 @@ internal void Physics_MoveEntities( Game_t* game )
       if ( entity == 0 )
       {
          i = -1;
-         entity = game->player.entity;
+         entity = game->players->entity;
       }
       else if ( i == (i32)game->tileMap.entityCount )
       {
@@ -41,7 +41,7 @@ internal void Physics_MoveEntities( Game_t* game )
       deltaY = entity->velocity.y * CLOCK_FRAME_SECONDS;
 
 #if defined( VISUAL_STUDIO_DEV )
-      if ( g_winDebugFlags.noClip && entity == game->player.entity )
+      if ( g_winDebugFlags.noClip && entity == game->players->entity )
       {
          entity->pos.x += deltaX;
          entity->pos.y += deltaY;
@@ -193,7 +193,7 @@ internal void Physics_MoveEntities( Game_t* game )
          }
       }
 
-      if ( entity == game->player.entity && ( entity->pos.x != entity->prevPos.x || entity->pos.y != entity->prevPos.y ) )
+      if ( entity == game->players->entity && ( entity->pos.x != entity->prevPos.x || entity->pos.y != entity->prevPos.y ) )
       {
          game->playerMovedCallback( game );
       }
@@ -300,9 +300,10 @@ internal Bool_t Physics_EntityCollidesWithRigidBodies( TileMap_t* tileMap, Entit
    Entity_t* rigidEntity;
 
    // check player entities
-   for ( i = 0, rigidEntity = tileMap->playerEntities; i < tileMap->playerCount; i++, rigidEntity++ )
+   for ( i = 0, rigidEntity = tileMap->playerEntities; i < tileMap->getPlayerCountFunc( tileMap->playerCountProvider ); i++, rigidEntity++ )
    {
       if ( entity != rigidEntity &&
+           entity != tileMap->playerEntities &&
            Physics_EntityCollidesWithRigidBody( tileMap, entity,
                                                 rigidEntity->pos.x, rigidEntity->pos.y, rigidEntity->pos.w, rigidEntity->pos.h,
                                                 sign, horizontal ) )

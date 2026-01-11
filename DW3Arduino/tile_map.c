@@ -1,12 +1,15 @@
 #include "tile_map.h"
 #include "entity.h"
 
-void TileMap_Init( TileMap_t* tileMap )
+void TileMap_Init( TileMap_t* tileMap, Player_t* players, u32( *getPlayerCountFunc )( void* ), void* playerCountProvider )
 {
+   tileMap->players = players;
+   tileMap->getPlayerCountFunc = getPlayerCountFunc;
+   tileMap->playerCountProvider = playerCountProvider;
+
    tileMap->staticSpriteCount = 0;
    tileMap->activeSpriteCount = 0;
    tileMap->entityCount = 0;
-   tileMap->playerCount = 0;
    tileMap->npcCount = 0;
 }
 
@@ -24,7 +27,7 @@ void TileMap_Tic( TileMap_t* tileMap )
       ActiveSprite_Tic( tileMap->activeSprites + i );
    }
 
-   for ( i = 0; i < tileMap->playerCount; i++ )
+   for ( i = 0; i < tileMap->getPlayerCountFunc( tileMap->playerCountProvider ); i++ )
    {
       ActiveSprite_Tic( tileMap->playerSprites + i );
    }

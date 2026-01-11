@@ -16,6 +16,7 @@ namespace DW3ArduinoEditor.ViewModels
       private TileTexturePool? _tileTexturePool;
       private StaticSpriteTexturePool? _staticSpriteTexturePool;
       private ActiveSpriteTexturePool? _activeSpriteTexturePool;
+      private ActiveSpriteTexturePool? _playerSpriteTexturePool;
 
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
       public ObservableCollection<TileTextureSetViewModel> TileTextureSets { get; } = [];
@@ -145,12 +146,22 @@ namespace DW3ArduinoEditor.ViewModels
 
             // TODO: verify our active sprite texture sets contain valid pool indexes, and our
             // tile maps contain valid active sprite texture set indexes.
-
-            // TODO: we'll need to load a player sprite pool in here as well, when we have more than one player
          }
          catch ( Exception ex )
          {
             MessageBox.Show( string.Format( "Failed to load active sprite texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+            Application.Current.Shutdown();
+         }
+
+         try
+         {
+            _playerSpriteTexturePool = new( Constants.PlayerSpriteTexturePoolImagePath, _palette );
+
+            // TODO: verify the number of sprites matches the number of player classes
+         }
+         catch ( Exception ex )
+         {
+            MessageBox.Show( string.Format( "Failed to load player sprite texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
             Application.Current.Shutdown();
          }
       }
@@ -290,7 +301,7 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets ), _palette, _tileTexturePool, _staticSpriteTexturePool, _activeSpriteTexturePool );
+         generator.WriteGameDataSourceFile( new( TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets ), _palette, _tileTexturePool, _staticSpriteTexturePool, _activeSpriteTexturePool, _playerSpriteTexturePool );
          MessageBox.Show( "Game data source file has been written." );
       }
 

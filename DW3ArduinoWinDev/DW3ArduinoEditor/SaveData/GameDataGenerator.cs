@@ -28,18 +28,21 @@ namespace DW3ArduinoEditor.SaveData
       private TileTexturePool? _tileTexturePool;
       private StaticSpriteTexturePool? _staticSpriteTexturePool;
       private ActiveSpriteTexturePool? _activeSpriteTexturePool;
+      private ActiveSpriteTexturePool? _playerSpriteTexturePool;
 
       public void WriteGameDataSourceFile( GameSaveData? saveData,
                                            Palette? palette,
                                            TileTexturePool? tileTexturePool,
                                            StaticSpriteTexturePool? staticSpriteTexturePool,
-                                           ActiveSpriteTexturePool? activeSpriteTexturePool )
+                                           ActiveSpriteTexturePool? activeSpriteTexturePool,
+                                           ActiveSpriteTexturePool? playerSpriteTexturePool )
       {
          _gameSaveData = saveData;
          _palette = palette;
          _tileTexturePool = tileTexturePool;
          _staticSpriteTexturePool = staticSpriteTexturePool;
          _activeSpriteTexturePool = activeSpriteTexturePool;
+         _playerSpriteTexturePool = playerSpriteTexturePool;
 
          using FileStream fs = File.Create( Constants.GameDataSourceFilePath );
          WriteHeaderSection( fs );
@@ -52,6 +55,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteStaticSpriteTextureIndexesFunction( fs );
          WriteActiveSpriteTexturesPoolFunction( fs );
          WriteActiveSpriteTextureIndexesFunction( fs );
+         WritePlayerSpriteTexturesPoolFunction( fs );
          WritePlayerSpritesFunction( fs );
          WriteTileMapFunction( fs );
          WriteGameResetFunction( fs );
@@ -68,6 +72,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadActiveSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
+         WriteToFileStream( fs, "internal void TileMap_LoadPlayerSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadPlayerSprites( TileMap_t* tileMap );\n" );
       }
 
@@ -368,16 +373,58 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "}\n" );
       }
 
+      private void WritePlayerSpriteTexturesPoolFunction( FileStream fs )
+      {
+         WriteToFileStream( fs, "\ninternal void TileMap_LoadPlayerSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index )\n" );
+         WriteToFileStream( fs, "{\n" );
+         WriteToFileStream( fs, "   u32 i;\n" );
+         WriteToFileStream( fs, "   u8* m = texture->paletteIndexes;\n\n" );
+         WriteToFileStream( fs, "   switch( index )\n" );
+         WriteToFileStream( fs, "   {\n" );
+
+         for ( int i = 0; i < _playerSpriteTexturePool?.ActiveSpritePaletteIndexes.Count; i++ )
+         {
+            WriteToFileStream( fs, string.Format( "      case {0}:\n", i ) );
+
+            // rearrange active sprite frames palette indexes to go in order from top-left to bottom-right
+            List<int> rearrangedPaletteIndexes = new( _playerSpriteTexturePool.ActiveSpritePaletteIndexes[i].Count );
+
+            for ( int dir = 0; dir < (int)Direction.Count; dir++ )
+            {
+               int pixelRowStart = Constants.ActiveSpriteTextureFrameSize * dir;
+
+               for ( int frame = 0; frame < Constants.ActiveSpriteFrames; frame++ )
+               {
+                  int pixelColStart = frame * Constants.ActiveSpriteTextureFrameSize;
+
+                  for ( int row = pixelRowStart; row < pixelRowStart + Constants.ActiveSpriteTextureFrameSize; row++ )
+                  {
+                     for ( int col = pixelColStart; col < pixelColStart + Constants.ActiveSpriteTextureFrameSize; col++ )
+                     {
+                        rearrangedPaletteIndexes.Add( _playerSpriteTexturePool.ActiveSpritePaletteIndexes[i][( ( row * Constants.ActiveSpriteTextureFrameSize * Constants.ActiveSpriteFrames ) + col )] );
+                     }
+                  }
+               }
+            }
+
+            WriteCompressedTextureData( fs, rearrangedPaletteIndexes );
+            WriteToFileStream( fs, "         break;\n" );
+         }
+
+         WriteToFileStream( fs, "   }\n" );
+         WriteToFileStream( fs, "}\n" );
+      }
+
       private void WritePlayerSpritesFunction( FileStream fs )
       {
          WriteToFileStream( fs, "\nvoid TileMap_LoadPlayerSprites( TileMap_t* tileMap )\n" );
          WriteToFileStream( fs, "{\n" );
-
-         // TODO: implement multiple party members
-         WriteToFileStream( fs, "   TileMap_LoadActiveSpriteTextureFromPoolIndex( tileMap->playerSpriteTextures, 0 );\n" );
-         WriteToFileStream( fs, "   tileMap->playerCount = 1;\n" );
-         WriteToFileStream( fs, "   TileMap_LoadActiveSpriteData( tileMap->playerSprites, 0, 2, 4, Direction_Down );\n" );
-
+         WriteToFileStream( fs, "   u32 i;\n\n" );
+         WriteToFileStream( fs, "   for ( i = 0; i < tileMap->getPlayerCountFunc( tileMap->playerCountProvider ); i++ )\n" );
+         WriteToFileStream( fs, "   {\n" );
+         WriteToFileStream( fs, "      TileMap_LoadPlayerSpriteTextureFromPoolIndex( tileMap->playerSpriteTextures + i, (u32)( tileMap->players[i].class ) );\n" );
+         WriteToFileStream( fs, "      TileMap_LoadActiveSpriteData( tileMap->playerSprites + i, i, 2, 4, Direction_Down );\n" );
+         WriteToFileStream( fs, "   }\n" );
          WriteToFileStream( fs, "}\n" );
       }
 
@@ -472,8 +519,7 @@ namespace DW3ArduinoEditor.SaveData
             WriteToFileStream( fs, "         break;\n" );
          }
                   
-         WriteToFileStream( fs, "   }\n\n" );
-         WriteToFileStream( fs, "   TileMap_LoadPlayerSprites( tileMap );\n" );
+         WriteToFileStream( fs, "   }\n" );
          WriteToFileStream( fs, "}\n" );
       }
 
@@ -483,19 +529,21 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "\nvoid Game_Reset( Game_t* game )\n" );
          WriteToFileStream( fs, "{\n" );
          WriteToFileStream( fs, "   TileMap_LoadFromIndex( &game->tileMap, 0 );\n" );
+         WriteToFileStream( fs, "   game->playerCount = 1;\n" );
+         WriteToFileStream( fs, "   game->players->class = PlayerClass_Hero;\n" );
+         WriteToFileStream( fs, "   game->players->entity = game->tileMap.playerEntities;\n" );
+         WriteToFileStream( fs, "   game->players->entity->sprite = game->tileMap.playerSprites;\n" );
+         WriteToFileStream( fs, "   game->players->entity->pos.x = 2722.0f;\n" );
+         WriteToFileStream( fs, "   game->players->entity->pos.y = 3538.0f;\n" );
+         WriteToFileStream( fs, "   game->players->entity->pos.w = 12.0f;\n" );
+         WriteToFileStream( fs, "   game->players->entity->pos.h = 12.0f;\n" );
+         WriteToFileStream( fs, "   game->players->entity->prevPos = game->players->entity->pos;\n" );
+         WriteToFileStream( fs, "   game->players->entity->velocity.x = 0.0f;\n" );
+         WriteToFileStream( fs, "   game->players->entity->velocity.y = 0.0f;\n" );
+         WriteToFileStream( fs, "   game->players->tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players->entity->pos.x, (u32)game->players->entity->pos.y );\n" );
          WriteToFileStream( fs, "   TileMap_LoadPlayerSprites( &game->tileMap );\n" );
-         WriteToFileStream( fs, "   game->player.entity = game->tileMap.playerEntities;\n" );
-         WriteToFileStream( fs, "   game->player.entity->sprite = game->tileMap.playerSprites;\n" );
-         WriteToFileStream( fs, "   game->player.entity->pos.x = 2722.0f;\n" );
-         WriteToFileStream( fs, "   game->player.entity->pos.y = 3538.0f;\n" );
-         WriteToFileStream( fs, "   game->player.entity->pos.w = 12.0f;\n" );
-         WriteToFileStream( fs, "   game->player.entity->pos.h = 12.0f;\n" );
-         WriteToFileStream( fs, "   game->player.entity->prevPos = game->player.entity->pos;\n" );
-         WriteToFileStream( fs, "   game->player.entity->velocity.x = 0.0f;\n" );
-         WriteToFileStream( fs, "   game->player.entity->velocity.y = 0.0f;\n" );
-         WriteToFileStream( fs, "   game->player.tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->player.entity->pos.x, (u32)game->player.entity->pos.y );\n" );
-         WriteToFileStream( fs, "   ActiveSprite_SetDirection( game->player.entity->sprite, Direction_Down );\n" );
-         WriteToFileStream( fs, "   TileMap_ClampViewportToEntity( &game->tileMap, game->player.entity );\n" );
+         WriteToFileStream( fs, "   ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );\n" );
+         WriteToFileStream( fs, "   TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );\n" );
          WriteToFileStream( fs, "   game->isAM = False;\n" );
          WriteToFileStream( fs, "   game->daylightFactor = 1.0f; // noon\n" );
          WriteToFileStream( fs, "   game->screen.dayFilterIntensity = 1.0f;\n" );
