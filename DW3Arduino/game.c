@@ -11,7 +11,6 @@ internal void Game_IncrementDaylightFactor( Game_t* game );
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex );
 internal Bool_t Game_TryEnterPortal( Game_t* game );
 internal void Game_EnterPortal( Game_t* game, Portal_t* portal );
-internal void Game_ApplyTileDamage( Game_t* game );
 internal Bool_t Game_TryEncounter( Game_t* game );
 
 void Game_Init( Game_t* game, u16* screenBuffer )
@@ -191,6 +190,10 @@ internal void Game_AnchorRearPlayers( Game_t* game )
       player->entity->pos.x = prevPlayer->moveHistory[prevPlayer->moveChainIndex].newPos.x;
       player->entity->pos.y = prevPlayer->moveHistory[prevPlayer->moveChainIndex].newPos.y;
       ActiveSprite_SetDirection( player->entity->sprite, prevPlayer->moveHistory[prevPlayer->moveChainIndex].newDir );
+      Player_ApplyTileDamage( player );
+
+      // TODO: check if the player has died from tile damage
+
       prevPlayer->moveChainIndex++;
 
       if ( prevPlayer->moveChainIndex >= PLAYER_MOVE_HISTORY_SIZE )
@@ -233,17 +236,21 @@ internal void Game_IncrementDaylightFactor( Game_t* game )
 
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
 {
-   game->players->tileIndex = tileIndex;
+   u16 tile;
+   Player_t* frontPlayer = game->players;
+
+   frontPlayer->tileIndex = tileIndex;
 
    if ( Game_TryEnterPortal( game ) )
    {
       return;
    }
    
-   // TODO: eventually this will be on a per-player basis
-   Game_ApplyTileDamage( game );
+   tile = game->tileMap.tiles[tileIndex];
+   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].tileDamageRate = TILE_GET_DAMAGE_RATE( tile );
+   Player_ApplyTileDamage( frontPlayer );
 
-   // TODO: check if the player has died before going any further
+   // TODO: check if the player has died
 
    if ( Game_TryEncounter( game ) )
    {
@@ -292,30 +299,22 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
    u32 destTileMapIndex = portal->destTileMapIndex;
    u32 destTileIndex = portal->destTileIndex;
    Direction_t destDirection = portal->destDirection;
+   Player_t* player;
 
    TileMap_LoadFromIndex( &game->tileMap, destTileMapIndex );
    TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
-   game->players->tileIndex = destTileIndex;
 
    for ( i = 0; i < game->playerCount; i++ )
    {
+      player = game->players + i;
+      player->tileIndex = destTileIndex;
       TileMap_CenterEntityOnTile( &game->tileMap, game->tileMap.playerEntities + i, destTileIndex );
       ActiveSprite_SetDirection( game->tileMap.playerSprites + i, destDirection );
+      Player_ResetChaining( player );
    }
 
    TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
    Random_Seed();
-}
-
-internal void Game_ApplyTileDamage( Game_t* game )
-{
-   u16 tile = game->tileMap.tiles[game->players->tileIndex];
-
-   switch ( TILE_GET_DAMAGE_RATE( tile ) )
-   {
-      // TODO: actually apply damage to the player based on the rate
-      default: return;
-   }
 }
 
 internal Bool_t Game_TryEncounter( Game_t* game )

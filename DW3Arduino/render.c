@@ -6,7 +6,8 @@ internal void Render_DrawTileMapLayer( Game_t* game, void ( *layerFunc )( Game_t
 internal void Render_DrawTileMapSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
 internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
 internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
-internal void Render_SortEntities( Entity_t* entities, u32 entityCount, Entity_t** sortedEntities, u32* sortCount );
+internal void Render_SortEntities( Entity_t* entities, u32 entityCount, Entity_t** sortedEntities, u32* sortCount, Bool_t reverseOrder );
+internal void Render_SortEntity( Entity_t* entity, Entity_t** sortedEntities, u32* sortCount );
 internal void Render_DrawSortedEntities( Game_t* game, Entity_t** sortedEntities, u32 entityCount, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
 
 void Render_DrawGame( Game_t* game )
@@ -220,41 +221,55 @@ internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw
    Entity_t* sortedEntities[TILEMAP_MAX_ENTITIES + MAX_PLAYERS];
    u32 sortCount = 0;
 
-   Render_SortEntities( game->tileMap.entities, game->tileMap.entityCount, sortedEntities, &sortCount );
-   Render_SortEntities( game->tileMap.playerEntities, game->playerCount, sortedEntities, &sortCount );
+   Render_SortEntities( game->tileMap.entities, game->tileMap.entityCount, sortedEntities, &sortCount, False );
+   Render_SortEntities( game->tileMap.playerEntities, game->playerCount, sortedEntities, &sortCount, True );
+
    Render_DrawSortedEntities( game, sortedEntities, sortCount, vx, vy, vw, vh, xOffset, yOffset );
 }
 
-internal void Render_SortEntities( Entity_t* entities, u32 entityCount, Entity_t** sortedEntities, u32* sortCount )
+internal void Render_SortEntities( Entity_t* entities, u32 entityCount, Entity_t** sortedEntities, u32* sortCount, Bool_t reverseOrder )
 {
-   u32 i, j, k;
-   Bool_t inserted;
-   Entity_t* entity;
+   i32 i;
 
-   for ( i = 0; i < entityCount; i++, ( *sortCount )++ )
+   if ( reverseOrder )
    {
-      entity = entities + i;
-      inserted = False;
-
-      for ( j = 0; j < *sortCount; j++ )
+      for ( i = ( (i32)entityCount - 1 ); i >= 0; i--, ( *sortCount )++ )
       {
-         if ( entity->pos.y < sortedEntities[j]->pos.y )
+         Render_SortEntity( entities + i, sortedEntities, sortCount );
+      }
+   }
+   else
+   {
+      for ( i = 0; i < (i32)entityCount; i++, ( *sortCount )++ )
+      {
+         Render_SortEntity( entities + i, sortedEntities, sortCount );
+      }
+   }
+}
+
+internal void Render_SortEntity( Entity_t* entity, Entity_t** sortedEntities, u32* sortCount )
+{
+   u32 i, j;
+   Bool_t inserted = False;
+
+   for ( i = 0; i < *sortCount; i++ )
+   {
+      if ( entity->pos.y < sortedEntities[i]->pos.y )
+      {
+         for ( j = *sortCount; j > i; j-- )
          {
-            for ( k = *sortCount; k > j; k-- )
-            {
-               sortedEntities[k] = sortedEntities[k - 1];
-            }
-
-            sortedEntities[j] = entity;
-            inserted = True;
-            break;
+            sortedEntities[j] = sortedEntities[j - 1];
          }
-      }
 
-      if ( !inserted )
-      {
-         sortedEntities[*sortCount] = entity;
+         sortedEntities[i] = entity;
+         inserted = True;
+         break;
       }
+   }
+
+   if ( !inserted )
+   {
+      sortedEntities[*sortCount] = entity;
    }
 }
 
