@@ -3568,7 +3568,7 @@ void TileMap_LoadPlayerSprites( TileMap_t* tileMap )
 
    for ( i = 0; i < tileMap->getPlayerCountFunc( tileMap->playerCountProvider ); i++ )
    {
-      TileMap_LoadPlayerSpriteTextureFromPoolIndex( tileMap->playerSpriteTextures + i, (u32)( tileMap->players[i].class ) );
+      TileMap_LoadPlayerSpriteTextureFromPoolIndex( tileMap->playerSpriteTextures + i, (u32)( tileMap->players[i].playerClass ) );
       TileMap_LoadActiveSpriteData( tileMap->playerSprites + i, i, 2, 4, Direction_Down );
    }
 }
@@ -6186,7 +6186,7 @@ void Game_Reset( Game_t* game )
    // MUFFINS: testing
    game->playerCount = 4;
 
-   game->players[0].class = PlayerClass_Hero;
+   game->players[0].playerClass = PlayerClass_Hero;
    game->players[0].entity = game->tileMap.playerEntities;
    game->players[0].entity->sprite = game->tileMap.playerSprites;
    game->players[0].entity->pos.x = 2722.0f;
@@ -6201,7 +6201,7 @@ void Game_Reset( Game_t* game )
    game->players[0].moveChainIndex = 0;
    game->players[0].chainNextPlayer = False;
 
-   game->players[1].class = PlayerClass_Wizard;
+   game->players[1].playerClass = PlayerClass_Wizard;
    game->players[1].entity = game->tileMap.playerEntities + 1;
    game->players[1].entity->sprite = game->tileMap.playerSprites + 1;
    game->players[1].entity->pos.x = 2722.0f;
@@ -6216,7 +6216,7 @@ void Game_Reset( Game_t* game )
    game->players[1].moveChainIndex = 0;
    game->players[1].chainNextPlayer = False;
 
-   game->players[2].class = PlayerClass_Merchant;
+   game->players[2].playerClass = PlayerClass_Merchant;
    game->players[2].entity = game->tileMap.playerEntities + 2;
    game->players[2].entity->sprite = game->tileMap.playerSprites + 2;
    game->players[2].entity->pos.x = 2722.0f;
@@ -6231,7 +6231,7 @@ void Game_Reset( Game_t* game )
    game->players[2].moveChainIndex = 0;
    game->players[2].chainNextPlayer = False;
 
-   game->players[3].class = PlayerClass_GoofOff;
+   game->players[3].playerClass = PlayerClass_GoofOff;
    game->players[3].entity = game->tileMap.playerEntities + 3;
    game->players[3].entity->sprite = game->tileMap.playerSprites + 3;
    game->players[3].entity->pos.x = 2722.0f;

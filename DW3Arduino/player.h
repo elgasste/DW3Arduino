@@ -34,7 +34,7 @@ PlayerClass_t;
 
 typedef struct Player_t
 {
-   PlayerClass_t class;
+   PlayerClass_t playerClass;
    Entity_t* entity;
    u32 tileIndex;
 
