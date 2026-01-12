@@ -43,4 +43,14 @@ typedef struct Player_t
 }
 Player_t;
 
+#if defined( __cplusplus )
+extern "C" {
+#endif
+
+void Player_ResetChaining( Player_t* player );
+
+#if defined( __cplusplus )
+}
+#endif
+
 #endif // PLAYER_H

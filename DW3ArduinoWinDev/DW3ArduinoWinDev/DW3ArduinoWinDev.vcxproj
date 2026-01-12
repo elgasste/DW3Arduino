@@ -159,6 +159,7 @@
     <ClCompile Include="..\..\DW3Arduino\input.c" />
     <ClCompile Include="..\..\DW3Arduino\npc.c" />
     <ClCompile Include="..\..\DW3Arduino\physics.c" />
+    <ClCompile Include="..\..\DW3Arduino\player.c" />
     <ClCompile Include="..\..\DW3Arduino\random.c" />
     <ClCompile Include="..\..\DW3Arduino\render.c" />
     <ClCompile Include="..\..\DW3Arduino\screen.c" />

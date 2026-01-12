@@ -292,15 +292,18 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
    u32 destTileMapIndex = portal->destTileMapIndex;
    u32 destTileIndex = portal->destTileIndex;
    Direction_t destDirection = portal->destDirection;
+   Player_t* player;
 
    TileMap_LoadFromIndex( &game->tileMap, destTileMapIndex );
    TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
-   game->players->tileIndex = destTileIndex;
 
    for ( i = 0; i < game->playerCount; i++ )
    {
+      player = game->players + i;
+      player->tileIndex = destTileIndex;
       TileMap_CenterEntityOnTile( &game->tileMap, game->tileMap.playerEntities + i, destTileIndex );
       ActiveSprite_SetDirection( game->tileMap.playerSprites + i, destDirection );
+      Player_ResetChaining( player );
    }
 
    TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
