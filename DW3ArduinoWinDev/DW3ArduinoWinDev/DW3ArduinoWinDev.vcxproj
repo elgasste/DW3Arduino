@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\DW3Arduino\active_sprite_textures.h" />
     <ClInclude Include="..\..\DW3Arduino\animation.h" />
     <ClInclude Include="..\..\DW3Arduino\clock.h" />
     <ClInclude Include="..\..\DW3Arduino\common.h" />
@@ -141,11 +142,15 @@
     <ClInclude Include="..\..\DW3Arduino\input.h" />
     <ClInclude Include="..\..\DW3Arduino\npc.h" />
     <ClInclude Include="..\..\DW3Arduino\player.h" />
+    <ClInclude Include="..\..\DW3Arduino\player_sprite_textures.h" />
     <ClInclude Include="..\..\DW3Arduino\random.h" />
     <ClInclude Include="..\..\DW3Arduino\screen.h" />
     <ClInclude Include="..\..\DW3Arduino\game.h" />
     <ClInclude Include="..\..\DW3Arduino\sprite.h" />
+    <ClInclude Include="..\..\DW3Arduino\static_sprite_textures.h" />
+    <ClInclude Include="..\..\DW3Arduino\text_bit_fields.h" />
     <ClInclude Include="..\..\DW3Arduino\tile_map.h" />
+    <ClInclude Include="..\..\DW3Arduino\tile_textures.h" />
     <ClInclude Include="..\..\DW3Arduino\utility.h" />
     <ClInclude Include="..\..\DW3Arduino\vector.h" />
     <ClInclude Include="resource.h" />

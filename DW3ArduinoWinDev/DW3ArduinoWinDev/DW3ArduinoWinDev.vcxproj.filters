@@ -114,6 +114,21 @@
     <ClInclude Include="..\..\DW3Arduino\direction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\tile_textures.h">
+      <Filter>Game Data Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\text_bit_fields.h">
+      <Filter>Game Data Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\static_sprite_textures.h">
+      <Filter>Game Data Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\active_sprite_textures.h">
+      <Filter>Game Data Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\player_sprite_textures.h">
+      <Filter>Game Data Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -124,6 +139,9 @@
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{66f89c58-8c62-4949-8c7c-c4803f276cc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Data Header Files">
+      <UniqueIdentifier>{80d9e576-410d-4e18-981e-1c866521a239}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
