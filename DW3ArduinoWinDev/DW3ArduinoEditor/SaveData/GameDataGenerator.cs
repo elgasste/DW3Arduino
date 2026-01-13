@@ -47,8 +47,9 @@ namespace DW3ArduinoEditor.SaveData
          WriteTextBitFieldsHeader();
          WriteTileTexturesHeader();
          WriteStaticSpriteTexturesHeader();
-         WriteActiveSpriteTexturesHeader( Constants.GameDataActiveSpriteTexturesHeaderPath, "active", _activeSpriteTexturePool );
-         WriteActiveSpriteTexturesHeader( Constants.GameDataPlayerSpriteTexturesHeaderPath, "player", _playerSpriteTexturePool );
+         WriteActiveSpriteTexturesHeader( Constants.GameDataActiveSpriteTexturesHeaderPath, "active", _activeSpriteTexturePool, _gameSaveData?.HeaderGuids.ActiveSpriteTexturesHeaderGuid );
+         WriteActiveSpriteTexturesHeader( Constants.GameDataPlayerSpriteTexturesHeaderPath, "player", _playerSpriteTexturePool, _gameSaveData?.HeaderGuids.PlayerSpriteTexturesHeaderGuid );
+         WriteTileMapsHeader( Constants.GameDataTileMapsHeaderPath );
 
          using FileStream fs = File.Create( Constants.GameDataSourceFilePath );
          WriteHeaderSection( fs );
@@ -90,12 +91,11 @@ namespace DW3ArduinoEditor.SaveData
             }
          }
 
-         var guid = Guid.NewGuid().ToString( "N" ).ToUpper();
          using FileStream fs = File.Create( Constants.GameDataTextBitFieldsHeaderPath );
 
          WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
-         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", guid ) );
-         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", _gameSaveData?.HeaderGuids.TextBitFieldsHeaderGuid ) );
+         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.TextBitFieldsHeaderGuid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
 
          WriteToFileStream( fs, string.Format( "const u8 g_textBitFields[{0}][{1}] = {{\n", Constants.TextTileCount, Constants.TextTileSize ) );
@@ -130,17 +130,16 @@ namespace DW3ArduinoEditor.SaveData
 
          WriteToFileStream( fs, "};\n\n" );
 
-         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.TextBitFieldsHeaderGuid ) );
       }
 
       private void WriteTileTexturesHeader()
       {
          using FileStream fs = File.Create( Constants.GameDataTileTexturesHeaderPath );
 
-         // TODO: use GUIDs for header defines
          WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
-         WriteToFileStream( fs, "#if !defined( TILE_TEXTURES_H )\n" );
-         WriteToFileStream( fs, "#define TILE_TEXTURES_H\n\n" );
+         WriteToFileStream( fs, string.Format( "#if !defined( GEN{0}_H )\n", _gameSaveData?.HeaderGuids.TileTexturesHeaderGuid ) );
+         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.TileTexturesHeaderGuid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
 
          WriteToFileStream( fs, string.Format( "const u8 g_tileTexturePool[{0}][{1}] = {{\n", _tileTexturePool?.TilePaletteIndexes.Count, Constants.TileSize * Constants.TileSize ) );
@@ -176,17 +175,16 @@ namespace DW3ArduinoEditor.SaveData
 
          WriteToFileStream( fs, "};\n\n" );
 
-         WriteToFileStream( fs, "#endif // TILE_TEXTURES_H\n" );
+         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.TileTexturesHeaderGuid ) );
       }
 
       private void WriteStaticSpriteTexturesHeader()
       {
-         var guid = Guid.NewGuid().ToString( "N" ).ToUpper();
          using FileStream fs = File.Create( Constants.GameDataStaticSpriteTexturesHeaderPath );
 
          WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
-         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", guid ) );
-         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", _gameSaveData?.HeaderGuids.StaticSpriteTexturesHeaderGuid ) );
+         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.StaticSpriteTexturesHeaderGuid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
 
          WriteToFileStream( fs, string.Format( "const u8 g_staticSpriteTexturePool[{0}][{1}] = {{\n", _staticSpriteTexturePool?.StaticSpritePaletteIndexes.Count, Constants.StaticSpriteTextureSize * Constants.StaticSpriteTextureSize ) );
@@ -221,12 +219,11 @@ namespace DW3ArduinoEditor.SaveData
          }
 
          WriteToFileStream( fs, "};\n\n" );
-         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.StaticSpriteTexturesHeaderGuid ) );
       }
 
-      private void WriteActiveSpriteTexturesHeader( string headerPath, string spriteType, ActiveSpriteTexturePool? pool )
+      private void WriteActiveSpriteTexturesHeader( string headerPath, string spriteType, ActiveSpriteTexturePool? pool, string? guid )
       {
-         var guid = Guid.NewGuid().ToString( "N" ).ToUpper();
          using FileStream fs = File.Create( headerPath );
 
          WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage  );
@@ -290,6 +287,49 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", guid ) );
       }
 
+      private void WriteTileMapsHeader( string headerPath )
+      {
+         using FileStream fs = File.Create( headerPath );
+
+         WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
+         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", _gameSaveData?.HeaderGuids.MapTilesHeaderGuid ) );
+         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.MapTilesHeaderGuid ) );
+         WriteToFileStream( fs, "#include \"common.h\"\n\n" );
+
+         if ( _gameSaveData is not null )
+         {
+            for ( int i = 0; i < _gameSaveData.TileMaps.Count; i++ )
+            {
+               WriteToFileStream( fs, string.Format( "const u16 g_mapTiles{0}[{1}] = {{\n", _gameSaveData.TileMaps[i].Index, _gameSaveData.TileMaps[i].Tiles.Count ) );
+               WriteToFileStream( fs, "   " );
+
+               for ( int j = 0; j < _gameSaveData.TileMaps[i].Tiles.Count; j++ )
+               {
+                  var tileValue = (ushort) (
+                     ( _gameSaveData.TileMaps[i].Tiles[j].TextureIndex ) |
+                     ( _gameSaveData.TileMaps[i].Tiles[j].IsPassable ? ( (uint)0x1 << 5 ) : 0x0 ) |
+                     ( (uint)_gameSaveData.TileMaps[i].Tiles[j].WalkSpeed << 6 ) |
+                     ( (uint)_gameSaveData.TileMaps[i].Tiles[j].EncounterRate << 8 ) |
+                     ( (uint)_gameSaveData.TileMaps[i].Tiles[j].DamageRate << 10 )
+                  );
+
+                  WriteToFileStream( fs, string.Format( "0x{0}", tileValue.ToString( "X4" ) ) );
+
+                  if ( j < _gameSaveData.TileMaps[i].Tiles.Count - 1 )
+                  {
+                     WriteToFileStream( fs, "," );
+                  }
+
+                  WriteToFileStream( fs, " " );
+               }
+
+               WriteToFileStream( fs, "\n};\n\n" );
+            }
+         }
+
+         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.MapTilesHeaderGuid ) );
+      }
+
       private void WriteHeaderSection( FileStream fs )
       {
          WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
@@ -298,6 +338,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataStaticSpriteTexturesHeaderFileName ) );
          WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataActiveSpriteTexturesHeaderFileName ) );
          WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataPlayerSpriteTexturesHeaderFileName ) );
+         WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataTileMapsHeaderFileName ) );
          WriteToFileStream( fs, "#include \"game.h\"\n" );
          WriteToFileStream( fs, "#include \"random.h\"\n\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
@@ -444,8 +485,6 @@ namespace DW3ArduinoEditor.SaveData
       {
          WriteToFileStream( fs, "\nvoid TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )\n" );
          WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, "   u32 i;\n" );
-         WriteToFileStream( fs, "   u16* m = tileMap->tiles;\n\n" );
          WriteToFileStream( fs, "   switch( index )\n" );
          WriteToFileStream( fs, "   {\n" );
 
@@ -526,8 +565,7 @@ namespace DW3ArduinoEditor.SaveData
                   _gameSaveData.TileMaps[i].Npcs[j].Wanders ? "True" : "False" ) );
             }
 
-            WriteCompressedTileData( fs, _gameSaveData.TileMaps[i] );
-
+            WriteToFileStream( fs, string.Format( "         memcpy( tileMap->tiles, g_mapTiles{0}, sizeof( u16 ) * {1} );\n", _gameSaveData.TileMaps[i].Index, _gameSaveData.TileMaps[i].Tiles.Count ) );
             WriteToFileStream( fs, "         break;\n" );
          }
                   
@@ -560,250 +598,6 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "   game->daylightFactor = 1.0f; // noon\n" );
          WriteToFileStream( fs, "   game->screen.dayFilterIntensity = 1.0f;\n" );
          WriteToFileStream( fs, "}\n" );
-      }
-
-      private void WriteCompressedTileData( FileStream fs, TileMapSaveData tileMap )
-      {
-         List<ushort> tileValues = new( tileMap.Tiles.Count );
-         Dictionary<ushort, int> valueCounts = [];
-
-         // first pass: compile tile properties into 16-bit values and count their usage
-         for ( int i = 0; i < tileMap.Tiles.Count; i++ )
-         {
-            var tileValue = (ushort) (
-                  ( tileMap.Tiles[i].TextureIndex ) |
-                  ( tileMap.Tiles[i].IsPassable ? ( (uint)0x1 << 5 ) : 0x0 ) |
-                  ( (uint)tileMap.Tiles[i].WalkSpeed << 6 ) |
-                  ( (uint)tileMap.Tiles[i].EncounterRate << 8 ) |
-                  ( (uint)tileMap.Tiles[i].DamageRate << 10 )
-               );
-
-            tileValues.Add( tileValue );
-
-            if ( !valueCounts.ContainsKey( tileValue ) )
-            {
-               valueCounts.Add( tileValue, 1 );
-            }
-            else
-            {
-               valueCounts[tileValue]++;
-            }
-         }
-
-         // find the most-used value and initialize the entire map with it
-         ushort mostUsedValue = valueCounts.OrderByDescending( kvp => kvp.Value ).First().Key;
-         WriteToFileStream( fs, string.Format( "         for ( i = 0; i < {0}; i++ ) m[i] = 0x{1};\n", tileValues.Count, mostUsedValue.ToString( "X4" ) ) );
-
-         // second pass: compile a list of runs (a "run" can also have one single value)
-         List<TileDataRun> runs = [];
-         int runStart = 0, runCount = 0;
-         ushort runValue = 0;
-
-         for ( int i = 0; i < tileValues.Count; i++ )
-         {
-            if ( tileValues[i] == mostUsedValue ) // ran into most-used value, write and restart
-            {
-               if ( runCount > 0 )
-               {
-                  runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
-               }
-
-               runCount = 0;
-            }
-            else
-            {
-               if ( runCount == 0 ) // starting a new run
-               {
-                  runStart = i;
-                  runCount = 1;
-                  runValue = tileValues[i];
-               }
-               else if ( tileValues[i] != runValue ) // last run has ended, write and restart
-               {
-                  runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
-                  runStart = i;
-                  runCount = 1;
-                  runValue = tileValues[i];
-               }
-               else // run is still going
-               {
-                  runCount++;
-               }
-
-               if ( i == ( tileValues.Count - 1 ) ) // end of the list, write and exit
-               {
-                  runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
-               }
-            }
-         }
-
-         int packCount = 0;
-
-         // third pass: write out loops for all the runs with a counter higher than 1, packing 3 per line
-         for ( int i = 0; i < runs.Count; i++ )
-         {
-            if ( runs[i].Count > 1 )
-            {
-               packCount++;
-
-               if ( packCount == 1 )
-               {
-                  WriteToFileStream( fs, string.Format( "         for ( i = {0}; i < {1}; i++ ) m[i] = 0x{2};", runs[i].Start, runs[i].Start + runs[i].Count, runs[i].Value.ToString( "X4" ) ) );
-               }
-               else
-               {
-                  WriteToFileStream( fs, string.Format( " for ( i = {0}; i < {1}; i++ ) m[i] = 0x{2};", runs[i].Start, runs[i].Start + runs[i].Count, runs[i].Value.ToString( "X4" ) ) );
-               }
-            }
-
-            if ( packCount == 3 || ( ( packCount > 0 ) && ( i == ( runs.Count - 1 ) ) ) )
-            {
-               WriteToFileStream( fs, "\n" );
-               packCount = 0;
-            }
-         }
-
-         packCount = 0;
-
-         // fourth pass: write out loops for all the runs with a single count, packing 8 per line
-         for ( int i = 0; i < runs.Count; i++ )
-         {
-            if ( runs[i].Count == 1 )
-            {
-               packCount++;
-
-               if ( packCount == 1 )
-               {
-                  WriteToFileStream( fs, string.Format( "         m[{0}] = 0x{1};", runs[i].Start, runs[i].Value.ToString( "X4" ) ) );
-               }
-               else
-               {
-                  WriteToFileStream( fs, string.Format( " m[{0}] = 0x{1};", runs[i].Start, runs[i].Value.ToString( "X4" ) ) );
-               }
-            }
-
-            if ( packCount == 8 || ( ( packCount > 0 ) && ( i == ( runs.Count - 1 ) ) ) )
-            {
-               WriteToFileStream( fs, "\n" );
-               packCount = 0;
-            }
-         }
-      }
-
-      private void WriteCompressedTextureData( FileStream fs, List<int> paletteIndexes )
-      {
-         Dictionary<int, int> valueCounts = [];
-
-         // first pass: count index value usage
-         for ( int i = 0; i < paletteIndexes.Count; i++ )
-         {
-            if ( !valueCounts.ContainsKey( paletteIndexes[i] ) )
-            {
-               valueCounts.Add( paletteIndexes[i], 1 );
-            }
-            else
-            {
-               valueCounts[paletteIndexes[i]]++;
-            }
-         }
-
-         // find the most-used value and initialize the entire texture with it
-         int mostUsedValue = valueCounts.OrderByDescending( kvp => kvp.Value ).First().Key;
-         WriteToFileStream( fs, string.Format( "         for ( i = 0; i < {0}; i++ ) m[i] = 0x{1};\n", paletteIndexes.Count, mostUsedValue.ToString( "X2" ) ) );
-
-         // second pass: compile a list of runs (a "run" can also have one single value)
-         List<TextureDataRun> runs = [];
-         int runStart = 0, runCount = 0, runValue = 0;
-
-         for ( int i = 0; i < paletteIndexes.Count; i++ )
-         {
-            if ( paletteIndexes[i] == mostUsedValue ) // ran into most-used value, write and restart
-            {
-               if ( runCount > 0 )
-               {
-                  runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
-               }
-
-               runCount = 0;
-            }
-            else
-            {
-               if ( runCount == 0 ) // starting a new run
-               {
-                  runStart = i;
-                  runCount = 1;
-                  runValue = paletteIndexes[i];
-               }
-               else if ( paletteIndexes[i] != runValue ) // last run has ended, write and restart
-               {
-                  runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
-                  runStart = i;
-                  runCount = 1;
-                  runValue = paletteIndexes[i];
-               }
-               else // run is still going
-               {
-                  runCount++;
-               }
-
-               if ( i == ( paletteIndexes.Count - 1 ) ) // end of the list, write and exit
-               {
-                  runs.Add( new() { Start = runStart, Count = runCount, Value = runValue } );
-               }
-            }
-         }
-
-         int packCount = 0;
-
-         // third pass: write out loops for all the runs with a counter higher than 1, packing 3 per line
-         for ( int i = 0; i < runs.Count; i++ )
-         {
-            if ( runs[i].Count > 1 )
-            {
-               packCount++;
-
-               if ( packCount == 1 )
-               {
-                  WriteToFileStream( fs, string.Format( "         for ( i = {0}; i < {1}; i++ ) m[i] = 0x{2};", runs[i].Start, runs[i].Start + runs[i].Count, runs[i].Value.ToString( "X2" ) ) );
-               }
-               else
-               {
-                  WriteToFileStream( fs, string.Format( " for ( i = {0}; i < {1}; i++ ) m[i] = 0x{2};", runs[i].Start, runs[i].Start + runs[i].Count, runs[i].Value.ToString( "X2" ) ) );
-               }
-            }
-
-            if ( packCount == 3 || ( ( packCount > 0 ) && ( i == ( runs.Count - 1 ) ) ) )
-            {
-               WriteToFileStream( fs, "\n" );
-               packCount = 0;
-            }
-         }
-
-         packCount = 0;
-
-         // fourth pass: write out loops for all the runs with a single count, packing 12 per line
-         for ( int i = 0; i < runs.Count; i++ )
-         {
-            if ( runs[i].Count == 1 )
-            {
-               packCount++;
-
-               if ( packCount == 1 )
-               {
-                  WriteToFileStream( fs, string.Format( "         m[{0}] = 0x{1};", runs[i].Start, runs[i].Value.ToString( "X2" ) ) );
-               }
-               else
-               {
-                  WriteToFileStream( fs, string.Format( " m[{0}] = 0x{1};", runs[i].Start, runs[i].Value.ToString( "X2" ) ) );
-               }
-            }
-
-            if ( packCount == 12 || ( ( packCount > 0 ) && ( i == ( runs.Count - 1 ) ) ) )
-            {
-               WriteToFileStream( fs, "\n" );
-               packCount = 0;
-            }
-         }
       }
 
       private void WriteToFileStream( FileStream fs, string value )

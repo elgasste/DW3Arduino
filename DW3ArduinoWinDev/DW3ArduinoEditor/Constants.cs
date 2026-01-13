@@ -11,6 +11,7 @@
       public const string GameDataStaticSpriteTexturesHeaderFileName = "static_sprite_textures.h";
       public const string GameDataActiveSpriteTexturesHeaderFileName = "active_sprite_textures.h";
       public const string GameDataPlayerSpriteTexturesHeaderFileName = "player_sprite_textures.h";
+      public const string GameDataTileMapsHeaderFileName = "tile_maps.h";
 
       public const string SaveDataFilePath = AssetsBasePath + "EditorData.json";
       public const string GameDataSourceFilePath = OutputBasePath + "game_data.c";
@@ -19,6 +20,7 @@
       public const string GameDataStaticSpriteTexturesHeaderPath = OutputBasePath + GameDataStaticSpriteTexturesHeaderFileName;
       public const string GameDataActiveSpriteTexturesHeaderPath = OutputBasePath + GameDataActiveSpriteTexturesHeaderFileName;
       public const string GameDataPlayerSpriteTexturesHeaderPath = OutputBasePath + GameDataPlayerSpriteTexturesHeaderFileName;
+      public const string GameDataTileMapsHeaderPath = OutputBasePath + GameDataTileMapsHeaderFileName;
 
       public const string TileTexturePoolImagePath = AssetsBasePath + "textures\\tile_texture_pool.png";
       public const string StaticSpriteTexturePoolImagePath = AssetsBasePath + "textures\\static_sprite_texture_pool.png";
