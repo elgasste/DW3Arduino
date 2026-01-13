@@ -123,6 +123,12 @@
     <ClInclude Include="..\..\DW3Arduino\static_sprite_textures.h">
       <Filter>Game Data Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\active_sprite_textures.h">
+      <Filter>Game Data Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\player_sprite_textures.h">
+      <Filter>Game Data Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
