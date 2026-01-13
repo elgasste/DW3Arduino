@@ -46,6 +46,7 @@ namespace DW3ArduinoEditor.SaveData
 
          WriteTextBitFieldsHeader();
          WriteTileTexturesHeader();
+         WriteStaticSpriteTexturesHeader();
 
          using FileStream fs = File.Create( Constants.GameDataSourceFilePath );
          WriteHeaderSection( fs );
@@ -53,7 +54,6 @@ namespace DW3ArduinoEditor.SaveData
          WritePaletteFunction( fs );
          WriteTextTilesFunction( fs );
          WriteTileTextureIndexesFunction( fs );
-         WriteStaticSpriteTexturesPoolFunction( fs );
          WriteStaticSpriteTextureIndexesFunction( fs );
          WriteActiveSpriteTexturesPoolFunction( fs );
          WriteActiveSpriteTextureIndexesFunction( fs );
@@ -92,6 +92,7 @@ namespace DW3ArduinoEditor.SaveData
 
          using FileStream fs = File.Create( Constants.GameDataTextBitFieldsHeaderPath );
 
+         // TODO: use GUIDs for header defines
          WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
          WriteToFileStream( fs, "#if !defined( TEXT_BIT_FIELDS_H )\n" );
          WriteToFileStream( fs, "#define TEXT_BIT_FIELDS_H\n\n" );
@@ -136,6 +137,7 @@ namespace DW3ArduinoEditor.SaveData
       {
          using FileStream fs = File.Create( Constants.GameDataTileTexturesHeaderPath );
 
+         // TODO: use GUIDs for header defines
          WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
          WriteToFileStream( fs, "#if !defined( TILE_TEXTURES_H )\n" );
          WriteToFileStream( fs, "#define TILE_TEXTURES_H\n\n" );
@@ -177,11 +179,57 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "#endif // TILE_TEXTURES_H\n" );
       }
 
+      private void WriteStaticSpriteTexturesHeader()
+      {
+         using FileStream fs = File.Create( Constants.GameDataStaticSpriteTexturesHeaderPath );
+
+         WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
+         WriteToFileStream( fs, "#if !defined( STATIC_SPRITE_TEXTURES_H )\n" );
+         WriteToFileStream( fs, "#define STATIC_SPRITE_TEXTURES_H\n\n" );
+         WriteToFileStream( fs, "#include \"common.h\"\n\n" );
+
+         WriteToFileStream( fs, string.Format( "const u8 g_staticSpriteTexturePool[{0}][{1}] = {{\n", _staticSpriteTexturePool?.StaticSpritePaletteIndexes.Count, Constants.StaticSpriteTextureSize * Constants.StaticSpriteTextureSize ) );
+
+         if ( _staticSpriteTexturePool is not null )
+         {
+            for ( int i = 0; i < _staticSpriteTexturePool.StaticSpritePaletteIndexes.Count; i++ )
+            {
+               WriteToFileStream( fs, "   { " );
+
+               for ( int j = 0; j < _staticSpriteTexturePool.StaticSpritePaletteIndexes[i].Count; j++ )
+               {
+                  WriteToFileStream( fs, string.Format( "0x{0}", _staticSpriteTexturePool.StaticSpritePaletteIndexes[i][j].ToString( "X2" ) ) );
+
+                  if ( j < _staticSpriteTexturePool.StaticSpritePaletteIndexes[i].Count - 1 )
+                  {
+                     WriteToFileStream( fs, "," );
+                  }
+
+                  WriteToFileStream( fs, " " );
+               }
+
+               WriteToFileStream( fs, "   }" );
+
+               if ( i < _staticSpriteTexturePool.StaticSpritePaletteIndexes.Count - 1 )
+               {
+                  WriteToFileStream( fs, "," );
+               }
+
+               WriteToFileStream( fs, "\n" );
+            }
+         }
+
+         WriteToFileStream( fs, "};\n\n" );
+
+         WriteToFileStream( fs, "#endif // STATIC_SPRITE_TEXTURES_H\n" );
+      }
+
       private void WriteHeaderSection( FileStream fs )
       {
          WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
          WriteToFileStream( fs, "#include \"text_bit_fields.h\"\n" );
          WriteToFileStream( fs, "#include \"tile_textures.h\"\n" );
+         WriteToFileStream( fs, "#include \"static_sprite_textures.h\"\n" );
          WriteToFileStream( fs, "#include \"game.h\"\n" );
          WriteToFileStream( fs, "#include \"random.h\"\n\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
@@ -266,57 +314,27 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "}\n" );
       }
 
-      private void WriteStaticSpriteTexturesPoolFunction( FileStream fs )
-      {
-         WriteToFileStream( fs, "\ninternal void TileMap_LoadStaticSpriteTextureFromPoolIndex( StaticSpriteTexture_t* texture, u32 index )\n" );
-         WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, "   u32 i;\n" );
-         WriteToFileStream( fs, "   u8* m = texture->paletteIndexes;\n\n" );
-         WriteToFileStream( fs, "   switch( index )\n" );
-         WriteToFileStream( fs, "   {\n" );
-
-         for ( int i = 0; i < _staticSpriteTexturePool?.StaticSpritePaletteIndexes.Count; i++ )
-         {
-            WriteToFileStream( fs, string.Format( "      case {0}:\n", i ) );
-            WriteCompressedTextureData( fs, _staticSpriteTexturePool.StaticSpritePaletteIndexes[i] );
-            WriteToFileStream( fs, "         break;\n" );
-         }
-
-         WriteToFileStream( fs, "   }\n" );
-         WriteToFileStream( fs, "}\n" );
-      }
-
       private void WriteStaticSpriteTextureIndexesFunction( FileStream fs )
       {
          WriteToFileStream( fs, "\ninternal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index )\n" );
          WriteToFileStream( fs, "{\n" );
 
-         if ( _gameSaveData?.StaticSpriteTextureSets.Count == 0 )
-         {
-            WriteToFileStream( fs, "   UNUSED_PARAM( tileMap );\n" );
-            WriteToFileStream( fs, "   UNUSED_PARAM( index );\n" );
-         }
-         else
-         {
+         WriteToFileStream( fs, "   switch ( index )\n" );
+         WriteToFileStream( fs, "   {\n" );
 
-            WriteToFileStream( fs, "   switch ( index )\n" );
-            WriteToFileStream( fs, "   {\n" );
+         for ( int i = 0; i < _gameSaveData?.StaticSpriteTextureSets.Count; i++ )
+         {
+            WriteToFileStream( fs, string.Format( "      case {0}:\n", _gameSaveData.StaticSpriteTextureSets[i].Index ) );
 
-            for ( int i = 0; i < _gameSaveData?.StaticSpriteTextureSets.Count; i++ )
+            for ( int j = 0; j < _gameSaveData.StaticSpriteTextureSets[i].StaticSpriteTexturePoolIndexes.Count; j++ )
             {
-               WriteToFileStream( fs, string.Format( "      case {0}:\n", _gameSaveData.StaticSpriteTextureSets[i].Index ) );
-
-               for ( int j = 0; j < _gameSaveData.StaticSpriteTextureSets[i].StaticSpriteTexturePoolIndexes.Count; j++ )
-               {
-                  WriteToFileStream( fs, string.Format( "         TileMap_LoadStaticSpriteTextureFromPoolIndex( &tileMap->staticSpriteTextures[{0}], {1} );\n", j, _gameSaveData.StaticSpriteTextureSets[i].StaticSpriteTexturePoolIndexes[j] ) );
-               }
-
-               WriteToFileStream( fs, "         break;\n" );
+               WriteToFileStream( fs, string.Format( "         memcpy( &tileMap->staticSpriteTextures[{0}].paletteIndexes, g_staticSpriteTexturePool[{1}], sizeof( u8 ) * {2} );\n", j, _gameSaveData.StaticSpriteTextureSets[i].StaticSpriteTexturePoolIndexes[j], Constants.StaticSpriteTextureSize * Constants.StaticSpriteTextureSize ) );
             }
 
-            WriteToFileStream( fs, "   }\n" );
+            WriteToFileStream( fs, "         break;\n" );
          }
 
+         WriteToFileStream( fs, "   }\n" );
          WriteToFileStream( fs, "}\n" );
       }
 
