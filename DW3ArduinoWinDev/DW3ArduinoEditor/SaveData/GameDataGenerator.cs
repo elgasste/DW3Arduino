@@ -47,8 +47,8 @@ namespace DW3ArduinoEditor.SaveData
          WriteTextBitFieldsHeader();
          WriteTileTexturesHeader();
          WriteStaticSpriteTexturesHeader();
-         WriteActiveSpriteTexturesHeader( Constants.GameDataActiveSpriteTexturesHeaderPath, "active", _activeSpriteTexturePool );
-         WriteActiveSpriteTexturesHeader( Constants.GameDataPlayerSpriteTexturesHeaderPath, "player", _playerSpriteTexturePool );
+         WriteActiveSpriteTexturesHeader( Constants.GameDataActiveSpriteTexturesHeaderPath, "active", _activeSpriteTexturePool, _gameSaveData?.HeaderGuids.ActiveSpriteTexturesHeaderGuid );
+         WriteActiveSpriteTexturesHeader( Constants.GameDataPlayerSpriteTexturesHeaderPath, "player", _playerSpriteTexturePool, _gameSaveData?.HeaderGuids.PlayerSpriteTexturesHeaderGuid );
          WriteTileMapsHeader( Constants.GameDataTileMapsHeaderPath );
 
          using FileStream fs = File.Create( Constants.GameDataSourceFilePath );
@@ -91,12 +91,11 @@ namespace DW3ArduinoEditor.SaveData
             }
          }
 
-         var guid = Guid.NewGuid().ToString( "N" ).ToUpper();
          using FileStream fs = File.Create( Constants.GameDataTextBitFieldsHeaderPath );
 
          WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
-         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", guid ) );
-         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", _gameSaveData?.HeaderGuids.TextBitFieldsHeaderGuid ) );
+         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.TextBitFieldsHeaderGuid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
 
          WriteToFileStream( fs, string.Format( "const u8 g_textBitFields[{0}][{1}] = {{\n", Constants.TextTileCount, Constants.TextTileSize ) );
@@ -131,17 +130,16 @@ namespace DW3ArduinoEditor.SaveData
 
          WriteToFileStream( fs, "};\n\n" );
 
-         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.TextBitFieldsHeaderGuid ) );
       }
 
       private void WriteTileTexturesHeader()
       {
-         var guid = Guid.NewGuid().ToString( "N" ).ToUpper();
          using FileStream fs = File.Create( Constants.GameDataTileTexturesHeaderPath );
 
          WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
-         WriteToFileStream( fs, string.Format( "#if !defined( GEN{0}_H )\n", guid ) );
-         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#if !defined( GEN{0}_H )\n", _gameSaveData?.HeaderGuids.TileTexturesHeaderGuid ) );
+         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.TileTexturesHeaderGuid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
 
          WriteToFileStream( fs, string.Format( "const u8 g_tileTexturePool[{0}][{1}] = {{\n", _tileTexturePool?.TilePaletteIndexes.Count, Constants.TileSize * Constants.TileSize ) );
@@ -177,17 +175,16 @@ namespace DW3ArduinoEditor.SaveData
 
          WriteToFileStream( fs, "};\n\n" );
 
-         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.TileTexturesHeaderGuid ) );
       }
 
       private void WriteStaticSpriteTexturesHeader()
       {
-         var guid = Guid.NewGuid().ToString( "N" ).ToUpper();
          using FileStream fs = File.Create( Constants.GameDataStaticSpriteTexturesHeaderPath );
 
          WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
-         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", guid ) );
-         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", _gameSaveData?.HeaderGuids.StaticSpriteTexturesHeaderGuid ) );
+         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.StaticSpriteTexturesHeaderGuid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
 
          WriteToFileStream( fs, string.Format( "const u8 g_staticSpriteTexturePool[{0}][{1}] = {{\n", _staticSpriteTexturePool?.StaticSpritePaletteIndexes.Count, Constants.StaticSpriteTextureSize * Constants.StaticSpriteTextureSize ) );
@@ -222,12 +219,11 @@ namespace DW3ArduinoEditor.SaveData
          }
 
          WriteToFileStream( fs, "};\n\n" );
-         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.StaticSpriteTexturesHeaderGuid ) );
       }
 
-      private void WriteActiveSpriteTexturesHeader( string headerPath, string spriteType, ActiveSpriteTexturePool? pool )
+      private void WriteActiveSpriteTexturesHeader( string headerPath, string spriteType, ActiveSpriteTexturePool? pool, string? guid )
       {
-         var guid = Guid.NewGuid().ToString( "N" ).ToUpper();
          using FileStream fs = File.Create( headerPath );
 
          WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage  );
@@ -293,12 +289,11 @@ namespace DW3ArduinoEditor.SaveData
 
       private void WriteTileMapsHeader( string headerPath )
       {
-         var guid = Guid.NewGuid().ToString( "N" ).ToUpper();
          using FileStream fs = File.Create( headerPath );
 
          WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
-         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", guid ) );
-         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", _gameSaveData?.HeaderGuids.MapTilesHeaderGuid ) );
+         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.MapTilesHeaderGuid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
 
          if ( _gameSaveData is not null )
@@ -332,7 +327,7 @@ namespace DW3ArduinoEditor.SaveData
             }
          }
 
-         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.MapTilesHeaderGuid ) );
       }
 
       private void WriteHeaderSection( FileStream fs )
