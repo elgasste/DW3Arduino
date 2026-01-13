@@ -5,6 +5,7 @@ internal LRESULT CALLBACK MainWindowProc( _In_ HWND hWnd, _In_ UINT uMsg, _In_ W
 internal void InitButtonMap();
 internal void RenderScreen();
 internal void DrawDiagnostics( HDC* dcMem );
+internal void DrawTranslucentRectangle( HDC hdc, int x, int y, int width, int height, COLORREF color, BYTE alpha );
 internal void HandleKeyboardInput( u32 keyCode, LPARAM flags );
 internal void FatalError( const char* message );
 
@@ -216,13 +217,10 @@ internal void DrawDiagnostics( HDC* dcMem )
    RECT r = { 10, 10, 0, 0 };
    char str[STRING_SIZE_DEFAULT];
    char sunMsg[STRING_SIZE_DEFAULT];
-   HBRUSH brush, oldBrush;
    HFONT oldFont;
 
-   brush = CreateSolidBrush( RGB( 0, 0, 128 ) );
-   oldBrush = (HBRUSH)SelectObject( *dcMem, brush );
-   Rectangle( *dcMem, 0, 0, 360, 260 );
-   SelectObject( *dcMem, oldBrush );
+   // backdrop
+   DrawTranslucentRectangle( *dcMem, 0, 0, 360, 260, RGB( 0, 0, 128 ), 200 );
 
    oldFont = (HFONT)SelectObject( *dcMem, g_winGlobals.hFont );
 
@@ -293,58 +291,83 @@ internal void DrawDiagnostics( HDC* dcMem )
    r.top += 16;
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "  |" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Up].down ? 0x00FFFFFF : 0x00666666 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Up].down ? 0x00FFFFFF : 0x00777777 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "--" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Left].down ? 0x00FFFFFF : 0x00666666 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Left].down ? 0x00FFFFFF : 0x00777777 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "   --" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Right].down ? 0x00FFFFFF : 0x00666666 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Right].down ? 0x00FFFFFF : 0x00777777 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "      SEL" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Select].down ? 0x00FFFFFF : 0x00666666 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Select].down ? 0x00FFFFFF : 0x00777777 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "          STR" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Start].down ? 0x00FFFFFF : 0x00666666 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Start].down ? 0x00FFFFFF : 0x00777777 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "              B" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_B].down ? 0x00FFFFFF : 0x00666666 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_B].down ? 0x00FFFFFF : 0x00777777 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "                A" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_A].down ? 0x00FFFFFF : 0x00666666 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_A].down ? 0x00FFFFFF : 0x00777777 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "  |" );
-   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Down].down ? 0x00FFFFFF : 0x00666666 );
+   SetTextColor( *dcMem, g_winGlobals.game.input.buttonStates[InputButton_Down].down ? 0x00FFFFFF : 0x00777777 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
-   SetTextColor( *dcMem, 0x00FFFFFF );
-
    strcpy( str, "1 - No clip" );
-   SetTextColor( *dcMem, g_winDebugFlags.noClip ? 0x00FFFFFF : 0x00666666 );
+   SetTextColor( *dcMem, g_winDebugFlags.noClip ? 0x00FFFFFF : 0x00777777 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
    strcpy( str, "2 - Fast walk" );
-   SetTextColor( *dcMem, g_winDebugFlags.fastWalk ? 0x00FFFFFF : 0x00666666 );
+   SetTextColor( *dcMem, g_winDebugFlags.fastWalk ? 0x00FFFFFF : 0x00777777 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
    strcpy( str, "3 - Show hit boxes" );
-   SetTextColor( *dcMem, g_winDebugFlags.showHitBoxes ? 0x00FFFFFF : 0x00666666 );
+   SetTextColor( *dcMem, g_winDebugFlags.showHitBoxes ? 0x00FFFFFF : 0x00777777 );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
    SelectObject( *dcMem, oldFont );
+}
+
+// this was AI-generated, seems fine
+internal void DrawTranslucentRectangle( HDC hdc, int x, int y, int width, int height, COLORREF color, BYTE alpha )
+{
+   HDC hdcMem = CreateCompatibleDC( hdc );
+   HBITMAP bitmap = CreateCompatibleBitmap( hdc, width, height );
+   HBITMAP oldBitmap = (HBITMAP)SelectObject( hdcMem, bitmap );
+
+   HBRUSH blueBrush = CreateSolidBrush( color );
+   HBRUSH oldBrush = (HBRUSH)SelectObject( hdcMem, blueBrush );
+
+   Rectangle( hdcMem, 0, 0, width, height );
+
+   BLENDFUNCTION bf;
+   bf.BlendOp = AC_SRC_OVER;
+   bf.BlendFlags = 0;
+   bf.SourceConstantAlpha = alpha;
+   bf.AlphaFormat = 0;
+
+   AlphaBlend( hdc, x, y, width, height, hdcMem, 0, 0, width, height, bf );
+
+   SelectObject( hdcMem, oldBrush );
+   DeleteObject( blueBrush );
+   SelectObject( hdcMem, oldBitmap );
+   DeleteObject( bitmap );
+   DeleteDC( hdcMem );
 }
 
 internal void HandleKeyboardInput( u32 keyCode, LPARAM flags )
