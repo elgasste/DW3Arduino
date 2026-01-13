@@ -90,12 +90,12 @@ namespace DW3ArduinoEditor.SaveData
             }
          }
 
+         var guid = Guid.NewGuid().ToString( "N" ).ToUpper();
          using FileStream fs = File.Create( Constants.GameDataTextBitFieldsHeaderPath );
 
-         // TODO: use GUIDs for header defines
          WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
-         WriteToFileStream( fs, "#if !defined( TEXT_BIT_FIELDS_H )\n" );
-         WriteToFileStream( fs, "#define TEXT_BIT_FIELDS_H\n\n" );
+         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", guid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
 
          WriteToFileStream( fs, string.Format( "const u8 g_textBitFields[{0}][{1}] = {{\n", Constants.TextTileCount, Constants.TextTileSize ) );
@@ -130,7 +130,7 @@ namespace DW3ArduinoEditor.SaveData
 
          WriteToFileStream( fs, "};\n\n" );
 
-         WriteToFileStream( fs, "#endif // TEXT_BIT_FIELDS_H\n" );
+         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", guid ) );
       }
 
       private void WriteTileTexturesHeader()
@@ -181,12 +181,12 @@ namespace DW3ArduinoEditor.SaveData
 
       private void WriteStaticSpriteTexturesHeader()
       {
+         var guid = Guid.NewGuid().ToString( "N" ).ToUpper();
          using FileStream fs = File.Create( Constants.GameDataStaticSpriteTexturesHeaderPath );
 
-         // TODO: use GUIDs for header defines
          WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
-         WriteToFileStream( fs, "#if !defined( STATIC_SPRITE_TEXTURES_H )\n" );
-         WriteToFileStream( fs, "#define STATIC_SPRITE_TEXTURES_H\n\n" );
+         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", guid ) );
+         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", guid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
 
          WriteToFileStream( fs, string.Format( "const u8 g_staticSpriteTexturePool[{0}][{1}] = {{\n", _staticSpriteTexturePool?.StaticSpritePaletteIndexes.Count, Constants.StaticSpriteTextureSize * Constants.StaticSpriteTextureSize ) );
@@ -221,7 +221,7 @@ namespace DW3ArduinoEditor.SaveData
          }
 
          WriteToFileStream( fs, "};\n\n" );
-         WriteToFileStream( fs, "#endif // STATIC_SPRITE_TEXTURES_H\n" );
+         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", guid ) );
       }
 
       private void WriteActiveSpriteTexturesHeader( string headerPath, string spriteType, ActiveSpriteTexturePool? pool )
