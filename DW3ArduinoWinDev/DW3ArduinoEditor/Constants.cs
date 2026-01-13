@@ -8,6 +8,7 @@
 
       public const string SaveDataFilePath = AssetsBasePath + "EditorData.json";
       public const string GameDataSourceFilePath = OutputBasePath + "game_data.c";
+      public const string GameDataTileTexturesHeaderPath = OutputBasePath + "tile_textures.h";
 
       public const string TileTexturePoolImagePath = AssetsBasePath + "textures\\tile_texture_pool.png";
       public const string StaticSpriteTexturePoolImagePath = AssetsBasePath + "textures\\static_sprite_texture_pool.png";

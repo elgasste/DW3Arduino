@@ -146,6 +146,7 @@
     <ClInclude Include="..\..\DW3Arduino\game.h" />
     <ClInclude Include="..\..\DW3Arduino\sprite.h" />
     <ClInclude Include="..\..\DW3Arduino\tile_map.h" />
+    <ClInclude Include="..\..\DW3Arduino\tile_textures.h" />
     <ClInclude Include="..\..\DW3Arduino\utility.h" />
     <ClInclude Include="..\..\DW3Arduino\vector.h" />
     <ClInclude Include="resource.h" />

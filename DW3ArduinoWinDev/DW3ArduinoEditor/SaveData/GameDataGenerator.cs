@@ -44,12 +44,13 @@ namespace DW3ArduinoEditor.SaveData
          _activeSpriteTexturePool = activeSpriteTexturePool;
          _playerSpriteTexturePool = playerSpriteTexturePool;
 
+         WriteTileTexturesHeader();
+
          using FileStream fs = File.Create( Constants.GameDataSourceFilePath );
          WriteHeaderSection( fs );
          WriteHelperFunctions( fs );
          WritePaletteFunction( fs );
          WriteTextTilesFunction( fs );
-         WriteTileTexturesPoolFunction( fs );
          WriteTileTextureIndexesFunction( fs );
          WriteStaticSpriteTexturesPoolFunction( fs );
          WriteStaticSpriteTextureIndexesFunction( fs );
@@ -61,12 +62,57 @@ namespace DW3ArduinoEditor.SaveData
          WriteGameResetFunction( fs );
       }
 
+      private void WriteTileTexturesHeader()
+      {
+         using FileStream fs = File.Create( Constants.GameDataTileTexturesHeaderPath );
+
+         WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
+         WriteToFileStream( fs, "#if !defined( TILE_TEXTURES_H )\n" );
+         WriteToFileStream( fs, "#define TILE_TEXTURES_H\n\n" );
+         WriteToFileStream( fs, "#include \"common.h\"\n\n" );
+
+         WriteToFileStream( fs, string.Format( "const u8 g_tileTexturePool[{0}][{1}] = {{\n", _tileTexturePool?.TilePaletteIndexes.Count, Constants.TileSize * Constants.TileSize ) );
+
+         if ( _tileTexturePool is not null )
+         {
+            for ( int i = 0; i < _tileTexturePool.TilePaletteIndexes.Count; i++ )
+            {
+               WriteToFileStream( fs, "   { " );
+
+               for ( int j = 0; j < _tileTexturePool.TilePaletteIndexes[i].Count; j++ )
+               {
+                  WriteToFileStream( fs, string.Format( "0x{0}", _tileTexturePool.TilePaletteIndexes[i][j].ToString( "X2" ) ) );
+
+                  if ( j < _tileTexturePool.TilePaletteIndexes[i].Count - 1 )
+                  {
+                     WriteToFileStream( fs, "," );
+                  }
+
+                  WriteToFileStream( fs, " " );
+               }
+
+               WriteToFileStream( fs, "   }" );
+
+               if ( i < _tileTexturePool.TilePaletteIndexes.Count - 1 )
+               {
+                  WriteToFileStream( fs, "," );
+               }
+
+               WriteToFileStream( fs, "\n" );
+            }
+         }
+
+         WriteToFileStream( fs, "};\n\n" );
+
+         WriteToFileStream( fs, "#endif // TILE_TEXTURES_H\n" );
+      }
+
       private void WriteHeaderSection( FileStream fs )
       {
          WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
+         WriteToFileStream( fs, "#include \"tile_textures.h\"\n" );
          WriteToFileStream( fs, "#include \"game.h\"\n" );
          WriteToFileStream( fs, "#include \"random.h\"\n\n" );
-         WriteToFileStream( fs, "internal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadStaticSpriteTextureFromPoolIndex( StaticSpriteTexture_t* texture, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
@@ -200,26 +246,6 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "}\n" );
       }
 
-      private void WriteTileTexturesPoolFunction( FileStream fs )
-      {
-         WriteToFileStream( fs, "\ninternal void TileMap_LoadTileTextureFromPoolIndex( TileTexture_t* texture, u32 index )\n" );
-         WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, "   u32 i;\n" );
-         WriteToFileStream( fs, "   u8* m = texture->paletteIndexes;\n\n" );
-         WriteToFileStream( fs, "   switch( index )\n" );
-         WriteToFileStream( fs, "   {\n" );
-
-         for ( int i = 0; i < _tileTexturePool?.TilePaletteIndexes.Count; i++ )
-         {
-            WriteToFileStream( fs, string.Format( "      case {0}:\n", i ) );
-            WriteCompressedTextureData( fs, _tileTexturePool.TilePaletteIndexes[i] );
-            WriteToFileStream( fs, "         break;\n" );
-         }
-
-         WriteToFileStream( fs, "   }\n" );
-         WriteToFileStream( fs, "}\n" );
-      }
-
       private void WriteTileTextureIndexesFunction( FileStream fs )
       {
          WriteToFileStream( fs, "\ninternal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index )\n" );
@@ -233,7 +259,7 @@ namespace DW3ArduinoEditor.SaveData
 
             for ( int j = 0; j < _gameSaveData.TileTextureSets[i].TileTexturePoolIndexes.Count; j++ )
             {
-               WriteToFileStream( fs, string.Format( "         TileMap_LoadTileTextureFromPoolIndex( &tileMap->tileTextures[{0}], {1} );\n", j, _gameSaveData.TileTextureSets[i].TileTexturePoolIndexes[j] ) );
+               WriteToFileStream( fs, string.Format( "         memcpy( &tileMap->tileTextures[{0}].paletteIndexes, g_tileTexturePool[{1}], sizeof( u8 ) * {2} );\n", j, _gameSaveData.TileTextureSets[i].TileTexturePoolIndexes[j], Constants.TileSize * Constants.TileSize ) );
             }
 
             WriteToFileStream( fs, "         break;\n" );
@@ -530,7 +556,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "{\n" );
          WriteToFileStream( fs, "   TileMap_LoadFromIndex( &game->tileMap, 0 );\n" );
          WriteToFileStream( fs, "   game->playerCount = 1;\n" );
-         WriteToFileStream( fs, "   game->players->class = PlayerClass_Hero;\n" );
+         WriteToFileStream( fs, "   game->players->playerClass = PlayerClass_Hero;\n" );
          WriteToFileStream( fs, "   game->players->entity = game->tileMap.playerEntities;\n" );
          WriteToFileStream( fs, "   game->players->entity->sprite = game->tileMap.playerSprites;\n" );
          WriteToFileStream( fs, "   game->players->entity->pos.x = 2722.0f;\n" );
