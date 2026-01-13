@@ -44,6 +44,7 @@ namespace DW3ArduinoEditor.SaveData
          _activeSpriteTexturePool = activeSpriteTexturePool;
          _playerSpriteTexturePool = playerSpriteTexturePool;
 
+         WriteTextBitFieldsHeader();
          WriteTileTexturesHeader();
 
          using FileStream fs = File.Create( Constants.GameDataSourceFilePath );
@@ -60,6 +61,75 @@ namespace DW3ArduinoEditor.SaveData
          WritePlayerSpritesFunction( fs );
          WriteTileMapFunction( fs );
          WriteGameResetFunction( fs );
+      }
+
+      private void WriteTextBitFieldsHeader()
+      {
+         var textTextureMap = new List<byte>();
+
+         var textFileStream = new FileStream( Constants.TextTilesFilePath, FileMode.Open, FileAccess.Read, FileShare.Read );
+         var textDecoder = new PngBitmapDecoder( textFileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default );
+         BitmapSource bitmap = textDecoder.Frames[0];
+         BitmapUtils.CheckTextTilesBitmapFormat( bitmap );
+
+         for ( int row = 0; row < bitmap.PixelHeight; row++ )
+         {
+            for ( int col = 0; col < bitmap.PixelWidth; col += 8 )
+            {
+               textTextureMap.Add( 0x00 );
+
+               for ( int i = 0; i < Constants.TextTileSize; i++ )
+               {
+                  var pixelColor = BitmapUtils.GetBitmapPixelColor( bitmap, col + i, row );
+
+                  if ( !Color.AreClose( pixelColor, Color.FromArgb( 255, 0, 0, 0 ) ) )
+                  {
+                     textTextureMap[^1] |= (byte)( 1 << ( Constants.TextTileSize - i - 1 ) );
+                  }
+               }
+            }
+         }
+
+         using FileStream fs = File.Create( Constants.GameDataTextBitFieldsHeaderPath );
+
+         WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
+         WriteToFileStream( fs, "#if !defined( TEXT_BIT_FIELDS_H )\n" );
+         WriteToFileStream( fs, "#define TEXT_BIT_FIELDS_H\n\n" );
+         WriteToFileStream( fs, "#include \"common.h\"\n\n" );
+
+         WriteToFileStream( fs, string.Format( "const u8 g_textBitFields[{0}][{1}] = {{\n", Constants.TextTileCount, Constants.TextTileSize ) );
+
+         for ( int i = 0; i < Constants.TextTileCount; i++ )
+         {
+            WriteToFileStream( fs, "   { " );
+
+            for ( int j = 0; j < Constants.TextTileSize; j++ )
+            {
+               byte b = textTextureMap[i + ( j * Constants.TextTileCount )];
+
+               WriteToFileStream( fs, string.Format( "0x{0}", b.ToString( "X2" ) ) );
+
+               if ( j < Constants.TextTileSize - 1 )
+               {
+                  WriteToFileStream( fs, "," );
+               }
+
+               WriteToFileStream( fs, " " );
+            }
+
+            WriteToFileStream( fs, "}" );
+
+            if ( i < Constants.TextTileCount - 1 )
+            {
+               WriteToFileStream( fs, "," );
+            }
+
+            WriteToFileStream( fs, "\n" );
+         }
+
+         WriteToFileStream( fs, "};\n\n" );
+
+         WriteToFileStream( fs, "#endif // TEXT_BIT_FIELDS_H\n" );
       }
 
       private void WriteTileTexturesHeader()
@@ -110,6 +180,7 @@ namespace DW3ArduinoEditor.SaveData
       private void WriteHeaderSection( FileStream fs )
       {
          WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
+         WriteToFileStream( fs, "#include \"text_bit_fields.h\"\n" );
          WriteToFileStream( fs, "#include \"tile_textures.h\"\n" );
          WriteToFileStream( fs, "#include \"game.h\"\n" );
          WriteToFileStream( fs, "#include \"random.h\"\n\n" );
@@ -166,83 +237,9 @@ namespace DW3ArduinoEditor.SaveData
 
       private void WriteTextTilesFunction( FileStream fs )
       {
-         var textTextureMap = new List<byte>();
-
-         var textFileStream = new FileStream( Constants.TextTilesFilePath, FileMode.Open, FileAccess.Read, FileShare.Read );
-         var textDecoder = new PngBitmapDecoder( textFileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default );
-         BitmapSource bitmap = textDecoder.Frames[0];
-         BitmapUtils.CheckTextTilesBitmapFormat( bitmap );
-
-         for ( int row = 0; row < bitmap.PixelHeight; row++ )
-         {
-            for ( int col = 0; col < bitmap.PixelWidth; col += 8 )
-            {
-               textTextureMap.Add( 0x00 );
-
-               for ( int i = 0; i < Constants.TextTileSize; i++ )
-               {
-                  var pixelColor = BitmapUtils.GetBitmapPixelColor( bitmap, col + i, row );
-
-                  if ( !Color.AreClose( pixelColor, Color.FromArgb( 255, 0, 0, 0 ) ) )
-                  {
-                     textTextureMap[^1] |= (byte)( 1 << ( Constants.TextTileSize - i - 1 ) );
-                  }
-               }
-            }
-         }
-
          WriteToFileStream( fs, "\nvoid Screen_LoadTextBitFields( Screen_t* screen )\n" );
          WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, "   u32 i, j;\n\n" );
-
-         var byteCounts = new Dictionary<byte, int>();
-
-         for ( int i = 0; i < Constants.TextTileCount; i++ )
-         {
-            for ( int j = 0; j < Constants.TextTileSize; j++ )
-            {
-               byte b = textTextureMap[i + ( j * Constants.TextTileCount )];
-
-               if ( byteCounts.TryGetValue( b, out int value ) )
-               {
-                  byteCounts[b] = ++value;
-               }
-               else
-               {
-                  byteCounts[b] = 1;
-               }
-            }
-         }
-
-         int highestCount = 0;
-         byte mostCommonValue = 0;
-
-         foreach ( var pair in byteCounts )
-         {
-            if ( pair.Value > highestCount )
-            {
-               highestCount = pair.Value;
-               mostCommonValue = pair.Key;
-            }
-         }
-
-         WriteToFileStream( fs, string.Format(
-            "   for ( i = 0; i < SCREEN_TEXT_TILE_COUNT; i++ ) for ( j = 0; j < SCREEN_TEXT_TILE_SIZE; j++ ) screen->textBitFields[i][j] = 0x{0};\n",
-            mostCommonValue.ToString( "X2" ) ) );
-
-         for ( int i = 0; i < Constants.TextTileCount; i++ )
-         {
-            for ( int j = 0; j < Constants.TextTileSize; j++ )
-            {
-               byte b = textTextureMap[i + ( j * Constants.TextTileCount )];
-
-               if ( b != mostCommonValue )
-               {
-                  WriteToFileStream( fs, string.Format( "   screen->textBitFields[{0}][{1}] = 0x{2};\n", i, j, b.ToString( "X2" ) ) );
-               }
-            }
-         }
-
+         WriteToFileStream( fs, string.Format( "   memcpy( screen->textBitFields, g_textBitFields, sizeof( u8 ) * {0} * {1} );\n", Constants.TextTileCount, Constants.TextTileSize ) );
          WriteToFileStream( fs, "}\n" );
       }
 
