@@ -16,7 +16,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <malloc.h>
-#include <wingdi.h>
 
 #include "win_pixel_buffer.h"
 #include "game.h"
