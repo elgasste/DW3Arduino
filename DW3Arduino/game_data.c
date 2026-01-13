@@ -11,7 +11,6 @@
 internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
 internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
 internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
-internal void TileMap_LoadPlayerSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );
 internal void TileMap_LoadPlayerSprites( TileMap_t* tileMap );
 
 internal void TileMap_LoadInitialData( TileMap_t* tm, u32 tx, u32 ty, Bool_t w, Bool_t d, Bool_t u, Bool_t he, u32 ssc, u32 asc, u32 pc, Bool_t ep, u32 ec, u32 nc )

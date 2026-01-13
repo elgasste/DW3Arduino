@@ -93,7 +93,7 @@ namespace DW3ArduinoEditor.SaveData
          var guid = Guid.NewGuid().ToString( "N" ).ToUpper();
          using FileStream fs = File.Create( Constants.GameDataTextBitFieldsHeaderPath );
 
-         WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
+         WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
          WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", guid ) );
          WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", guid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
@@ -138,7 +138,7 @@ namespace DW3ArduinoEditor.SaveData
          using FileStream fs = File.Create( Constants.GameDataTileTexturesHeaderPath );
 
          // TODO: use GUIDs for header defines
-         WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
+         WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
          WriteToFileStream( fs, "#if !defined( TILE_TEXTURES_H )\n" );
          WriteToFileStream( fs, "#define TILE_TEXTURES_H\n\n" );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
@@ -184,7 +184,7 @@ namespace DW3ArduinoEditor.SaveData
          var guid = Guid.NewGuid().ToString( "N" ).ToUpper();
          using FileStream fs = File.Create( Constants.GameDataStaticSpriteTexturesHeaderPath );
 
-         WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
+         WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
          WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", guid ) );
          WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", guid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
@@ -229,7 +229,7 @@ namespace DW3ArduinoEditor.SaveData
          var guid = Guid.NewGuid().ToString( "N" ).ToUpper();
          using FileStream fs = File.Create( headerPath );
 
-         WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
+         WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage  );
          WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", guid ) );
          WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", guid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
@@ -292,19 +292,17 @@ namespace DW3ArduinoEditor.SaveData
 
       private void WriteHeaderSection( FileStream fs )
       {
-         // TODO: some of these are defined in Constants.cs, we should load them from there
-         WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
-         WriteToFileStream( fs, "#include \"text_bit_fields.h\"\n" );
-         WriteToFileStream( fs, "#include \"tile_textures.h\"\n" );
-         WriteToFileStream( fs, "#include \"static_sprite_textures.h\"\n" );
-         WriteToFileStream( fs, "#include \"active_sprite_textures.h\"\n" );
-         WriteToFileStream( fs, "#include \"player_sprite_textures.h\"\n" );
+         WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
+         WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataTextBitFieldsHeaderFileName ) );
+         WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataTileTexturesHeaderFileName ) );
+         WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataStaticSpriteTexturesHeaderFileName ) );
+         WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataActiveSpriteTexturesHeaderFileName ) );
+         WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataPlayerSpriteTexturesHeaderFileName ) );
          WriteToFileStream( fs, "#include \"game.h\"\n" );
          WriteToFileStream( fs, "#include \"random.h\"\n\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
-         WriteToFileStream( fs, "internal void TileMap_LoadPlayerSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadPlayerSprites( TileMap_t* tileMap );\n" );
       }
 
