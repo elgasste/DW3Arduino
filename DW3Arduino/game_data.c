@@ -3,13 +3,12 @@
 #include "text_bit_fields.h"
 #include "tile_textures.h"
 #include "static_sprite_textures.h"
+#include "active_sprite_textures.h"
 #include "game.h"
 #include "random.h"
 
 internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
-internal void TileMap_LoadStaticSpriteTextureFromPoolIndex( StaticSpriteTexture_t* texture, u32 index );
 internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
-internal void TileMap_LoadActiveSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );
 internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
 internal void TileMap_LoadPlayerSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );
 internal void TileMap_LoadPlayerSprites( TileMap_t* tileMap );
@@ -227,132 +226,12 @@ internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, 
    }
 }
 
-internal void TileMap_LoadActiveSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index )
-{
-   u32 i;
-   u8* m = texture->paletteIndexes;
-
-   switch( index )
-   {
-      case 0:
-         for ( i = 0; i < 2048; i++ ) m[i] = 0x14;
-         for ( i = 22; i < 27; i++ ) m[i] = 0x15; for ( i = 37; i < 44; i++ ) m[i] = 0x15; for ( i = 53; i < 60; i++ ) m[i] = 0x15;
-         for ( i = 71; i < 73; i++ ) m[i] = 0x15; for ( i = 74; i < 76; i++ ) m[i] = 0x15; for ( i = 88; i < 92; i++ ) m[i] = 0x08;
-         for ( i = 96; i < 98; i++ ) m[i] = 0x15; for ( i = 103; i < 105; i++ ) m[i] = 0x08; for ( i = 106; i < 108; i++ ) m[i] = 0x08;
-         for ( i = 118; i < 120; i++ ) m[i] = 0x08; for ( i = 120; i < 123; i++ ) m[i] = 0x10; for ( i = 132; i < 136; i++ ) m[i] = 0x08;
-         for ( i = 136; i < 142; i++ ) m[i] = 0x10; for ( i = 149; i < 151; i++ ) m[i] = 0x08; for ( i = 151; i < 158; i++ ) m[i] = 0x10;
-         for ( i = 162; i < 165; i++ ) m[i] = 0x15; for ( i = 165; i < 172; i++ ) m[i] = 0x10; for ( i = 172; i < 174; i++ ) m[i] = 0x08;
-         for ( i = 179; i < 181; i++ ) m[i] = 0x15; for ( i = 181; i < 184; i++ ) m[i] = 0x10; for ( i = 184; i < 188; i++ ) m[i] = 0x08;
-         for ( i = 188; i < 190; i++ ) m[i] = 0x10; for ( i = 196; i < 207; i++ ) m[i] = 0x10; for ( i = 213; i < 223; i++ ) m[i] = 0x10;
-         for ( i = 229; i < 236; i++ ) m[i] = 0x08; for ( i = 236; i < 239; i++ ) m[i] = 0x10; for ( i = 245; i < 252; i++ ) m[i] = 0x15;
-         for ( i = 252; i < 256; i++ ) m[i] = 0x08; for ( i = 278; i < 283; i++ ) m[i] = 0x15; for ( i = 293; i < 300; i++ ) m[i] = 0x15;
-         for ( i = 305; i < 307; i++ ) m[i] = 0x15; for ( i = 309; i < 316; i++ ) m[i] = 0x15; for ( i = 327; i < 329; i++ ) m[i] = 0x15;
-         for ( i = 330; i < 332; i++ ) m[i] = 0x15; for ( i = 344; i < 348; i++ ) m[i] = 0x08; for ( i = 359; i < 361; i++ ) m[i] = 0x08;
-         for ( i = 362; i < 364; i++ ) m[i] = 0x08; for ( i = 374; i < 376; i++ ) m[i] = 0x08; for ( i = 376; i < 379; i++ ) m[i] = 0x10;
-         for ( i = 386; i < 388; i++ ) m[i] = 0x06; for ( i = 388; i < 392; i++ ) m[i] = 0x08; for ( i = 392; i < 398; i++ ) m[i] = 0x10;
-         for ( i = 401; i < 403; i++ ) m[i] = 0x15; for ( i = 403; i < 405; i++ ) m[i] = 0x10; for ( i = 405; i < 407; i++ ) m[i] = 0x08;
-         for ( i = 407; i < 414; i++ ) m[i] = 0x10; for ( i = 417; i < 420; i++ ) m[i] = 0x15; for ( i = 420; i < 428; i++ ) m[i] = 0x10;
-         for ( i = 428; i < 430; i++ ) m[i] = 0x08; for ( i = 435; i < 438; i++ ) m[i] = 0x10; for ( i = 438; i < 444; i++ ) m[i] = 0x08;
-         for ( i = 444; i < 446; i++ ) m[i] = 0x10; for ( i = 452; i < 463; i++ ) m[i] = 0x10; for ( i = 469; i < 479; i++ ) m[i] = 0x10;
-         for ( i = 485; i < 487; i++ ) m[i] = 0x10; for ( i = 487; i < 489; i++ ) m[i] = 0x08; for ( i = 489; i < 495; i++ ) m[i] = 0x10;
-         for ( i = 501; i < 503; i++ ) m[i] = 0x08; for ( i = 505; i < 512; i++ ) m[i] = 0x08; for ( i = 534; i < 538; i++ ) m[i] = 0x15;
-         for ( i = 549; i < 555; i++ ) m[i] = 0x15; for ( i = 560; i < 563; i++ ) m[i] = 0x15; for ( i = 565; i < 571; i++ ) m[i] = 0x15;
-         for ( i = 582; i < 586; i++ ) m[i] = 0x15; for ( i = 596; i < 604; i++ ) m[i] = 0x08; for ( i = 614; i < 618; i++ ) m[i] = 0x08;
-         for ( i = 627; i < 630; i++ ) m[i] = 0x10; for ( i = 630; i < 634; i++ ) m[i] = 0x15; for ( i = 634; i < 637; i++ ) m[i] = 0x10;
-         for ( i = 642; i < 654; i++ ) m[i] = 0x10; for ( i = 658; i < 670; i++ ) m[i] = 0x10; for ( i = 675; i < 685; i++ ) m[i] = 0x10;
-         for ( i = 691; i < 694; i++ ) m[i] = 0x08; for ( i = 694; i < 698; i++ ) m[i] = 0x10; for ( i = 698; i < 701; i++ ) m[i] = 0x08;
-         for ( i = 707; i < 710; i++ ) m[i] = 0x10; for ( i = 710; i < 714; i++ ) m[i] = 0x08; for ( i = 714; i < 717; i++ ) m[i] = 0x15;
-         for ( i = 722; i < 730; i++ ) m[i] = 0x10; for ( i = 730; i < 732; i++ ) m[i] = 0x15; for ( i = 732; i < 734; i++ ) m[i] = 0x10;
-         for ( i = 739; i < 744; i++ ) m[i] = 0x08; for ( i = 744; i < 750; i++ ) m[i] = 0x10; for ( i = 753; i < 755; i++ ) m[i] = 0x08;
-         for ( i = 755; i < 759; i++ ) m[i] = 0x15; for ( i = 760; i < 767; i++ ) m[i] = 0x08; for ( i = 790; i < 794; i++ ) m[i] = 0x15;
-         for ( i = 805; i < 811; i++ ) m[i] = 0x15; for ( i = 821; i < 827; i++ ) m[i] = 0x15; for ( i = 832; i < 835; i++ ) m[i] = 0x15;
-         for ( i = 838; i < 842; i++ ) m[i] = 0x15; for ( i = 852; i < 860; i++ ) m[i] = 0x08; for ( i = 870; i < 874; i++ ) m[i] = 0x08;
-         for ( i = 883; i < 886; i++ ) m[i] = 0x10; for ( i = 886; i < 890; i++ ) m[i] = 0x15; for ( i = 890; i < 893; i++ ) m[i] = 0x10;
-         for ( i = 898; i < 910; i++ ) m[i] = 0x10; for ( i = 914; i < 925; i++ ) m[i] = 0x10; for ( i = 925; i < 927; i++ ) m[i] = 0x08;
-         for ( i = 930; i < 938; i++ ) m[i] = 0x10; for ( i = 938; i < 941; i++ ) m[i] = 0x08; for ( i = 941; i < 943; i++ ) m[i] = 0x10;
-         for ( i = 946; i < 948; i++ ) m[i] = 0x08; for ( i = 948; i < 952; i++ ) m[i] = 0x10; for ( i = 952; i < 954; i++ ) m[i] = 0x08;
-         for ( i = 954; i < 957; i++ ) m[i] = 0x15; for ( i = 964; i < 968; i++ ) m[i] = 0x08; for ( i = 968; i < 970; i++ ) m[i] = 0x10;
-         for ( i = 970; i < 972; i++ ) m[i] = 0x15; for ( i = 979; i < 990; i++ ) m[i] = 0x10; for ( i = 994; i < 1000; i++ ) m[i] = 0x10;
-         for ( i = 1000; i < 1005; i++ ) m[i] = 0x08; for ( i = 1009; i < 1016; i++ ) m[i] = 0x08; for ( i = 1017; i < 1021; i++ ) m[i] = 0x15;
-         for ( i = 1021; i < 1023; i++ ) m[i] = 0x08; for ( i = 1045; i < 1050; i++ ) m[i] = 0x15; for ( i = 1060; i < 1067; i++ ) m[i] = 0x15;
-         for ( i = 1076; i < 1083; i++ ) m[i] = 0x15; for ( i = 1084; i < 1086; i++ ) m[i] = 0x15; for ( i = 1092; i < 1094; i++ ) m[i] = 0x15;
-         for ( i = 1095; i < 1097; i++ ) m[i] = 0x15; for ( i = 1108; i < 1112; i++ ) m[i] = 0x08; for ( i = 1124; i < 1126; i++ ) m[i] = 0x08;
-         for ( i = 1127; i < 1129; i++ ) m[i] = 0x08; for ( i = 1141; i < 1144; i++ ) m[i] = 0x10; for ( i = 1144; i < 1146; i++ ) m[i] = 0x08;
-         for ( i = 1154; i < 1160; i++ ) m[i] = 0x10; for ( i = 1160; i < 1164; i++ ) m[i] = 0x08; for ( i = 1170; i < 1177; i++ ) m[i] = 0x10;
-         for ( i = 1177; i < 1179; i++ ) m[i] = 0x08; for ( i = 1187; i < 1189; i++ ) m[i] = 0x10; for ( i = 1189; i < 1192; i++ ) m[i] = 0x08;
-         for ( i = 1192; i < 1195; i++ ) m[i] = 0x10; for ( i = 1196; i < 1198; i++ ) m[i] = 0x15; for ( i = 1203; i < 1205; i++ ) m[i] = 0x08;
-         for ( i = 1205; i < 1208; i++ ) m[i] = 0x10; for ( i = 1208; i < 1211; i++ ) m[i] = 0x08; for ( i = 1217; i < 1219; i++ ) m[i] = 0x10;
-         for ( i = 1219; i < 1222; i++ ) m[i] = 0x15; for ( i = 1222; i < 1227; i++ ) m[i] = 0x10; for ( i = 1233; i < 1235; i++ ) m[i] = 0x10;
-         for ( i = 1235; i < 1237; i++ ) m[i] = 0x15; for ( i = 1237; i < 1243; i++ ) m[i] = 0x10; for ( i = 1249; i < 1255; i++ ) m[i] = 0x10;
-         for ( i = 1255; i < 1260; i++ ) m[i] = 0x08; for ( i = 1264; i < 1271; i++ ) m[i] = 0x08; for ( i = 1271; i < 1275; i++ ) m[i] = 0x15;
-         for ( i = 1301; i < 1306; i++ ) m[i] = 0x15; for ( i = 1316; i < 1323; i++ ) m[i] = 0x15; for ( i = 1332; i < 1339; i++ ) m[i] = 0x15;
-         for ( i = 1348; i < 1350; i++ ) m[i] = 0x15; for ( i = 1351; i < 1353; i++ ) m[i] = 0x15; for ( i = 1364; i < 1368; i++ ) m[i] = 0x08;
-         for ( i = 1380; i < 1382; i++ ) m[i] = 0x08; for ( i = 1383; i < 1385; i++ ) m[i] = 0x08; for ( i = 1390; i < 1392; i++ ) m[i] = 0x15;
-         for ( i = 1397; i < 1400; i++ ) m[i] = 0x10; for ( i = 1400; i < 1402; i++ ) m[i] = 0x08; for ( i = 1410; i < 1416; i++ ) m[i] = 0x10;
-         for ( i = 1416; i < 1420; i++ ) m[i] = 0x08; for ( i = 1427; i < 1431; i++ ) m[i] = 0x08; for ( i = 1431; i < 1433; i++ ) m[i] = 0x10;
-         for ( i = 1433; i < 1435; i++ ) m[i] = 0x08; for ( i = 1441; i < 1443; i++ ) m[i] = 0x08; for ( i = 1443; i < 1447; i++ ) m[i] = 0x10;
-         for ( i = 1447; i < 1449; i++ ) m[i] = 0x08; for ( i = 1449; i < 1451; i++ ) m[i] = 0x10; for ( i = 1459; i < 1462; i++ ) m[i] = 0x15;
-         for ( i = 1462; i < 1467; i++ ) m[i] = 0x10; for ( i = 1473; i < 1475; i++ ) m[i] = 0x10; for ( i = 1475; i < 1477; i++ ) m[i] = 0x15;
-         for ( i = 1477; i < 1483; i++ ) m[i] = 0x10; for ( i = 1489; i < 1499; i++ ) m[i] = 0x10; for ( i = 1505; i < 1508; i++ ) m[i] = 0x10;
-         for ( i = 1508; i < 1513; i++ ) m[i] = 0x08; for ( i = 1513; i < 1515; i++ ) m[i] = 0x10; for ( i = 1520; i < 1524; i++ ) m[i] = 0x08;
-         for ( i = 1524; i < 1528; i++ ) m[i] = 0x15; for ( i = 1529; i < 1531; i++ ) m[i] = 0x08; for ( i = 1558; i < 1562; i++ ) m[i] = 0x15;
-         for ( i = 1573; i < 1579; i++ ) m[i] = 0x15; for ( i = 1589; i < 1595; i++ ) m[i] = 0x15; for ( i = 1607; i < 1609; i++ ) m[i] = 0x15;
-         for ( i = 1613; i < 1616; i++ ) m[i] = 0x15; for ( i = 1623; i < 1625; i++ ) m[i] = 0x15; for ( i = 1636; i < 1638; i++ ) m[i] = 0x08;
-         for ( i = 1639; i < 1641; i++ ) m[i] = 0x08; for ( i = 1642; i < 1644; i++ ) m[i] = 0x08; for ( i = 1651; i < 1653; i++ ) m[i] = 0x10;
-         for ( i = 1653; i < 1655; i++ ) m[i] = 0x08; for ( i = 1655; i < 1657; i++ ) m[i] = 0x15; for ( i = 1657; i < 1659; i++ ) m[i] = 0x08;
-         for ( i = 1659; i < 1661; i++ ) m[i] = 0x10; for ( i = 1666; i < 1669; i++ ) m[i] = 0x10; for ( i = 1669; i < 1675; i++ ) m[i] = 0x08;
-         for ( i = 1675; i < 1677; i++ ) m[i] = 0x10; for ( i = 1677; i < 1679; i++ ) m[i] = 0x15; for ( i = 1682; i < 1686; i++ ) m[i] = 0x10;
-         for ( i = 1686; i < 1690; i++ ) m[i] = 0x08; for ( i = 1690; i < 1694; i++ ) m[i] = 0x10; for ( i = 1699; i < 1708; i++ ) m[i] = 0x10;
-         for ( i = 1709; i < 1711; i++ ) m[i] = 0x15; for ( i = 1715; i < 1718; i++ ) m[i] = 0x08; for ( i = 1719; i < 1721; i++ ) m[i] = 0x15;
-         for ( i = 1722; i < 1724; i++ ) m[i] = 0x08; for ( i = 1725; i < 1727; i++ ) m[i] = 0x15; for ( i = 1731; i < 1734; i++ ) m[i] = 0x10;
-         for ( i = 1735; i < 1737; i++ ) m[i] = 0x10; for ( i = 1738; i < 1741; i++ ) m[i] = 0x10; for ( i = 1747; i < 1750; i++ ) m[i] = 0x10;
-         for ( i = 1751; i < 1753; i++ ) m[i] = 0x10; for ( i = 1754; i < 1758; i++ ) m[i] = 0x10; for ( i = 1762; i < 1766; i++ ) m[i] = 0x10;
-         for ( i = 1768; i < 1773; i++ ) m[i] = 0x08; for ( i = 1777; i < 1784; i++ ) m[i] = 0x08; for ( i = 1785; i < 1789; i++ ) m[i] = 0x15;
-         for ( i = 1789; i < 1791; i++ ) m[i] = 0x08; for ( i = 1814; i < 1818; i++ ) m[i] = 0x15; for ( i = 1829; i < 1835; i++ ) m[i] = 0x15;
-         for ( i = 1845; i < 1851; i++ ) m[i] = 0x15; for ( i = 1853; i < 1856; i++ ) m[i] = 0x15; for ( i = 1863; i < 1865; i++ ) m[i] = 0x15;
-         for ( i = 1879; i < 1881; i++ ) m[i] = 0x15; for ( i = 1892; i < 1894; i++ ) m[i] = 0x08; for ( i = 1895; i < 1897; i++ ) m[i] = 0x08;
-         for ( i = 1898; i < 1900; i++ ) m[i] = 0x08; for ( i = 1907; i < 1909; i++ ) m[i] = 0x10; for ( i = 1909; i < 1911; i++ ) m[i] = 0x08;
-         for ( i = 1911; i < 1913; i++ ) m[i] = 0x15; for ( i = 1913; i < 1915; i++ ) m[i] = 0x08; for ( i = 1915; i < 1917; i++ ) m[i] = 0x10;
-         for ( i = 1922; i < 1925; i++ ) m[i] = 0x10; for ( i = 1925; i < 1931; i++ ) m[i] = 0x08; for ( i = 1931; i < 1934; i++ ) m[i] = 0x10;
-         for ( i = 1938; i < 1942; i++ ) m[i] = 0x10; for ( i = 1942; i < 1946; i++ ) m[i] = 0x08; for ( i = 1946; i < 1949; i++ ) m[i] = 0x10;
-         for ( i = 1949; i < 1951; i++ ) m[i] = 0x15; for ( i = 1955; i < 1964; i++ ) m[i] = 0x10; for ( i = 1965; i < 1967; i++ ) m[i] = 0x15;
-         for ( i = 1971; i < 1974; i++ ) m[i] = 0x08; for ( i = 1975; i < 1977; i++ ) m[i] = 0x15; for ( i = 1978; i < 1980; i++ ) m[i] = 0x08;
-         for ( i = 1980; i < 1982; i++ ) m[i] = 0x10; for ( i = 1987; i < 1990; i++ ) m[i] = 0x10; for ( i = 1991; i < 1993; i++ ) m[i] = 0x10;
-         for ( i = 1994; i < 1997; i++ ) m[i] = 0x10; for ( i = 2002; i < 2006; i++ ) m[i] = 0x10; for ( i = 2007; i < 2009; i++ ) m[i] = 0x10;
-         for ( i = 2010; i < 2013; i++ ) m[i] = 0x10; for ( i = 2019; i < 2024; i++ ) m[i] = 0x08; for ( i = 2026; i < 2030; i++ ) m[i] = 0x10;
-         for ( i = 2033; i < 2035; i++ ) m[i] = 0x08; for ( i = 2035; i < 2039; i++ ) m[i] = 0x15; for ( i = 2040; i < 2046; i++ ) m[i] = 0x08;
-         m[69] = 0x15; m[70] = 0x10; m[73] = 0x08; m[85] = 0x15; m[86] = 0x10; m[87] = 0x15; m[101] = 0x08; m[102] = 0x15; m[105] = 0x15; m[113] = 0x15; m[116] = 0x08; m[117] = 0x15;
-         m[123] = 0x15; m[124] = 0x10; m[129] = 0x15; m[146] = 0x15; m[148] = 0x10; m[158] = 0x08; m[195] = 0x15; m[212] = 0x15; m[228] = 0x15; m[243] = 0x08; m[244] = 0x10; m[322] = 0x15;
-         m[325] = 0x15; m[326] = 0x10; m[329] = 0x08; m[338] = 0x15; m[341] = 0x15; m[342] = 0x10; m[343] = 0x15; m[353] = 0x15; m[357] = 0x08; m[358] = 0x15; m[361] = 0x15; m[369] = 0x15;
-         m[372] = 0x08; m[373] = 0x15; m[379] = 0x15; m[380] = 0x10; m[385] = 0x15; m[414] = 0x08; m[433] = 0x15; m[449] = 0x15; m[465] = 0x15; m[468] = 0x08; m[481] = 0x15; m[484] = 0x08;
-         m[497] = 0x15; m[499] = 0x08; m[500] = 0x10; m[503] = 0x10; m[504] = 0x15; m[576] = 0x15; m[578] = 0x15; m[581] = 0x08; m[586] = 0x08; m[594] = 0x15; m[609] = 0x15; m[612] = 0x08;
-         m[613] = 0x15; m[618] = 0x15; m[619] = 0x08; m[625] = 0x15; m[641] = 0x15; m[656] = 0x15; m[657] = 0x08; m[670] = 0x08; m[672] = 0x15; m[673] = 0x10; m[674] = 0x08; m[685] = 0x15;
-         m[686] = 0x10; m[689] = 0x15; m[701] = 0x10; m[705] = 0x15; m[717] = 0x06; m[721] = 0x15; m[737] = 0x15; m[738] = 0x10; m[759] = 0x10; m[837] = 0x08; m[842] = 0x08; m[848] = 0x15;
-         m[850] = 0x15; m[866] = 0x15; m[868] = 0x08; m[869] = 0x15; m[874] = 0x15; m[875] = 0x08; m[881] = 0x15; m[897] = 0x15; m[913] = 0x15; m[928] = 0x15; m[929] = 0x08; m[944] = 0x15;
-         m[945] = 0x10; m[957] = 0x10; m[961] = 0x15; m[963] = 0x10; m[972] = 0x10; m[977] = 0x15; m[1005] = 0x10; m[1016] = 0x10; m[1094] = 0x08; m[1097] = 0x10; m[1098] = 0x15; m[1100] = 0x15;
-         m[1112] = 0x15; m[1113] = 0x10; m[1114] = 0x15; m[1116] = 0x15; m[1126] = 0x15; m[1129] = 0x15; m[1130] = 0x08; m[1133] = 0x15; m[1139] = 0x10; m[1140] = 0x15; m[1146] = 0x15; m[1147] = 0x08;
-         m[1149] = 0x15; m[1165] = 0x15; m[1169] = 0x08; m[1179] = 0x10; m[1180] = 0x08; m[1181] = 0x15; m[1186] = 0x08; m[1195] = 0x08; m[1202] = 0x10; m[1211] = 0x10; m[1213] = 0x15; m[1227] = 0x08;
-         m[1229] = 0x15; m[1243] = 0x08; m[1245] = 0x15; m[1261] = 0x15; m[1275] = 0x10; m[1276] = 0x08; m[1277] = 0x15; m[1350] = 0x08; m[1353] = 0x10; m[1354] = 0x15; m[1368] = 0x15; m[1369] = 0x10;
-         m[1370] = 0x15; m[1382] = 0x15; m[1385] = 0x15; m[1386] = 0x08; m[1395] = 0x10; m[1396] = 0x15; m[1402] = 0x15; m[1403] = 0x08; m[1406] = 0x15; m[1422] = 0x15; m[1426] = 0x10; m[1435] = 0x10;
-         m[1436] = 0x08; m[1437] = 0x15; m[1451] = 0x08; m[1453] = 0x15; m[1458] = 0x10; m[1467] = 0x08; m[1468] = 0x15; m[1483] = 0x08; m[1484] = 0x15; m[1499] = 0x08; m[1515] = 0x08; m[1528] = 0x10;
-         m[1531] = 0x10; m[1532] = 0x15; m[1605] = 0x15; m[1606] = 0x10; m[1609] = 0x10; m[1610] = 0x15; m[1620] = 0x08; m[1621] = 0x15; m[1622] = 0x10; m[1625] = 0x10; m[1626] = 0x15; m[1627] = 0x08;
-         m[1629] = 0x15; m[1631] = 0x15; m[1638] = 0x15; m[1641] = 0x15; m[1645] = 0x15; m[1662] = 0x15; m[1681] = 0x08; m[1694] = 0x15; m[1697] = 0x10; m[1698] = 0x08; m[1708] = 0x08; m[1714] = 0x15;
-         m[1718] = 0x10; m[1721] = 0x10; m[1724] = 0x10; m[1734] = 0x08; m[1737] = 0x08; m[1742] = 0x15; m[1750] = 0x08; m[1753] = 0x08; m[1758] = 0x15; m[1766] = 0x08; m[1767] = 0x10; m[1773] = 0x10;
-         m[1784] = 0x10; m[1861] = 0x15; m[1862] = 0x10; m[1865] = 0x10; m[1866] = 0x15; m[1869] = 0x15; m[1871] = 0x15; m[1876] = 0x08; m[1877] = 0x15; m[1878] = 0x10; m[1881] = 0x10; m[1882] = 0x15;
-         m[1883] = 0x08; m[1885] = 0x15; m[1894] = 0x15; m[1897] = 0x15; m[1902] = 0x15; m[1918] = 0x15; m[1934] = 0x15; m[1937] = 0x08; m[1953] = 0x10; m[1954] = 0x08; m[1964] = 0x08; m[1970] = 0x15;
-         m[1974] = 0x10; m[1977] = 0x10; m[1982] = 0x15; m[1990] = 0x08; m[1993] = 0x08; m[1998] = 0x15; m[2006] = 0x08; m[2009] = 0x08; m[2014] = 0x15; m[2018] = 0x10; m[2024] = 0x10; m[2025] = 0x08;
-         m[2030] = 0x15; m[2039] = 0x10; m[2046] = 0x15;
-         break;
-   }
-}
-
 internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index )
 {
    switch ( index )
    {
       case 0:
-         tileMap->activeSpriteCount = 1;
-         TileMap_LoadActiveSpriteTextureFromPoolIndex( tileMap->activeSpriteTextures + 0, 0 );
+         memcpy( &tileMap->activeSpriteTextures[0].paletteIndexes, g_activeSpriteTexturePool[0], sizeof( u8 ) * 2048 );
          break;
    }
 }

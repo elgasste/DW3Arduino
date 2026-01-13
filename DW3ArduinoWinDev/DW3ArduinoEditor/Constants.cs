@@ -11,6 +11,7 @@
       public const string GameDataTextBitFieldsHeaderPath = OutputBasePath + "text_bit_fields.h";
       public const string GameDataTileTexturesHeaderPath = OutputBasePath + "tile_textures.h";
       public const string GameDataStaticSpriteTexturesHeaderPath = OutputBasePath + "static_sprite_textures.h";
+      public const string GameDataActiveSpriteTexturesHeaderPath = OutputBasePath + "active_sprite_textures.h";
 
       public const string TileTexturePoolImagePath = AssetsBasePath + "textures\\tile_texture_pool.png";
       public const string StaticSpriteTexturePoolImagePath = AssetsBasePath + "textures\\static_sprite_texture_pool.png";

@@ -47,6 +47,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteTextBitFieldsHeader();
          WriteTileTexturesHeader();
          WriteStaticSpriteTexturesHeader();
+         WriteActiveSpriteTexturesHeader();
 
          using FileStream fs = File.Create( Constants.GameDataSourceFilePath );
          WriteHeaderSection( fs );
@@ -55,7 +56,6 @@ namespace DW3ArduinoEditor.SaveData
          WriteTextTilesFunction( fs );
          WriteTileTextureIndexesFunction( fs );
          WriteStaticSpriteTextureIndexesFunction( fs );
-         WriteActiveSpriteTexturesPoolFunction( fs );
          WriteActiveSpriteTextureIndexesFunction( fs );
          WritePlayerSpriteTexturesPoolFunction( fs );
          WritePlayerSpritesFunction( fs );
@@ -183,6 +183,7 @@ namespace DW3ArduinoEditor.SaveData
       {
          using FileStream fs = File.Create( Constants.GameDataStaticSpriteTexturesHeaderPath );
 
+         // TODO: use GUIDs for header defines
          WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
          WriteToFileStream( fs, "#if !defined( STATIC_SPRITE_TEXTURES_H )\n" );
          WriteToFileStream( fs, "#define STATIC_SPRITE_TEXTURES_H\n\n" );
@@ -220,8 +221,75 @@ namespace DW3ArduinoEditor.SaveData
          }
 
          WriteToFileStream( fs, "};\n\n" );
-
          WriteToFileStream( fs, "#endif // STATIC_SPRITE_TEXTURES_H\n" );
+      }
+
+      private void WriteActiveSpriteTexturesHeader()
+      {
+         using FileStream fs = File.Create( Constants.GameDataActiveSpriteTexturesHeaderPath );
+
+         // TODO: use GUIDs for header defines
+         WriteToFileStream( fs, "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n" );
+         WriteToFileStream( fs, "#if !defined( ACTIVE_SPRITE_TEXTURES_H )\n" );
+         WriteToFileStream( fs, "#define ACTIVE_SPRITE_TEXTURES_H\n\n" );
+         WriteToFileStream( fs, "#include \"common.h\"\n\n" );
+
+         WriteToFileStream( fs, string.Format( "const u8 g_activeSpriteTexturePool[{0}][{1}] = {{\n", _activeSpriteTexturePool?.ActiveSpritePaletteIndexes.Count, Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
+
+         if ( _activeSpriteTexturePool is not null )
+         {
+            for ( int i = 0; i < _activeSpriteTexturePool.ActiveSpritePaletteIndexes.Count; i++ )
+            {
+               WriteToFileStream( fs, "   { " );
+
+               // MUFFINS: test this
+
+               // rearrange active sprite frames palette indexes to go in order from top-left to bottom-right
+               List<int> rearrangedPaletteIndexes = new( _activeSpriteTexturePool.ActiveSpritePaletteIndexes[i].Count );
+
+               for ( int dir = 0; dir < (int)Direction.Count; dir++ )
+               {
+                  int pixelRowStart = Constants.ActiveSpriteTextureFrameSize * dir;
+
+                  for ( int frame = 0; frame < Constants.ActiveSpriteFrames; frame++ )
+                  {
+                     int pixelColStart = frame * Constants.ActiveSpriteTextureFrameSize;
+
+                     for ( int row = pixelRowStart; row < pixelRowStart + Constants.ActiveSpriteTextureFrameSize; row++ )
+                     {
+                        for ( int col = pixelColStart; col < pixelColStart + Constants.ActiveSpriteTextureFrameSize; col++ )
+                        {
+                           rearrangedPaletteIndexes.Add( _activeSpriteTexturePool.ActiveSpritePaletteIndexes[i][( ( row * Constants.ActiveSpriteTextureFrameSize * Constants.ActiveSpriteFrames ) + col )] );
+                        }
+                     }
+                  }
+               }
+
+               for ( int j = 0; j < rearrangedPaletteIndexes.Count; j++ )
+               {
+                  WriteToFileStream( fs, string.Format( "0x{0}", rearrangedPaletteIndexes[j].ToString( "X2" ) ) );
+
+                  if ( j < rearrangedPaletteIndexes.Count - 1 )
+                  {
+                     WriteToFileStream( fs, "," );
+                  }
+
+                  WriteToFileStream( fs, " " );
+               }
+
+               WriteToFileStream( fs, "   }" );
+
+               if ( i < _activeSpriteTexturePool.ActiveSpritePaletteIndexes.Count - 1 )
+               {
+                  WriteToFileStream( fs, "," );
+               }
+
+               WriteToFileStream( fs, "\n" );
+            }
+         }
+
+         WriteToFileStream( fs, "};\n\n" );
+         WriteToFileStream( fs, "#endif // ACTIVE_SPRITE_TEXTURES_H\n" );
       }
 
       private void WriteHeaderSection( FileStream fs )
@@ -230,12 +298,11 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "#include \"text_bit_fields.h\"\n" );
          WriteToFileStream( fs, "#include \"tile_textures.h\"\n" );
          WriteToFileStream( fs, "#include \"static_sprite_textures.h\"\n" );
+         WriteToFileStream( fs, "#include \"active_sprite_textures.h\"\n" );
          WriteToFileStream( fs, "#include \"game.h\"\n" );
          WriteToFileStream( fs, "#include \"random.h\"\n\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
-         WriteToFileStream( fs, "internal void TileMap_LoadStaticSpriteTextureFromPoolIndex( StaticSpriteTexture_t* texture, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
-         WriteToFileStream( fs, "internal void TileMap_LoadActiveSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadPlayerSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadPlayerSprites( TileMap_t* tileMap );\n" );
@@ -338,79 +405,27 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "}\n" );
       }
 
-      private void WriteActiveSpriteTexturesPoolFunction( FileStream fs )
-      {
-         WriteToFileStream( fs, "\ninternal void TileMap_LoadActiveSpriteTextureFromPoolIndex( ActiveSpriteTexture_t* texture, u32 index )\n" );
-         WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, "   u32 i;\n" );
-         WriteToFileStream( fs, "   u8* m = texture->paletteIndexes;\n\n" );
-         WriteToFileStream( fs, "   switch( index )\n" );
-         WriteToFileStream( fs, "   {\n" );
-
-         for ( int i = 0; i < _activeSpriteTexturePool?.ActiveSpritePaletteIndexes.Count; i++ )
-         {
-            WriteToFileStream( fs, string.Format( "      case {0}:\n", i ) );
-
-            // rearrange active sprite frames palette indexes to go in order from top-left to bottom-right
-            List<int> rearrangedPaletteIndexes = new( _activeSpriteTexturePool.ActiveSpritePaletteIndexes[i].Count );
-
-            for ( int dir = 0; dir < (int)Direction.Count; dir++ )
-            {
-               int pixelRowStart = Constants.ActiveSpriteTextureFrameSize * dir;
-
-               for ( int frame = 0; frame < Constants.ActiveSpriteFrames; frame++ )
-               {
-                  int pixelColStart = frame * Constants.ActiveSpriteTextureFrameSize;
-
-                  for ( int row = pixelRowStart; row < pixelRowStart + Constants.ActiveSpriteTextureFrameSize; row++ )
-                  {
-                     for ( int col = pixelColStart; col < pixelColStart + Constants.ActiveSpriteTextureFrameSize; col++ )
-                     {
-                        rearrangedPaletteIndexes.Add( _activeSpriteTexturePool.ActiveSpritePaletteIndexes[i][( ( row * Constants.ActiveSpriteTextureFrameSize * Constants.ActiveSpriteFrames ) + col )] );
-                     }
-                  }
-               }
-            }
-
-            WriteCompressedTextureData( fs, rearrangedPaletteIndexes );
-            WriteToFileStream( fs, "         break;\n" );
-         }
-
-         WriteToFileStream( fs, "   }\n" );
-         WriteToFileStream( fs, "}\n" );
-      }
-
       private void WriteActiveSpriteTextureIndexesFunction( FileStream fs )
       {
          WriteToFileStream( fs, "\ninternal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index )\n" );
          WriteToFileStream( fs, "{\n" );
 
-         if ( _gameSaveData?.ActiveSpriteTextureSets.Count == 0 )
-         {
-            WriteToFileStream( fs, "   UNUSED_PARAM( index );\n" );
-            WriteToFileStream( fs, "   tileMap->activeSpriteCount = 0;\n" );
-         }
-         else
-         {
-            WriteToFileStream( fs, "   switch ( index )\n" );
-            WriteToFileStream( fs, "   {\n" );
+         WriteToFileStream( fs, "   switch ( index )\n" );
+         WriteToFileStream( fs, "   {\n" );
 
-            for ( int i = 0; i < _gameSaveData?.ActiveSpriteTextureSets.Count; i++ )
+         for ( int i = 0; i < _gameSaveData?.ActiveSpriteTextureSets.Count; i++ )
+         {
+            WriteToFileStream( fs, string.Format( "      case {0}:\n", _gameSaveData.ActiveSpriteTextureSets[i].Index ) );
+
+            for ( int j = 0; j < _gameSaveData.ActiveSpriteTextureSets[i].ActiveSpriteTexturePoolIndexes.Count; j++ )
             {
-               WriteToFileStream( fs, string.Format( "      case {0}:\n", _gameSaveData.ActiveSpriteTextureSets[i].Index ) );
-               WriteToFileStream( fs, string.Format( "         tileMap->activeSpriteCount = {0};\n", _gameSaveData.ActiveSpriteTextureSets[i].ActiveSpriteTexturePoolIndexes.Count ) );
-
-               for ( int j = 0; j < _gameSaveData.ActiveSpriteTextureSets[i].ActiveSpriteTexturePoolIndexes.Count; j++ )
-               {
-                  WriteToFileStream( fs, string.Format( "         TileMap_LoadActiveSpriteTextureFromPoolIndex( tileMap->activeSpriteTextures + {0}, {1} );\n", j, _gameSaveData.ActiveSpriteTextureSets[i].ActiveSpriteTexturePoolIndexes[j] ) );
-               }
-
-               WriteToFileStream( fs, "         break;\n" );
+               WriteToFileStream( fs, string.Format( "         memcpy( &tileMap->activeSpriteTextures[{0}].paletteIndexes, g_activeSpriteTexturePool[{1}], sizeof( u8 ) * {2} );\n", j, _gameSaveData.ActiveSpriteTextureSets[i].ActiveSpriteTexturePoolIndexes[j], Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
             }
 
-            WriteToFileStream( fs, "   }\n" );
+            WriteToFileStream( fs, "         break;\n" );
          }
 
+         WriteToFileStream( fs, "   }\n" );
          WriteToFileStream( fs, "}\n" );
       }
 
