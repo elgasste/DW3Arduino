@@ -78,4 +78,15 @@ typedef enum TileDamageRate_t
 }
 TileDamageRate_t;
 
+typedef enum GameState_t
+{
+   GameState_Overworld_Active = 0,
+   GameState_Overworld_Inactive,
+   GameState_Overworld_MainMenu,
+   GameState_Overworld_Count,
+
+   GameState_Count
+}
+GameState_t;
+
 #endif // ENUMS_H

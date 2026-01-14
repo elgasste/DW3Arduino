@@ -13,11 +13,15 @@ internal void Render_DrawSortedEntities( Game_t* game, Entity_t** sortedEntities
 void Render_DrawGame( Game_t* game )
 {
    Screen_WipeColor( &game->screen, SCREEN_COLOR16_BLACK );
-   Render_UpdateDayFilterIntensity( game );
 
-   Render_DrawTileMapLayer( game, Render_DrawTileMapSection );
-   Render_DrawTileMapLayer( game, Render_DrawStaticSpritesInSection );
-   Render_DrawTileMapLayer( game, Render_DrawEntitiesInSection );
+   if ( game->state < GameState_Overworld_Count )
+   {
+      Render_UpdateDayFilterIntensity( game );
+
+      Render_DrawTileMapLayer( game, Render_DrawTileMapSection );
+      Render_DrawTileMapLayer( game, Render_DrawStaticSpritesInSection );
+      Render_DrawTileMapLayer( game, Render_DrawEntitiesInSection );
+   }
 
    Screen_Blit( &game->screen );
 }

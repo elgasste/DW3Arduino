@@ -1,6 +1,9 @@
-#include "input.h"
+#include "game.h"
+
+#define DIAGONAL_SCALAR 0.707f
 
 internal void Input_UpdateButtonState( InputButtonState_t* buttonState, Bool_t down );
+internal void Input_HandleOverworldGeneral( Game_t* game );
 
 void Input_Init( Input_t* input )
 {
@@ -47,6 +50,14 @@ Bool_t Input_AnyButtonPressed( Input_t* input )
    return False;
 }
 
+void Input_HandleInput( Game_t* game )
+{
+   if ( game->state <= GameState_Overworld_Inactive )
+   {
+      Input_HandleOverworldGeneral( game );
+   }
+}
+
 internal void Input_UpdateButtonState( InputButtonState_t* buttonState, Bool_t down )
 {
    if ( down )
@@ -61,4 +72,84 @@ internal void Input_UpdateButtonState( InputButtonState_t* buttonState, Bool_t d
    }
 
    buttonState->down = down;
+}
+
+internal void Input_HandleOverworldGeneral( Game_t* game )
+{
+   Entity_t* entity = game->players->entity;
+   ActiveSprite_t* sprite = game->players->entity->sprite;
+   r32 velocity = TileMap_GetTileVelocity( &game->tileMap, game->players->tileIndex );
+
+#if defined( VISUAL_STUDIO_DEV )
+   if ( g_winDebugFlags.fastWalk )
+   {
+      velocity = 256;
+   }
+#endif
+
+   Bool_t leftIsDown = game->input.buttonStates[InputButton_Left].down;
+   Bool_t upIsDown = game->input.buttonStates[InputButton_Up].down;
+   Bool_t rightIsDown = game->input.buttonStates[InputButton_Right].down;
+   Bool_t downIsDown = game->input.buttonStates[InputButton_Down].down;
+
+   if ( leftIsDown && !rightIsDown )
+   {
+      entity->velocity.x = -velocity;
+
+      if ( !( upIsDown && sprite->direction == Direction_Up ) &&
+           !( downIsDown && sprite->direction == Direction_Down ) )
+      {
+         ActiveSprite_SetDirection( sprite, Direction_Left );
+      }
+
+      if ( upIsDown || downIsDown )
+      {
+         entity->velocity.x *= DIAGONAL_SCALAR;
+      }
+   }
+   else if ( rightIsDown && !leftIsDown )
+   {
+      entity->velocity.x = velocity;
+
+      if ( !( upIsDown && sprite->direction == Direction_Up ) &&
+           !( downIsDown && sprite->direction == Direction_Down ) )
+      {
+         ActiveSprite_SetDirection( sprite, Direction_Right );
+      }
+
+      if ( upIsDown || downIsDown )
+      {
+         entity->velocity.x *= DIAGONAL_SCALAR;
+      }
+   }
+   if ( upIsDown && !downIsDown )
+   {
+      entity->velocity.y = -velocity;
+
+      if ( !( leftIsDown && sprite->direction == Direction_Left ) &&
+           !( rightIsDown && sprite->direction == Direction_Right ) )
+      {
+         ActiveSprite_SetDirection( sprite, Direction_Up );
+      }
+
+      if ( leftIsDown || rightIsDown )
+      {
+         entity->velocity.y *= DIAGONAL_SCALAR;
+      }
+   }
+   else if ( downIsDown && !upIsDown )
+   {
+      entity->velocity.y = velocity;
+
+      if ( !( leftIsDown && sprite->direction == Direction_Left ) &&
+           !( rightIsDown && sprite->direction == Direction_Right ) )
+      {
+         ActiveSprite_SetDirection( sprite, Direction_Down );
+      }
+
+      if ( leftIsDown || rightIsDown )
+      {
+         entity->velocity.y *= DIAGONAL_SCALAR;
+      }
+   }
 }
