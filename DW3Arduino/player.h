@@ -25,7 +25,6 @@ typedef struct Player_t
 
    PlayerMovement_t moveHistory[PLAYER_MOVE_HISTORY_SIZE];
    u32 moveHistoryIndex;
-   u32 moveChainIndex;
    Bool_t chainNextPlayer;
 }
 Player_t;

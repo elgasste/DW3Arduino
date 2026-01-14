@@ -116,32 +116,24 @@ internal void Game_AnchorRearPlayers( Game_t* game )
          break;
       }
 
-      player = game->players + i;
+      player = prevPlayer + 1;
 
-      player->entity->pos.x = prevPlayer->moveHistory[prevPlayer->moveChainIndex].newPos.x;
-      player->entity->pos.y = prevPlayer->moveHistory[prevPlayer->moveChainIndex].newPos.y;
-      ActiveSprite_SetDirection( player->entity->sprite, prevPlayer->moveHistory[prevPlayer->moveChainIndex].newDir );
-      Player_ApplyTileDamage( player );
+      player->entity->pos.x = prevPlayer->moveHistory[player->moveHistoryIndex].newPos.x;
+      player->entity->pos.y = prevPlayer->moveHistory[player->moveHistoryIndex].newPos.y;
+      ActiveSprite_SetDirection( player->entity->sprite, prevPlayer->moveHistory[player->moveHistoryIndex].newDir );
 
-      // TODO: check if the player has died from tile damage
-
-      prevPlayer->moveChainIndex++;
-
-      if ( prevPlayer->moveChainIndex >= PLAYER_MOVE_HISTORY_SIZE )
-      {
-         player->chainNextPlayer = True;
-         prevPlayer->moveChainIndex = 0;
-      }
-
-      player->moveHistory[player->moveHistoryIndex].newPos.x = player->entity->pos.x;
-      player->moveHistory[player->moveHistoryIndex].newPos.y = player->entity->pos.y;
-      player->moveHistory[player->moveHistoryIndex].newDir = player->entity->sprite->direction;
+      player->moveHistory[player->moveHistoryIndex] = prevPlayer->moveHistory[player->moveHistoryIndex];
       player->moveHistoryIndex++;
 
       if ( player->moveHistoryIndex >= PLAYER_MOVE_HISTORY_SIZE )
       {
+         player->chainNextPlayer = True;
          player->moveHistoryIndex = 0;
       }
+
+      Player_ApplyTileDamage( player );
+
+      // TODO: check if the player has died from tile damage
 
       prevPlayer = player;
    }
