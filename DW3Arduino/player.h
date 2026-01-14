@@ -5,7 +5,7 @@
 #include "vector.h"
 #include "tile_map.h"
 
-#define PLAYER_MOVE_HISTORY_SIZE    16
+#define PLAYER_MOVE_HISTORY_SIZE    18
 
 typedef struct Entity_t Entity_t;
 

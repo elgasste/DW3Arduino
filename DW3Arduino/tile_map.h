@@ -73,7 +73,7 @@ typedef struct TileMap_t
    Bool_t isUnderground;
    Bool_t hasEncounters;
 
-   Vector4i32_t viewport;
+   Vector4r32_t viewport;
    Vector2u32_t viewportScreenPos;
 
    StaticSprite_t staticSprites[TILEMAP_MAX_STATIC_SPRITES];

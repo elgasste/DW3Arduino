@@ -30,76 +30,81 @@ void Render_DrawGame( Game_t* game )
 internal void Render_DrawTileMapLayer( Game_t* game, void ( *layerFunc )( Game_t*, i32, i32, i32, i32, i32, i32 ) )
 {
    i32 mapW, mapH;
-   i32 x, y, w, h;
+   i32 x, y, w, h, ivx, ivy, ivw, ivh;
 
-   layerFunc( game, game->tileMap.viewport.x, game->tileMap.viewport.y, game->tileMap.viewport.w, game->tileMap.viewport.h, 0, 0 );
+   ivx = game->tileMap.viewport.x < 0.0f ? (i32)( game->tileMap.viewport.x - 1.0f ) : (i32)game->tileMap.viewport.x;
+   ivy = game->tileMap.viewport.y < 0.0f ? (i32)( game->tileMap.viewport.y - 1.0f ) : (i32)game->tileMap.viewport.y;
+   ivw = (i32)game->tileMap.viewport.w;
+   ivh = (i32)game->tileMap.viewport.h;
+
+   layerFunc( game, ivx, ivy, ivw, ivh, 0, 0 );
 
    if ( game->tileMap.wraps )
    {
       mapW = game->tileMap.tilesX * TILEMAP_TILE_SIZE;
       mapH = game->tileMap.tilesY * TILEMAP_TILE_SIZE;
 
-      if ( game->tileMap.viewport.x < 0 ) // draw "left" map
+      if ( ivx < 0 ) // draw "left" map
       {
-         x = mapW + game->tileMap.viewport.x;
-         y = game->tileMap.viewport.y;
-         h = game->tileMap.viewport.h;
-         w = -game->tileMap.viewport.x;
+         x = mapW + ivx;
+         y = ivy;
+         h = ivh;
+         w = -ivx;
          layerFunc( game, x, y, w, h, 0, 0 );
 
-         if ( game->tileMap.viewport.y < 0 ) // draw "top left" map
+         if ( ivy ) // draw "top left" map
          {
-            y = mapH + game->tileMap.viewport.y;
-            h = -game->tileMap.viewport.y;
+            y = mapH + ivy;
+            h = -ivy;
             layerFunc( game, x, y, w, h, 0, 0 );
          }
 
-         if ( ( game->tileMap.viewport.y + game->tileMap.viewport.h ) > mapH ) // draw "bottom left" map
+         if ( ( ivy + ivh ) > mapH ) // draw "bottom left" map
          {
             y = 0;
-            h = ( game->tileMap.viewport.y + game->tileMap.viewport.h ) - mapH;
-            layerFunc( game, x, y, w, h, 0, mapH - game->tileMap.viewport.y );
+            h = ( ivy + ivh ) - mapH;
+            layerFunc( game, x, y, w, h, 0, mapH - ivy );
          }
       }
 
-      if ( ( game->tileMap.viewport.x + game->tileMap.viewport.w ) >= mapW ) // draw "right" map
+      if ( ( ivx + ivw ) >= mapW ) // draw "right" map
       {
          x = 0;
-         y = game->tileMap.viewport.y;
-         w = ( game->tileMap.viewport.x + game->tileMap.viewport.w ) - mapW;
-         h = game->tileMap.viewport.h;
-         layerFunc( game, x, y, w, h, mapW - game->tileMap.viewport.x, 0 );
+         y = ivy;
+         w = ( ivx + ivw ) - mapW;
+         h = ivh;
+         layerFunc( game, x, y, w, h, mapW - ivx, 0 );
 
-         if ( game->tileMap.viewport.y < 0 ) // draw "top right" map
+         if ( ivy < 0 ) // draw "top right" map
          {
-            y = mapH + game->tileMap.viewport.y;
-            h = -game->tileMap.viewport.y;
-            layerFunc( game, x, y, w, h, mapW - game->tileMap.viewport.x, 0 );
+            y = mapH + ivy;
+            h = -ivy;
+            layerFunc( game, x, y, w, h, mapW - ivx, 0 );
          }
 
-         if ( ( game->tileMap.viewport.y + game->tileMap.viewport.h ) > mapH ) // draw "bottom right" map
+         if ( ( ivy + ivh ) > mapH ) // draw "bottom right" map
          {
             y = 0;
-            h = ( game->tileMap.viewport.y + game->tileMap.viewport.h ) - mapH;
-            layerFunc( game, x, y, w, h, mapW - game->tileMap.viewport.x, mapH - game->tileMap.viewport.y );
+            h = ( ivy + ivh ) - mapH;
+            layerFunc( game, x, y, w, h, mapW - ivx, mapH - ivy );
          }
       }
 
-      x = game->tileMap.viewport.x;
-      w = game->tileMap.viewport.w;
+      x = ivx;
+      w = ivw;
 
-      if ( game->tileMap.viewport.y < 0 ) // draw "top" map
+      if ( ivy < 0 ) // draw "top" map
       {
-         y = mapH + game->tileMap.viewport.y;
-         h = -game->tileMap.viewport.y;
+         y = mapH + ivy;
+         h = -ivy;
          layerFunc( game, x, y, w, h, 0, 0 );
       }
 
-      if ( ( game->tileMap.viewport.y + game->tileMap.viewport.h ) > mapH ) // draw "bottom" map
+      if ( ( ivy + ivh ) > mapH ) // draw "bottom" map
       {
          y = 0;
-         h = ( game->tileMap.viewport.y + game->tileMap.viewport.h ) - mapH;
-         layerFunc( game, x, y, w, h, 0, mapH - game->tileMap.viewport.y );
+         h = ( ivy + ivh ) - mapH;
+         layerFunc( game, x, y, w, h, 0, mapH - ivy );
       }
    }
 }
@@ -258,6 +263,7 @@ internal void Render_SortEntity( Entity_t* entity, Entity_t** sortedEntities, u3
 internal void Render_DrawSortedEntities( Game_t* game, Entity_t** sortedEntities, u32 entityCount, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset )
 {
    u32 i, j, startPos;
+   i32 ix, iy, iw, ih;
    ActiveSpriteTexture_t* textures;
    Entity_t* entity;
    Vector2u32_t* viewportScreenPos = &game->tileMap.viewportScreenPos;
@@ -266,7 +272,12 @@ internal void Render_DrawSortedEntities( Game_t* game, Entity_t** sortedEntities
    {
       entity = sortedEntities[i];
 
-      if ( Utility_RectsIntersect32i( (i32)entity->pos.x, (i32)entity->pos.y, (i32)entity->pos.w, (i32)entity->pos.h, vx, vy, vw, vh ) )
+      ix = entity->pos.x < 0.0f ? (i32)( entity->pos.x - 1.0f ) : (i32)entity->pos.x;
+      iy = entity->pos.y < 0.0f ? (i32)( entity->pos.y - 1.0f ) : (i32)entity->pos.y;
+      iw = (i32)entity->pos.w;
+      ih = (i32)entity->pos.h;
+
+      if ( Utility_RectsIntersect32i( ix, iy, iw, ih, vx, vy, vw, vh ) )
       {
          if ( entity->sprite->frame > 0 )
          {
@@ -293,8 +304,8 @@ internal void Render_DrawSortedEntities( Game_t* game, Entity_t** sortedEntities
          Screen_DrawBoundedBuffer8( &game->screen,
                                     textures[entity->sprite->textureIndex].paletteIndexes + startPos,
                                     ACTIVE_SPRITE_FRAME_SIZE, ACTIVE_SPRITE_FRAME_SIZE,
-                                    ( (i32)( entity->pos.x ) - vx - entity->sprite->offset.x ) + viewportScreenPos->x + xOffset,
-                                    ( (i32)( entity->pos.y ) - vy - entity->sprite->offset.y ) + viewportScreenPos->y + yOffset,
+                                    ( ix - vx - entity->sprite->offset.x ) + viewportScreenPos->x + xOffset,
+                                    ( iy - vy - entity->sprite->offset.y ) + viewportScreenPos->y + yOffset,
                                     viewportScreenPos->x + xOffset, viewportScreenPos->y + yOffset,
                                     viewportScreenPos->x + vw + xOffset,
                                     viewportScreenPos->y + vh + yOffset );
@@ -303,9 +314,9 @@ internal void Render_DrawSortedEntities( Game_t* game, Entity_t** sortedEntities
          if ( g_winDebugFlags.showHitBoxes )
          {
             Screen_DrawBoundedRect( &game->screen,
-                                    ( (i32)( entity->pos.x ) - vx ) + viewportScreenPos->x + xOffset,
-                                    ( (i32)( entity->pos.y ) - vy ) + viewportScreenPos->y + yOffset,
-                                    (i32)( entity->pos.w ), (i32)( entity->pos.h ),
+                                    ( ix - vx ) + viewportScreenPos->x + xOffset,
+                                    ( iy - vy ) + viewportScreenPos->y + yOffset,
+                                    iw, ih,
                                     viewportScreenPos->x + xOffset, viewportScreenPos->y + yOffset,
                                     viewportScreenPos->x + vw + xOffset,
                                     viewportScreenPos->y + vh + yOffset,
