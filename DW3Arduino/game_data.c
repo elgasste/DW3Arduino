@@ -608,18 +608,44 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
 void Game_Reset( Game_t* game )
 {
    TileMap_LoadFromIndex( &game->tileMap, 0 );
-   game->playerCount = 1;
-   game->players->playerClass = PlayerClass_Hero;
-   game->players->entity = game->tileMap.playerEntities;
-   game->players->entity->sprite = game->tileMap.playerSprites;
-   game->players->entity->pos.x = 2722.0f;
-   game->players->entity->pos.y = 3538.0f;
-   game->players->entity->pos.w = 12.0f;
-   game->players->entity->pos.h = 12.0f;
-   game->players->entity->prevPos = game->players->entity->pos;
-   game->players->entity->velocity.x = 0.0f;
-   game->players->entity->velocity.y = 0.0f;
-   game->players->tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players->entity->pos.x, (u32)game->players->entity->pos.y );
+   game->playerCount = 3;
+
+   game->players[0].playerClass = PlayerClass_Hero;
+   game->players[0].entity = game->tileMap.playerEntities;
+   game->players[0].entity->sprite = game->tileMap.playerSprites;
+   game->players[0].entity->pos.x = 2722.0f;
+   game->players[0].entity->pos.y = 3538.0f;
+   game->players[0].entity->pos.w = 12.0f;
+   game->players[0].entity->pos.h = 12.0f;
+   game->players[0].entity->prevPos = game->players[0].entity->pos;
+   game->players[0].entity->velocity.x = 0.0f;
+   game->players[0].entity->velocity.y = 0.0f;
+   game->players[0].tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players[0].entity->pos.x, (u32)game->players[0].entity->pos.y );
+
+   game->players[1].playerClass = PlayerClass_Soldier;
+   game->players[1].entity = game->tileMap.playerEntities + 1;
+   game->players[1].entity->sprite = game->tileMap.playerSprites + 1;
+   game->players[1].entity->pos.x = 2722.0f;
+   game->players[1].entity->pos.y = 3538.0f;
+   game->players[1].entity->pos.w = 12.0f;
+   game->players[1].entity->pos.h = 12.0f;
+   game->players[1].entity->prevPos = game->players[1].entity->pos;
+   game->players[1].entity->velocity.x = 0.0f;
+   game->players[1].entity->velocity.y = 0.0f;
+   game->players[1].tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players[1].entity->pos.x, (u32)game->players[1].entity->pos.y );
+
+   game->players[2].playerClass = PlayerClass_GoofOff;
+   game->players[2].entity = game->tileMap.playerEntities + 2;
+   game->players[2].entity->sprite = game->tileMap.playerSprites + 2;
+   game->players[2].entity->pos.x = 2722.0f;
+   game->players[2].entity->pos.y = 3538.0f;
+   game->players[2].entity->pos.w = 12.0f;
+   game->players[2].entity->pos.h = 12.0f;
+   game->players[2].entity->prevPos = game->players[2].entity->pos;
+   game->players[2].entity->velocity.x = 0.0f;
+   game->players[2].entity->velocity.y = 0.0f;
+   game->players[2].tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players[2].entity->pos.x, (u32)game->players[2].entity->pos.y );
+
    TileMap_LoadPlayerSprites( &game->tileMap );
    ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );
    TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
