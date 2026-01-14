@@ -3,7 +3,6 @@
 
 #include "common.h"
 #include "vector.h"
-#include "direction.h"
 
 #define STATIC_SPRITE_SIZE                   16
 #define ACTIVE_SPRITE_TEXTURE_WIDTH          32

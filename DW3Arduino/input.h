@@ -16,21 +16,6 @@
 #define INPUT_NES_LATCH_PIN      3
 #define INPUT_NES_DATA_PIN       4
 
-typedef enum InputButton_t
-{
-   InputButton_A = 0,
-   InputButton_B,
-   InputButton_Select,
-   InputButton_Start,
-   InputButton_Up,
-   InputButton_Down,
-   InputButton_Left,
-   InputButton_Right,
-
-   InputButton_Count
-}
-InputButton_t;
-
 typedef struct InputButtonState_t
 {
    Bool_t pressed;

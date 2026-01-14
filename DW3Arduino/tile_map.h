@@ -52,28 +52,6 @@ typedef struct Portal_t
 }
 Portal_t;
 
-typedef enum EncounterRate_t
-{
-   EncounterRate_None = 0,
-   EncounterRate_Low,
-   EncounterRate_Medium,
-   EncounterRate_High,
-
-   EncounterRate_Count
-}
-EncounterRate_t;
-
-typedef enum TileDamageRate_t
-{
-   TileDamageRate_None = 0,
-   TileDamageRate_Low,
-   TileDamageRate_Medium,
-   TileDamageRate_High,
-
-   TileDamageRate_Count
-}
-TileDamageRate_t;
-
 typedef struct TileMap_t
 {
    TileTexture_t tileTextures[TILEMAP_MAX_TILE_TEXTURES];

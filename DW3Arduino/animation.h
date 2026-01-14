@@ -7,19 +7,6 @@
 
 typedef struct Screen_t Screen_t;
 
-typedef enum AnimationType_t
-{
-   AnimationType_Pause = 0,
-   AnimationType_ActivePause,
-   AnimationType_FadeOut,
-   AnimationType_ActiveFadeOut,
-   AnimationType_FadeIn,
-   AnimationType_ActiveFadeIn,
-
-   AnimationType_Count
-}
-AnimationType_t;
-
 typedef struct Animation_t
 {
    AnimationType_t type;
