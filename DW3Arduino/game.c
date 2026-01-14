@@ -1,13 +1,11 @@
 #include "game.h"
 #include "random.h"
 
-#define DIAGONAL_SCALAR 0.707f
-
 internal u32 Game_GetPlayerCount( Game_t* game );
-internal void Game_HandleInput( Game_t* game );
 internal void Game_HandlePlayerMoved( Game_t* game );
 internal void Game_AnchorRearPlayers( Game_t* game );
 internal void Game_IncrementDaylightFactor( Game_t* game );
+internal void Game_UpdateDayFilterIntensity( Game_t* game );
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex );
 internal Bool_t Game_TryEnterPortal( Game_t* game );
 internal void Game_EnterPortal( Game_t* game, Portal_t* portal );
@@ -29,6 +27,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->playerMovedCallback = Game_HandlePlayerMoved;
 
    Game_Reset( game );
+   game->state = GameState_Overworld_Active;
 }
 
 void Game_Tic( Game_t* game )
@@ -42,14 +41,26 @@ void Game_Tic( Game_t* game )
 
    if ( !AnimationChain_BlocksInput( &game->animationChain ) )
    {
-      Game_HandleInput( game );
+      Input_HandleInput( game );
    }
    
    if ( !AnimationChain_PausesAction( &game->animationChain ) )
    {
-      TileMap_Tic( &game->tileMap );
-      Physics_Tic( game );
-      TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
+      if ( game->state < GameState_Intro_Count )
+      {
+         // TODO: tic intro stuff
+      }
+      else if ( game->state < GameState_Overworld_Count )
+      {
+         if ( game->state == GameState_Overworld_Active )
+         {
+            Game_UpdateDayFilterIntensity( game );
+         }
+
+         TileMap_Tic( &game->tileMap );
+         Physics_Tic( game );
+         TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
+      }
    }
 
    Render_DrawGame( game );
@@ -58,86 +69,6 @@ void Game_Tic( Game_t* game )
 internal u32 Game_GetPlayerCount( Game_t* game )
 {
    return game->playerCount;
-}
-
-internal void Game_HandleInput( Game_t* game )
-{
-   Entity_t* entity = game->players->entity;
-   ActiveSprite_t* sprite = game->players->entity->sprite;
-   r32 velocity = TileMap_GetTileVelocity( &game->tileMap, game->players->tileIndex );
-
-#if defined( VISUAL_STUDIO_DEV )
-   if ( g_winDebugFlags.fastWalk )
-   {
-      velocity = 256;
-   }
-#endif
-
-   Bool_t leftIsDown = game->input.buttonStates[InputButton_Left].down;
-   Bool_t upIsDown = game->input.buttonStates[InputButton_Up].down;
-   Bool_t rightIsDown = game->input.buttonStates[InputButton_Right].down;
-   Bool_t downIsDown = game->input.buttonStates[InputButton_Down].down;
-
-   if ( leftIsDown && !rightIsDown )
-   {
-      entity->velocity.x = -velocity;
-
-      if ( !( upIsDown && sprite->direction == Direction_Up ) &&
-           !( downIsDown && sprite->direction == Direction_Down ) )
-      {
-         ActiveSprite_SetDirection( sprite, Direction_Left );
-      }
-
-      if ( upIsDown || downIsDown )
-      {
-         entity->velocity.x *= DIAGONAL_SCALAR;
-      }
-   }
-   else if ( rightIsDown && !leftIsDown )
-   {
-      entity->velocity.x = velocity;
-
-      if ( !( upIsDown && sprite->direction == Direction_Up ) &&
-           !( downIsDown && sprite->direction == Direction_Down ) )
-      {
-         ActiveSprite_SetDirection( sprite, Direction_Right );
-      }
-
-      if ( upIsDown || downIsDown )
-      {
-         entity->velocity.x *= DIAGONAL_SCALAR;
-      }
-   }
-   if ( upIsDown && !downIsDown )
-   {
-      entity->velocity.y = -velocity;
-
-      if ( !( leftIsDown && sprite->direction == Direction_Left ) &&
-           !( rightIsDown && sprite->direction == Direction_Right ) )
-      {
-         ActiveSprite_SetDirection( sprite, Direction_Up );
-      }
-
-      if ( leftIsDown || rightIsDown )
-      {
-         entity->velocity.y *= DIAGONAL_SCALAR;
-      }
-   }
-   else if ( downIsDown && !upIsDown )
-   {
-      entity->velocity.y = velocity;
-
-      if ( !( leftIsDown && sprite->direction == Direction_Left ) &&
-           !( rightIsDown && sprite->direction == Direction_Right ) )
-      {
-         ActiveSprite_SetDirection( sprite, Direction_Down );
-      }
-
-      if ( leftIsDown || rightIsDown )
-      {
-         entity->velocity.y *= DIAGONAL_SCALAR;
-      }
-   }
 }
 
 internal void Game_HandlePlayerMoved( Game_t* game )
@@ -231,6 +162,29 @@ internal void Game_IncrementDaylightFactor( Game_t* game )
    {
       game->daylightFactor = 0.0f;
       game->isAM = True;
+   }
+}
+
+internal void Game_UpdateDayFilterIntensity( Game_t* game )
+{
+   // use cutoffs to determine when the sun rises and sets
+   if ( game->daylightFactor < DAY_FACTOR_LOW_CUTOFF )
+   {
+      game->screen.dayFilterIntensity = 0.0f;
+   }
+   else if ( game->daylightFactor > DAY_FACTOR_HIGH_CUTOFF )
+   {
+      game->screen.dayFilterIntensity = 1.0f;
+   }
+   else
+   {
+      game->screen.dayFilterIntensity = ( game->daylightFactor - DAY_FACTOR_LOW_CUTOFF ) / ( DAY_FACTOR_HIGH_CUTOFF - DAY_FACTOR_LOW_CUTOFF );
+   }
+
+   // if we're underground, don't go full-nighttime
+   if ( game->tileMap.isUnderground && game->screen.dayFilterIntensity < DAY_FACTOR_UNDERGROUND_THRESHOLD )
+   {
+      game->screen.dayFilterIntensity = DAY_FACTOR_UNDERGROUND_THRESHOLD;
    }
 }
 

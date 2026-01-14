@@ -48,6 +48,8 @@ namespace DW3ArduinoEditor.ViewModels
             {
                bool hasShownError = false;
 
+               _headerGuids = new( saveData.HeaderGuids );
+
                foreach ( var savedTileMap in saveData.TileMaps )
                {
                   if ( !hasShownError )

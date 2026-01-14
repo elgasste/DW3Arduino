@@ -29,6 +29,7 @@ typedef struct Game_t
    Player_t players[MAX_PLAYERS];
    u32 playerCount;
 
+   GameState_t state;
    Bool_t isAM;
    r32 daylightFactor;
 
@@ -45,6 +46,9 @@ void Game_Tic( Game_t* game );
 
 // game_data.c
 void Game_Reset( Game_t* game );
+
+// input.c
+void Input_HandleInput( Game_t* game );
 
 // physics.c
 void Physics_Tic( Game_t* game );

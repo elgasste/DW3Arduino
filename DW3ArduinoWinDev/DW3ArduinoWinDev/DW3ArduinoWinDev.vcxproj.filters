@@ -111,9 +111,6 @@
     <ClInclude Include="..\..\DW3Arduino\sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\DW3Arduino\direction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\DW3Arduino\tile_textures.h">
       <Filter>Game Data Files</Filter>
     </ClInclude>
@@ -131,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="..\..\DW3Arduino\tile_maps.h">
       <Filter>Game Data Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\enums.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
