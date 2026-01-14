@@ -80,7 +80,10 @@ TileDamageRate_t;
 
 typedef enum GameState_t
 {
-   GameState_Overworld_Active = 0,
+   GameState_Intro_Title = 0,
+   GameState_Intro_Count,
+
+   GameState_Overworld_Active,
    GameState_Overworld_Inactive,
    GameState_Overworld_MainMenu,
    GameState_Overworld_Count,

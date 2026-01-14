@@ -1,7 +1,6 @@
 #include "game.h"
 #include "utility.h"
 
-internal void Render_UpdateDayFilterIntensity( Game_t* game );
 internal void Render_DrawTileMapLayer( Game_t* game, void ( *layerFunc )( Game_t*, i32, i32, i32, i32, i32, i32 ) );
 internal void Render_DrawTileMapSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
 internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffset, i32 yOffset );
@@ -14,39 +13,18 @@ void Render_DrawGame( Game_t* game )
 {
    Screen_WipeColor( &game->screen, SCREEN_COLOR16_BLACK );
 
-   if ( game->state < GameState_Overworld_Count )
+   if ( game->state < GameState_Intro_Count )
    {
-      Render_UpdateDayFilterIntensity( game );
-
+      // TODO: render intro stuff
+   }
+   else if ( game->state < GameState_Overworld_Count )
+   {
       Render_DrawTileMapLayer( game, Render_DrawTileMapSection );
       Render_DrawTileMapLayer( game, Render_DrawStaticSpritesInSection );
       Render_DrawTileMapLayer( game, Render_DrawEntitiesInSection );
    }
 
    Screen_Blit( &game->screen );
-}
-
-internal void Render_UpdateDayFilterIntensity( Game_t* game )
-{
-   // use cutoffs to determine when the sun rises and sets
-   if ( game->daylightFactor < DAY_FACTOR_LOW_CUTOFF )
-   {
-      game->screen.dayFilterIntensity = 0.0f;
-   }
-   else if ( game->daylightFactor > DAY_FACTOR_HIGH_CUTOFF )
-   {
-      game->screen.dayFilterIntensity = 1.0f;
-   }
-   else
-   {
-      game->screen.dayFilterIntensity = ( game->daylightFactor - DAY_FACTOR_LOW_CUTOFF ) / ( DAY_FACTOR_HIGH_CUTOFF - DAY_FACTOR_LOW_CUTOFF );
-   }
-
-   // if we're underground, don't go full-nighttime
-   if ( game->tileMap.isUnderground && game->screen.dayFilterIntensity < DAY_FACTOR_UNDERGROUND_THRESHOLD )
-   {
-      game->screen.dayFilterIntensity = DAY_FACTOR_UNDERGROUND_THRESHOLD;
-   }
 }
 
 internal void Render_DrawTileMapLayer( Game_t* game, void ( *layerFunc )( Game_t*, i32, i32, i32, i32, i32, i32 ) )

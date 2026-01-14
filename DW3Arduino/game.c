@@ -5,6 +5,7 @@ internal u32 Game_GetPlayerCount( Game_t* game );
 internal void Game_HandlePlayerMoved( Game_t* game );
 internal void Game_AnchorRearPlayers( Game_t* game );
 internal void Game_IncrementDaylightFactor( Game_t* game );
+internal void Game_UpdateDayFilterIntensity( Game_t* game );
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex );
 internal Bool_t Game_TryEnterPortal( Game_t* game );
 internal void Game_EnterPortal( Game_t* game, Portal_t* portal );
@@ -45,8 +46,17 @@ void Game_Tic( Game_t* game )
    
    if ( !AnimationChain_PausesAction( &game->animationChain ) )
    {
-      if ( game->state < GameState_Overworld_Count )
+      if ( game->state < GameState_Intro_Count )
       {
+         // TODO: tic intro stuff
+      }
+      else if ( game->state < GameState_Overworld_Count )
+      {
+         if ( game->state == GameState_Overworld_Active )
+         {
+            Game_UpdateDayFilterIntensity( game );
+         }
+
          TileMap_Tic( &game->tileMap );
          Physics_Tic( game );
          TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
@@ -152,6 +162,29 @@ internal void Game_IncrementDaylightFactor( Game_t* game )
    {
       game->daylightFactor = 0.0f;
       game->isAM = True;
+   }
+}
+
+internal void Game_UpdateDayFilterIntensity( Game_t* game )
+{
+   // use cutoffs to determine when the sun rises and sets
+   if ( game->daylightFactor < DAY_FACTOR_LOW_CUTOFF )
+   {
+      game->screen.dayFilterIntensity = 0.0f;
+   }
+   else if ( game->daylightFactor > DAY_FACTOR_HIGH_CUTOFF )
+   {
+      game->screen.dayFilterIntensity = 1.0f;
+   }
+   else
+   {
+      game->screen.dayFilterIntensity = ( game->daylightFactor - DAY_FACTOR_LOW_CUTOFF ) / ( DAY_FACTOR_HIGH_CUTOFF - DAY_FACTOR_LOW_CUTOFF );
+   }
+
+   // if we're underground, don't go full-nighttime
+   if ( game->tileMap.isUnderground && game->screen.dayFilterIntensity < DAY_FACTOR_UNDERGROUND_THRESHOLD )
+   {
+      game->screen.dayFilterIntensity = DAY_FACTOR_UNDERGROUND_THRESHOLD;
    }
 }
 

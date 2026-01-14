@@ -52,7 +52,11 @@ Bool_t Input_AnyButtonPressed( Input_t* input )
 
 void Input_HandleInput( Game_t* game )
 {
-   if ( game->state <= GameState_Overworld_Inactive )
+   if ( game->state < GameState_Intro_Count )
+   {
+      // TODO: handle intro input
+   }
+   else if ( game->state <= GameState_Overworld_Inactive )
    {
       Input_HandleOverworldGeneral( game );
    }
