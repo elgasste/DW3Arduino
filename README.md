@@ -1,6 +1,6 @@
 # DW3Arduino - Dragon Warrior (Quest) 3 for Arduino
 
-This is a remake of the original [Dragon Quest 3](https://en.wikipedia.org/wiki/Dragon_Quest_III)) for the NES ("Dragon Warrior 3" in the US), built specifically for the Arduino Giga R1 board. After all the fun I had making [DragonQuestino](https://github.com/elgasste/DragonQuestino), I wanted to up the ante and go for a much bigger game.
+This is a remake of the original [Dragon Quest 3](https://en.wikipedia.org/wiki/Dragon_Quest_III) for the NES ("Dragon Warrior 3" in the US), built specifically for the Arduino Giga R1 board. After all the fun I had making [DragonQuestino](https://github.com/elgasste/DragonQuestino), I wanted to up the ante and go for a much bigger game.
 
 ## Hardware
 
