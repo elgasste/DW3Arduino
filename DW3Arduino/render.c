@@ -188,11 +188,11 @@ internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i
       spriteX /= UNITS_PER_PIXEL;
       spriteY /= UNITS_PER_PIXEL;
 
-      if ( Utility_RectsIntersect32i( spriteX, spriteY, spriteX + STATIC_SPRITE_SIZE, spriteY + STATIC_SPRITE_SIZE, vxPixels, vyPixels, vwPixels, vhPixels ) )
+      if ( Utility_RectsIntersect32i( spriteX, spriteY, spriteX + STATIC_SPRITE_SIZE_PIXELS, spriteY + STATIC_SPRITE_SIZE_PIXELS, vxPixels, vyPixels, vwPixels, vhPixels ) )
       {
          Screen_DrawBoundedBuffer8( &game->screen,
                                     game->tileMap.staticSpriteTextures[sprite->textureIndex].paletteIndexes,
-                                    STATIC_SPRITE_SIZE, STATIC_SPRITE_SIZE,
+                                    STATIC_SPRITE_SIZE_PIXELS, STATIC_SPRITE_SIZE_PIXELS,
                                     ( spriteX - vxPixels ) + viewportScreenPos->x + xOffsetPixels,
                                     ( spriteY - vyPixels ) + viewportScreenPos->y + yOffsetPixels,
                                     viewportScreenPos->x + xOffsetPixels, viewportScreenPos->y + yOffsetPixels,
