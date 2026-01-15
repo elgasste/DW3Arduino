@@ -184,8 +184,7 @@ namespace DW3ArduinoEditor.ViewModels
                                bool hasEncounters,
                                uint tileTextureSetIndex,
                                uint staticSpriteTextureSetIndex,
-                               uint activeSpriteTextureSetIndex,
-                               ActiveSpriteViewModel playerSprite )
+                               uint activeSpriteTextureSetIndex )
       {
          _index = index;
          _name = name;
