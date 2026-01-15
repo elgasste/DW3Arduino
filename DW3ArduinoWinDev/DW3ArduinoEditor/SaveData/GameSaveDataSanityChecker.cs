@@ -20,7 +20,7 @@ namespace DW3ArduinoEditor.SaveData
             throw new Exception( "Player sprite texture count doesn't match the number of player classes" );
          }
 
-         CheckTileMaps( saveData.TileMaps );
+         CheckTileMaps( saveData.TileMaps, saveData.TileTextureSets.Count, saveData.StaticSpriteTextureSets.Count, saveData.ActiveSpriteTextureSets.Count );
       }
 
       private static void CheckHeaderGuids( HeaderGuidsSaveData saveData )
@@ -80,10 +80,14 @@ namespace DW3ArduinoEditor.SaveData
          }
       }
 
-      private static void CheckTileMaps( List<TileMapSaveData> tileMaps )
+      private static void CheckTileMaps( List<TileMapSaveData> tileMaps,
+                                         int tileTextureSetCount,
+                                         int staticSpriteTextureSetCount,
+                                         int activeSpriteTextureSetCount )
       {
          for ( int i = 0; i < tileMaps.Count; i++ )
          {
+            // check for duplicate tile indexes
             for ( int j = 0; j < tileMaps.Count; j++ )
             {
                if ( i != j && tileMaps[i].Index == tileMaps[j].Index )
@@ -92,6 +96,7 @@ namespace DW3ArduinoEditor.SaveData
                }
             }
 
+            // check tile map size
             if ( tileMaps[i].TilesX < Constants.TileMapMinTilesX || tileMaps[i].TilesY < Constants.TileMapMinTilesY )
             {
                throw new Exception( string.Format( "Tile map \"{0}\" is too small", tileMaps[i].Name ) );
@@ -99,6 +104,20 @@ namespace DW3ArduinoEditor.SaveData
             else if ( tileMaps[i].TilesX > Constants.TileMapMaxTilesX || tileMaps[i].TilesY > Constants.TileMapMaxTilesY )
             {
                throw new Exception( string.Format( "Tile map \"{0}\" is too large", tileMaps[i].Name ) );
+            }
+
+            // check texture set indexes
+            if ( tileMaps[i].TileTextureSetIndex >= tileTextureSetCount )
+            {
+               throw new Exception( string.Format( "Tile map \"{0}\" has invalid tile texture set index", tileMaps[i].Name ) );
+            }
+            else if ( tileMaps[i].StaticSpriteTextureSetIndex >= staticSpriteTextureSetCount )
+            {
+               throw new Exception( string.Format( "Tile map \"{0}\" has invalid static sprite texture set index", tileMaps[i].Name ) );
+            }
+            else if ( tileMaps[i].ActiveSpriteTextureSetIndex >= activeSpriteTextureSetCount )
+            {
+               throw new Exception( string.Format( "Tile map \"{0}\" has invalid active sprite texture set index", tileMaps[i].Name ) );
             }
          }
 
