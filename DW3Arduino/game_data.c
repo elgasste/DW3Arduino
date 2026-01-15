@@ -427,7 +427,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 22, 68, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
          TileMap_LoadPortalData( tileMap->portals + 0, 94, 8, 226, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 1, 122, 10, 2, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 122, 10, 14, Direction_Down );
          memcpy( tileMap->tiles, g_mapTiles9, sizeof( u16 ) * 132 );
          break;
       case 10: // Aliahan Castle Prison Hallway
@@ -437,7 +437,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 20, 17, False );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 5, 22, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         TileMap_LoadPortalData( tileMap->portals + 0, 2, 9, 122, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 0, 2, 9, 110, Direction_Up );
          TileMap_LoadPortalData( tileMap->portals + 1, 22, 19, 1887, Direction_Left );
          memcpy( tileMap->tiles, g_mapTiles10, sizeof( u16 ) * 36 );
          break;
