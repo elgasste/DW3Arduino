@@ -36,7 +36,7 @@ internal void TileMap_LoadPortalData( Portal_t* p, u32 st, u32 dm, u32 di, Direc
 
 internal void TileMap_LoadEntityData( Entity_t* e, i32 x, i32 y, i32 w, i32 h, ActiveSprite_t* s )
 {
-   e->pos.x = x; e->pos.y = y; e->pos.w = w; e->pos.h = h; e->sprite = s;
+   e->pos.x = x; e->pos.y = y; e->pos.w = w; e->pos.h = h; e->sprite = s; e->velocity.x = 0; e->velocity.y = 0;
 }
 
 void Screen_LoadPalette( Screen_t* screen )
@@ -293,7 +293,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadPortalData( tileMap->portals + 3, 152, 6, 884, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 4, 153, 6, 885, Direction_Left );
          tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55980;
-         TileMap_LoadEntityData( tileMap->entities + 0, 4160, 12896, 384, 384, tileMap->activeSprites + 0 );
+         TileMap_LoadEntityData( tileMap->entities + 0, 13000, 40300, 1200, 1200, tileMap->activeSprites + 0 );
          Npc_Init( tileMap->npcs + 0, tileMap->entities + 0, True );
          memcpy( tileMap->tiles, g_mapTiles1, sizeof( u16 ) * 1360 );
          break;
