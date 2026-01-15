@@ -20,7 +20,8 @@ namespace DW3ArduinoEditor.SaveData
             throw new Exception( "Player sprite texture count doesn't match the number of player classes" );
          }
 
-         CheckTileMaps( saveData.TileMaps, saveData.TileTextureSets.Count, saveData.StaticSpriteTextureSets.Count, saveData.ActiveSpriteTextureSets.Count );
+         // MUFFINS: this is wrong
+         CheckTileMaps( saveData.TileMaps, saveData.TileTextureSets, saveData.StaticSpriteTextureSets.Count, saveData.ActiveSpriteTextureSets.Count );
       }
 
       private static void CheckHeaderGuids( HeaderGuidsSaveData saveData )
@@ -81,7 +82,7 @@ namespace DW3ArduinoEditor.SaveData
       }
 
       private static void CheckTileMaps( List<TileMapSaveData> tileMaps,
-                                         int tileTextureSetCount,
+                                         List<TextureSetSaveData> tileTextureSets,
                                          int staticSpriteTextureSetCount,
                                          int activeSpriteTextureSetCount )
       {
@@ -105,9 +106,13 @@ namespace DW3ArduinoEditor.SaveData
             {
                throw new Exception( string.Format( "Tile map \"{0}\" is too large", tileMaps[i].Name ) );
             }
+            else if ( tileMaps[i].TilesX * tileMaps[i].TilesY != tileMaps[i].Tiles.Count )
+            {
+               throw new Exception( string.Format( "Tile map \"{0}\" has a mismatched number of X and Y tiles to its total tile count", tileMaps[i].Name ) );
+            }
 
             // check texture set indexes
-            if ( tileMaps[i].TileTextureSetIndex >= tileTextureSetCount )
+            if ( tileMaps[i].TileTextureSetIndex >= tileTextureSets.Count )
             {
                throw new Exception( string.Format( "Tile map \"{0}\" has invalid tile texture set index", tileMaps[i].Name ) );
             }
@@ -119,11 +124,19 @@ namespace DW3ArduinoEditor.SaveData
             {
                throw new Exception( string.Format( "Tile map \"{0}\" has invalid active sprite texture set index", tileMaps[i].Name ) );
             }
+
+            // check tile texture indexes
+            foreach ( var tile in tileMaps[i].Tiles )
+            {
+               if ( tile.TextureIndex >= tileTextureSets[(int)tileMaps[i].TileTextureSetIndex].TexturePoolIndexes.Count )
+               {
+                  throw new Exception( string.Format( "Tile map \"{0}\" has invalid tile texture index", tileMaps[i].Name ) );
+               }
+            }
          }
 
          // TODO
          //
-         // - make sure all tiles in each tile map have a valid texture index
          // - make sure each tile map's portals are valid
          //    - all source tile indexes should be different
          //    - all destination tile map indexes should exist
