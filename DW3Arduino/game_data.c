@@ -266,7 +266,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
          TileMap_LoadPortalData( tileMap->portals + 0, 55980, 1, 817, Direction_Right );
          TileMap_LoadPortalData( tileMap->portals + 1, 55981, 1, 817, Direction_Right );
-         TileMap_LoadPortalData( tileMap->portals + 2, 51363, 12, 1299, Direction_Up );
+         TileMap_LoadPortalData( tileMap->portals + 2, 51363, 12, 1250, Direction_Up );
          TileMap_LoadPortalData( tileMap->portals + 3, 57247, 14, 27, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 4, 55973, 22, 1444, Direction_Up );
          memcpy( tileMap->tiles, g_mapTiles0, sizeof( u16 ) * 65536 );
@@ -292,7 +292,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadPortalData( tileMap->portals + 2, 913, 4, 17, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 3, 152, 6, 884, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 4, 153, 6, 885, Direction_Left );
-         tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55980;
+         tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55980; tileMap->edgePortal.destDirection = Direction_Down;
          TileMap_LoadEntityData( tileMap->entities + 0, 13000, 40300, 1200, 1200, tileMap->activeSprites + 0 );
          Npc_Init( tileMap->npcs + 0, tileMap->entities + 0, True );
          memcpy( tileMap->tiles, g_mapTiles1, sizeof( u16 ) * 1360 );
@@ -393,7 +393,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadPortalData( tileMap->portals + 4, 99, 7, 39, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 5, 110, 8, 30, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 6, 285, 11, 408, Direction_Left );
-         tileMap->edgePortal.destTileMapIndex = 1; tileMap->edgePortal.destTileIndex = 152;
+         tileMap->edgePortal.destTileMapIndex = 1; tileMap->edgePortal.destTileIndex = 152; tileMap->edgePortal.destDirection = Direction_Left;
          memcpy( tileMap->tiles, g_mapTiles6, sizeof( u16 ) * 900 );
          break;
       case 7: // Aliahan Castle 1F NW
@@ -457,19 +457,19 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 12, 1001, True );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 13, 1009, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         TileMap_LoadPortalData( tileMap->portals + 0, 755, 0, 51363, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 1, 757, 0, 51363, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 2, 758, 0, 51363, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 3, 759, 0, 51363, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 4, 761, 0, 51363, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 5, 947, 0, 51363, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 6, 996, 0, 51363, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 7, 1012, 0, 51363, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 8, 1143, 0, 51363, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 9, 1192, 0, 51363, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 10, 1291, 0, 51363, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 11, 1295, 0, 51363, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 12, 1299, 0, 51363, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 0, 755, 0, 51363, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 1, 757, 0, 51363, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 2, 758, 0, 51363, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 3, 759, 0, 51363, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 4, 761, 0, 51363, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 5, 947, 0, 51363, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 6, 996, 0, 51363, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 7, 1012, 0, 51363, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 8, 1143, 0, 51363, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 9, 1192, 0, 51363, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 10, 1291, 0, 51363, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 11, 1295, 0, 51363, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 12, 1299, 0, 51363, Direction_Down );
          TileMap_LoadPortalData( tileMap->portals + 13, 960, 13, 17, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 14, 1001, 19, 153, Direction_Left );
          memcpy( tileMap->tiles, g_mapTiles12, sizeof( u16 ) * 2058 );
@@ -489,7 +489,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 7, 27, True );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 8, 92, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         TileMap_LoadPortalData( tileMap->portals + 0, 27, 0, 57247, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 0, 27, 0, 57247, Direction_Down );
          TileMap_LoadPortalData( tileMap->portals + 1, 92, 15, 1109, Direction_Left );
          memcpy( tileMap->tiles, g_mapTiles14, sizeof( u16 ) * 120 );
          break;
@@ -599,7 +599,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 14, 1343, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
          TileMap_LoadPortalData( tileMap->portals + 0, 1343, 19, 2235, Direction_Left );
-         tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55973;
+         tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55973; tileMap->edgePortal.destDirection = Direction_Down;
          memcpy( tileMap->tiles, g_mapTiles22, sizeof( u16 ) * 1496 );
          break;
    }
