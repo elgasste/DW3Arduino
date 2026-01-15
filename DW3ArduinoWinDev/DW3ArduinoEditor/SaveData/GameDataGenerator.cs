@@ -555,9 +555,10 @@ namespace DW3ArduinoEditor.SaveData
 
             if ( _gameSaveData.TileMaps[i].EdgePortal is not null )
             {
-               WriteToFileStream( fs, string.Format( "         tileMap->edgePortal.destTileMapIndex = {0}; tileMap->edgePortal.destTileIndex = {1};\n",
+               WriteToFileStream( fs, string.Format( "         tileMap->edgePortal.destTileMapIndex = {0}; tileMap->edgePortal.destTileIndex = {1}; tileMap->edgePortal.destDirection = Direction_{2};\n",
                   _gameSaveData.TileMaps[i].EdgePortal?.DestTileMapIndex,
-                  _gameSaveData.TileMaps[i].EdgePortal?.DestTileIndex ) );
+                  _gameSaveData.TileMaps[i].EdgePortal?.DestTileIndex,
+                  _gameSaveData.TileMaps[i].EdgePortal?.DestDirection.ToString() ) );
             }
 
             for ( int j = 0; j < _gameSaveData.TileMaps[i].Entities.Count; j++ )
