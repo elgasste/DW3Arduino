@@ -31,75 +31,76 @@ internal void Render_DrawTileMapLayer( Game_t* game, void ( *layerFunc )( Game_t
 {
    i32 mapW, mapH;
    i32 x, y, w, h;
+   Vector4i32_t* viewport = &game->tileMap.viewport;
 
-   layerFunc( game, game->tileMap.viewport.x, game->tileMap.viewport.y, game->tileMap.viewport.w, game->tileMap.viewport.h, 0, 0 );
+   layerFunc( game, viewport->x, viewport->y, viewport->w, viewport->h, 0, 0 );
 
    if ( game->tileMap.wraps )
    {
       mapW = game->tileMap.tilesX * TILEMAP_TILE_SIZE_UNITS;
       mapH = game->tileMap.tilesY * TILEMAP_TILE_SIZE_UNITS;
 
-      if ( game->tileMap.viewport.x < 0 ) // draw "left" map
+      if ( viewport->x < 0 ) // draw "left" map
       {
-         x = mapW + game->tileMap.viewport.x;
-         y = game->tileMap.viewport.y;
-         h = game->tileMap.viewport.h;
-         w = -game->tileMap.viewport.x;
+         x = mapW + viewport->x;
+         y = viewport->y;
+         h = viewport->h;
+         w = -viewport->x;
          layerFunc( game, x, y, w, h, 0, 0 );
 
-         if ( game->tileMap.viewport.y ) // draw "top left" map
+         if ( viewport->y < 0 ) // draw "top left" map
          {
-            y = mapH + game->tileMap.viewport.y;
-            h = -game->tileMap.viewport.y;
+            y = mapH + viewport->y;
+            h = -viewport->y;
             layerFunc( game, x, y, w, h, 0, 0 );
          }
 
-         if ( ( game->tileMap.viewport.y + game->tileMap.viewport.h ) > mapH ) // draw "bottom left" map
+         if ( ( viewport->y + viewport->h ) > mapH ) // draw "bottom left" map
          {
             y = 0;
-            h = ( game->tileMap.viewport.y + game->tileMap.viewport.h ) - mapH;
-            layerFunc( game, x, y, w, h, 0, ( mapH - game->tileMap.viewport.y ) / UNITS_PER_PIXEL );
+            h = ( viewport->y + viewport->h ) - mapH;
+            layerFunc( game, x, y, w, h, 0, ( mapH - viewport->y ) / UNITS_PER_PIXEL );
          }
       }
 
-      if ( ( game->tileMap.viewport.x + game->tileMap.viewport.w ) >= mapW ) // draw "right" map
+      if ( ( viewport->x + viewport->w ) >= mapW ) // draw "right" map
       {
          x = 0;
-         y = game->tileMap.viewport.y;
-         w = ( game->tileMap.viewport.x + game->tileMap.viewport.w ) - mapW;
-         h = game->tileMap.viewport.h;
-         layerFunc( game, x, y, w, h, ( mapW - game->tileMap.viewport.x ) / UNITS_PER_PIXEL, 0 );
+         y = viewport->y;
+         w = ( viewport->x + viewport->w ) - mapW;
+         h = viewport->h;
+         layerFunc( game, x, y, w, h, ( mapW - viewport->x ) / UNITS_PER_PIXEL, 0 );
 
-         if ( game->tileMap.viewport.y < 0 ) // draw "top right" map
+         if ( viewport->y < 0 ) // draw "top right" map
          {
-            y = mapH + game->tileMap.viewport.y;
-            h = -game->tileMap.viewport.y;
-            layerFunc( game, x, y, w, h, ( mapW - game->tileMap.viewport.x ) / UNITS_PER_PIXEL, 0 );
+            y = mapH + viewport->y;
+            h = -viewport->y;
+            layerFunc( game, x, y, w, h, ( mapW - viewport->x ) / UNITS_PER_PIXEL, 0 );
          }
 
-         if ( ( game->tileMap.viewport.y + game->tileMap.viewport.h ) > mapH ) // draw "bottom right" map
+         if ( ( viewport->y + viewport->h ) > mapH ) // draw "bottom right" map
          {
             y = 0;
-            h = ( game->tileMap.viewport.y + game->tileMap.viewport.h ) - mapH;
-            layerFunc( game, x, y, w, h, ( mapW - game->tileMap.viewport.x ) / UNITS_PER_PIXEL, ( mapH - game->tileMap.viewport.y ) / UNITS_PER_PIXEL );
+            h = ( viewport->y + viewport->h ) - mapH;
+            layerFunc( game, x, y, w, h, ( mapW - viewport->x ) / UNITS_PER_PIXEL, ( mapH - viewport->y ) / UNITS_PER_PIXEL );
          }
       }
 
-      x = game->tileMap.viewport.x;
-      w = game->tileMap.viewport.w;
+      x = viewport->x;
+      w = viewport->w;
 
-      if ( game->tileMap.viewport.y < 0 ) // draw "top" map
+      if ( viewport->y < 0 ) // draw "top" map
       {
-         y = mapH + game->tileMap.viewport.y;
-         h = -game->tileMap.viewport.y;
+         y = mapH + viewport->y;
+         h = -viewport->y;
          layerFunc( game, x, y, w, h, 0, 0 );
       }
 
-      if ( ( game->tileMap.viewport.y + game->tileMap.viewport.h ) > mapH ) // draw "bottom" map
+      if ( ( viewport->y + viewport->h ) > mapH ) // draw "bottom" map
       {
          y = 0;
-         h = ( game->tileMap.viewport.y + game->tileMap.viewport.h ) - mapH;
-         layerFunc( game, x, y, w, h, 0, ( mapH - game->tileMap.viewport.y ) / UNITS_PER_PIXEL );
+         h = ( viewport->y + viewport->h ) - mapH;
+         layerFunc( game, x, y, w, h, 0, ( mapH - viewport->y ) / UNITS_PER_PIXEL );
       }
    }
 }
