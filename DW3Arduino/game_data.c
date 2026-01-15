@@ -470,7 +470,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadPortalData( tileMap->portals + 10, 1291, 0, 51363, Direction_Down );
          TileMap_LoadPortalData( tileMap->portals + 11, 1295, 0, 51363, Direction_Down );
          TileMap_LoadPortalData( tileMap->portals + 12, 1299, 0, 51363, Direction_Down );
-         TileMap_LoadPortalData( tileMap->portals + 13, 960, 13, 17, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 13, 960, 13, 12, Direction_Up );
          TileMap_LoadPortalData( tileMap->portals + 14, 1001, 19, 153, Direction_Left );
          memcpy( tileMap->tiles, g_mapTiles12, sizeof( u16 ) * 2058 );
          break;
@@ -479,7 +479,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadInitialData( tileMap, 5, 4, False, False, False, False, 0, 0, 1, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 0 );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         TileMap_LoadPortalData( tileMap->portals + 0, 17, 12, 960, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 0, 17, 12, 1009, Direction_Down );
          memcpy( tileMap->tiles, g_mapTiles13, sizeof( u16 ) * 20 );
          break;
       case 14: // Promontory Cave B1
