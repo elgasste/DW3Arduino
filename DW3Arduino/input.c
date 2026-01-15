@@ -1,7 +1,5 @@
 #include "game.h"
 
-#define DIAGONAL_SCALAR 0.707f
-
 internal void Input_UpdateButtonState( InputButtonState_t* buttonState, Bool_t down );
 internal void Input_HandleOverworldGeneral( Game_t* game );
 
@@ -108,7 +106,7 @@ internal void Input_HandleOverworldGeneral( Game_t* game )
 
       if ( upIsDown || downIsDown )
       {
-         entity->velocity.x = (i32)( entity->velocity.x * DIAGONAL_SCALAR );
+         entity->velocity.x = ( entity->velocity.x < 0 ) ? -( TileMap_GetTileDiagonalVelocity( velocity ) ) : TileMap_GetTileDiagonalVelocity( velocity );
       }
    }
    else if ( rightIsDown && !leftIsDown )
@@ -123,7 +121,7 @@ internal void Input_HandleOverworldGeneral( Game_t* game )
 
       if ( upIsDown || downIsDown )
       {
-         entity->velocity.x = (i32)( entity->velocity.x * DIAGONAL_SCALAR );
+         entity->velocity.x = ( entity->velocity.x < 0 ) ? -( TileMap_GetTileDiagonalVelocity( velocity ) ) : TileMap_GetTileDiagonalVelocity( velocity );
       }
    }
    if ( upIsDown && !downIsDown )
@@ -138,7 +136,7 @@ internal void Input_HandleOverworldGeneral( Game_t* game )
 
       if ( leftIsDown || rightIsDown )
       {
-         entity->velocity.y = (i32)( entity->velocity.y * DIAGONAL_SCALAR );
+         entity->velocity.y = ( entity->velocity.y < 0 ) ? -( TileMap_GetTileDiagonalVelocity( velocity ) ) : TileMap_GetTileDiagonalVelocity( velocity );
       }
    }
    else if ( downIsDown && !upIsDown )
@@ -153,7 +151,7 @@ internal void Input_HandleOverworldGeneral( Game_t* game )
 
       if ( leftIsDown || rightIsDown )
       {
-         entity->velocity.y = (i32)( entity->velocity.y * DIAGONAL_SCALAR );
+         entity->velocity.y = ( entity->velocity.y < 0 ) ? -( TileMap_GetTileDiagonalVelocity( velocity ) ) : TileMap_GetTileDiagonalVelocity( velocity );
       }
    }
 }

@@ -134,3 +134,16 @@ i32 TileMap_GetTileVelocity( TileMap_t* tileMap, u32 tileIndex )
       default: return TILE_WALK_SPEED_NORMAL;
    }
 }
+
+i32 TileMap_GetTileDiagonalVelocity( i32 regularVelocity )
+{
+   switch ( regularVelocity )
+   {
+      case TILE_WALK_SPEED_NORMAL: return TILE_WALK_SPEED_DIAGONAL_NORMAL;
+      case TILE_WALK_SPEED_SLOW: return TILE_WALK_SPEED_DIAGONAL_SLOW;
+      case TILE_WALK_SPEED_VERY_SLOW: return TILE_WALK_SPEED_DIAGONAL_VERY_SLOW;
+      case TILE_WALK_SPEED_CRAWL: return TILE_WALK_SPEED_DIAGONAL_CRAWL;
+
+      default: return (i32)( regularVelocity * 0.707f );
+   }
+}
