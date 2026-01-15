@@ -20,22 +20,7 @@ namespace DW3ArduinoEditor.SaveData
             throw new Exception( "Player sprite texture count doesn't match the number of player classes" );
          }
 
-         // TODO
-         //
-         // - make sure no two tile maps have the same index
-         // - make sure tile maps are within the accepted size
-         // - make sure all tiles in each tile map have a valid texture index
-         // - make sure each tile map's portals are valid
-         //    - all source tile indexes should be different
-         //    - all destination tile map indexes should exist
-         //    - the destination tile map tile index should exist
-         // - make sure each tile map's entities are valid
-         //    - no more than the maximum amount
-         //    - should have valid positions
-         //    - sprite index should be valid
-         // - make sure each tile map's NPCs are valid
-         //    - no more than the maximum amount
-         //    - entity index should be valid
+         CheckTileMaps( saveData.TileMaps );
       }
 
       private static void CheckHeaderGuids( HeaderGuidsSaveData saveData )
@@ -80,19 +65,57 @@ namespace DW3ArduinoEditor.SaveData
                }
             }
 
-            if ( textureSets[i].TexturePoolIndexes.Count >= textureSetSize )
+            if ( textureSets[i].TexturePoolIndexes.Count > textureSetSize )
             {
                throw new Exception( string.Format( "{0} texture set \"{1}\" contains too many texture pool indexes", setType, textureSets[i].Name ) );
             }
 
             foreach ( var index in textureSets[i].TexturePoolIndexes )
             {
-               if ( index < 0 || index >= texturePoolCount )
+               if ( index < 0 || index > texturePoolCount )
                {
                   throw new Exception( string.Format( "{0} texture set \"{1}\" contains an invalid texture pool index", setType, textureSets[i].Name ) );
                }
             }
          }
+      }
+
+      private static void CheckTileMaps( List<TileMapSaveData> tileMaps )
+      {
+         for ( int i = 0; i < tileMaps.Count; i++ )
+         {
+            for ( int j = 0; j < tileMaps.Count; j++ )
+            {
+               if ( i != j && tileMaps[i].Index == tileMaps[j].Index )
+               {
+                  throw new Exception( string.Format( "Tile map \"{0}\"'s index matches the tile map \"{1}\"", tileMaps[i].Name, tileMaps[j].Name ) );
+               }
+            }
+
+            if ( tileMaps[i].TilesX < Constants.TileMapMinTilesX || tileMaps[i].TilesY < Constants.TileMapMinTilesY )
+            {
+               throw new Exception( string.Format( "Tile map \"{0}\" is too small", tileMaps[i].Name ) );
+            }
+            else if ( tileMaps[i].TilesX > Constants.TileMapMaxTilesX || tileMaps[i].TilesY > Constants.TileMapMaxTilesY )
+            {
+               throw new Exception( string.Format( "Tile map \"{0}\" is too large", tileMaps[i].Name ) );
+            }
+         }
+
+         // TODO
+         //
+         // - make sure all tiles in each tile map have a valid texture index
+         // - make sure each tile map's portals are valid
+         //    - all source tile indexes should be different
+         //    - all destination tile map indexes should exist
+         //    - the destination tile map tile index should exist
+         // - make sure each tile map's entities are valid
+         //    - no more than the maximum amount
+         //    - should have valid positions
+         //    - sprite index should be valid
+         // - make sure each tile map's NPCs are valid
+         //    - no more than the maximum amount
+         //    - entity index should be valid
       }
    }
 }
