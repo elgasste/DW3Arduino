@@ -100,6 +100,16 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
    r32 rgValue, bValue;
    i32 bufferRow, bufferCol, x, y;
    u8* bufferPos = buffer;
+   r32 rgFactor, bFactor;
+   
+   // the lower these are, the lighter the colors
+#if defined( VISUAL_STUDIO_DEV )
+   rgFactor = 0.72f;
+   bFactor = 0.45f;
+#else
+   rgFactor = 0.84f;
+   bFactor = 0.56f;
+#endif
 
    for ( bufferRow = 0, y = screenY; bufferRow < (i32)bufferHeight; bufferRow++, y++ )
    {
@@ -116,8 +126,8 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
                b = color & 0x1F;           // 5 bits (0-31)
 
                // leave the blue colors a bit lighter, feels more like nighttime
-               rgValue = 1.0f - ( 0.72f * ( 1.0f - screen->dayFilterIntensity ) );
-               bValue = 1.0f - ( 0.45f * ( 1.0f - screen->dayFilterIntensity ) );
+               rgValue = 1.0f - ( rgFactor * ( 1.0f - screen->dayFilterIntensity ) );
+               bValue = 1.0f - ( bFactor * ( 1.0f - screen->dayFilterIntensity ) );
 
                newR = (u32)( r * rgValue );
                newG = (u32)( g * rgValue );

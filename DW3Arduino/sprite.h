@@ -4,7 +4,8 @@
 #include "common.h"
 #include "vector.h"
 
-#define STATIC_SPRITE_SIZE                   16
+#define STATIC_SPRITE_SIZE_PIXELS            16
+#define STATIC_SPRITE_SIZE_UNITS             ( STATIC_SPRITE_SIZE_PIXELS * UNITS_PER_PIXEL )
 #define ACTIVE_SPRITE_TEXTURE_WIDTH          32
 #define ACTIVE_SPRITE_TEXTURE_HEIGHT         64
 #define ACTIVE_SPRITE_FRAME_SIZE             16
@@ -14,7 +15,7 @@
 
 typedef struct StaticSpriteTexture_t
 {
-   u8 paletteIndexes[STATIC_SPRITE_SIZE * STATIC_SPRITE_SIZE];
+   u8 paletteIndexes[STATIC_SPRITE_SIZE_PIXELS * STATIC_SPRITE_SIZE_PIXELS];
 }
 StaticSpriteTexture_t;
 

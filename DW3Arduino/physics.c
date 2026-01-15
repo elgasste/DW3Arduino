@@ -332,7 +332,7 @@ internal Bool_t Physics_EntityCollidesWithRigidBodies( TileMap_t* tileMap, Entit
       {
          TileMap_GetPositionOfTileIndex( tileMap, tileMap->staticSprites[i].tileIndex, &sx, &sy );
 
-         if ( Physics_EntityCollidesWithRigidBody( tileMap, entity, (i32)sx, (i32)sy, STATIC_SPRITE_SIZE, STATIC_SPRITE_SIZE, sign, horizontal ) )
+         if ( Physics_EntityCollidesWithRigidBody( tileMap, entity, (i32)sx, (i32)sy, STATIC_SPRITE_SIZE_UNITS, STATIC_SPRITE_SIZE_UNITS, sign, horizontal ) )
          {
             return True;
          }
