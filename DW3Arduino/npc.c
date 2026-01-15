@@ -19,7 +19,7 @@ void Npc_Init( Npc_t* npc, Entity_t* entity, Bool_t wanders )
 
 void Npc_Tic( Npc_t* npc )
 {
-   r32 vx, vy;
+   i32 vx, vy;
    Bool_t movingLeft, movingUp, movingRight, movingDown;
 
    if ( !npc->wanders )
@@ -33,13 +33,13 @@ void Npc_Tic( Npc_t* npc )
    {
       if ( npc->isWandering )
       {
-         npc->entity->velocity.x = 0.0f;
-         npc->entity->velocity.y = 0.0f;
+         npc->entity->velocity.x = 0;
+         npc->entity->velocity.y = 0;
       }
       else
       {
-         vx = (r32)Random_u32( NPC_MIN_VELOCITY, NPC_MAX_VELOCITY );
-         vy = (r32)Random_u32( NPC_MIN_VELOCITY, NPC_MAX_VELOCITY );
+         vx = Random_i32( NPC_MIN_VELOCITY, NPC_MAX_VELOCITY );
+         vy = Random_i32( NPC_MIN_VELOCITY, NPC_MAX_VELOCITY );
 
          movingUp = False;
          movingDown = False;
@@ -49,15 +49,15 @@ void Npc_Tic( Npc_t* npc )
          if ( Random_u32( 0, 1 ) == 0 ) // move horizontal
          {
             npc->entity->velocity.x = ( Random_u32( 0, 1 ) == 0 ) ? -vx : vx;
-            movingLeft = ( npc->entity->velocity.x < 0.0f ) ? True : False;
-            movingRight = ( npc->entity->velocity.x > 0.0f ) ? True : False;
+            movingLeft = ( npc->entity->velocity.x < 0 ) ? True : False;
+            movingRight = ( npc->entity->velocity.x > 0 ) ? True : False;
          }
          
          if ( Random_u32( 0, 1 ) == 0 ) // move vertical
          {
             npc->entity->velocity.y = ( Random_u32( 0, 1 ) == 0 ) ? -vy : vy;
-            movingUp = ( npc->entity->velocity.y < 0.0f ) ? True : False;
-            movingDown = ( npc->entity->velocity.y > 0.0f ) ? True : False;
+            movingUp = ( npc->entity->velocity.y < 0 ) ? True : False;
+            movingDown = ( npc->entity->velocity.y > 0 ) ? True : False;
          }
 
          if ( movingLeft || movingUp || movingRight || movingDown )

@@ -1,12 +1,12 @@
 #if !defined( NPC_H )
 #define NPC_H
 
+#include "common.h"
+
 #define NPC_MIN_ACTION_SECONDS      1
 #define NPC_MAX_ACTION_SECONDS      4
-#define NPC_MIN_VELOCITY            10    // pixels per second
-#define NPC_MAX_VELOCITY            16    // pixels per second
-
-#include "common.h"
+#define NPC_MIN_VELOCITY            8    // units per frame
+#define NPC_MAX_VELOCITY            40
 
 typedef struct Entity_t Entity_t;
 

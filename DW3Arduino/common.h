@@ -36,6 +36,7 @@
 
 #define UNUSED_PARAM( x )              (void)x
 
+#define UNITS_PER_PIXEL                100
 #define MAX_PLAYERS                    4
 
 typedef uint8_t u8;

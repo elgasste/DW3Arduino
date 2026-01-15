@@ -10,6 +10,13 @@ struct TileDataRun
    public int Start;
    public int Count;
    public ushort Value;
+
+   public TileDataRun()
+   {
+      Start = 0;
+      Count = 0;
+      Value = 0;
+   }
 }
 
 struct TextureDataRun
@@ -17,6 +24,13 @@ struct TextureDataRun
    public int Start;
    public int Count;
    public int Value;
+
+   public TextureDataRun()
+   {
+      Start = 0;
+      Count = 0;
+      Value = 0;
+   }
 }
 
 namespace DW3ArduinoEditor.SaveData
@@ -369,7 +383,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "   p->sourceTileIndex = st; p->destTileMapIndex = dm; p->destTileIndex = di; p->destDirection = dd;\n" );
          WriteToFileStream( fs, "}\n" );
 
-         WriteToFileStream( fs, "\ninternal void TileMap_LoadEntityData( Entity_t* e, r32 x, r32 y, r32 w, r32 h, ActiveSprite_t* s )\n" );
+         WriteToFileStream( fs, "\ninternal void TileMap_LoadEntityData( Entity_t* e, i32 x, i32 y, i32 w, i32 h, ActiveSprite_t* s )\n" );
          WriteToFileStream( fs, "{\n" );
          WriteToFileStream( fs, "   e->pos.x = x; e->pos.y = y; e->pos.w = w; e->pos.h = h; e->sprite = s;\n" );
          WriteToFileStream( fs, "}\n" );
@@ -584,37 +598,37 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "   game->players[0].playerClass = PlayerClass_Hero;\n" );
          WriteToFileStream( fs, "   game->players[0].entity = game->tileMap.playerEntities;\n" );
          WriteToFileStream( fs, "   game->players[0].entity->sprite = game->tileMap.playerSprites;\n" );
-         WriteToFileStream( fs, "   game->players[0].entity->pos.x = 2722.0f;\n" );
-         WriteToFileStream( fs, "   game->players[0].entity->pos.y = 3538.0f;\n" );
-         WriteToFileStream( fs, "   game->players[0].entity->pos.w = 12.0f;\n" );
-         WriteToFileStream( fs, "   game->players[0].entity->pos.h = 12.0f;\n" );
+         WriteToFileStream( fs, "   game->players[0].entity->pos.x = 2722 * UNITS_PER_PIXEL;\n" );
+         WriteToFileStream( fs, "   game->players[0].entity->pos.y = 3538 * UNITS_PER_PIXEL;\n" );
+         WriteToFileStream( fs, "   game->players[0].entity->pos.w = 12 * UNITS_PER_PIXEL;\n" );
+         WriteToFileStream( fs, "   game->players[0].entity->pos.h = 12 * UNITS_PER_PIXEL;\n" );
          WriteToFileStream( fs, "   game->players[0].entity->prevPos = game->players[0].entity->pos;\n" );
-         WriteToFileStream( fs, "   game->players[0].entity->velocity.x = 0.0f;\n" );
-         WriteToFileStream( fs, "   game->players[0].entity->velocity.y = 0.0f;\n" );
+         WriteToFileStream( fs, "   game->players[0].entity->velocity.x = 0;\n" );
+         WriteToFileStream( fs, "   game->players[0].entity->velocity.y = 0;\n" );
          WriteToFileStream( fs, "   game->players[0].tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players[0].entity->pos.x, (u32)game->players[0].entity->pos.y );\n\n" );
 
          WriteToFileStream( fs, "   game->players[1].playerClass = PlayerClass_Soldier;\n" );
          WriteToFileStream( fs, "   game->players[1].entity = game->tileMap.playerEntities + 1;\n" );
          WriteToFileStream( fs, "   game->players[1].entity->sprite = game->tileMap.playerSprites + 1;\n" );
-         WriteToFileStream( fs, "   game->players[1].entity->pos.x = 2722.0f;\n" );
-         WriteToFileStream( fs, "   game->players[1].entity->pos.y = 3538.0f;\n" );
-         WriteToFileStream( fs, "   game->players[1].entity->pos.w = 12.0f;\n" );
-         WriteToFileStream( fs, "   game->players[1].entity->pos.h = 12.0f;\n" );
+         WriteToFileStream( fs, "   game->players[1].entity->pos.x = 2722 * UNITS_PER_PIXEL;\n" );
+         WriteToFileStream( fs, "   game->players[1].entity->pos.y = 3538 * UNITS_PER_PIXEL;\n" );
+         WriteToFileStream( fs, "   game->players[1].entity->pos.w = 12 * UNITS_PER_PIXEL;\n" );
+         WriteToFileStream( fs, "   game->players[1].entity->pos.h = 12 * UNITS_PER_PIXEL;\n" );
          WriteToFileStream( fs, "   game->players[1].entity->prevPos = game->players[1].entity->pos;\n" );
-         WriteToFileStream( fs, "   game->players[1].entity->velocity.x = 0.0f;\n" );
-         WriteToFileStream( fs, "   game->players[1].entity->velocity.y = 0.0f;\n" );
+         WriteToFileStream( fs, "   game->players[1].entity->velocity.x = 0;\n" );
+         WriteToFileStream( fs, "   game->players[1].entity->velocity.y = 0;\n" );
          WriteToFileStream( fs, "   game->players[1].tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players[1].entity->pos.x, (u32)game->players[1].entity->pos.y );\n\n" );
 
          WriteToFileStream( fs, "   game->players[2].playerClass = PlayerClass_GoofOff;\n" );
          WriteToFileStream( fs, "   game->players[2].entity = game->tileMap.playerEntities + 2;\n" );
          WriteToFileStream( fs, "   game->players[2].entity->sprite = game->tileMap.playerSprites + 2;\n" );
-         WriteToFileStream( fs, "   game->players[2].entity->pos.x = 2722.0f;\n" );
-         WriteToFileStream( fs, "   game->players[2].entity->pos.y = 3538.0f;\n" );
-         WriteToFileStream( fs, "   game->players[2].entity->pos.w = 12.0f;\n" );
-         WriteToFileStream( fs, "   game->players[2].entity->pos.h = 12.0f;\n" );
+         WriteToFileStream( fs, "   game->players[2].entity->pos.x = 2722 * UNITS_PER_PIXEL;\n" );
+         WriteToFileStream( fs, "   game->players[2].entity->pos.y = 3538 * UNITS_PER_PIXEL;\n" );
+         WriteToFileStream( fs, "   game->players[2].entity->pos.w = 12 * UNITS_PER_PIXEL;\n" );
+         WriteToFileStream( fs, "   game->players[2].entity->pos.h = 12 * UNITS_PER_PIXEL;\n" );
          WriteToFileStream( fs, "   game->players[2].entity->prevPos = game->players[2].entity->pos;\n" );
-         WriteToFileStream( fs, "   game->players[2].entity->velocity.x = 0.0f;\n" );
-         WriteToFileStream( fs, "   game->players[2].entity->velocity.y = 0.0f;\n" );
+         WriteToFileStream( fs, "   game->players[2].entity->velocity.x = 0;\n" );
+         WriteToFileStream( fs, "   game->players[2].entity->velocity.y = 0;\n" );
          WriteToFileStream( fs, "   game->players[2].tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players[2].entity->pos.x, (u32)game->players[2].entity->pos.y );\n\n" );
 
          WriteToFileStream( fs, "   TileMap_LoadPlayerSprites( &game->tileMap );\n" );

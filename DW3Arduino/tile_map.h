@@ -6,7 +6,8 @@
 #include "entity.h"
 #include "npc.h"
 
-#define TILEMAP_TILE_SIZE                       16
+#define TILEMAP_TILE_SIZE_PIXELS                16
+#define TILEMAP_TILE_SIZE_UNITS                 ( TILEMAP_TILE_SIZE_PIXELS * UNITS_PER_PIXEL )
 
 #define TILEMAP_MAX_TILE_TEXTURES               32
 #define TILEMAP_MAX_STATIC_SPRITE_TEXTURES      32
@@ -23,10 +24,15 @@
 #define TILEMAP_SWAP_FADE_SECONDS               0.3f
 #define TILEMAP_SWAP_PAUSE_SECONDS              0.2f
 
-#define TILE_WALK_SPEED_NORMAL                  56.0f    // pixels per second
-#define TILE_WALK_SPEED_SLOW                    48.0f
-#define TILE_WALK_SPEED_VERY_SLOW               40.0f
-#define TILE_WALK_SPEED_CRAWL                   24.0f
+#define TILE_WALK_SPEED_NORMAL                  100   // units per frame
+#define TILE_WALK_SPEED_SLOW                    80
+#define TILE_WALK_SPEED_VERY_SLOW               60
+#define TILE_WALK_SPEED_CRAWL                   40
+
+#define TILE_WALK_SPEED_DIAGONAL_NORMAL         80
+#define TILE_WALK_SPEED_DIAGONAL_SLOW           60
+#define TILE_WALK_SPEED_DIAGONAL_VERY_SLOW      40
+#define TILE_WALK_SPEED_DIAGONAL_CRAWL          20
 
 #define TILE_GET_TEXTURE_INDEX( tile )          ( ( tile ) & 0x1F )
 #define TILE_GET_IS_PASSABLE( tile )            ( ( ( tile ) >> 5 ) & 0x01 )
@@ -39,7 +45,7 @@ typedef struct Player_t Player_t;
 
 typedef struct TileTexture_t
 {
-   u8 paletteIndexes[TILEMAP_TILE_SIZE * TILEMAP_TILE_SIZE];
+   u8 paletteIndexes[TILEMAP_TILE_SIZE_PIXELS * TILEMAP_TILE_SIZE_PIXELS];
 }
 TileTexture_t;
 
@@ -111,10 +117,11 @@ void TileMap_Init( TileMap_t* tileMap, Player_t* players, u32 ( *getPlayerCountF
 void TileMap_Tic( TileMap_t* tileMap );
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity );
 void TileMap_CenterEntityOnTile( TileMap_t* tileMap, Entity_t* entity, u32 tileIndex );
-u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, u32 x, u32 y );
-void TileMap_GetPositionOfTileIndex( TileMap_t* tileMap, u32 tileIndex, u32* x, u32* y );
+u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, i32 x, i32 y );
+void TileMap_GetPositionOfTileIndex( TileMap_t* tileMap, u32 tileIndex, i32* x, i32* y );
 Bool_t TileMap_TileIndexIsEdgeTile( TileMap_t* tileMap, u32 tileIndex );
-r32 TileMap_GetTileVelocity( TileMap_t* tileMap, u32 tileIndex );
+i32 TileMap_GetTileVelocity( TileMap_t* tileMap, u32 tileIndex );
+i32 TileMap_GetTileDiagonalVelocity( i32 regularVelocity );
 
 // game_data.c
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index );

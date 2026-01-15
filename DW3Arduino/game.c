@@ -19,8 +19,8 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    AnimationChain_Init( &game->animationChain, &game->screen );
    TileMap_Init( &game->tileMap, game->players, &Game_GetPlayerCount, game );
 
-   game->tileMap.viewport.w = SCREEN_WIDTH;
-   game->tileMap.viewport.h = SCREEN_HEIGHT;
+   game->tileMap.viewport.w = SCREEN_WIDTH * UNITS_PER_PIXEL;
+   game->tileMap.viewport.h = SCREEN_HEIGHT * UNITS_PER_PIXEL;
    game->tileMap.viewportScreenPos.x = 0;
    game->tileMap.viewportScreenPos.y = 0;
 
@@ -95,8 +95,8 @@ internal void Game_HandlePlayerMoved( Game_t* game )
    }
 
    tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap,
-                                               (u32)( game->players->entity->pos.x + ( game->players->entity->pos.w / 2 ) ),
-                                               (u32)( game->players->entity->pos.y + ( game->players->entity->pos.h / 2 ) ) );
+                                               ( game->players->entity->pos.x + ( game->players->entity->pos.w / 2 ) ),
+                                               ( game->players->entity->pos.y + ( game->players->entity->pos.h / 2 ) ) );
 
    if ( tileIndex != game->players->tileIndex )
    {
@@ -116,32 +116,24 @@ internal void Game_AnchorRearPlayers( Game_t* game )
          break;
       }
 
-      player = game->players + i;
+      player = prevPlayer + 1;
 
-      player->entity->pos.x = prevPlayer->moveHistory[prevPlayer->moveChainIndex].newPos.x;
-      player->entity->pos.y = prevPlayer->moveHistory[prevPlayer->moveChainIndex].newPos.y;
-      ActiveSprite_SetDirection( player->entity->sprite, prevPlayer->moveHistory[prevPlayer->moveChainIndex].newDir );
-      Player_ApplyTileDamage( player );
+      player->entity->pos.x = prevPlayer->moveHistory[player->moveHistoryIndex].newPos.x;
+      player->entity->pos.y = prevPlayer->moveHistory[player->moveHistoryIndex].newPos.y;
+      ActiveSprite_SetDirection( player->entity->sprite, prevPlayer->moveHistory[player->moveHistoryIndex].newDir );
 
-      // TODO: check if the player has died from tile damage
-
-      prevPlayer->moveChainIndex++;
-
-      if ( prevPlayer->moveChainIndex >= PLAYER_MOVE_HISTORY_SIZE )
-      {
-         player->chainNextPlayer = True;
-         prevPlayer->moveChainIndex = 0;
-      }
-
-      player->moveHistory[player->moveHistoryIndex].newPos.x = player->entity->pos.x;
-      player->moveHistory[player->moveHistoryIndex].newPos.y = player->entity->pos.y;
-      player->moveHistory[player->moveHistoryIndex].newDir = player->entity->sprite->direction;
+      player->moveHistory[player->moveHistoryIndex] = prevPlayer->moveHistory[player->moveHistoryIndex];
       player->moveHistoryIndex++;
 
       if ( player->moveHistoryIndex >= PLAYER_MOVE_HISTORY_SIZE )
       {
+         player->chainNextPlayer = True;
          player->moveHistoryIndex = 0;
       }
+
+      Player_ApplyTileDamage( player );
+
+      // TODO: check if the player has died from tile damage
 
       prevPlayer = player;
    }
@@ -249,7 +241,8 @@ internal Bool_t Game_TryEnterPortal( Game_t* game )
 
 internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
 {
-   u32 i, newPosX, newPosY;
+   i32 newPosX, newPosY;
+   u32 i;
    u32 destTileMapIndex = portal->destTileMapIndex;
    u32 destTileIndex = portal->destTileIndex;
    Direction_t destDirection = portal->destDirection;

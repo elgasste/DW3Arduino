@@ -8,9 +8,9 @@ typedef struct ActiveSprite_t ActiveSprite_t;
 
 typedef struct Entity_t
 {
-   Vector4r32_t pos;
-   Vector4r32_t prevPos;
-   Vector2r32_t velocity;
+   Vector4i32_t pos;
+   Vector4i32_t prevPos;
+   Vector2i32_t velocity;
    ActiveSprite_t* sprite;
 }
 Entity_t;

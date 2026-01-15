@@ -8,6 +8,7 @@ extern "C" {
 #endif
 
 u32 Random_Percent();
+i32 Random_i32( i32 min, i32 max );
 u32 Random_u32( u32 min, u32 max );
 
 // platform-specific
