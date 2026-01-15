@@ -1,4 +1,4 @@
-﻿using DW3ArduinoEditor.Graphics;
+﻿using DW3ArduinoEditor.Enums;
 
 namespace DW3ArduinoEditor.SaveData
 {
@@ -15,9 +15,13 @@ namespace DW3ArduinoEditor.SaveData
          CheckTextureSets( saveData.StaticSpriteTextureSets, "Static sprite", Constants.StaticSpriteTextureSetSize, staticSpriteTexturePoolCount );
          CheckTextureSets( saveData.ActiveSpriteTextureSets, "Active sprite", Constants.ActiveSpriteTextureSetSize, activeSpriteTexturePoolCount );
 
+         if ( playerSpriteTexturePoolCount != (int)PlayerClass.Count )
+         {
+            throw new Exception( "Player sprite texture count doesn't match the number of player classes" );
+         }
+
          // TODO
          //
-         // - make sure the number of player sprite textures matches the number of player classes
          // - make sure no two tile maps have the same index
          // - make sure tile maps are within the accepted size
          // - make sure all tiles in each tile map have a valid texture index
