@@ -20,9 +20,9 @@ namespace DW3ArduinoEditor.ViewModels
       private ActiveSpriteTexturePool? _playerSpriteTexturePool;
 
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
-      public ObservableCollection<TileTextureSetViewModel> TileTextureSets { get; } = [];
-      public ObservableCollection<StaticSpriteTextureSetViewModel> StaticSpriteTextureSets { get; } = [];
-      public ObservableCollection<ActiveSpriteTextureSetViewModel> ActiveSpriteTextureSets { get; } = [];
+      public ObservableCollection<TextureSetViewModel> TileTextureSets { get; } = [];
+      public ObservableCollection<TextureSetViewModel> StaticSpriteTextureSets { get; } = [];
+      public ObservableCollection<TextureSetViewModel> ActiveSpriteTextureSets { get; } = [];
 
       private TileMapViewModel? _selectedTileMap;
       public TileMapViewModel? SelectedTileMap

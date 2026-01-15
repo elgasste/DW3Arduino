@@ -1,4 +1,6 @@
-﻿namespace DW3ArduinoEditor.SaveData
+﻿using DW3ArduinoEditor.Graphics;
+
+namespace DW3ArduinoEditor.SaveData
 {
    public static class GameSaveDataSanityChecker
    {
@@ -9,12 +11,12 @@
                                       int playerSpriteTexturePoolCount )
       {
          CheckHeaderGuids( saveData.HeaderGuids );
-         CheckTileTextureSets( saveData.TileTextureSets, tileTexturePoolCount );
+         CheckTextureSets( saveData.TileTextureSets, "Tile", Constants.TileTextureSetSize, tileTexturePoolCount );
+         CheckTextureSets( saveData.StaticSpriteTextureSets, "Static sprite", Constants.StaticSpriteTextureSetSize, staticSpriteTexturePoolCount );
+         CheckTextureSets( saveData.ActiveSpriteTextureSets, "Active sprite", Constants.ActiveSpriteTextureSetSize, activeSpriteTexturePoolCount );
 
          // TODO
          //
-         // - make sure there aren't too many textures in each static sprite texture set
-         // - make sure there aren't too many textures in each active sprite texture set
          // - make sure the number of player sprite textures matches the number of player classes
          // - make sure no two tile maps have the same index
          // - make sure tile maps are within the accepted size
@@ -62,20 +64,28 @@
          }
       }
 
-      private static void CheckTileTextureSets( List<TileTextureSetSaveData> tileTextureSets, int tileTexturePoolCount )
+      private static void CheckTextureSets( List<TextureSetSaveData> textureSets, string setType, int textureSetSize, int texturePoolCount )
       {
-         foreach ( var tileTextureSet in tileTextureSets )
+         for ( int i = 0; i < textureSets.Count; i++ )
          {
-            if ( tileTextureSet.TileTexturePoolIndexes.Count >= Constants.TileTextureSetSize )
+            for ( int j = 0; j < textureSets.Count; j++ )
             {
-               throw new Exception( string.Format( "Tile texture set \"{0}\" contains too many texture pool indexes", tileTextureSet.Name ) );
+               if ( i != j && textureSets[i].Index == textureSets[j].Index )
+               {
+                  throw new Exception( string.Format( "{0} texture set \"{1}\"'s index matches the texture set \"{2}\"", setType, textureSets[i].Name, textureSets[j].Name ) );
+               }
             }
 
-            foreach ( var index in tileTextureSet.TileTexturePoolIndexes )
+            if ( textureSets[i].TexturePoolIndexes.Count >= textureSetSize )
             {
-               if ( index < 0 || index >= tileTexturePoolCount )
+               throw new Exception( string.Format( "{0} texture set \"{1}\" contains too many texture pool indexes", setType, textureSets[i].Name ) );
+            }
+
+            foreach ( var index in textureSets[i].TexturePoolIndexes )
+            {
+               if ( index < 0 || index >= texturePoolCount )
                {
-                  throw new Exception( string.Format( "Tile texture set \"{0}\" contains an invalid texture pool index", tileTextureSet.Name ) );
+                  throw new Exception( string.Format( "{0} texture set \"{1}\" contains an invalid texture pool index", setType, textureSets[i].Name ) );
                }
             }
          }

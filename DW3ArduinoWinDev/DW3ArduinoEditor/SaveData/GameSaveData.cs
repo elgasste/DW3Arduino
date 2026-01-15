@@ -7,17 +7,17 @@ namespace DW3ArduinoEditor.SaveData
    {
       public HeaderGuidsSaveData HeaderGuids { get; set; } = new();
       public List<TileMapSaveData> TileMaps { get; set; } = [];
-      public List<TileTextureSetSaveData> TileTextureSets { get; set; } = [];
-      public List<StaticSpriteTextureSetSaveData> StaticSpriteTextureSets { get; set; } = [];
-      public List<ActiveSpriteTextureSetSaveData> ActiveSpriteTextureSets { get; set; } = [];
+      public List<TextureSetSaveData> TileTextureSets { get; set; } = [];
+      public List<TextureSetSaveData> StaticSpriteTextureSets { get; set; } = [];
+      public List<TextureSetSaveData> ActiveSpriteTextureSets { get; set; } = [];
 
       public GameSaveData() { }
 
       public GameSaveData( HeaderGuidsViewModel headerGuids,
                            ObservableCollection<TileMapViewModel> tileMapVMs,
-                           ObservableCollection<TileTextureSetViewModel> tileTextureSetVMs,
-                           ObservableCollection<StaticSpriteTextureSetViewModel> staticSpriteTextureSetVMs,
-                           ObservableCollection<ActiveSpriteTextureSetViewModel> activeSpriteTextureSetVMs )
+                           ObservableCollection<TextureSetViewModel> tileTextureSetVMs,
+                           ObservableCollection<TextureSetViewModel> staticSpriteTextureSetVMs,
+                           ObservableCollection<TextureSetViewModel> activeSpriteTextureSetVMs )
       {
          HeaderGuids = new( headerGuids );
 

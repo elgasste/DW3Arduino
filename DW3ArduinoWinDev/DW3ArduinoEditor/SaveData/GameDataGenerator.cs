@@ -422,9 +422,9 @@ namespace DW3ArduinoEditor.SaveData
          {
             WriteToFileStream( fs, string.Format( "      case {0}:\n", _gameSaveData.TileTextureSets[i].Index ) );
 
-            for ( int j = 0; j < _gameSaveData.TileTextureSets[i].TileTexturePoolIndexes.Count; j++ )
+            for ( int j = 0; j < _gameSaveData.TileTextureSets[i].TexturePoolIndexes.Count; j++ )
             {
-               WriteToFileStream( fs, string.Format( "         memcpy( &tileMap->tileTextures[{0}].paletteIndexes, g_tileTexturePool[{1}], sizeof( u8 ) * {2} );\n", j, _gameSaveData.TileTextureSets[i].TileTexturePoolIndexes[j], Constants.TileSize * Constants.TileSize ) );
+               WriteToFileStream( fs, string.Format( "         memcpy( &tileMap->tileTextures[{0}].paletteIndexes, g_tileTexturePool[{1}], sizeof( u8 ) * {2} );\n", j, _gameSaveData.TileTextureSets[i].TexturePoolIndexes[j], Constants.TileSize * Constants.TileSize ) );
             }
 
             WriteToFileStream( fs, "         break;\n" );
@@ -446,9 +446,9 @@ namespace DW3ArduinoEditor.SaveData
          {
             WriteToFileStream( fs, string.Format( "      case {0}:\n", _gameSaveData.StaticSpriteTextureSets[i].Index ) );
 
-            for ( int j = 0; j < _gameSaveData.StaticSpriteTextureSets[i].StaticSpriteTexturePoolIndexes.Count; j++ )
+            for ( int j = 0; j < _gameSaveData.StaticSpriteTextureSets[i].TexturePoolIndexes.Count; j++ )
             {
-               WriteToFileStream( fs, string.Format( "         memcpy( &tileMap->staticSpriteTextures[{0}].paletteIndexes, g_staticSpriteTexturePool[{1}], sizeof( u8 ) * {2} );\n", j, _gameSaveData.StaticSpriteTextureSets[i].StaticSpriteTexturePoolIndexes[j], Constants.StaticSpriteTextureSize * Constants.StaticSpriteTextureSize ) );
+               WriteToFileStream( fs, string.Format( "         memcpy( &tileMap->staticSpriteTextures[{0}].paletteIndexes, g_staticSpriteTexturePool[{1}], sizeof( u8 ) * {2} );\n", j, _gameSaveData.StaticSpriteTextureSets[i].TexturePoolIndexes[j], Constants.StaticSpriteTextureSize * Constants.StaticSpriteTextureSize ) );
             }
 
             WriteToFileStream( fs, "         break;\n" );
@@ -470,9 +470,9 @@ namespace DW3ArduinoEditor.SaveData
          {
             WriteToFileStream( fs, string.Format( "      case {0}:\n", _gameSaveData.ActiveSpriteTextureSets[i].Index ) );
 
-            for ( int j = 0; j < _gameSaveData.ActiveSpriteTextureSets[i].ActiveSpriteTexturePoolIndexes.Count; j++ )
+            for ( int j = 0; j < _gameSaveData.ActiveSpriteTextureSets[i].TexturePoolIndexes.Count; j++ )
             {
-               WriteToFileStream( fs, string.Format( "         memcpy( &tileMap->activeSpriteTextures[{0}].paletteIndexes, g_activeSpriteTexturePool[{1}], sizeof( u8 ) * {2} );\n", j, _gameSaveData.ActiveSpriteTextureSets[i].ActiveSpriteTexturePoolIndexes[j], Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
+               WriteToFileStream( fs, string.Format( "         memcpy( &tileMap->activeSpriteTextures[{0}].paletteIndexes, g_activeSpriteTexturePool[{1}], sizeof( u8 ) * {2} );\n", j, _gameSaveData.ActiveSpriteTextureSets[i].TexturePoolIndexes[j], Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
             }
 
             WriteToFileStream( fs, "         break;\n" );
