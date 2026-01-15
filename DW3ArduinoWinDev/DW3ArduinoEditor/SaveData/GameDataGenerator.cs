@@ -10,6 +10,13 @@ struct TileDataRun
    public int Start;
    public int Count;
    public ushort Value;
+
+   public TileDataRun()
+   {
+      Start = 0;
+      Count = 0;
+      Value = 0;
+   }
 }
 
 struct TextureDataRun
@@ -17,6 +24,13 @@ struct TextureDataRun
    public int Start;
    public int Count;
    public int Value;
+
+   public TextureDataRun()
+   {
+      Start = 0;
+      Count = 0;
+      Value = 0;
+   }
 }
 
 namespace DW3ArduinoEditor.SaveData
