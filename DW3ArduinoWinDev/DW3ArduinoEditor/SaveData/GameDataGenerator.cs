@@ -385,7 +385,7 @@ namespace DW3ArduinoEditor.SaveData
 
          WriteToFileStream( fs, "\ninternal void TileMap_LoadEntityData( Entity_t* e, i32 x, i32 y, i32 w, i32 h, ActiveSprite_t* s )\n" );
          WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, "   e->pos.x = x; e->pos.y = y; e->pos.w = w; e->pos.h = h; e->sprite = s;\n" );
+         WriteToFileStream( fs, "   e->pos.x = x; e->pos.y = y; e->pos.w = w; e->pos.h = h; e->sprite = s; e->velocity.x = 0; e->velocity.y = 0;\n" );
          WriteToFileStream( fs, "}\n" );
       }
 
