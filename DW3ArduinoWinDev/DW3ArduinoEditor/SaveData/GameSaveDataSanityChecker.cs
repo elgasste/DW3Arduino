@@ -1,4 +1,5 @@
-﻿using DW3ArduinoEditor.Enums;
+﻿using System.Runtime.CompilerServices;
+using DW3ArduinoEditor.Enums;
 
 namespace DW3ArduinoEditor.SaveData
 {
@@ -133,14 +134,12 @@ namespace DW3ArduinoEditor.SaveData
                   throw new Exception( string.Format( "Tile map \"{0}\" has invalid tile texture index", tileMaps[i].Name ) );
                }
             }
+
+            CheckPortals( tileMaps, tileMaps[i] );
          }
 
          // TODO
          //
-         // - make sure each tile map's portals are valid
-         //    - all source tile indexes should be different
-         //    - all destination tile map indexes should exist
-         //    - the destination tile map tile index should exist
          // - make sure each tile map's entities are valid
          //    - no more than the maximum amount
          //    - should have valid positions
@@ -148,6 +147,39 @@ namespace DW3ArduinoEditor.SaveData
          // - make sure each tile map's NPCs are valid
          //    - no more than the maximum amount
          //    - entity index should be valid
+      }
+
+      private static void CheckPortals( List<TileMapSaveData> tileMaps, TileMapSaveData tileMap )
+      {
+         for ( int i = 0; i < tileMap.Portals.Count; i++ )
+         {
+            // check source tile indexes
+            for ( int j = 0; j < tileMap.Portals.Count; j++ )
+            {
+               if ( i != j && tileMap.Portals[i].SourceTileIndex == tileMap.Portals[j].SourceTileIndex )
+               {
+                  throw new Exception( string.Format( "Tile map \"{0}\" contains portals with duplicate source tile indexes", tileMap.Name ) );
+               }
+            }
+
+            // check destination tile map indexes
+            if ( !tileMaps.Any( tm => tm.Index == tileMap.Portals[i].DestTileMapIndex ) )
+            {
+               throw new Exception( string.Format( "Tile map \"{0}\" contains a portal with an invalid destination tile map index" ) );
+            }
+
+            // check source tile indexes
+            if ( tileMap.Portals[i].SourceTileIndex >= tileMap.Tiles.Count )
+            {
+               throw new Exception( string.Format( "Tile map \"{0}\" contains a portal with an invalid source tile index" ) );
+            }
+
+            // check destination tile indexes
+            if ( tileMap.Portals[i].DestTileIndex >= tileMaps[(int)tileMap.Portals[i].DestTileMapIndex].Tiles.Count )
+            {
+               throw new Exception( string.Format( "Tile map \"{0}\" contains a portal with an invalid destination tile index" ) );
+            }
+         }
       }
    }
 }
