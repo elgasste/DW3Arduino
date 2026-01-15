@@ -278,7 +278,7 @@ internal void DrawDiagnostics( HDC* dcMem )
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
-   sprintf_s( str, STRING_SIZE_DEFAULT, "        Position: %.3f, %.3f", g_winGlobals.game.players->entity->pos.x, g_winGlobals.game.players->entity->pos.y );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "        Position: %d, %d", g_winGlobals.game.players->entity->pos.x, g_winGlobals.game.players->entity->pos.y );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 

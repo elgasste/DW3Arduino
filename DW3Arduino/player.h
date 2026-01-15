@@ -5,13 +5,13 @@
 #include "vector.h"
 #include "tile_map.h"
 
-#define PLAYER_MOVE_HISTORY_SIZE    18
+#define PLAYER_MOVE_HISTORY_SIZE    16
 
 typedef struct Entity_t Entity_t;
 
 typedef struct PlayerMovement_t
 {
-   Vector2r32_t newPos;
+   Vector2i32_t newPos;
    Direction_t newDir;
    TileDamageRate_t tileDamageRate;
 }

@@ -82,7 +82,7 @@ internal void Input_HandleOverworldGeneral( Game_t* game )
 {
    Entity_t* entity = game->players->entity;
    ActiveSprite_t* sprite = game->players->entity->sprite;
-   r32 velocity = TileMap_GetTileVelocity( &game->tileMap, game->players->tileIndex );
+   i32 velocity = TileMap_GetTileVelocity( &game->tileMap, game->players->tileIndex );
 
 #if defined( VISUAL_STUDIO_DEV )
    if ( g_winDebugFlags.fastWalk )
@@ -108,7 +108,7 @@ internal void Input_HandleOverworldGeneral( Game_t* game )
 
       if ( upIsDown || downIsDown )
       {
-         entity->velocity.x *= DIAGONAL_SCALAR;
+         entity->velocity.x = (i32)( entity->velocity.x * DIAGONAL_SCALAR );
       }
    }
    else if ( rightIsDown && !leftIsDown )
@@ -123,7 +123,7 @@ internal void Input_HandleOverworldGeneral( Game_t* game )
 
       if ( upIsDown || downIsDown )
       {
-         entity->velocity.x *= DIAGONAL_SCALAR;
+         entity->velocity.x = (i32)( entity->velocity.x * DIAGONAL_SCALAR );
       }
    }
    if ( upIsDown && !downIsDown )
@@ -138,7 +138,7 @@ internal void Input_HandleOverworldGeneral( Game_t* game )
 
       if ( leftIsDown || rightIsDown )
       {
-         entity->velocity.y *= DIAGONAL_SCALAR;
+         entity->velocity.y = (i32)( entity->velocity.y * DIAGONAL_SCALAR );
       }
    }
    else if ( downIsDown && !upIsDown )
@@ -153,7 +153,7 @@ internal void Input_HandleOverworldGeneral( Game_t* game )
 
       if ( leftIsDown || rightIsDown )
       {
-         entity->velocity.y *= DIAGONAL_SCALAR;
+         entity->velocity.y = (i32)( entity->velocity.y * DIAGONAL_SCALAR );
       }
    }
 }

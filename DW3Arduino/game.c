@@ -19,8 +19,8 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    AnimationChain_Init( &game->animationChain, &game->screen );
    TileMap_Init( &game->tileMap, game->players, &Game_GetPlayerCount, game );
 
-   game->tileMap.viewport.w = SCREEN_WIDTH;
-   game->tileMap.viewport.h = SCREEN_HEIGHT;
+   game->tileMap.viewport.w = SCREEN_WIDTH * UNITS_PER_PIXEL;
+   game->tileMap.viewport.h = SCREEN_HEIGHT * UNITS_PER_PIXEL;
    game->tileMap.viewportScreenPos.x = 0;
    game->tileMap.viewportScreenPos.y = 0;
 
@@ -95,8 +95,8 @@ internal void Game_HandlePlayerMoved( Game_t* game )
    }
 
    tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap,
-                                               (u32)( game->players->entity->pos.x + ( game->players->entity->pos.w / 2 ) ),
-                                               (u32)( game->players->entity->pos.y + ( game->players->entity->pos.h / 2 ) ) );
+                                               ( game->players->entity->pos.x + ( game->players->entity->pos.w / 2 ) ),
+                                               ( game->players->entity->pos.y + ( game->players->entity->pos.h / 2 ) ) );
 
    if ( tileIndex != game->players->tileIndex )
    {
@@ -241,7 +241,8 @@ internal Bool_t Game_TryEnterPortal( Game_t* game )
 
 internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
 {
-   u32 i, newPosX, newPosY;
+   i32 newPosX, newPosY;
+   u32 i;
    u32 destTileMapIndex = portal->destTileMapIndex;
    u32 destTileIndex = portal->destTileIndex;
    Direction_t destDirection = portal->destDirection;
