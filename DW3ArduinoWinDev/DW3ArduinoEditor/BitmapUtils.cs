@@ -25,13 +25,13 @@ namespace DW3ArduinoEditor
          {
             throw new Exception( "Tile texture image pixel format should be Indexed8" );
          }
-         else if ( bitmapSource.PixelHeight != Constants.TileSize )
+         else if ( bitmapSource.PixelHeight != Constants.TileSizePixels )
          {
-            throw new Exception( string.Format( "Tile texture pool image height should be {0}", Constants.TileSize ) );
+            throw new Exception( string.Format( "Tile texture pool image height should be {0}", Constants.TileSizePixels ) );
          }
-         else if ( bitmapSource.PixelWidth % Constants.TileSize != 0 )
+         else if ( bitmapSource.PixelWidth % Constants.TileSizePixels != 0 )
          {
-            throw new Exception( string.Format( "Tile texture pool image width should be a multiple of {0}", Constants.TileSize ) );
+            throw new Exception( string.Format( "Tile texture pool image width should be a multiple of {0}", Constants.TileSizePixels ) );
          }
       }
 

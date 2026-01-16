@@ -46,7 +46,15 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _mapTilesHeaderGuid, value );
       }
 
-      public HeaderGuidsViewModel() { }
+      public HeaderGuidsViewModel()
+      {
+         TextBitFieldsHeaderGuid = Guid.NewGuid().ToString( "N" ).ToUpper();
+         TileTexturesHeaderGuid = Guid.NewGuid().ToString( "N" ).ToUpper();
+         StaticSpriteTexturesHeaderGuid = Guid.NewGuid().ToString( "N" ).ToUpper();
+         ActiveSpriteTexturesHeaderGuid = Guid.NewGuid().ToString( "N" ).ToUpper();
+         PlayerSpriteTexturesHeaderGuid = Guid.NewGuid().ToString( "N" ).ToUpper();
+         MapTilesHeaderGuid = Guid.NewGuid().ToString( "N" ).ToUpper();
+      }
 
       public HeaderGuidsViewModel( HeaderGuidsSaveData saveData )
       {

@@ -20,10 +20,9 @@ namespace DW3ArduinoEditor.ViewModels
       private ActiveSpriteTexturePool? _playerSpriteTexturePool;
 
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
-      public ObservableCollection<TileTextureSetViewModel> TileTextureSets { get; } = [];
-      public ObservableCollection<StaticSpriteTextureSetViewModel> StaticSpriteTextureSets { get; } = [];
-      public ObservableCollection<ActiveSpriteTextureSetViewModel> ActiveSpriteTextureSets { get; } = [];
-      public ActiveSpriteViewModel PlayerSprite { get; } = new();
+      public ObservableCollection<TextureSetViewModel> TileTextureSets { get; } = [];
+      public ObservableCollection<TextureSetViewModel> StaticSpriteTextureSets { get; } = [];
+      public ObservableCollection<TextureSetViewModel> ActiveSpriteTextureSets { get; } = [];
 
       private TileMapViewModel? _selectedTileMap;
       public TileMapViewModel? SelectedTileMap
@@ -34,7 +33,46 @@ namespace DW3ArduinoEditor.ViewModels
 
       public MainWindowViewModel()
       {
-         // TODO: move all this stuff to some other function to do all the sanity checks
+         try
+         {
+            _tileTexturePool = new( Constants.TileTexturePoolImagePath, _palette );
+         }
+         catch ( Exception ex )
+         {
+            MessageBox.Show( string.Format( "Failed to load tile map texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+            Application.Current.Shutdown();
+         }
+
+         try
+         {
+            _staticSpriteTexturePool = new( Constants.StaticSpriteTexturePoolImagePath, _palette );
+         }
+         catch ( Exception ex )
+         {
+            MessageBox.Show( string.Format( "Failed to load static sprite texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+            Application.Current.Shutdown();
+         }
+
+         try
+         {
+            _activeSpriteTexturePool = new( Constants.ActiveSpriteTexturePoolImagePath, _palette );
+         }
+         catch ( Exception ex )
+         {
+            MessageBox.Show( string.Format( "Failed to load active sprite texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+            Application.Current.Shutdown();
+         }
+
+         try
+         {
+            _playerSpriteTexturePool = new( Constants.PlayerSpriteTexturePoolImagePath, _palette );
+         }
+         catch ( Exception ex )
+         {
+            MessageBox.Show( string.Format( "Failed to load player sprite texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+            Application.Current.Shutdown();
+         }
+
          try
          {
             var contents = File.ReadAllText( Constants.SaveDataFilePath );
@@ -46,159 +84,49 @@ namespace DW3ArduinoEditor.ViewModels
             }
             else
             {
-               bool hasShownError = false;
+               GameSaveDataSanityChecker.CheckSanity( saveData,
+                                                      _tileTexturePool is null ? 0 : _tileTexturePool.TilePaletteIndexes.Count,
+                                                      _staticSpriteTexturePool is null ? 0 : _staticSpriteTexturePool.StaticSpritePaletteIndexes.Count,
+                                                      _activeSpriteTexturePool is null ? 0 : _activeSpriteTexturePool.ActiveSpritePaletteIndexes.Count,
+                                                      _playerSpriteTexturePool is null ? 0 : _playerSpriteTexturePool.ActiveSpritePaletteIndexes.Count );
 
                _headerGuids = new( saveData.HeaderGuids );
 
                foreach ( var savedTileMap in saveData.TileMaps )
                {
-                  if ( !hasShownError )
-                  {
-                     foreach ( var tileMap in TileMaps )
-                     {
-                        if ( tileMap.Index == savedTileMap.Index )
-                        {
-                           MessageBox.Show( "The tile map \"" + tileMap.Name + "\" has the same index (" + tileMap.Index.ToString() + ") as the tile map \"" + savedTileMap.Name + "\"! " +
-                                            "This would indicate corrupted Editor save data, it is recommended to either start from scratch or close Editor and manually fix the save data.",
-                                            "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-                           hasShownError = true;
-                        }
-                     }
-                  }
-
                   TileMaps.Add( new( savedTileMap ) );
                }
 
-               foreach ( var srcTileMap in TileMaps )
+               foreach ( var set in saveData.TileTextureSets )
                {
-                  foreach ( var portal in srcTileMap.Portals )
-                  {
-                     VerifyOrDeletePortal( portal, srcTileMap );
-                  }
+                  TileTextureSets.Add( new( set  ) );
+               }
 
-                  if ( srcTileMap.EdgePortal is not null )
-                  {
-                     VerifyOrDeletePortal( srcTileMap.EdgePortal, srcTileMap );
-                  }
+               foreach ( var set in saveData.StaticSpriteTextureSets )
+               {
+                  StaticSpriteTextureSets.Add( new( set ) );
+               }
+
+               foreach ( var set in saveData.ActiveSpriteTextureSets )
+               {
+                  ActiveSpriteTextureSets.Add( new( set ) );
                }
 
                if ( TileMaps.Count > 0 )
                {
                   SelectedTileMap = TileMaps[0];
                }
-
-               // TODO: verify there are no more than 32 textures per set
-               foreach ( var set in saveData.TileTextureSets )
-               {
-                  TileTextureSets.Add( new( set  ) );
-               }
-
-               // TODO: verify there are no more than 32 textures per set
-               foreach ( var set in saveData.StaticSpriteTextureSets )
-               {
-                  StaticSpriteTextureSets.Add( new( set ) );
-               }
-
-               // TODO: verify there are no more than 16 textures per set
-               foreach ( var set in saveData.ActiveSpriteTextureSets )
-               {
-                  ActiveSpriteTextureSets.Add( new( set ) );
-               }
             }
          }
          catch ( Exception ex )
          {
             MessageBox.Show( string.Format( "Something went wrong when loading save data, file is possibly corrupt: \"{0}\". Starting from scratch.", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-         }
 
-         // TODO: check static/active sprite sets as well? or should this not be here?
-         if ( TileTextureSets.Count == 0 )
-         {
-            TileTextureSets.Add( new( 0, "Default" ) );
-         }
-
-         try
-         {
-            _tileTexturePool = new( Constants.TileTexturePoolImagePath, _palette );
-
-            // TODO: verify our tile texture sets contain valid pool indexes, and our
-            // tile maps contain valid tile texture set indexes.
-         }
-         catch ( Exception ex )
-         {
-            MessageBox.Show( string.Format( "Failed to load tile map texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-            Application.Current.Shutdown();
-         }
-
-         try
-         {
-            _staticSpriteTexturePool = new( Constants.StaticSpriteTexturePoolImagePath, _palette );
-
-            // TODO: verify our static sprite texture sets contain valid pool indexes, and our
-            // tile maps contain valid static sprite texture set indexes.
-         }
-         catch ( Exception ex )
-         {
-            MessageBox.Show( string.Format( "Failed to load static sprite texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-            Application.Current.Shutdown();
-         }
-
-         try
-         {
-            _activeSpriteTexturePool = new( Constants.ActiveSpriteTexturePoolImagePath, _palette );
-
-            // TODO: verify our active sprite texture sets contain valid pool indexes, and our
-            // tile maps contain valid active sprite texture set indexes.
-         }
-         catch ( Exception ex )
-         {
-            MessageBox.Show( string.Format( "Failed to load active sprite texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-            Application.Current.Shutdown();
-         }
-
-         try
-         {
-            _playerSpriteTexturePool = new( Constants.PlayerSpriteTexturePoolImagePath, _palette );
-
-            // TODO: verify the number of sprites matches the number of player classes
-         }
-         catch ( Exception ex )
-         {
-            MessageBox.Show( string.Format( "Failed to load player sprite texture pool: {0}", ex.Message ), "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-            Application.Current.Shutdown();
-         }
-      }
-
-      private void VerifyOrDeletePortal( PortalViewModel portal, TileMapViewModel srcTileMap )
-      {
-         if ( portal.SourceTileIndex >= ( srcTileMap.TilesX * srcTileMap.TilesY ) )
-         {
-            MessageBox.Show( "The tile map \"" + srcTileMap.Name + "\" contains an unreachable portal, it will be removed.", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-            srcTileMap.Portals.Remove( portal );
-         }
-         else
-         {
-            bool foundDest = false;
-
-            foreach ( var destTileMap in TileMaps )
-            {
-               if ( destTileMap.Index == portal.DestTileMapIndex )
-               {
-                  foundDest = true;
-
-                  if ( portal.DestTileIndex >= ( destTileMap.TilesX * destTileMap.TilesY ) )
-                  {
-                     MessageBox.Show( "The tile map \"" + srcTileMap.Name + "\" contains an unreachable portal destination tile, it will be removed.", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-                     srcTileMap.Portals.Remove( portal );
-                  }
-               }
-            }
-
-            if ( !foundDest )
-            {
-               MessageBox.Show( "The tile map \"" + srcTileMap.Name + "\" contains an unreachable portal destination, it will be removed.", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-               srcTileMap.Portals.Remove( portal );
-            }
+            _headerGuids = new();
+            TileMaps = [];
+            TileTextureSets = [];
+            StaticSpriteTextureSets = [];
+            ActiveSpriteTextureSets = [];
          }
       }
 
@@ -234,8 +162,7 @@ namespace DW3ArduinoEditor.ViewModels
                                                    window.NewHasEncounters,
                                                    TileTextureSets[0].Index,
                                                    StaticSpriteTextureSets[0].Index,
-                                                   ActiveSpriteTextureSets[0].Index,
-                                                   PlayerSprite );
+                                                   ActiveSpriteTextureSets[0].Index );
             TileMaps.Add( newTileMap );
             SelectedTileMap = newTileMap;
          }
@@ -281,6 +208,8 @@ namespace DW3ArduinoEditor.ViewModels
 
       private void ResizeSelectedTileMap()
       {
+         // TODO: this will affect all objects in the tile map, they will all need to be
+         // either moved or deleted
          if ( SelectedTileMap is not null )
          {
             var window = new ResizeTileMapWindow( SelectedTileMap.TilesX, SelectedTileMap.TilesY );
