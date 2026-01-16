@@ -21,7 +21,6 @@ namespace DW3ArduinoEditor.SaveData
             throw new Exception( "Player sprite texture count doesn't match the number of player classes" );
          }
 
-         // MUFFINS: this is wrong
          CheckTileMaps( saveData.TileMaps, saveData.TileTextureSets, saveData.StaticSpriteTextureSets.Count, saveData.ActiveSpriteTextureSets.Count );
       }
 
@@ -103,11 +102,13 @@ namespace DW3ArduinoEditor.SaveData
             {
                throw new Exception( string.Format( "Tile map \"{0}\" is too small", tileMaps[i].Name ) );
             }
-            else if ( tileMaps[i].TilesX > Constants.TileMapMaxTilesX || tileMaps[i].TilesY > Constants.TileMapMaxTilesY )
+
+            if ( tileMaps[i].TilesX > Constants.TileMapMaxTilesX || tileMaps[i].TilesY > Constants.TileMapMaxTilesY )
             {
                throw new Exception( string.Format( "Tile map \"{0}\" is too large", tileMaps[i].Name ) );
             }
-            else if ( tileMaps[i].TilesX * tileMaps[i].TilesY != tileMaps[i].Tiles.Count )
+
+            if ( tileMaps[i].TilesX * tileMaps[i].TilesY != tileMaps[i].Tiles.Count )
             {
                throw new Exception( string.Format( "Tile map \"{0}\" has a mismatched number of X and Y tiles to its total tile count", tileMaps[i].Name ) );
             }
@@ -117,11 +118,13 @@ namespace DW3ArduinoEditor.SaveData
             {
                throw new Exception( string.Format( "Tile map \"{0}\" has invalid tile texture set index", tileMaps[i].Name ) );
             }
-            else if ( tileMaps[i].StaticSpriteTextureSetIndex >= staticSpriteTextureSetCount )
+
+            if ( tileMaps[i].StaticSpriteTextureSetIndex >= staticSpriteTextureSetCount )
             {
                throw new Exception( string.Format( "Tile map \"{0}\" has invalid static sprite texture set index", tileMaps[i].Name ) );
             }
-            else if ( tileMaps[i].ActiveSpriteTextureSetIndex >= activeSpriteTextureSetCount )
+
+            if ( tileMaps[i].ActiveSpriteTextureSetIndex >= activeSpriteTextureSetCount )
             {
                throw new Exception( string.Format( "Tile map \"{0}\" has invalid active sprite texture set index", tileMaps[i].Name ) );
             }
@@ -137,17 +140,13 @@ namespace DW3ArduinoEditor.SaveData
 
             CheckPortals( tileMaps, tileMaps[i] );
             CheckEntities( tileMaps[i] );
+            CheckNpcs( tileMaps[i] );
          }
-
-         // TODO
-         //
-         // - make sure each tile map's NPCs are valid
-         //    - no more than the maximum amount
-         //    - entity index should be valid
       }
 
       private static void CheckPortals( List<TileMapSaveData> tileMaps, TileMapSaveData tileMap )
       {
+         // check portal count
          if ( tileMap.Portals.Count > Constants.TileMapMaxPortals )
          {
             throw new Exception( string.Format( "Tile map \"{0}\" contains too many portals", tileMap.Name ) );
@@ -186,6 +185,7 @@ namespace DW3ArduinoEditor.SaveData
 
       private static void CheckEntities( TileMapSaveData tileMap )
       {
+         // check entity count
          if ( tileMap.Entities.Count > Constants.TileMapMaxEntities )
          {
             throw new Exception( string.Format( "Tile map \"{0}\" contains too many entities", tileMap.Name ) );
@@ -204,6 +204,24 @@ namespace DW3ArduinoEditor.SaveData
             if ( entity.SpriteIndex >= tileMap.ActiveSprites.Count )
             {
                throw new Exception( string.Format( "Tile map \"{0}\" contains an entity with an invalid sprite index", tileMap.Name ) );
+            }
+         }
+      }
+
+      private static void CheckNpcs( TileMapSaveData tileMap )
+      {
+         // check NPC count
+         if ( tileMap.Npcs.Count > Constants.TileMapMaxNpcs )
+         {
+            throw new Exception( string.Format( "Tile map \"{0}\" contains too many NPCs", tileMap.Name ) );
+         }
+
+         // check entity indexes
+         foreach ( var npc in tileMap.Npcs )
+         {
+            if ( npc.EntityIndex >= tileMap.Entities.Count )
+            {
+               throw new Exception( string.Format( "Tile map \"{0}\" contains an NPC with an invalid entity index", tileMap.Name ) );
             }
          }
       }
