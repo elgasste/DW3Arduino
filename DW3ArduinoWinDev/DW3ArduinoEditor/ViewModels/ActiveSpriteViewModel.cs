@@ -7,8 +7,8 @@ namespace DW3ArduinoEditor.ViewModels
 {
    public class ActiveSpriteViewModel : ViewModelBase
    {
-      private int _textureIndex;
-      public int TextureIndex
+      private uint _textureIndex;
+      public uint TextureIndex
       {
          get => _textureIndex;
          set => SetProperty( ref _textureIndex, value );

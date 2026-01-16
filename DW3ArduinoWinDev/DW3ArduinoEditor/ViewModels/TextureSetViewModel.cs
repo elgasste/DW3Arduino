@@ -19,7 +19,7 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _name, value );
       }
 
-      public ObservableCollection<int> TexturePoolIndexes { get; private set; } = [];
+      public ObservableCollection<uint> TexturePoolIndexes { get; private set; } = [];
 
       public TextureSetViewModel( uint index, string name )
       {
