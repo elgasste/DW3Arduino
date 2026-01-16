@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include "gen_common.h"
 #include "enums.h"
 
 #define internal static
@@ -35,9 +36,6 @@
 #define TOGGLE_BOOL( b )               b = b ? False : True;
 
 #define UNUSED_PARAM( x )              (void)x
-
-#define UNITS_PER_PIXEL                100
-#define MAX_PLAYERS                    4
 
 typedef uint8_t u8;
 typedef uint16_t u16;

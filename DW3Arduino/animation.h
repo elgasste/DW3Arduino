@@ -1,8 +1,6 @@
 #if !defined( ANIMATION_H )
 #define ANIMATION_H
 
-#define ANIMATION_CHAIN_MAX_ANIMATIONS    32
-
 #include "common.h"
 
 typedef struct Screen_t Screen_t;

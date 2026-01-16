@@ -139,6 +139,7 @@
     <ClInclude Include="..\..\DW3Arduino\common.h" />
     <ClInclude Include="..\..\DW3Arduino\entity.h" />
     <ClInclude Include="..\..\DW3Arduino\enums.h" />
+    <ClInclude Include="..\..\DW3Arduino\gen_common.h" />
     <ClInclude Include="..\..\DW3Arduino\input.h" />
     <ClInclude Include="..\..\DW3Arduino\npc.h" />
     <ClInclude Include="..\..\DW3Arduino\player.h" />
