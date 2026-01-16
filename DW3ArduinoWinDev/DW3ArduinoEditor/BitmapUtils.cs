@@ -73,13 +73,13 @@ namespace DW3ArduinoEditor
          {
             throw new Exception( "Text tiles image pixel format should be Indexed8" );
          }
-         else if ( bitmapSource.PixelWidth != ( Constants.TextTileCount * Constants.TextTileSize ) )
+         else if ( bitmapSource.PixelWidth != ( Constants.ScreenTextTileCount * Constants.ScreenTextTileSize ) )
          {
-            throw new Exception( string.Format( "Text tiles image width should be {0}", Constants.TextTileCount * Constants.TextTileSize ) );
+            throw new Exception( string.Format( "Text tiles image width should be {0}", Constants.ScreenTextTileCount * Constants.ScreenTextTileSize ) );
          }
-         else if ( bitmapSource.PixelHeight != Constants.TextTileSize )
+         else if ( bitmapSource.PixelHeight != Constants.ScreenTextTileSize )
          {
-            throw new Exception( string.Format( "Text tiles image height should be {0}", Constants.TextTileSize ) );
+            throw new Exception( string.Format( "Text tiles image height should be {0}", Constants.ScreenTextTileSize ) );
          }
       }
    }

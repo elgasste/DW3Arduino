@@ -6,34 +6,6 @@
 #include "entity.h"
 #include "npc.h"
 
-#define TILEMAP_TILE_SIZE_PIXELS                16
-#define TILEMAP_TILE_SIZE_UNITS                 ( TILEMAP_TILE_SIZE_PIXELS * UNITS_PER_PIXEL )
-
-#define TILEMAP_MAX_TILE_TEXTURES               32
-#define TILEMAP_MAX_STATIC_SPRITE_TEXTURES      32
-#define TILEMAP_MAX_STATIC_SPRITES              64
-#define TILEMAP_MAX_ACTIVE_SPRITE_TEXTURES      16
-#define TILEMAP_MAX_ACTIVE_SPRITES              32
-#define TILEMAP_MAX_PORTALS                     32
-#define TILEMAP_MAX_ENTITIES                    32
-#define TILEMAP_MAX_NPCS                        24
-
-#define TILEMAP_MAX_TILES_X                     256
-#define TILEMAP_MAX_TILES_Y                     256
-
-#define TILEMAP_SWAP_FADE_SECONDS               0.3f
-#define TILEMAP_SWAP_PAUSE_SECONDS              0.2f
-
-#define TILE_WALK_SPEED_NORMAL                  100   // units per frame
-#define TILE_WALK_SPEED_SLOW                    80
-#define TILE_WALK_SPEED_VERY_SLOW               60
-#define TILE_WALK_SPEED_CRAWL                   40
-
-#define TILE_WALK_SPEED_DIAGONAL_NORMAL         80
-#define TILE_WALK_SPEED_DIAGONAL_SLOW           60
-#define TILE_WALK_SPEED_DIAGONAL_VERY_SLOW      40
-#define TILE_WALK_SPEED_DIAGONAL_CRAWL          20
-
 #define TILE_GET_TEXTURE_INDEX( tile )          ( ( tile ) & 0x1F )
 #define TILE_GET_IS_PASSABLE( tile )            ( ( ( tile ) >> 5 ) & 0x01 )
 #define TILE_GET_WALKING_SPEED( tile )          ( ( ( tile ) >> 6 ) & 0x03 )

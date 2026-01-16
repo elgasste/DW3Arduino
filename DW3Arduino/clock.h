@@ -3,10 +3,6 @@
 
 #include "common.h"
 
-#define CLOCK_FPS                 60
-#define CLOCK_FRAME_MICROSECONDS  16666
-#define CLOCK_FRAME_SECONDS       0.01666666f
-
 typedef struct Clock_t
 {
    u32 frameStartMicro;

@@ -2,12 +2,12 @@
 {
    public class Palette
    {
-      public List<UInt16> Colors { get; } = new( Constants.PaletteMaxColors );
+      public List<UInt16> Colors { get; } = new( Constants.ScreenPaletteSize );
       public int ColorCount { get; private set; } = 0;
 
       public Palette()
       {
-         for ( int i = 0; i < Constants.PaletteMaxColors; i++ )
+         for ( int i = 0; i < Constants.ScreenPaletteSize; i++ )
          {
             Colors.Add( 0 );
          }
@@ -19,7 +19,7 @@
          {
             ColorCount++;
 
-            if ( ColorCount > Constants.PaletteMaxColors )
+            if ( ColorCount > Constants.ScreenPaletteSize )
             {
                throw new Exception( "Palette contains too many colors" );
             }
