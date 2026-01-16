@@ -136,14 +136,11 @@ namespace DW3ArduinoEditor.SaveData
             }
 
             CheckPortals( tileMaps, tileMaps[i] );
+            CheckEntities( tileMaps[i] );
          }
 
          // TODO
          //
-         // - make sure each tile map's entities are valid
-         //    - no more than the maximum amount
-         //    - should have valid positions
-         //    - sprite index should be valid
          // - make sure each tile map's NPCs are valid
          //    - no more than the maximum amount
          //    - entity index should be valid
@@ -151,6 +148,11 @@ namespace DW3ArduinoEditor.SaveData
 
       private static void CheckPortals( List<TileMapSaveData> tileMaps, TileMapSaveData tileMap )
       {
+         if ( tileMap.Portals.Count > Constants.TileMapMaxPortals )
+         {
+            throw new Exception( string.Format( "Tile map \"{0}\" contains too many portals", tileMap.Name ) );
+         }
+
          for ( int i = 0; i < tileMap.Portals.Count; i++ )
          {
             // check source tile indexes
@@ -165,19 +167,43 @@ namespace DW3ArduinoEditor.SaveData
             // check destination tile map indexes
             if ( !tileMaps.Any( tm => tm.Index == tileMap.Portals[i].DestTileMapIndex ) )
             {
-               throw new Exception( string.Format( "Tile map \"{0}\" contains a portal with an invalid destination tile map index" ) );
+               throw new Exception( string.Format( "Tile map \"{0}\" contains a portal with an invalid destination tile map index", tileMap.Name ) );
             }
 
             // check source tile indexes
             if ( tileMap.Portals[i].SourceTileIndex >= tileMap.Tiles.Count )
             {
-               throw new Exception( string.Format( "Tile map \"{0}\" contains a portal with an invalid source tile index" ) );
+               throw new Exception( string.Format( "Tile map \"{0}\" contains a portal with an invalid source tile index", tileMap.Name ) );
             }
 
             // check destination tile indexes
             if ( tileMap.Portals[i].DestTileIndex >= tileMaps[(int)tileMap.Portals[i].DestTileMapIndex].Tiles.Count )
             {
-               throw new Exception( string.Format( "Tile map \"{0}\" contains a portal with an invalid destination tile index" ) );
+               throw new Exception( string.Format( "Tile map \"{0}\" contains a portal with an invalid destination tile index", tileMap.Name ) );
+            }
+         }
+      }
+
+      private static void CheckEntities( TileMapSaveData tileMap )
+      {
+         if ( tileMap.Entities.Count > Constants.TileMapMaxEntities )
+         {
+            throw new Exception( string.Format( "Tile map \"{0}\" contains too many entities", tileMap.Name ) );
+         }
+
+         foreach ( var entity in tileMap.Entities )
+         {
+            // check position
+            if ( ( entity.Pos.X < 0 ) || ( entity.Pos.X + entity.Pos.W ) >= ( tileMap.TilesX * Constants.TileSizeUnits ) ||
+                 ( entity.Pos.Y < 0 ) || ( entity.Pos.Y + entity.Pos.H ) >= ( tileMap.TilesY * Constants.TileSizeUnits ) )
+            {
+               throw new Exception( string.Format( "Tile map \"{0}\" contains an entity with an invalid position", tileMap.Name ) );
+            }
+
+            // check sprite index
+            if ( entity.SpriteIndex >= tileMap.ActiveSprites.Count )
+            {
+               throw new Exception( string.Format( "Tile map \"{0}\" contains an entity with an invalid sprite index", tileMap.Name ) );
             }
          }
       }

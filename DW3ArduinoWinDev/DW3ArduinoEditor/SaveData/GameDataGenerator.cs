@@ -156,7 +156,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.TileTexturesHeaderGuid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
 
-         WriteToFileStream( fs, string.Format( "const u8 g_tileTexturePool[{0}][{1}] = {{\n", _tileTexturePool?.TilePaletteIndexes.Count, Constants.TileSize * Constants.TileSize ) );
+         WriteToFileStream( fs, string.Format( "const u8 g_tileTexturePool[{0}][{1}] = {{\n", _tileTexturePool?.TilePaletteIndexes.Count, Constants.TileSizePixels * Constants.TileSizePixels ) );
 
          if ( _tileTexturePool is not null )
          {
@@ -424,7 +424,7 @@ namespace DW3ArduinoEditor.SaveData
 
             for ( int j = 0; j < _gameSaveData.TileTextureSets[i].TexturePoolIndexes.Count; j++ )
             {
-               WriteToFileStream( fs, string.Format( "         memcpy( &tileMap->tileTextures[{0}].paletteIndexes, g_tileTexturePool[{1}], sizeof( u8 ) * {2} );\n", j, _gameSaveData.TileTextureSets[i].TexturePoolIndexes[j], Constants.TileSize * Constants.TileSize ) );
+               WriteToFileStream( fs, string.Format( "         memcpy( &tileMap->tileTextures[{0}].paletteIndexes, g_tileTexturePool[{1}], sizeof( u8 ) * {2} );\n", j, _gameSaveData.TileTextureSets[i].TexturePoolIndexes[j], Constants.TileSizePixels * Constants.TileSizePixels ) );
             }
 
             WriteToFileStream( fs, "         break;\n" );

@@ -28,13 +28,18 @@
       public const string PlayerSpriteTexturePoolImagePath = AssetsBasePath + "textures\\player_sprite_texture_pool.png";
       public const string TextTilesFilePath = AssetsBasePath + "text_tiles.png";
 
-      public const int TileSize = 16;
+      public const int UnitsPerPixel = 100;
+
+      public const int TileSizePixels = 16;
+      public const int TileSizeUnits = 16 * Constants.UnitsPerPixel;
       public const int TileMapMinTilesX = 3;
       public const int TileMapMinTilesY = 3;
       public const int TileMapMaxTilesX = 256;
       public const int TileMapMaxTilesY = 256;
       public const int TileMapDefaultTilesX = 24;
       public const int TileMapDefaultTilesY = 24;
+      public const int TileMapMaxPortals = 32;
+      public const int TileMapMaxEntities = 32;
       public const int TileTextureSetSize = 32;
 
       public const int StaticSpriteTextureSize = 16;
