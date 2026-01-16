@@ -223,61 +223,26 @@ namespace DW3ArduinoEditor.ViewModels
             _name = "(unnamed)";
          }
 
-         if ( _tilesX < Constants.TileMapMinTilesX || _tilesX > Constants.TileMapMaxTilesX ||
-              _tilesY < Constants.TileMapMinTilesY || _tilesY > Constants.TileMapMaxTilesY )
+         foreach ( var tile in saveData.Tiles )
          {
-            MessageBox.Show( "The tile map \"" + _name + "\" contains and invalid number of horizontal and/or vertical tiles. " +
-                             "The tiles for this map will be reset.", "Save Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
-
-            _tilesX = Constants.TileMapDefaultTilesX;
-            _tilesY = Constants.TileMapDefaultTilesY;
-
-            for ( int i = 0; i < _tilesX * _tilesY; i++ )
-            {
-               Tiles.Add( new() );
-            }
-         }
-         else
-         {
-            if ( saveData.Tiles.Count != ( _tilesX * _tilesY ) )
-            {
-               MessageBox.Show( "The tile map \"" + _name + "\" contains an invalid number of tiles (expected " +
-                                ( _tilesX * _tilesY ) + ", but found " + ( saveData.Tiles.Count ).ToString() + "). " +
-                                "The tiles for this map will be reset.", "Save Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
-
-               for ( int i = 0; i < _tilesX * _tilesY; i++ )
-               {
-                  Tiles.Add( new() );
-               }
-            }
-            else
-            {
-               foreach ( var tile in saveData.Tiles )
-               {
-                  Tiles.Add( new( tile ) );
-               }
-            }
+            Tiles.Add( new( tile ) );
          }
 
-         // TODO: check that we don't go over the maximum amount of static sprites
          foreach ( var staticSprite in saveData.StaticSprites )
          {
             StaticSprites.Add( new( staticSprite ) );
          }
 
-         // TODO: check that we don't go over the maximum amount of active sprites
          foreach ( var activeSprite in saveData.ActiveSprites )
          {
             ActiveSprites.Add( new( activeSprite ) );
          }
 
-         // TODO: check that we don't go over the maximum amount of player sprites
          foreach ( var playerSprite in saveData.PlayerSprites )
          {
             PlayerSprites.Add( new( playerSprite ) );
          }
 
-         // TODO: check that we don't go over the maximum amount of portals
          foreach ( var portal in saveData.Portals )
          {
             Portals.Add( new( portal ) );
@@ -288,13 +253,11 @@ namespace DW3ArduinoEditor.ViewModels
             _edgePortal = new( saveData.EdgePortal );
          }
 
-         // TODO: check that we don't go over the maximum amount of entities
          foreach ( var entity in saveData.Entities )
          {
             Entities.Add( new( entity ) );
          }
 
-         // TODO: check that we don't go over the maximum amount of NPCs
          foreach ( var npc in saveData.Npcs )
          {
             Npcs.Add( new( npc ) );
