@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35201.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DW3ArduinoWinDev", "DW3ArduinoWinDev\DW3ArduinoWinDev.vcxproj", "{98753DE9-1E23-499F-853C-2C71CCFDE321}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DW3ArduinoEditor", "DW3ArduinoEditor\DW3ArduinoEditor.csproj", "{742745CD-66A2-448B-8A5E-99403DACFAAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
