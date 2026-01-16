@@ -194,8 +194,8 @@ namespace DW3ArduinoEditor.SaveData
          foreach ( var entity in tileMap.Entities )
          {
             // check position
-            if ( ( entity.Pos.X < 0 ) || ( entity.Pos.X + entity.Pos.W ) >= ( tileMap.TilesX * Constants.TileSizeUnits ) ||
-                 ( entity.Pos.Y < 0 ) || ( entity.Pos.Y + entity.Pos.H ) >= ( tileMap.TilesY * Constants.TileSizeUnits ) )
+            if ( ( entity.Pos.X < 0 ) || ( entity.Pos.X + entity.Pos.W ) >= ( tileMap.TilesX * ( Constants.TileSizePixels * Constants.UnitsPerPixel ) ) ||
+                 ( entity.Pos.Y < 0 ) || ( entity.Pos.Y + entity.Pos.H ) >= ( tileMap.TilesY * ( Constants.TileSizePixels * Constants.UnitsPerPixel ) ) )
             {
                throw new Exception( string.Format( "Tile map \"{0}\" contains an entity with an invalid position", tileMap.Name ) );
             }
