@@ -31,10 +31,10 @@ All the source and sketch files are located in the `DW3Arduino` directory. You'l
 
 ### Visual Studio 2022
 
-The solution file for building in Windows is located in the `DW3ArduinoWinDev` directory, and includes two projects:
+The solution file for the Windows development project is located in the `DW3ArduinoWinDev` directory, 
 
-- `DW3ArduinoWinDev`: this is a Windows wrapper around the actual game, it has diagnostic tools and is great for debugging.
-- `DW3ArduinoEditor`: this is a WPF project built for editing the game data (maps, sprite sheets, NPC locations, etc).
+- The DW3 Windows development project is located in the `DW3ArduinoWinDev` directory. This will run the actual game, and is very useful for debugging and running diagnostics.
+- The DW3 Editor tool is located in the `DW3ArduinoEditor` directory. This is a WPF project for editing the game data (maps, sprite sheets, NPC locations, etc).
 
 ## Windows Diagnostics and Keyboard Controls
 
