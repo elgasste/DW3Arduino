@@ -1,4 +1,5 @@
-﻿using DW3ArduinoEditor.SaveData;
+﻿using DW3ArduinoEditor.Enums;
+using DW3ArduinoEditor.SaveData;
 
 namespace DW3ArduinoEditor.ViewModels
 {
@@ -18,16 +19,25 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _wanders, value );
       }
 
-      public NpcViewModel( uint entityIndex, bool wanders )
+      private Direction _initialDirection;
+      public Direction InitialDirection
+      {
+         get => _initialDirection;
+         set => SetProperty( ref _initialDirection, value );
+      }
+
+      public NpcViewModel( uint entityIndex, bool wanders, Direction initialDirection )
       {
          _entityIndex = entityIndex;
          _wanders = wanders;
+         _initialDirection = initialDirection;
       }
 
       public NpcViewModel( NpcSaveData saveData )
       {
          _entityIndex = saveData.EntityIndex;
          _wanders = saveData.Wanders;
+         _initialDirection = saveData.InitialDirection;
       }
    }
 }

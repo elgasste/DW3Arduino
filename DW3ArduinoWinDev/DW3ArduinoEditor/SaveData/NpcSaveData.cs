@@ -1,4 +1,5 @@
-﻿using DW3ArduinoEditor.ViewModels;
+﻿using DW3ArduinoEditor.Enums;
+using DW3ArduinoEditor.ViewModels;
 
 namespace DW3ArduinoEditor.SaveData
 {
@@ -6,6 +7,7 @@ namespace DW3ArduinoEditor.SaveData
    {
       public uint EntityIndex { get; set; }
       public bool Wanders {  get; set; }
+      public Direction InitialDirection { get; set; }
 
       public NpcSaveData() { }
 
@@ -13,6 +15,7 @@ namespace DW3ArduinoEditor.SaveData
       {
          EntityIndex = viewModel.EntityIndex;
          Wanders = viewModel.Wanders;
+         InitialDirection = viewModel.InitialDirection;
       }
    }
 }
