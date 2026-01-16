@@ -130,39 +130,6 @@ namespace DW3ArduinoEditor.ViewModels
          }
       }
 
-      private void VerifyOrDeletePortal( PortalViewModel portal, TileMapViewModel srcTileMap )
-      {
-         if ( portal.SourceTileIndex >= ( srcTileMap.TilesX * srcTileMap.TilesY ) )
-         {
-            MessageBox.Show( "The tile map \"" + srcTileMap.Name + "\" contains an unreachable portal, it will be removed.", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-            srcTileMap.Portals.Remove( portal );
-         }
-         else
-         {
-            bool foundDest = false;
-
-            foreach ( var destTileMap in TileMaps )
-            {
-               if ( destTileMap.Index == portal.DestTileMapIndex )
-               {
-                  foundDest = true;
-
-                  if ( portal.DestTileIndex >= ( destTileMap.TilesX * destTileMap.TilesY ) )
-                  {
-                     MessageBox.Show( "The tile map \"" + srcTileMap.Name + "\" contains an unreachable portal destination tile, it will be removed.", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-                     srcTileMap.Portals.Remove( portal );
-                  }
-               }
-            }
-
-            if ( !foundDest )
-            {
-               MessageBox.Show( "The tile map \"" + srcTileMap.Name + "\" contains an unreachable portal destination, it will be removed.", "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-               srcTileMap.Portals.Remove( portal );
-            }
-         }
-      }
-
       private void RenameSelectedTileMap()
       {
          if ( SelectedTileMap is not null )
