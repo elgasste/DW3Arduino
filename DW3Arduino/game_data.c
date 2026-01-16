@@ -294,7 +294,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadPortalData( tileMap->portals + 4, 153, 6, 885, Direction_Left );
          tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55980; tileMap->edgePortal.destDirection = Direction_Down;
          TileMap_LoadEntityData( tileMap->entities + 0, 13000, 40300, 1200, 1200, tileMap->activeSprites + 0 );
-         Npc_Init( tileMap->npcs + 0, tileMap->entities + 0, True );
+         Npc_Init( tileMap->npcs + 0, tileMap->entities + 0, Direction_Right, True );
          memcpy( tileMap->tiles, g_mapTiles1, sizeof( u16 ) * 1360 );
          break;
       case 2: // Aliahan Eatery 1F

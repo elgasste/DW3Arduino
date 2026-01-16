@@ -4,10 +4,11 @@
 #include "clock.h"
 #include "random.h"
 
-void Npc_Init( Npc_t* npc, Entity_t* entity, Bool_t wanders )
+void Npc_Init( Npc_t* npc, Entity_t* entity, Direction_t direction, Bool_t wanders )
 {
    npc->entity = entity;
    npc->wanders = wanders;
+   ActiveSprite_SetDirection( entity->sprite, direction );
    
    if ( wanders )
    {

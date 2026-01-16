@@ -574,9 +574,10 @@ namespace DW3ArduinoEditor.SaveData
 
             for ( int j = 0; j < _gameSaveData.TileMaps[i].Npcs.Count; j++ )
             {
-               WriteToFileStream( fs, string.Format( "         Npc_Init( tileMap->npcs + {0}, tileMap->entities + {1}, {2} );\n",
+               WriteToFileStream( fs, string.Format( "         Npc_Init( tileMap->npcs + {0}, tileMap->entities + {1}, Direction_{2}, {3} );\n",
                   j,
                   _gameSaveData.TileMaps[i].Npcs[j].EntityIndex,
+                  _gameSaveData.TileMaps[i].Npcs[j].InitialDirection,
                   _gameSaveData.TileMaps[i].Npcs[j].Wanders ? "True" : "False" ) );
             }
 
