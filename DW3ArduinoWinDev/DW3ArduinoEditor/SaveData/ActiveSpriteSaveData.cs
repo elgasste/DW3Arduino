@@ -6,13 +6,13 @@ namespace DW3ArduinoEditor.SaveData
 {
    public class ActiveSpriteSaveData
    {
-      public int TextureIndex { get; set; }
+      public uint TextureIndex { get; set; }
       public Vector2f Offset { get; set; } = new( 0, 0 );
       public Direction StartDirection { get; set; }
 
       public ActiveSpriteSaveData() { }
 
-      public ActiveSpriteSaveData( int textureIndex, Vector2f offset, Direction startDirection )
+      public ActiveSpriteSaveData( uint textureIndex, Vector2f offset, Direction startDirection )
       {
          TextureIndex = textureIndex;
          Offset = offset;

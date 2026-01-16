@@ -6,7 +6,7 @@ namespace DW3ArduinoEditor.SaveData
    {
       public uint Index { get; set; }
       public string Name { get; set; } = string.Empty;
-      public List<int> TexturePoolIndexes { get; set; } = [];
+      public List<uint> TexturePoolIndexes { get; set; } = [];
 
       public TextureSetSaveData() { }
 

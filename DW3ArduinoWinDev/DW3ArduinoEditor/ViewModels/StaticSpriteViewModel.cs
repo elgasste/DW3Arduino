@@ -4,15 +4,15 @@ namespace DW3ArduinoEditor.ViewModels
 {
    public class StaticSpriteViewModel : ViewModelBase
    {
-      private int _textureIndex;
-      public int TextureIndex
+      private uint _textureIndex;
+      public uint TextureIndex
       {
          get => _textureIndex;
          set => SetProperty( ref _textureIndex, value );
       }
 
-      private int _tileIndex;
-      public int TileIndex
+      private uint _tileIndex;
+      public uint TileIndex
       {
          get => _tileIndex;
          set => SetProperty( ref _tileIndex, value );
