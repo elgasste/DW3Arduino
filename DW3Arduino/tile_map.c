@@ -98,6 +98,7 @@ void TileMap_CenterEntityOnTile( TileMap_t* tileMap, Entity_t* entity, u32 tileI
 
    entity->pos.x = tileX + ( ( TILEMAP_TILE_SIZE_UNITS / 2 ) - ( entity->pos.w / 2 ) );
    entity->pos.y = tileY + ( ( TILEMAP_TILE_SIZE_UNITS / 2 ) - ( entity->pos.h / 2 ) );
+   entity->tileIndex = tileIndex;
 }
 
 u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, i32 x, i32 y )

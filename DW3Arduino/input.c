@@ -80,7 +80,7 @@ internal void Input_HandleOverworldGeneral( Game_t* game )
 {
    Entity_t* entity = game->players->entity;
    ActiveSprite_t* sprite = game->players->entity->sprite;
-   i32 velocity = TileMap_GetTileVelocity( &game->tileMap, game->players->tileIndex );
+   i32 velocity = TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex );
 
 #if defined( VISUAL_STUDIO_DEV )
    if ( g_winDebugFlags.fastWalk )

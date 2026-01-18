@@ -684,13 +684,11 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "\nvoid Game_Reset( Game_t* game )\n" );
          WriteToFileStream( fs, "{\n" );
          WriteToFileStream( fs, string.Format( "   TileMap_LoadFromIndex( &game->tileMap, {0} );\n", _gameSaveData?.GameStartup.PlayerStartTileMapIndex ) );
-         WriteToFileStream( fs, "   game->playerCount = 1;\n\n" );
-
-         WriteToFileStream( fs, "   game->players[0].playerClass = PlayerClass_Hero;\n" );
+         WriteToFileStream( fs, "   game->playerCount = 1;\n" );
+         WriteToFileStream( fs, string.Format( "   game->players[0].playerClass = PlayerClass_{0};\n", PlayerClass.Hero.ToString() ) );
          WriteToFileStream( fs, "   game->players[0].entity = game->tileMap.playerEntities;\n" );
          WriteToFileStream( fs, "   game->players[0].entity->sprite = game->tileMap.playerSprites;\n" );
          WriteToFileStream( fs, string.Format( "   TileMap_CenterEntityOnTile( &game->tileMap, game->players[0].entity, {0} );\n", _gameSaveData?.GameStartup.PlayerStartTileIndex ) );
-         WriteToFileStream( fs, "   game->players[0].tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players[0].entity->pos.x, (u32)game->players[0].entity->pos.y );\n" );
          WriteToFileStream( fs, string.Format( "   game->players[0].entity->pos.w = {0};\n", Constants.PlayerEntityWidth ) );
          WriteToFileStream( fs, string.Format( "   game->players[0].entity->pos.h = {0};\n", Constants.PlayerEntityHeight ) );
          WriteToFileStream( fs, "   game->players[0].entity->prevPos = game->players[0].entity->pos;\n" );

@@ -609,12 +609,10 @@ void Game_Reset( Game_t* game )
 {
    TileMap_LoadFromIndex( &game->tileMap, 0 );
    game->playerCount = 1;
-
    game->players[0].playerClass = PlayerClass_Hero;
    game->players[0].entity = game->tileMap.playerEntities;
    game->players[0].entity->sprite = game->tileMap.playerSprites;
    TileMap_CenterEntityOnTile( &game->tileMap, game->players[0].entity, 56746 );
-   game->players[0].tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap, (u32)game->players[0].entity->pos.x, (u32)game->players[0].entity->pos.y );
    game->players[0].entity->pos.w = 1200;
    game->players[0].entity->pos.h = 1200;
    game->players[0].entity->prevPos = game->players[0].entity->pos;
