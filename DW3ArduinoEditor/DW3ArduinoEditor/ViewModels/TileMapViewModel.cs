@@ -55,6 +55,8 @@ namespace DW3ArduinoEditor.ViewModels
          get => _tilesX;
          set
          {
+            uint oldTilesX = _tilesX;
+
             if ( value < _tilesX ) // reducing the horizontal size
             {
                ObservableCollection<TileViewModel> newTiles = [];
@@ -97,6 +99,7 @@ namespace DW3ArduinoEditor.ViewModels
             }
 
             SetProperty( ref _tilesX, value );
+            UpdateObjectsAfterResize( oldTilesX, _tilesY );
          }
       }
 
@@ -106,6 +109,8 @@ namespace DW3ArduinoEditor.ViewModels
          get => _tilesY;
          set
          {
+            uint oldTilesY = _tilesY;
+
             if ( value < _tilesY ) // reducing the vertical size
             {
                ObservableCollection<TileViewModel> newTiles = [];
@@ -136,6 +141,7 @@ namespace DW3ArduinoEditor.ViewModels
             }
 
             SetProperty( ref _tilesY, value );
+            UpdateObjectsAfterResize( _tilesX, oldTilesY );
          }
       }
 
@@ -261,6 +267,67 @@ namespace DW3ArduinoEditor.ViewModels
          foreach ( var npc in saveData.Npcs )
          {
             Npcs.Add( new( npc ) );
+         }
+      }
+
+      private void UpdateObjectsAfterResize( uint oldTilesX, uint oldTilesY )
+      {
+         // update portals
+         for ( int i = 0; i < Portals.Count; i++ )
+         {
+            uint row = Portals[i].SourceTileIndex / oldTilesX;
+            uint col = Portals[i].SourceTileIndex % oldTilesX;
+
+            if ( row >= TilesY || col >= TilesX )
+            {
+               // the section of the map containing this portal is now gone
+               Portals.Remove( Portals[i] );
+               i--;
+            }
+            else if ( oldTilesX != TilesX )
+            {
+               Portals[i].SourceTileIndex = ( row * TilesX ) + col;
+            }
+         }
+
+         // update entities and NPCs
+         for ( int i = 0; i < Entities.Count; i++ )
+         {
+            uint row = (uint)( Entities[i].Pos.X / Constants.UnitsPerPixel ) / oldTilesX;
+            uint col = (uint)( Entities[i].Pos.Y / Constants.UnitsPerPixel ) % oldTilesX;
+
+            if ( row >= TilesY || col >= TilesX )
+            {
+               // the section of the map containing this entity is now gone
+               foreach ( var npc in Npcs )
+               {
+                  if ( npc.EntityIndex == i )
+                  {
+                     Npcs.Remove( npc );
+                  }
+               }
+
+               Entities.Remove( Entities[i] );
+               i--;
+            }
+         }
+
+         // update static sprites
+         for ( int i = 0; i < StaticSprites.Count; i++ )
+         {
+            uint row = StaticSprites[i].TileIndex / oldTilesX;
+            uint col = StaticSprites[i].TileIndex % oldTilesX;
+
+            if ( row >= TilesY || col >= TilesX )
+            {
+               // the section of the map containing this static sprite is now gone
+               StaticSprites.Remove( StaticSprites[i] );
+               i--;
+            }
+            else if ( oldTilesX != TilesX )
+            {
+               StaticSprites[i].TileIndex = ( row * TilesX ) + col;
+            }
          }
       }
    }

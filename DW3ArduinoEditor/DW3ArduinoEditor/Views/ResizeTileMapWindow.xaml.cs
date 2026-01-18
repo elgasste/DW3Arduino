@@ -62,7 +62,7 @@ namespace DW3ArduinoEditor.Views
          }
          else if ( tilesX < _oldTilesX || tilesY < _oldTilesY )
          {
-            if ( MessageBox.Show( "Warning: reducing the width or height of the map will delete some existing tile data. Are you sure?", "Please Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning ) == MessageBoxResult.Yes )
+            if ( MessageBox.Show( "Warning: reducing the width or height of the map will delete some existing tile data, along with any portals, static sprites, or NPCs that are currently placed on tiles that will no longer exist. Are you sure?", "Please Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning ) == MessageBoxResult.Yes )
             {
 
             }

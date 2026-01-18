@@ -154,7 +154,7 @@ namespace DW3ArduinoEditor.SaveData
 
          for ( int i = 0; i < tileMap.Portals.Count; i++ )
          {
-            // check source tile indexes
+            // check for duplicate source tile indexes
             for ( int j = 0; j < tileMap.Portals.Count; j++ )
             {
                if ( i != j && tileMap.Portals[i].SourceTileIndex == tileMap.Portals[j].SourceTileIndex )
