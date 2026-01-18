@@ -25,11 +25,26 @@ namespace DW3ArduinoEditor.ViewModels
       public ObservableCollection<TextureSetViewModel> StaticSpriteTextureSets { get; } = [];
       public ObservableCollection<TextureSetViewModel> ActiveSpriteTextureSets { get; } = [];
 
+      private TextureSetViewModel? _selectedTileTextureSet;
+      public TextureSetViewModel? SelectedTileTextureSet
+      {
+         get => _selectedTileTextureSet;
+         set => SetProperty( ref _selectedTileTextureSet, value );
+      }
+
       private TileMapViewModel? _selectedTileMap;
       public TileMapViewModel? SelectedTileMap
       {
          get => _selectedTileMap;
-         set => SetProperty( ref _selectedTileMap, value );
+         set
+         {
+            SetProperty( ref _selectedTileMap, value );
+
+            if ( _selectedTileMap is not null )
+            {
+               SelectedTileTextureSet = TileTextureSets[(int)_selectedTileMap.TileTextureSetIndex];
+            }
+         }
       }
 
       public MainWindowViewModel()
@@ -284,6 +299,11 @@ namespace DW3ArduinoEditor.ViewModels
          MessageBox.Show( "Game data source file has been written." );
       }
 
+      private void ChangeTileTextureSet()
+      {
+         // TODO
+      }
+
       private ICommand? _renameSelectedTileMapCommand;
       public ICommand? RenameSelectedTileMapCommand => _renameSelectedTileMapCommand ??= new RelayCommand( RenameSelectedTileMap, () => true );
 
@@ -301,5 +321,8 @@ namespace DW3ArduinoEditor.ViewModels
 
       private ICommand? _writeGameDataSourceCommand;
       public ICommand? WriteGameDataSourceCommand => _writeGameDataSourceCommand ??= new RelayCommand( WriteGameDataSource, () => true );
+
+      private ICommand? _changeTileTextureSetCommand;
+      public ICommand? ChangeTileTextureSetCommand => _changeTileTextureSetCommand ??= new RelayCommand( ChangeTileTextureSet, () => true );
    }
 }

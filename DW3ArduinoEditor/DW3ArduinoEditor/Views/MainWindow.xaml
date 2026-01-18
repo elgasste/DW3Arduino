@@ -19,7 +19,7 @@
       <DW3ArduinoEditorConverters:BoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"
                                                             TrueValue="Collapsed"
                                                             FalseValue="Visible" />
-      
+
       <Style TargetType="Button">
          <Setter Property="Padding" Value="10, 1" />
          <Setter Property="Margin" Value="2" />
@@ -28,6 +28,9 @@
       <Style TargetType="ComboBox">
          <Setter Property="Height" Value="26"/>
          <Setter Property="Margin" Value="2"/>
+      </Style>
+      <Style TargetType="CheckBox">
+         <Setter Property="Margin" Value="2" />
       </Style>
       
    </Window.Resources>
@@ -72,19 +75,31 @@
                </StackPanel>
 
                <!-- Tile Map Editing Operations -->
-               <StackPanel Orientation="Horizontal">
-                  <TextBlock Text="Tiles: "
-                             VerticalAlignment="Center"
-                             Margin="10, 0, 0, 0"/>
-                  <TextBlock Text="{Binding SelectedTileMap.TilesX}"
-                             VerticalAlignment="Center"/>
-                  <TextBlock Text="x"
-                             VerticalAlignment="Center"/>
-                  <TextBlock Text="{Binding SelectedTileMap.TilesY}"
-                             VerticalAlignment="Center"
-                             Margin="0, 0, 10, 0"/>
-                  <Button Content="Resize"
-                          Command="{Binding ResizeSelectedTileMapCommand, Mode=OneTime}"/>
+               <StackPanel Orientation="Vertical">
+                  <StackPanel Orientation="Horizontal">
+                     <TextBlock Text="Tiles: "
+                                VerticalAlignment="Center"
+                                Margin="10,0,0,0"/>
+                     <TextBlock Text="{Binding SelectedTileMap.TilesX}"
+                                VerticalAlignment="Center"/>
+                     <TextBlock Text="x"
+                                VerticalAlignment="Center"/>
+                     <TextBlock Text="{Binding SelectedTileMap.TilesY}"
+                                VerticalAlignment="Center"
+                                Margin="0,0,10,0"/>
+                     <Button Content="Resize"
+                             Command="{Binding ResizeSelectedTileMapCommand, Mode=OneTime}"/>
+                  </StackPanel>
+                  <StackPanel Orientation="Horizontal">
+                     <TextBlock Text="Tile Texture Set: "
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"/>
+                     <TextBlock Text="{Binding SelectedTileTextureSet.Name}"
+                                VerticalAlignment="Center"
+                                Margin="0,0,10,0" />
+                     <Button Content="Change"
+                             Command="{Binding ChangeTileTextureSetCommand, Mode=OneTime}"/>
+                  </StackPanel>
                   <CheckBox Content="Wraps Around"
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
@@ -101,6 +116,35 @@
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
                             IsChecked="{Binding SelectedTileMap.HasEncounters, Mode=TwoWay}"/>
+               </StackPanel>
+               
+               <!-- Tile Map View -->
+               <StackPanel Orientation="Horizontal">
+                  
+                  <!-- Tile Map Texture Selector -->
+                  
+                  <!-- TODO: add a new window to change tile texture set -->
+                  
+                  <!--<ListBox x:Name="tileSelectionListView"
+                           ItemsSource="{Binding TileTextureViewModels}"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Left"
+                           MouseMove="TileTextureListView_OnMouseMove">
+                     <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                           <UniformGrid Columns="4" />
+                        </ItemsPanelTemplate>
+                     </ListBox.ItemsPanel>
+
+                     <ListBox.ItemTemplate>
+                        <DataTemplate>
+                           <Image Source="{Binding Image}"
+                                  Width="32"
+                                  Height="32" />
+                        </DataTemplate>
+                     </ListBox.ItemTemplate>
+                  </ListBox>-->
+
                </StackPanel>
 
             </StackPanel>
