@@ -249,6 +249,23 @@ namespace DW3ArduinoEditor.ViewModels
                      }
                   }
                }
+
+               // update the player's starting tile index if necessary
+               if ( SelectedTileMap.Index == _gameStartup.PlayerStartTileMapIndex )
+               {
+                  uint row = _gameStartup.PlayerStartTileIndex / oldTilesX;
+                  uint col = _gameStartup.PlayerStartTileIndex % oldTilesX;
+
+                  if ( row >= SelectedTileMap.TilesY || col >= SelectedTileMap.TilesX )
+                  {
+                     _gameStartup.PlayerStartTileIndex = 0;
+                     MessageBox.Show( "The player's starting tile index no longer exists, resetting to zero.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning );
+                  }
+                  else if ( oldTilesX != SelectedTileMap.TilesX )
+                  {
+                     _gameStartup.PlayerStartTileIndex = ( row * SelectedTileMap.TilesX ) + col;
+                  }
+               }
             }
          }
       }
