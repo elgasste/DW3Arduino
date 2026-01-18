@@ -1,4 +1,5 @@
-﻿using DW3ArduinoEditor.ViewModels;
+﻿using DW3ArduinoEditor.Enums;
+using DW3ArduinoEditor.ViewModels;
 
 namespace DW3ArduinoEditor.SaveData
 {
@@ -6,6 +7,7 @@ namespace DW3ArduinoEditor.SaveData
    {
       public uint PlayerStartTileMapIndex { get; set; }
       public uint PlayerStartTileIndex { get; set; }
+      public Direction PlayerStartDirection { get; set; }
 
       public GameStartupSaveData() { }
 
@@ -13,6 +15,7 @@ namespace DW3ArduinoEditor.SaveData
       {
          PlayerStartTileMapIndex = viewModel.PlayerStartTileMapIndex;
          PlayerStartTileIndex = viewModel.PlayerStartTileIndex;
+         PlayerStartDirection = viewModel.PlayerStartDirection;
       }
    }
 }
