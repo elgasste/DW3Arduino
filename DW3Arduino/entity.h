@@ -6,6 +6,7 @@
 
 typedef struct ActiveSprite_t ActiveSprite_t;
 
+// TODO: put the tile index property in here
 typedef struct Entity_t
 {
    Vector4i32_t pos;

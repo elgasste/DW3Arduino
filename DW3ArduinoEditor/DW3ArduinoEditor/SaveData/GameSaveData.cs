@@ -5,6 +5,7 @@ namespace DW3ArduinoEditor.SaveData
 {
    public class GameSaveData
    {
+      public GameStartupSaveData GameStartup { get; set; } = new();
       public HeaderGuidsSaveData HeaderGuids { get; set; } = new();
       public List<TileMapSaveData> TileMaps { get; set; } = [];
       public List<TextureSetSaveData> TileTextureSets { get; set; } = [];
@@ -13,12 +14,14 @@ namespace DW3ArduinoEditor.SaveData
 
       public GameSaveData() { }
 
-      public GameSaveData( HeaderGuidsViewModel headerGuids,
+      public GameSaveData( GameStartupViewModel gameStartupViewModel,
+                           HeaderGuidsViewModel headerGuids,
                            ObservableCollection<TileMapViewModel> tileMapVMs,
                            ObservableCollection<TextureSetViewModel> tileTextureSetVMs,
                            ObservableCollection<TextureSetViewModel> staticSpriteTextureSetVMs,
                            ObservableCollection<TextureSetViewModel> activeSpriteTextureSetVMs )
       {
+         GameStartup = new( gameStartupViewModel );
          HeaderGuids = new( headerGuids );
 
          foreach ( var tileMapVM in tileMapVMs )

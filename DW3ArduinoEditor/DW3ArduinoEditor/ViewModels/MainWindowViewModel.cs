@@ -12,6 +12,7 @@ namespace DW3ArduinoEditor.ViewModels
 {
    public class MainWindowViewModel : ViewModelBase
    {
+      private GameStartupViewModel _gameStartup = new();
       private HeaderGuidsViewModel _headerGuids = new();
       private Palette _palette = new();
       private TileTexturePool? _tileTexturePool;
@@ -90,6 +91,7 @@ namespace DW3ArduinoEditor.ViewModels
                                                       _activeSpriteTexturePool is null ? 0 : _activeSpriteTexturePool.ActiveSpritePaletteIndexes.Count,
                                                       _playerSpriteTexturePool is null ? 0 : _playerSpriteTexturePool.ActiveSpritePaletteIndexes.Count );
 
+               _gameStartup = new( saveData.GameStartup );
                _headerGuids = new( saveData.HeaderGuids );
 
                foreach ( var savedTileMap in saveData.TileMaps )
@@ -253,7 +255,7 @@ namespace DW3ArduinoEditor.ViewModels
 
       private void WriteSaveData()
       {
-         var saveData = new GameSaveData( _headerGuids, TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets );
+         var saveData = new GameSaveData( _gameStartup, _headerGuids, TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets );
          File.WriteAllText( Constants.SaveDataFilePath, JsonSerializer.Serialize( saveData ) );
          MessageBox.Show( "Editor data has been saved." );
       }
@@ -261,7 +263,7 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( _headerGuids, TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets ), _palette, _tileTexturePool, _staticSpriteTexturePool, _activeSpriteTexturePool, _playerSpriteTexturePool );
+         generator.WriteGameDataSourceFile( new( _gameStartup, _headerGuids, TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets ), _palette, _tileTexturePool, _staticSpriteTexturePool, _activeSpriteTexturePool, _playerSpriteTexturePool );
          MessageBox.Show( "Game data source file has been written." );
       }
 
