@@ -282,11 +282,11 @@ internal void DrawDiagnostics( HDC* dcMem )
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
-   sprintf_s( str, STRING_SIZE_DEFAULT, "      Tile Index: %u", g_winGlobals.game.players->tileIndex );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "      Tile Index: %u", g_winGlobals.game.players->entity->tileIndex );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 
-   sprintf_s( str, STRING_SIZE_DEFAULT, "  Encounter Rate: %u", TILE_GET_ENCOUNTER_RATE( g_winGlobals.game.tileMap.tiles[g_winGlobals.game.players->tileIndex] ) );
+   sprintf_s( str, STRING_SIZE_DEFAULT, "  Encounter Rate: %u", TILE_GET_ENCOUNTER_RATE( g_winGlobals.game.tileMap.tiles[g_winGlobals.game.players->entity->tileIndex] ) );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 

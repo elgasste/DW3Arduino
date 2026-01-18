@@ -10,6 +10,7 @@ typedef struct Entity_t
 {
    Vector4i32_t pos;
    Vector4i32_t prevPos;
+   u32 tileIndex;
    Vector2i32_t velocity;
    ActiveSprite_t* sprite;
 }

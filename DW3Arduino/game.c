@@ -98,7 +98,7 @@ internal void Game_HandlePlayerMoved( Game_t* game )
                                                ( game->players->entity->pos.x + ( game->players->entity->pos.w / 2 ) ),
                                                ( game->players->entity->pos.y + ( game->players->entity->pos.h / 2 ) ) );
 
-   if ( tileIndex != game->players->tileIndex )
+   if ( tileIndex != game->players->entity->tileIndex )
    {
       Game_SteppedOnTile( game, tileIndex );
    }
@@ -185,7 +185,7 @@ internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
    u16 tile;
    Player_t* frontPlayer = game->players;
 
-   frontPlayer->tileIndex = tileIndex;
+   frontPlayer->entity->tileIndex = tileIndex;
 
    if ( Game_TryEnterPortal( game ) )
    {
@@ -212,7 +212,7 @@ internal Bool_t Game_TryEnterPortal( Game_t* game )
    // check regular portals first
    for ( i = 0, checkPortal = game->tileMap.portals; i < game->tileMap.portalCount; i++, checkPortal++ )
    {
-      if ( checkPortal->sourceTileIndex == game->players->tileIndex )
+      if ( checkPortal->sourceTileIndex == game->players->entity->tileIndex )
       {
          foundPortal = checkPortal;
          break;
@@ -220,7 +220,7 @@ internal Bool_t Game_TryEnterPortal( Game_t* game )
    }
 
    // now check for edge portals
-   if ( !foundPortal && game->tileMap.hasEdgePortal && TileMap_TileIndexIsEdgeTile( &game->tileMap, game->players->tileIndex ) )
+   if ( !foundPortal && game->tileMap.hasEdgePortal && TileMap_TileIndexIsEdgeTile( &game->tileMap, game->players->entity->tileIndex ) )
    {
       foundPortal = &game->tileMap.edgePortal;
    }
@@ -254,7 +254,6 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
    for ( i = 0; i < game->playerCount; i++ )
    {
       player = game->players + i;
-      player->tileIndex = destTileIndex;
       TileMap_CenterEntityOnTile( &game->tileMap, game->tileMap.playerEntities + i, destTileIndex );
       ActiveSprite_SetDirection( game->tileMap.playerSprites + i, destDirection );
       Player_ResetChaining( player );
@@ -273,7 +272,7 @@ internal Bool_t Game_TryEncounter( Game_t* game )
       return False;
    }
 
-   tile = game->tileMap.tiles[game->players->tileIndex];
+   tile = game->tileMap.tiles[game->players->entity->tileIndex];
 
    switch ( TILE_GET_ENCOUNTER_RATE( tile ) )
    {
