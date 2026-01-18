@@ -445,7 +445,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
          TileMap_LoadInitialData( tileMap, 19, 24, False, False, False, False, 1, 0, 1, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 5, 408, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 5, 408, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
          TileMap_LoadPortalData( tileMap->portals + 0, 408, 6, 285, Direction_Left );
          memcpy( tileMap->tiles, g_mapTiles11, sizeof( u16 ) * 456 );

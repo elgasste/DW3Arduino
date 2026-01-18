@@ -208,8 +208,6 @@ namespace DW3ArduinoEditor.ViewModels
 
       private void ResizeSelectedTileMap()
       {
-         // TODO: this will affect all objects in the tile map, they will all need to be
-         // either moved or deleted
          if ( SelectedTileMap is not null )
          {
             var window = new ResizeTileMapWindow( SelectedTileMap.TilesX, SelectedTileMap.TilesY );
@@ -217,8 +215,38 @@ namespace DW3ArduinoEditor.ViewModels
 
             if ( result.HasValue && result.Value )
             {
+               uint oldTilesX = SelectedTileMap.TilesX;
+               uint oldTilesY = SelectedTileMap.TilesY;
+
                SelectedTileMap.TilesX = window.NewTilesX;
                SelectedTileMap.TilesY = window.NewTilesY;
+
+               // update any portals with indexes matching the selected tile map
+               foreach ( var tileMap in TileMaps )
+               {
+                  if ( tileMap != SelectedTileMap )
+                  {
+                     for ( int i = 0; i < tileMap.Portals.Count; i++ )
+                     {
+                        if ( tileMap.Portals[i].DestTileMapIndex == SelectedTileMap.Index )
+                        {
+                           uint row = tileMap.Portals[i].DestTileIndex / oldTilesX;
+                           uint col = tileMap.Portals[i].DestTileIndex % oldTilesX;
+
+                           if ( row >= SelectedTileMap.TilesY || col >= SelectedTileMap.TilesX )
+                           {
+                              // the section of the map with this portal's destination is now gone
+                              tileMap.Portals.Remove( tileMap.Portals[i] );
+                              i--;
+                           }
+                           else if ( oldTilesX != SelectedTileMap.TilesX )
+                           {
+                              tileMap.Portals[i].DestTileIndex = ( row * SelectedTileMap.TilesX ) + col;
+                           }
+                        }
+                     }
+                  }
+               }
             }
          }
       }
