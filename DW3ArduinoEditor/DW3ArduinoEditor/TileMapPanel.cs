@@ -229,7 +229,13 @@ namespace DW3ArduinoEditor
 
       private void ChangeTile()
       {
-         if ( _bitmap is null || SelectedTileMap is null || TileTexturePool is null || SelectedTileTextureSet is null )
+         if ( _bitmap is null || SelectedTileMap is null || TileTexturePool is null || SelectedTileTextureSet is null ||
+            SelectedTextureIndex < 0 || SelectedTextureIndex >= SelectedTileTextureSet.TexturePoolIndexes.Count )
+         {
+            return;
+         }
+
+         if ( _cellX < 0 || _cellX >= SelectedTileMap.TilesX || _cellY < 0 || _cellY >= SelectedTileMap.TilesY )
          {
             return;
          }
