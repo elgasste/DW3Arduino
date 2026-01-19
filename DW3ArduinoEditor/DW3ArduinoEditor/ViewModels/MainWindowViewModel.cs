@@ -31,11 +31,12 @@ namespace DW3ArduinoEditor.ViewModels
          get => _selectedTileMap;
          set
          {
-            SetProperty( ref _selectedTileMap, value );
-
-            if ( _selectedTileMap is not null )
+            if ( SetProperty( ref _selectedTileMap, value ) )
             {
-               SelectedTileTextureSet = TileTextureSets[(int)_selectedTileMap.TileTextureSetIndex];
+               if ( _selectedTileMap is not null )
+               {
+                  SelectedTileTextureSet = TileTextureSets[(int)_selectedTileMap.TileTextureSetIndex];
+               }
             }
          }
       }
@@ -46,27 +47,28 @@ namespace DW3ArduinoEditor.ViewModels
          get => _selectedTileTextureSet;
          set
          {
-            SetProperty( ref _selectedTileTextureSet, value );
-
-            bool invalidTextureIndexFound = false;
-
-            if ( SelectedTileMap is not null && SelectedTileTextureSet is not null )
+            if ( SetProperty( ref _selectedTileTextureSet, value ) )
             {
-               SelectedTileMap.TileTextureSetIndex = SelectedTileTextureSet.Index;
+               bool invalidTextureIndexFound = false;
 
-               foreach ( var tile in SelectedTileMap.Tiles )
+               if ( SelectedTileMap is not null && SelectedTileTextureSet is not null )
                {
-                  if ( tile.TextureIndex >= SelectedTileTextureSet.TexturePoolIndexes.Count )
+                  SelectedTileMap.TileTextureSetIndex = SelectedTileTextureSet.Index;
+
+                  foreach ( var tile in SelectedTileMap.Tiles )
                   {
-                     tile.TextureIndex = 0;
-                     invalidTextureIndexFound = true;
+                     if ( tile.TextureIndex >= SelectedTileTextureSet.TexturePoolIndexes.Count )
+                     {
+                        tile.TextureIndex = 0;
+                        invalidTextureIndexFound = true;
+                     }
                   }
                }
-            }
 
-            if ( invalidTextureIndexFound )
-            {
-               MessageBox.Show( "The selected tile map contains tile texture indexes that are out of range, they will be reset to zero.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning );
+               if ( invalidTextureIndexFound )
+               {
+                  MessageBox.Show( "The selected tile map contains tile texture indexes that are out of range, they will be reset to zero.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning );
+               }
             }
          }
       }
