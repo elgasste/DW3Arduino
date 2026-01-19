@@ -10,7 +10,7 @@ namespace DW3ArduinoEditor
 {
    public class TileMapPanel : FrameworkElement
    {
-      private const int _defaultTileSize = 16;
+      private const int _defaultTileSize = Constants.TileSizePixels;
 
       private static readonly TimeSpan _zoomAnimationDuration = TimeSpan.FromMilliseconds( 500 );
       private static readonly EasingFunctionBase _zoomAnimationEase = new CircleEase
@@ -261,8 +261,8 @@ namespace DW3ArduinoEditor
          var tileSprite = TileTexturePool.GetSpriteFromIndex( SelectedTileTextureSet.TexturePoolIndexes[(int)tileViewModel.TextureIndex] );
          tileSprite.DrawToBuffer( byteBuffer, _defaultTileSize * 4, 0, 0 );
 
-         int destX = _cellX * 16;
-         int destY = _cellY * 16;
+         int destX = _cellX * Constants.TileSizePixels;
+         int destY = _cellY * Constants.TileSizePixels;
 
          _bitmap.WritePixels( new Int32Rect( destX, destY, _defaultTileSize, _defaultTileSize ), byteBuffer, _defaultTileSize * 4, 0 );
          InvalidateVisual();
