@@ -90,16 +90,6 @@
                      <Button Content="Resize"
                              Command="{Binding ResizeSelectedTileMapCommand, Mode=OneTime}"/>
                   </StackPanel>
-                  <StackPanel Orientation="Horizontal">
-                     <TextBlock Text="Tile Texture Set: "
-                                Margin="10,0,0,0"
-                                VerticalAlignment="Center"/>
-                     <TextBlock Text="{Binding SelectedTileTextureSet.Name}"
-                                VerticalAlignment="Center"
-                                Margin="0,0,10,0" />
-                     <Button Content="Change"
-                             Command="{Binding ChangeTileTextureSetCommand, Mode=OneTime}"/>
-                  </StackPanel>
                   <CheckBox Content="Wraps Around"
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
@@ -116,20 +106,28 @@
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
                             IsChecked="{Binding SelectedTileMap.HasEncounters, Mode=TwoWay}"/>
+                  <StackPanel Orientation="Horizontal">
+                     <TextBlock Text="Tile Texture Set: "
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"/>
+                     <TextBlock Text="{Binding SelectedTileTextureSet.Name}"
+                                VerticalAlignment="Center"
+                                Margin="0,0,10,0" />
+                     <Button Content="Change"
+                             Command="{Binding ChangeTileTextureSetCommand, Mode=OneTime}"/>
+                  </StackPanel>
                </StackPanel>
                
                <!-- Tile Map View -->
                <StackPanel Orientation="Horizontal">
                   
                   <!-- Tile Map Texture Selector -->
-                  
-                  <!-- TODO: add a new window to change tile texture set -->
-                  
-                  <!--<ListBox x:Name="tileSelectionListView"
-                           ItemsSource="{Binding TileTextureViewModels}"
+                  <ListBox x:Name="tileSelectionListView"
+                           ItemsSource="{Binding SelectedTileTextureSet.TextureImages}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Left"
-                           MouseMove="TileTextureListView_OnMouseMove">
+                           Width="190"
+                           Height="400" >
                      <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                            <UniformGrid Columns="4" />
@@ -143,7 +141,7 @@
                                   Height="32" />
                         </DataTemplate>
                      </ListBox.ItemTemplate>
-                  </ListBox>-->
+                  </ListBox>
 
                </StackPanel>
 

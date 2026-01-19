@@ -112,5 +112,7 @@ namespace DW3ArduinoEditor
       public const float ActiveSpriteFrameTotalSeconds = 0.35f;
 
       public const string GeneratedFileHeaderMessage = "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n";
+
+      public const int EditorTileSize = 32;
    }
 }

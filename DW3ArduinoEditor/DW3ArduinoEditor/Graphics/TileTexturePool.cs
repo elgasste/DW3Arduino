@@ -4,13 +4,15 @@ using System.Windows.Media.Imaging;
 
 namespace DW3ArduinoEditor.Graphics
 {
-   public class TileTexturePool
+   public class TileTexturePool : ITextureImageProvider
    {
       private readonly List<WriteableBitmap> _tileTextureBitmaps = [];
       private readonly List<Sprite> _tileTextureSprites = [];
-      private readonly Palette _palette;
+      private readonly Palette _palette = new();
 
       public List<List<int>> TilePaletteIndexes = [];
+
+      public TileTexturePool() { }
 
       public TileTexturePool( string imagePath, Palette palette )
       {
@@ -37,6 +39,9 @@ namespace DW3ArduinoEditor.Graphics
             _tileTextureSprites.Add( tileSprite );
          }
       }
+
+      // ITextureImageProvider
+      public BitmapSource GetImageFromIndex( uint index ) => _tileTextureBitmaps[(int)index];
 
       private void ReadTileTextureBitmaps( BitmapSource bitmapSource )
       {

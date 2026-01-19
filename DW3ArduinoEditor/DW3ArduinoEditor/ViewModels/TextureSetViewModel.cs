@@ -1,18 +1,33 @@
-﻿using DW3ArduinoEditor.SaveData;
+﻿using DW3ArduinoEditor.Graphics;
+using DW3ArduinoEditor.SaveData;
 using System.Collections.ObjectModel;
 
 namespace DW3ArduinoEditor.ViewModels
 {
    public class TextureSetViewModel : ViewModelBase
    {
+      private readonly ITextureImageProvider _textureImageProvider;
+
       private uint _index;
       public uint Index
       {
          get => _index;
-         set => SetProperty( ref _index, value );
+         set
+         {
+            SetProperty( ref _index, value );
+
+            TextureImages = [];
+            foreach ( var index in TexturePoolIndexes )
+            {
+               if ( _textureImageProvider is not null )
+               {
+                  TextureImages.Add( new( _textureImageProvider.GetImageFromIndex( index ), Constants.EditorTileSize, Constants.EditorTileSize ) );
+               }
+            }
+         }
       }
 
-      private string _name;
+      private string _name = string.Empty;
       public string Name
       {
          get => _name;
@@ -20,22 +35,26 @@ namespace DW3ArduinoEditor.ViewModels
       }
 
       public ObservableCollection<uint> TexturePoolIndexes { get; private set; } = [];
+      public ObservableCollection<TextureImageViewModel> TextureImages { get; private set; } = [];
 
-      public TextureSetViewModel( uint index, string name )
+      public TextureSetViewModel( ITextureImageProvider textureImageProvider, uint index, string name )
       {
-         _index = index;
-         _name = name;
+         _textureImageProvider = textureImageProvider;
+         Index = index;
+         Name = name;
       }
 
-      public TextureSetViewModel( TextureSetSaveData saveData )
+      public TextureSetViewModel( ITextureImageProvider textureImageProvider, TextureSetSaveData saveData )
       {
-         _index = saveData.Index;
-         _name = saveData.Name;
+         _textureImageProvider = textureImageProvider;
+         Name = saveData.Name;
 
          foreach ( var index in saveData.TexturePoolIndexes )
          {
             TexturePoolIndexes.Add( index );
          }
+
+         Index = saveData.Index;
       }
    }
 }
