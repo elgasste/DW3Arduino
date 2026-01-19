@@ -44,8 +44,31 @@ namespace DW3ArduinoEditor.ViewModels
       public TextureSetViewModel? SelectedTileTextureSet
       {
          get => _selectedTileTextureSet;
-         // TODO: the selected tile map might have textures that are out of range
-         set => SetProperty( ref _selectedTileTextureSet, value );
+         set
+         {
+            SetProperty( ref _selectedTileTextureSet, value );
+
+            bool invalidTextureIndexFound = false;
+
+            if ( SelectedTileMap is not null && SelectedTileTextureSet is not null )
+            {
+               SelectedTileMap.TileTextureSetIndex = SelectedTileTextureSet.Index;
+
+               foreach ( var tile in SelectedTileMap.Tiles )
+               {
+                  if ( tile.TextureIndex >= SelectedTileTextureSet.TexturePoolIndexes.Count )
+                  {
+                     tile.TextureIndex = 0;
+                     invalidTextureIndexFound = true;
+                  }
+               }
+            }
+
+            if ( invalidTextureIndexFound )
+            {
+               MessageBox.Show( "The selected tile map contains tile texture indexes that are out of range, they will be reset to zero.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning );
+            }
+         }
       }
 
       public MainWindowViewModel()
