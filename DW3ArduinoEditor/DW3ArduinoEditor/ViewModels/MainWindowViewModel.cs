@@ -44,6 +44,7 @@ namespace DW3ArduinoEditor.ViewModels
       public TextureSetViewModel? SelectedTileTextureSet
       {
          get => _selectedTileTextureSet;
+         // TODO: the selected tile map might have textures that are out of range
          set => SetProperty( ref _selectedTileTextureSet, value );
       }
 
