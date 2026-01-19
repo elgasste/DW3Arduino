@@ -111,7 +111,6 @@ namespace DW3ArduinoEditor
             return;
          }
 
-         // MUFFINS: what do we do here? anything?
          sender.PrepareBitmap();
       }
 
@@ -134,7 +133,6 @@ namespace DW3ArduinoEditor
             return;
          }
 
-         // MUFFINS: what do we do here? anything?
          sender.PrepareBitmap();
       }
 
@@ -175,8 +173,10 @@ namespace DW3ArduinoEditor
          const int bytesPerPixel = 4;
 
          int tilesPerRow = (int)SelectedTileMap.TilesX;
+         int tilesPerCol = (int)SelectedTileMap.TilesY;
+
          int width = tilesPerRow * _defaultTileSize * bytesPerPixel;
-         int height = tilesPerRow * _defaultTileSize * bytesPerPixel;
+         int height = tilesPerCol * _defaultTileSize * bytesPerPixel;
 
          _bitmap = new WriteableBitmap( width, height, 96, 96, PixelFormats.Bgra32, null );
          _rawBuffer = new byte[width * height];
