@@ -42,6 +42,7 @@ namespace DW3ArduinoEditor.Graphics
 
       // ITextureImageProvider
       public BitmapSource GetImageFromIndex( uint index ) => _tileTextureBitmaps[(int)index];
+      public Sprite GetSpriteFromIndex( uint index ) => _tileTextureSprites[(int)index];
 
       private void ReadTileTextureBitmaps( BitmapSource bitmapSource )
       {

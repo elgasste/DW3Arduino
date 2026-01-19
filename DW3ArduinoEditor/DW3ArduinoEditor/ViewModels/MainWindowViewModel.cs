@@ -15,7 +15,7 @@ namespace DW3ArduinoEditor.ViewModels
       private readonly GameStartupViewModel _gameStartup = new();
       private readonly HeaderGuidsViewModel _headerGuids = new();
       private readonly Palette _palette = new();
-      private readonly TileTexturePool _tileTexturePool = new();
+      public TileTexturePool TileTexturePool { get; private set; } = new();
       private readonly StaticSpriteTexturePool _staticSpriteTexturePool = new();
       private readonly ActiveSpriteTexturePool _activeSpriteTexturePool = new();
       private readonly ActiveSpriteTexturePool _playerSpriteTexturePool = new();
@@ -31,11 +31,12 @@ namespace DW3ArduinoEditor.ViewModels
          get => _selectedTileMap;
          set
          {
-            SetProperty( ref _selectedTileMap, value );
-
-            if ( _selectedTileMap is not null )
+            if ( SetProperty( ref _selectedTileMap, value ) )
             {
-               SelectedTileTextureSet = TileTextureSets[(int)_selectedTileMap.TileTextureSetIndex];
+               if ( _selectedTileMap is not null )
+               {
+                  SelectedTileTextureSet = TileTextureSets[(int)_selectedTileMap.TileTextureSetIndex];
+               }
             }
          }
       }
@@ -44,15 +45,39 @@ namespace DW3ArduinoEditor.ViewModels
       public TextureSetViewModel? SelectedTileTextureSet
       {
          get => _selectedTileTextureSet;
-         // TODO: the selected tile map might have textures that are out of range
-         set => SetProperty( ref _selectedTileTextureSet, value );
+         set
+         {
+            if ( SetProperty( ref _selectedTileTextureSet, value ) )
+            {
+               bool invalidTextureIndexFound = false;
+
+               if ( SelectedTileMap is not null && SelectedTileTextureSet is not null )
+               {
+                  SelectedTileMap.TileTextureSetIndex = SelectedTileTextureSet.Index;
+
+                  foreach ( var tile in SelectedTileMap.Tiles )
+                  {
+                     if ( tile.TextureIndex >= SelectedTileTextureSet.TexturePoolIndexes.Count )
+                     {
+                        tile.TextureIndex = 0;
+                        invalidTextureIndexFound = true;
+                     }
+                  }
+               }
+
+               if ( invalidTextureIndexFound )
+               {
+                  MessageBox.Show( "The selected tile map contains tile texture indexes that are out of range, they will be reset to zero.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning );
+               }
+            }
+         }
       }
 
       public MainWindowViewModel()
       {
          try
          {
-            _tileTexturePool = new( Constants.TileTexturePoolImagePath, _palette );
+            TileTexturePool = new( Constants.TileTexturePoolImagePath, _palette );
          }
          catch ( Exception ex )
          {
@@ -102,7 +127,7 @@ namespace DW3ArduinoEditor.ViewModels
             else
             {
                GameSaveDataSanityChecker.CheckSanity( saveData,
-                                                      _tileTexturePool.TilePaletteIndexes.Count,
+                                                      TileTexturePool.TilePaletteIndexes.Count,
                                                       _staticSpriteTexturePool.StaticSpritePaletteIndexes.Count,
                                                       _activeSpriteTexturePool.ActiveSpritePaletteIndexes.Count,
                                                       _playerSpriteTexturePool.ActiveSpritePaletteIndexes.Count );
@@ -117,7 +142,7 @@ namespace DW3ArduinoEditor.ViewModels
 
                foreach ( var set in saveData.TileTextureSets )
                {
-                  TileTextureSets.Add( new( _tileTexturePool, set ) );
+                  TileTextureSets.Add( new( TileTexturePool, set ) );
                }
 
                foreach ( var set in saveData.StaticSpriteTextureSets )
@@ -299,13 +324,13 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( _gameStartup, _headerGuids, TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets ), _palette, _tileTexturePool, _staticSpriteTexturePool, _activeSpriteTexturePool, _playerSpriteTexturePool );
+         generator.WriteGameDataSourceFile( new( _gameStartup, _headerGuids, TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets ), _palette, TileTexturePool, _staticSpriteTexturePool, _activeSpriteTexturePool, _playerSpriteTexturePool );
          MessageBox.Show( "Game data source file has been written." );
       }
 
       private void ChangeTileTextureSet()
       {
-         // TODO
+         // TODO: open a window to select
       }
 
       private ICommand? _renameSelectedTileMapCommand;
