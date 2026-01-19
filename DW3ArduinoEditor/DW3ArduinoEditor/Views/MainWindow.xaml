@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="DW3 Arduino Editor"
         Height="730"
-        Width="1200"
+        Width="850"
         ResizeMode="NoResize">
 
    <Window.Resources>
@@ -74,97 +74,99 @@
                           Command="{Binding DeleteSelectedTileMapCommand, Mode=OneTime}"/>
                </StackPanel>
 
-               <!-- Tile Map Editing Operations -->
-               <StackPanel Orientation="Vertical">
-                  <StackPanel Orientation="Horizontal">
-                     <TextBlock Text="Tiles: "
-                                VerticalAlignment="Center"
-                                Margin="10,0,0,0"/>
-                     <TextBlock Text="{Binding SelectedTileMap.TilesX}"
-                                VerticalAlignment="Center"/>
-                     <TextBlock Text="x"
-                                VerticalAlignment="Center"/>
-                     <TextBlock Text="{Binding SelectedTileMap.TilesY}"
-                                VerticalAlignment="Center"
-                                Margin="0,0,10,0"/>
-                     <Button Content="Resize"
-                             Command="{Binding ResizeSelectedTileMapCommand, Mode=OneTime}"/>
-                  </StackPanel>
-                  <CheckBox Content="Wraps Around"
-                            Margin="10,0,0,0"
-                            VerticalAlignment="Center"
-                            IsChecked="{Binding SelectedTileMap.Wraps, Mode=TwoWay}"/>
-                  <CheckBox Content="Affects Daylight"
-                            Margin="10,0,0,0"
-                            VerticalAlignment="Center"
-                            IsChecked="{Binding SelectedTileMap.AffectsDaylight, Mode=TwoWay}"/>
-                  <CheckBox Content="Is Underground"
-                            Margin="10,0,0,0"
-                            VerticalAlignment="Center"
-                            IsChecked="{Binding SelectedTileMap.IsUnderground, Mode=TwoWay}"/>
-                  <CheckBox Content="Has Encounters"
-                            Margin="10,0,0,0"
-                            VerticalAlignment="Center"
-                            IsChecked="{Binding SelectedTileMap.HasEncounters, Mode=TwoWay}"/>
-                  <StackPanel Orientation="Horizontal">
-                     <TextBlock Text="Tile Texture Set: "
-                                Margin="10,0,0,0"
-                                VerticalAlignment="Center"/>
-                     <TextBlock Text="{Binding SelectedTileTextureSet.Name}"
-                                VerticalAlignment="Center"
-                                Margin="0,0,10,0" />
-                     <Button Content="Change"
-                             Command="{Binding ChangeTileTextureSetCommand, Mode=OneTime}"/>
-                  </StackPanel>
+               <!-- Tile Map Size and Texture Set -->
+               <StackPanel Orientation="Horizontal">
 
-                  <!-- Tile Map View -->
-                  <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="Tiles: "
+                             VerticalAlignment="Center"
+                             Margin="10,0,0,0"/>
+                  <TextBlock Text="{Binding SelectedTileMap.TilesX}"
+                             VerticalAlignment="Center"/>
+                  <TextBlock Text="x"
+                             VerticalAlignment="Center"/>
+                  <TextBlock Text="{Binding SelectedTileMap.TilesY}"
+                             VerticalAlignment="Center"
+                             Margin="0,0,10,0"/>
+                  <Button Content="Resize"
+                          Command="{Binding ResizeSelectedTileMapCommand, Mode=OneTime}"/>
 
-                     <StackPanel Orientation="Vertical">
+                  <TextBlock Text="Tile Texture Set: "
+                             Margin="10,0,0,0"
+                             VerticalAlignment="Center"/>
+                  <TextBlock Text="{Binding SelectedTileTextureSet.Name}"
+                             VerticalAlignment="Center"
+                             Margin="0,0,10,0" />
+                  <Button Content="Change"
+                          Command="{Binding ChangeTileTextureSetCommand, Mode=OneTime}"/>
 
-                        <!-- Tile Map Texture Selector -->
-                        <ListBox x:Name="tileSelectionListView"
+               </StackPanel>
+
+               <!-- Tile Map Editing Panels -->
+               <StackPanel Orientation="Horizontal">
+
+                  <!-- Tile Map Flags and Texture Set -->
+                  <StackPanel Orientation="Vertical">
+
+                     <CheckBox Content="Wraps Around"
+                               Margin="10,10,0,0"
+                               VerticalAlignment="Center"
+                               IsChecked="{Binding SelectedTileMap.Wraps, Mode=TwoWay}"/>
+                     <CheckBox Content="Affects Daylight"
+                               Margin="10,5,0,0"
+                               VerticalAlignment="Center"
+                               IsChecked="{Binding SelectedTileMap.AffectsDaylight, Mode=TwoWay}"/>
+                     <CheckBox Content="Is Underground"
+                               Margin="10,5,0,0"
+                               VerticalAlignment="Center"
+                               IsChecked="{Binding SelectedTileMap.IsUnderground, Mode=TwoWay}"/>
+                     <CheckBox Content="Has Encounters"
+                               Margin="10,5,0,10"
+                               VerticalAlignment="Center"
+                               IsChecked="{Binding SelectedTileMap.HasEncounters, Mode=TwoWay}"/>
+
+                     <!-- Tile Map Texture Selector -->
+                     <ListBox x:Name="tileSelectionListView"
                               ItemsSource="{Binding SelectedTileTextureSet.TextureImages}"
                               VerticalAlignment="Top"
                               HorizontalAlignment="Left"
                               Width="174"
                               Height="260" >
-                           <ListBox.ItemsPanel>
-                              <ItemsPanelTemplate>
-                                 <UniformGrid Columns="4" />
-                              </ItemsPanelTemplate>
-                           </ListBox.ItemsPanel>
+                        <ListBox.ItemsPanel>
+                           <ItemsPanelTemplate>
+                              <UniformGrid Columns="4" />
+                           </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
 
-                           <ListBox.ItemTemplate>
-                              <DataTemplate>
-                                 <Image Source="{Binding Image}"
-                                     Width="32"
-                                     Height="32" />
-                              </DataTemplate>
-                           </ListBox.ItemTemplate>
-                        </ListBox>
-                        
-                        <!-- Tile Map Layers -->
-                        <CheckBox x:Name="tileMapShowStaticSpritesCheckbox"
-                                  Content="Show static sprites"
-                                  Margin="10,10,0,0"
-                                  IsChecked="True" />
+                        <ListBox.ItemTemplate>
+                           <DataTemplate>
+                              <Image Source="{Binding Image}"
+                                       Width="32"
+                                       Height="32" />
+                           </DataTemplate>
+                        </ListBox.ItemTemplate>
+                     </ListBox>
 
-                     </StackPanel>
+                     <!-- Tile Map Layers -->
+                     <CheckBox x:Name="tileMapShowStaticSpritesCheckbox"
+                                    Content="Show static sprites"
+                                    Margin="10,10,0,0"
+                                    IsChecked="True" />
 
-                     <!-- Tile Map -->
+                  </StackPanel>
+
+                  <!-- Tile Map Editor -->
+                  <StackPanel Orientation="Vertical">
                      <local:TileMapPanel x:Name="TileMapPanel"
-                                         Width="640"
-                                         Height="500"
-                                         Margin="10,0,0,0"
-                                         SelectedTileMap="{Binding SelectedTileMap}"
-                                         TileTexturePool="{Binding TileTexturePool}"
-                                         StaticSpriteTexturePool="{Binding StaticSpriteTexturePool}"
-                                         SelectedTileTextureSet="{Binding SelectedTileTextureSet}"
-                                         SelectedStaticSpriteTextureSet="{Binding SelectedStaticSpriteTextureSet}"
-                                         SelectedTileTextureIndex="{Binding SelectedIndex, ElementName=tileSelectionListView, Mode=TwoWay}"
-                                         ShowStaticSprites="{Binding IsChecked, ElementName=tileMapShowStaticSpritesCheckbox, Mode=OneWay }"/>
-
+                                      Width="640"
+                                      Height="560"
+                                      Margin="10,10,0,0"
+                                      SelectedTileMap="{Binding SelectedTileMap}"
+                                      TileTexturePool="{Binding TileTexturePool}"
+                                      StaticSpriteTexturePool="{Binding StaticSpriteTexturePool}"
+                                      SelectedTileTextureSet="{Binding SelectedTileTextureSet}"
+                                      SelectedStaticSpriteTextureSet="{Binding SelectedStaticSpriteTextureSet}"
+                                      SelectedTileTextureIndex="{Binding SelectedIndex, ElementName=tileSelectionListView, Mode=TwoWay}"
+                                      ShowStaticSprites="{Binding IsChecked, ElementName=tileMapShowStaticSpritesCheckbox, Mode=OneWay }"/>
                   </StackPanel>
 
                </StackPanel>
