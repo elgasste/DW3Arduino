@@ -220,6 +220,9 @@ namespace DW3ArduinoEditor.ViewModels
             }
 
             TileMaps.RemoveAt( index );
+
+            // TODO: if this is the tile map the player starts on, we need to change that data.
+            // we also need to explore what happens if there are no tile maps after this.
          }
       }
 
