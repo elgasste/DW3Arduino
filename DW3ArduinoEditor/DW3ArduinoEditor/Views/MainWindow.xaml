@@ -120,28 +120,38 @@
                   <!-- Tile Map View -->
                   <StackPanel Orientation="Horizontal">
 
-                     <!-- Tile Map Texture Selector -->
-                     <ListBox x:Name="tileSelectionListView"
+                     <StackPanel Orientation="Vertical">
+
+                        <!-- Tile Map Texture Selector -->
+                        <ListBox x:Name="tileSelectionListView"
                               ItemsSource="{Binding SelectedTileTextureSet.TextureImages}"
                               VerticalAlignment="Top"
                               HorizontalAlignment="Left"
                               Width="174"
                               Height="260" >
-                        <ListBox.ItemsPanel>
-                           <ItemsPanelTemplate>
-                              <UniformGrid Columns="4" />
-                           </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
+                           <ListBox.ItemsPanel>
+                              <ItemsPanelTemplate>
+                                 <UniformGrid Columns="4" />
+                              </ItemsPanelTemplate>
+                           </ListBox.ItemsPanel>
 
-                        <ListBox.ItemTemplate>
-                           <DataTemplate>
-                              <Image Source="{Binding Image}"
+                           <ListBox.ItemTemplate>
+                              <DataTemplate>
+                                 <Image Source="{Binding Image}"
                                      Width="32"
                                      Height="32" />
-                           </DataTemplate>
-                        </ListBox.ItemTemplate>
-                     </ListBox>
-                     
+                              </DataTemplate>
+                           </ListBox.ItemTemplate>
+                        </ListBox>
+                        
+                        <!-- Tile Map Layers -->
+                        <CheckBox x:Name="tileMapShowStaticSpritesCheckbox"
+                                  Content="Show static sprites"
+                                  Margin="10,10,0,0"
+                                  IsChecked="True" />
+
+                     </StackPanel>
+
                      <!-- Tile Map -->
                      <local:TileMapPanel x:Name="TileMapPanel"
                                          Width="640"
@@ -150,7 +160,8 @@
                                          SelectedTileMap="{Binding SelectedTileMap}"
                                          TileTexturePool="{Binding TileTexturePool}"
                                          SelectedTileTextureSet="{Binding SelectedTileTextureSet}"
-                                         SelectedTextureIndex="{Binding SelectedIndex, ElementName=tileSelectionListView, Mode=TwoWay}" />
+                                         SelectedTextureIndex="{Binding SelectedIndex, ElementName=tileSelectionListView, Mode=TwoWay}"
+                                         ShowStaticSprites="{Binding IsChecked, ElementName=tileMapShowStaticSpritesCheckbox, Mode=OneWay }"/>
 
                   </StackPanel>
 

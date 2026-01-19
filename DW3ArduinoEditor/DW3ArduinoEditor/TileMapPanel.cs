@@ -150,6 +150,28 @@ namespace DW3ArduinoEditor
          set => SetValue( SelectedTextureIndexProperty, value );
       }
 
+      public static readonly DependencyProperty ShowStaticSpritesProperty = DependencyProperty.Register(
+         nameof( ShowStaticSprites ),
+         typeof( bool ),
+         typeof( TileMapPanel ),
+         new PropertyMetadata( OnShowStaticSpritesChanged ) );
+
+      public bool ShowStaticSprites
+      {
+         get => (bool)GetValue( ShowStaticSpritesProperty );
+         set => SetValue( ShowStaticSpritesProperty, value );
+      }
+
+      private static void OnShowStaticSpritesChanged( DependencyObject obj, DependencyPropertyChangedEventArgs e )
+      {
+         if ( obj is not TileMapPanel sender || e.NewValue is not bool showStaticSprites )
+         {
+            return;
+         }
+
+         sender.PrepareBitmap();
+      }
+
       public TileMapPanel()
       {
          ClipToBounds = true;
