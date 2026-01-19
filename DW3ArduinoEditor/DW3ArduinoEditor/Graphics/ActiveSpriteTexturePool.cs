@@ -4,13 +4,20 @@ using System.Windows.Media.Imaging;
 
 namespace DW3ArduinoEditor.Graphics
 {
-   public class ActiveSpriteTexturePool
+   public class ActiveSpriteTexturePool : ITextureImageProvider
    {
       private readonly List<WriteableBitmap> _activeSpriteTextureBitmaps = [];
       private readonly List<Sprite> _activeSpriteTextureSprites = [];
-      private readonly Palette _palette;
+      private readonly Palette _palette = new();
 
       public List<List<int>> ActiveSpritePaletteIndexes = [];
+
+      public ActiveSpriteTexturePool() { }
+
+      public ActiveSpriteTexturePool( Palette palette )
+      {
+         _palette = palette;
+      }
 
       public ActiveSpriteTexturePool( string imagePath, Palette palette )
       {
@@ -37,6 +44,9 @@ namespace DW3ArduinoEditor.Graphics
             _activeSpriteTextureSprites.Add( activeSpriteSprite );
          }
       }
+
+      // ITextureImageProvider
+      public BitmapSource GetImageFromIndex( uint index ) => _activeSpriteTextureBitmaps[(int)index];
 
       private void ReadActiveSpriteTextureBitmaps( BitmapSource bitmapSource )
       {

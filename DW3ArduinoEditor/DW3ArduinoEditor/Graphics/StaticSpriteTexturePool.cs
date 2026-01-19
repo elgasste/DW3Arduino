@@ -4,13 +4,15 @@ using System.Windows;
 
 namespace DW3ArduinoEditor.Graphics
 {
-   public class StaticSpriteTexturePool
+   public class StaticSpriteTexturePool : ITextureImageProvider
    {
       private readonly List<WriteableBitmap> _staticSpriteTextureBitmaps = [];
       private readonly List<Sprite> _staticSpriteTextureSprites = [];
-      private readonly Palette _palette;
+      private readonly Palette _palette = new();
 
       public List<List<int>> StaticSpritePaletteIndexes = [];
+
+      public StaticSpriteTexturePool() { }
 
       public StaticSpriteTexturePool( string imagePath, Palette palette )
       {
@@ -37,6 +39,9 @@ namespace DW3ArduinoEditor.Graphics
             _staticSpriteTextureSprites.Add( staticSpriteSprite );
          }
       }
+
+      // ITextureImageProvider
+      public BitmapSource GetImageFromIndex( uint index ) => _staticSpriteTextureBitmaps[(int)index];
 
       private void ReadStaticSpriteTextureBitmaps( BitmapSource bitmapSource )
       {

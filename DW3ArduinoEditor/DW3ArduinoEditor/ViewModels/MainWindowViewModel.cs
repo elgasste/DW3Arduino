@@ -12,13 +12,13 @@ namespace DW3ArduinoEditor.ViewModels
 {
    public class MainWindowViewModel : ViewModelBase
    {
-      private GameStartupViewModel _gameStartup = new();
-      private HeaderGuidsViewModel _headerGuids = new();
-      private Palette _palette = new();
-      private TileTexturePool? _tileTexturePool;
-      private StaticSpriteTexturePool? _staticSpriteTexturePool;
-      private ActiveSpriteTexturePool? _activeSpriteTexturePool;
-      private ActiveSpriteTexturePool? _playerSpriteTexturePool;
+      private readonly GameStartupViewModel _gameStartup = new();
+      private readonly HeaderGuidsViewModel _headerGuids = new();
+      private readonly Palette _palette = new();
+      private readonly TileTexturePool _tileTexturePool = new();
+      private readonly StaticSpriteTexturePool _staticSpriteTexturePool = new();
+      private readonly ActiveSpriteTexturePool _activeSpriteTexturePool = new();
+      private readonly ActiveSpriteTexturePool _playerSpriteTexturePool = new();
 
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
       public ObservableCollection<TextureSetViewModel> TileTextureSets { get; } = [];
@@ -29,7 +29,22 @@ namespace DW3ArduinoEditor.ViewModels
       public TileMapViewModel? SelectedTileMap
       {
          get => _selectedTileMap;
-         set => SetProperty( ref _selectedTileMap, value );
+         set
+         {
+            SetProperty( ref _selectedTileMap, value );
+
+            if ( _selectedTileMap is not null )
+            {
+               SelectedTileTextureSet = TileTextureSets[(int)_selectedTileMap.TileTextureSetIndex];
+            }
+         }
+      }
+
+      private TextureSetViewModel? _selectedTileTextureSet;
+      public TextureSetViewModel? SelectedTileTextureSet
+      {
+         get => _selectedTileTextureSet;
+         set => SetProperty( ref _selectedTileTextureSet, value );
       }
 
       public MainWindowViewModel()
@@ -86,10 +101,10 @@ namespace DW3ArduinoEditor.ViewModels
             else
             {
                GameSaveDataSanityChecker.CheckSanity( saveData,
-                                                      _tileTexturePool is null ? 0 : _tileTexturePool.TilePaletteIndexes.Count,
-                                                      _staticSpriteTexturePool is null ? 0 : _staticSpriteTexturePool.StaticSpritePaletteIndexes.Count,
-                                                      _activeSpriteTexturePool is null ? 0 : _activeSpriteTexturePool.ActiveSpritePaletteIndexes.Count,
-                                                      _playerSpriteTexturePool is null ? 0 : _playerSpriteTexturePool.ActiveSpritePaletteIndexes.Count );
+                                                      _tileTexturePool.TilePaletteIndexes.Count,
+                                                      _staticSpriteTexturePool.StaticSpritePaletteIndexes.Count,
+                                                      _activeSpriteTexturePool.ActiveSpritePaletteIndexes.Count,
+                                                      _playerSpriteTexturePool.ActiveSpritePaletteIndexes.Count );
 
                _gameStartup = new( saveData.GameStartup );
                _headerGuids = new( saveData.HeaderGuids );
@@ -101,17 +116,17 @@ namespace DW3ArduinoEditor.ViewModels
 
                foreach ( var set in saveData.TileTextureSets )
                {
-                  TileTextureSets.Add( new( set  ) );
+                  TileTextureSets.Add( new( _tileTexturePool, set ) );
                }
 
                foreach ( var set in saveData.StaticSpriteTextureSets )
                {
-                  StaticSpriteTextureSets.Add( new( set ) );
+                  StaticSpriteTextureSets.Add( new( _staticSpriteTexturePool, set ) );
                }
 
                foreach ( var set in saveData.ActiveSpriteTextureSets )
                {
-                  ActiveSpriteTextureSets.Add( new( set ) );
+                  ActiveSpriteTextureSets.Add( new( _activeSpriteTexturePool, set ) );
                }
 
                if ( TileMaps.Count > 0 )
@@ -205,6 +220,9 @@ namespace DW3ArduinoEditor.ViewModels
             }
 
             TileMaps.RemoveAt( index );
+
+            // TODO: if this is the tile map the player starts on, we need to change that data.
+            // we also need to explore what happens if there are no tile maps after this.
          }
       }
 
@@ -284,6 +302,11 @@ namespace DW3ArduinoEditor.ViewModels
          MessageBox.Show( "Game data source file has been written." );
       }
 
+      private void ChangeTileTextureSet()
+      {
+         // TODO
+      }
+
       private ICommand? _renameSelectedTileMapCommand;
       public ICommand? RenameSelectedTileMapCommand => _renameSelectedTileMapCommand ??= new RelayCommand( RenameSelectedTileMap, () => true );
 
@@ -301,5 +324,8 @@ namespace DW3ArduinoEditor.ViewModels
 
       private ICommand? _writeGameDataSourceCommand;
       public ICommand? WriteGameDataSourceCommand => _writeGameDataSourceCommand ??= new RelayCommand( WriteGameDataSource, () => true );
+
+      private ICommand? _changeTileTextureSetCommand;
+      public ICommand? ChangeTileTextureSetCommand => _changeTileTextureSetCommand ??= new RelayCommand( ChangeTileTextureSet, () => true );
    }
 }
