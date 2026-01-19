@@ -111,7 +111,7 @@ namespace DW3ArduinoEditor
             return;
          }
 
-         // MUFFINS: what should happen here?
+         // MUFFINS: what do we do here? anything?
          sender.PrepareBitmap();
       }
 
@@ -134,7 +134,7 @@ namespace DW3ArduinoEditor
             return;
          }
 
-         // MUFFINS: what do we do here?
+         // MUFFINS: what do we do here? anything?
          sender.PrepareBitmap();
       }
 
@@ -227,35 +227,35 @@ namespace DW3ArduinoEditor
          }
       }
 
-      //private void ChangeTile()
-      //{
-      //   if ( _bitmap is null )
-      //   {
-      //      return;
-      //   }
+      private void ChangeTile()
+      {
+         if ( _bitmap is null || SelectedTileMap is null || TileTexturePool is null || SelectedTileTextureSet is null )
+         {
+            return;
+         }
 
-      //   int offset = _cellY * _tilesPerRow + _cellX;
-      //   var tileViewModel = SelectedTileMap.Tiles[offset];
+         int tilesPerRow = (int)SelectedTileMap.TilesX;
+         int offset = _cellY * tilesPerRow + _cellX;
+         var tileViewModel = SelectedTileMap.Tiles[offset];
 
-      //   if ( tileViewModel.TextureIndex == SelectedTextureIndex )
-      //   {
-      //      // No need to redraw the tile if it's the same
-      //      return;
-      //   }
+         if ( tileViewModel.TextureIndex == SelectedTextureIndex )
+         {
+            // No need to redraw the tile if it's the same
+            return;
+         }
 
-      //   tileViewModel.TextureIndex = (uint)SelectedTextureIndex;
+         tileViewModel.TextureIndex = (uint)SelectedTextureIndex;
 
-      //   var byteBuffer = new byte[_defaultTileSize * _defaultTileSize * 4];
-      //   // MUFFINS: gotta update this
-      //   var tileSprite = SelectedTileMap.Tiles[(int)tileViewModel.TextureIndex].TileSet.TileTextures[tileViewModel.TextureIndex];
-      //   tileSprite.DrawToBuffer( byteBuffer, _defaultTileSize * 4, 0, 0 );
+         var byteBuffer = new byte[_defaultTileSize * _defaultTileSize * 4];
+         var tileSprite = TileTexturePool.GetSpriteFromIndex( SelectedTileTextureSet.TexturePoolIndexes[(int)tileViewModel.TextureIndex] );
+         tileSprite.DrawToBuffer( byteBuffer, _defaultTileSize * 4, 0, 0 );
 
-      //   int destX = _cellX * 16;
-      //   int destY = _cellY * 16;
+         int destX = _cellX * 16;
+         int destY = _cellY * 16;
 
-      //   _bitmap.WritePixels( new Int32Rect( destX, destY, _defaultTileSize, _defaultTileSize ), byteBuffer, _defaultTileSize * 4, 0 );
-      //   InvalidateVisual();
-      //}
+         _bitmap.WritePixels( new Int32Rect( destX, destY, _defaultTileSize, _defaultTileSize ), byteBuffer, _defaultTileSize * 4, 0 );
+         InvalidateVisual();
+      }
 
       protected override void OnPreviewKeyDown( KeyEventArgs e )
       {
@@ -298,12 +298,11 @@ namespace DW3ArduinoEditor
 
          switch ( _inputMode )
          {
-            // MUFFINS: let's come back to this later
-            //case Enums.InputMode.Draw:
-            //   {
-            //      ChangeTile();
-            //      break;
-            //   }
+            case Enums.InputMode.Draw:
+               {
+                  ChangeTile();
+                  break;
+               }
 
             case Enums.InputMode.Pan:
                {
@@ -342,17 +341,16 @@ namespace DW3ArduinoEditor
 
          switch ( _inputMode )
          {
-            // MUFFINS: let's come back to this later
-            //case Enums.InputMode.Draw:
-            //   {
-            //      if ( _isLeftButtonDown )
-            //      {
-            //         ChangeTile();
-            //      }
-            //      break;
-            //   }
+            case Enums.InputMode.Draw:
+            {
+               if ( _isLeftButtonDown )
+               {
+                  ChangeTile();
+               }
+               break;
+            }
 
-            case Enums.InputMode.Pan:
+         case Enums.InputMode.Pan:
                {
                   if ( _isLeftButtonDown )
                   {
