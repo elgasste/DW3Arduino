@@ -42,6 +42,7 @@ namespace DW3ArduinoEditor.Graphics
 
       // ITextureImageProvider
       public BitmapSource GetImageFromIndex( uint index ) => _staticSpriteTextureBitmaps[(int)index];
+      public Sprite GetSpriteFromIndex( uint index ) => _staticSpriteTextureSprites[(int)index];
 
       private void ReadStaticSpriteTextureBitmaps( BitmapSource bitmapSource )
       {

@@ -141,6 +141,16 @@
                            </DataTemplate>
                         </ListBox.ItemTemplate>
                      </ListBox>
+                     
+                     <!-- MUFFINS: I think SelectedTextureIndex is gonna be different here -->
+                     <!-- Tile Map -->
+                     <local:TileMapPanel x:Name="TileMapPanel"
+                                         Width="500"
+                                         Height="500"
+                                         SelectedTileMap="{Binding SelectedTileMap}"
+                                         TileTexturePool="{Binding TileTexturePool}"
+                                         SelectedTileTextureSet="{Binding SelectedTileTextureSet}"
+                                         SelectedTextureIndex="{Binding SelectedItem.TextureIndex, ElementName=tileSelectionListView, Mode=TwoWay}" />
 
                   </StackPanel>
 
