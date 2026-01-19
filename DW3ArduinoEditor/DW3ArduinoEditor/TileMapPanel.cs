@@ -288,7 +288,6 @@ namespace DW3ArduinoEditor
          _bitmap.WritePixels( new Int32Rect( 0, 0, _bitmap.PixelWidth / 4, _bitmap.PixelHeight / 4 ), _rawBuffer, _bitmap.PixelWidth, 0 );
       }
 
-      // TODO: it would be cool if this also tried to center the view on the mouse cursor
       private void SetZoomLevel( int zoomFactorDelta )
       {
          if ( _isAnimatingZooming )
@@ -305,10 +304,18 @@ namespace DW3ArduinoEditor
             EasingFunction = _zoomAnimationEase
          };
 
-         zoomLevelAnimation.Completed += OnAnimationComplete;
-         BeginAnimation( ZoomProperty, zoomLevelAnimation );
+         // MUFFINS: obviously use an actual offset value
+         var offsetAnimation = new VectorAnimation( new Vector( -100, -150 ), _zoomAnimationDuration )
+         {
+            EasingFunction = _zoomAnimationEase
+         };
 
-         void OnAnimationComplete( object? sender, EventArgs e )
+         zoomLevelAnimation.Completed += OnZoomAnimationComplete;
+
+         BeginAnimation( ZoomProperty, zoomLevelAnimation );
+         BeginAnimation( OffsetProperty, offsetAnimation );
+
+         void OnZoomAnimationComplete( object? sender, EventArgs e )
          {
             _isAnimatingZooming = false;
          }
