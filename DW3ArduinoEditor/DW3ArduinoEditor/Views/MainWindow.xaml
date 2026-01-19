@@ -116,32 +116,33 @@
                      <Button Content="Change"
                              Command="{Binding ChangeTileTextureSetCommand, Mode=OneTime}"/>
                   </StackPanel>
-               </StackPanel>
-               
-               <!-- Tile Map View -->
-               <StackPanel Orientation="Horizontal">
-                  
-                  <!-- Tile Map Texture Selector -->
-                  <ListBox x:Name="tileSelectionListView"
-                           ItemsSource="{Binding SelectedTileTextureSet.TextureImages}"
-                           VerticalAlignment="Top"
-                           HorizontalAlignment="Left"
-                           Width="190"
-                           Height="400" >
-                     <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                           <UniformGrid Columns="4" />
-                        </ItemsPanelTemplate>
-                     </ListBox.ItemsPanel>
 
-                     <ListBox.ItemTemplate>
-                        <DataTemplate>
-                           <Image Source="{Binding Image}"
-                                  Width="32"
-                                  Height="32" />
-                        </DataTemplate>
-                     </ListBox.ItemTemplate>
-                  </ListBox>
+                  <!-- Tile Map View -->
+                  <StackPanel Orientation="Horizontal">
+
+                     <!-- Tile Map Texture Selector -->
+                     <ListBox x:Name="tileSelectionListView"
+                              ItemsSource="{Binding SelectedTileTextureSet.TextureImages}"
+                              VerticalAlignment="Top"
+                              HorizontalAlignment="Left"
+                              Width="200"
+                              Height="260" >
+                        <ListBox.ItemsPanel>
+                           <ItemsPanelTemplate>
+                              <UniformGrid Columns="4" />
+                           </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                        <ListBox.ItemTemplate>
+                           <DataTemplate>
+                              <Image Source="{Binding Image}"
+                                     Width="32"
+                                     Height="32" />
+                           </DataTemplate>
+                        </ListBox.ItemTemplate>
+                     </ListBox>
+
+                  </StackPanel>
 
                </StackPanel>
 
