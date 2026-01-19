@@ -125,7 +125,7 @@
                               ItemsSource="{Binding SelectedTileTextureSet.TextureImages}"
                               VerticalAlignment="Top"
                               HorizontalAlignment="Left"
-                              Width="200"
+                              Width="174"
                               Height="260" >
                         <ListBox.ItemsPanel>
                            <ItemsPanelTemplate>
