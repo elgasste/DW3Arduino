@@ -7,8 +7,8 @@
         xmlns:DW3ArduinoEditorConverters="clr-namespace:DW3ArduinoEditor.Converters"
         mc:Ignorable="d"
         Title="DW3 Arduino Editor"
-        Height="848"
-        Width="1320"
+        Height="730"
+        Width="1200"
         ResizeMode="NoResize">
 
    <Window.Resources>
@@ -144,8 +144,9 @@
                      
                      <!-- Tile Map -->
                      <local:TileMapPanel x:Name="TileMapPanel"
-                                         Width="500"
+                                         Width="640"
                                          Height="500"
+                                         Margin="10,0,0,0"
                                          SelectedTileMap="{Binding SelectedTileMap}"
                                          TileTexturePool="{Binding TileTexturePool}"
                                          SelectedTileTextureSet="{Binding SelectedTileTextureSet}"
