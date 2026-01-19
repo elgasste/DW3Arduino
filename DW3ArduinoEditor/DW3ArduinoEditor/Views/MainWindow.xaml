@@ -159,8 +159,10 @@
                                          Margin="10,0,0,0"
                                          SelectedTileMap="{Binding SelectedTileMap}"
                                          TileTexturePool="{Binding TileTexturePool}"
+                                         StaticSpriteTexturePool="{Binding StaticSpriteTexturePool}"
                                          SelectedTileTextureSet="{Binding SelectedTileTextureSet}"
-                                         SelectedTextureIndex="{Binding SelectedIndex, ElementName=tileSelectionListView, Mode=TwoWay}"
+                                         SelectedStaticSpriteTextureSet="{Binding SelectedStaticSpriteTextureSet}"
+                                         SelectedTileTextureIndex="{Binding SelectedIndex, ElementName=tileSelectionListView, Mode=TwoWay}"
                                          ShowStaticSprites="{Binding IsChecked, ElementName=tileMapShowStaticSpritesCheckbox, Mode=OneWay }"/>
 
                   </StackPanel>

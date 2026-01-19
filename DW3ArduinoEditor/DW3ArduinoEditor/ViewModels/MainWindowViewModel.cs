@@ -16,7 +16,7 @@ namespace DW3ArduinoEditor.ViewModels
       private readonly HeaderGuidsViewModel _headerGuids = new();
       private readonly Palette _palette = new();
       public TileTexturePool TileTexturePool { get; private set; } = new();
-      private readonly StaticSpriteTexturePool _staticSpriteTexturePool = new();
+      public StaticSpriteTexturePool StaticSpriteTexturePool { get; private set; } = new();
       private readonly ActiveSpriteTexturePool _activeSpriteTexturePool = new();
       private readonly ActiveSpriteTexturePool _playerSpriteTexturePool = new();
 
@@ -73,6 +73,38 @@ namespace DW3ArduinoEditor.ViewModels
          }
       }
 
+      private TextureSetViewModel? _selectedStaticSpriteTextureSet;
+      public TextureSetViewModel? SelectedStaticSpriteTextureSet
+      {
+         get => _selectedStaticSpriteTextureSet;
+         set
+         {
+            if ( SetProperty( ref _selectedStaticSpriteTextureSet, value ) )
+            {
+               bool invalidTextureIndexFound = false;
+
+               if ( SelectedTileMap is not null && SelectedStaticSpriteTextureSet is not null )
+               {
+                  SelectedTileMap.StaticSpriteTextureSetIndex = SelectedStaticSpriteTextureSet.Index;
+
+                  foreach ( var sprite in SelectedTileMap.StaticSprites )
+                  {
+                     if ( sprite.TextureIndex >= SelectedStaticSpriteTextureSet.TexturePoolIndexes.Count )
+                     {
+                        sprite.TextureIndex = 0;
+                        invalidTextureIndexFound = true;
+                     }
+                  }
+               }
+
+               if ( invalidTextureIndexFound )
+               {
+                  MessageBox.Show( "The selected tile map contains static sprite texture indexes that are out of range, they will be reset to zero.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning );
+               }
+            }
+         }
+      }
+
       public MainWindowViewModel()
       {
          try
@@ -87,7 +119,7 @@ namespace DW3ArduinoEditor.ViewModels
 
          try
          {
-            _staticSpriteTexturePool = new( Constants.StaticSpriteTexturePoolImagePath, _palette );
+            StaticSpriteTexturePool = new( Constants.StaticSpriteTexturePoolImagePath, _palette );
          }
          catch ( Exception ex )
          {
@@ -128,7 +160,7 @@ namespace DW3ArduinoEditor.ViewModels
             {
                GameSaveDataSanityChecker.CheckSanity( saveData,
                                                       TileTexturePool.TilePaletteIndexes.Count,
-                                                      _staticSpriteTexturePool.StaticSpritePaletteIndexes.Count,
+                                                      StaticSpriteTexturePool.StaticSpritePaletteIndexes.Count,
                                                       _activeSpriteTexturePool.ActiveSpritePaletteIndexes.Count,
                                                       _playerSpriteTexturePool.ActiveSpritePaletteIndexes.Count );
 
@@ -147,7 +179,7 @@ namespace DW3ArduinoEditor.ViewModels
 
                foreach ( var set in saveData.StaticSpriteTextureSets )
                {
-                  StaticSpriteTextureSets.Add( new( _staticSpriteTexturePool, set ) );
+                  StaticSpriteTextureSets.Add( new( StaticSpriteTexturePool, set ) );
                }
 
                foreach ( var set in saveData.ActiveSpriteTextureSets )
@@ -324,7 +356,7 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( _gameStartup, _headerGuids, TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets ), _palette, TileTexturePool, _staticSpriteTexturePool, _activeSpriteTexturePool, _playerSpriteTexturePool );
+         generator.WriteGameDataSourceFile( new( _gameStartup, _headerGuids, TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets ), _palette, TileTexturePool, StaticSpriteTexturePool, _activeSpriteTexturePool, _playerSpriteTexturePool );
          MessageBox.Show( "Game data source file has been written." );
       }
 

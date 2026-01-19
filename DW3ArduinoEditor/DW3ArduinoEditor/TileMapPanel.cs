@@ -117,6 +117,28 @@ namespace DW3ArduinoEditor
          sender.PrepareBitmap();
       }
 
+      public static readonly DependencyProperty StaticSpriteTexturePoolProperty = DependencyProperty.Register(
+         nameof( StaticSpriteTexturePool ),
+         typeof( StaticSpriteTexturePool ),
+         typeof( TileMapPanel ),
+         new PropertyMetadata( OnStaticSpriteTexturePoolChanged ) );
+
+      public StaticSpriteTexturePool StaticSpriteTexturePool
+      {
+         get => (StaticSpriteTexturePool)GetValue( StaticSpriteTexturePoolProperty );
+         set => SetValue( StaticSpriteTexturePoolProperty, value );
+      }
+
+      private static void OnStaticSpriteTexturePoolChanged( DependencyObject obj, DependencyPropertyChangedEventArgs e )
+      {
+         if ( obj is not TileMapPanel sender || e.NewValue is not StaticSpriteTexturePool staticSpriteTexturePool )
+         {
+            return;
+         }
+
+         sender.PrepareBitmap();
+      }
+
       public static readonly DependencyProperty SelectedTileTextureSetProperty = DependencyProperty.Register(
          nameof( SelectedTileTextureSet ),
          typeof( TextureSetViewModel ),
@@ -139,15 +161,37 @@ namespace DW3ArduinoEditor
          sender.PrepareBitmap();
       }
 
-      public static readonly DependencyProperty SelectedTextureIndexProperty = DependencyProperty.Register(
-         nameof( SelectedTextureIndex ),
+      public static readonly DependencyProperty SelectedStaticSpriteTextureSetProperty = DependencyProperty.Register(
+         nameof( SelectedStaticSpriteTextureSet ),
+         typeof( TextureSetViewModel ),
+         typeof( TileMapPanel ),
+         new PropertyMetadata( OnSelectedStaticSpriteTextureSetChanged ) );
+
+      public TextureSetViewModel SelectedStaticSpriteTextureSet
+      {
+         get => (TextureSetViewModel)GetValue( SelectedTileTextureSetProperty );
+         set => SetValue( SelectedTileTextureSetProperty, value );
+      }
+
+      private static void OnSelectedStaticSpriteTextureSetChanged( DependencyObject obj, DependencyPropertyChangedEventArgs e )
+      {
+         if ( obj is not TileMapPanel sender || e.NewValue is not TextureSetViewModel selectedTileTextureSet )
+         {
+            return;
+         }
+
+         sender.PrepareBitmap();
+      }
+
+      public static readonly DependencyProperty SelectedTileTextureIndexProperty = DependencyProperty.Register(
+         nameof( SelectedTileTextureIndex ),
          typeof( int ),
          typeof( TileMapPanel ) );
 
-      public int SelectedTextureIndex
+      public int SelectedTileTextureIndex
       {
-         get => (int)GetValue( SelectedTextureIndexProperty );
-         set => SetValue( SelectedTextureIndexProperty, value );
+         get => (int)GetValue( SelectedTileTextureIndexProperty );
+         set => SetValue( SelectedTileTextureIndexProperty, value );
       }
 
       public static readonly DependencyProperty ShowStaticSpritesProperty = DependencyProperty.Register(
@@ -188,6 +232,7 @@ namespace DW3ArduinoEditor
          return new Size( _defaultTileSize * Zoom, _defaultTileSize * Zoom );
       }
 
+      // TODO: this could be optimized to only display the portion of the tile map that is visible
       private void PrepareBitmap()
       {
          if ( TileTexturePool is null || SelectedTileTextureSet is null || SelectedTileMap is null )
@@ -218,6 +263,18 @@ namespace DW3ArduinoEditor
             var tileSprite = TileTexturePool.GetSpriteFromIndex( SelectedTileTextureSet.TexturePoolIndexes[(int)SelectedTileMap.Tiles[i].TextureIndex] );
 
             tileSprite.DrawToBuffer( _rawBuffer, width, destX, destY );
+
+            if ( ShowStaticSprites && StaticSpriteTexturePool is not null && SelectedStaticSpriteTextureSet is not null )
+            {
+               foreach ( var s in SelectedTileMap.StaticSprites )
+               {
+                  if ( s.TileIndex == i )
+                  {
+                     var staticSprite = StaticSpriteTexturePool.GetSpriteFromIndex( s.TextureIndex );
+                     staticSprite.DrawToBuffer( _rawBuffer, width, destX, destY );
+                  }
+               }
+            }
          }
 
          // I don't know why I have to divide by 4 on the width, height
@@ -257,7 +314,7 @@ namespace DW3ArduinoEditor
       private void ChangeTile()
       {
          if ( _bitmap is null || SelectedTileMap is null || TileTexturePool is null || SelectedTileTextureSet is null ||
-            SelectedTextureIndex < 0 || SelectedTextureIndex >= SelectedTileTextureSet.TexturePoolIndexes.Count )
+            SelectedTileTextureIndex < 0 || SelectedTileTextureIndex >= SelectedTileTextureSet.TexturePoolIndexes.Count )
          {
             return;
          }
@@ -271,13 +328,13 @@ namespace DW3ArduinoEditor
          int offset = _cellY * tilesPerRow + _cellX;
          var tileViewModel = SelectedTileMap.Tiles[offset];
 
-         if ( tileViewModel.TextureIndex == SelectedTextureIndex )
+         if ( tileViewModel.TextureIndex == SelectedTileTextureIndex )
          {
             // No need to redraw the tile if it's the same
             return;
          }
 
-         tileViewModel.TextureIndex = (uint)SelectedTextureIndex;
+         tileViewModel.TextureIndex = (uint)SelectedTileTextureIndex;
 
          var byteBuffer = new byte[_defaultTileSize * _defaultTileSize * 4];
          var tileSprite = TileTexturePool.GetSpriteFromIndex( SelectedTileTextureSet.TexturePoolIndexes[(int)tileViewModel.TextureIndex] );
