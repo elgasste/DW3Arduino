@@ -32,13 +32,16 @@ namespace DW3ArduinoEditor
       private int _cellX;
       private int _cellY;
 
+      private static readonly double[] _zoomTable = { 0.2, 0.3, 0.5, 0.8, 1, 1.5, 2, 3, 4, 5 };
+      private static int _zoomLevel = 4;
+
       private Enums.InputMode _inputMode;
 
       private static readonly DependencyProperty ZoomProperty = DependencyProperty.Register(
          nameof( Zoom ),
          typeof( double ),
          typeof( TileMapPanel ),
-         new FrameworkPropertyMetadata( 1.0, FrameworkPropertyMetadataOptions.AffectsRender ) );
+         new FrameworkPropertyMetadata( _zoomTable[_zoomLevel], FrameworkPropertyMetadataOptions.AffectsRender ) );
 
       private double Zoom
       {
@@ -203,7 +206,8 @@ namespace DW3ArduinoEditor
          _bitmap.WritePixels( new Int32Rect( 0, 0, _bitmap.PixelWidth / 4, _bitmap.PixelHeight / 4 ), _rawBuffer, _bitmap.PixelWidth, 0 );
       }
 
-      private void SetZoomLevel( double zoomFactorDelta )
+      // TODO: it would be cool if this also tried to center the view on the mouse cursor
+      private void SetZoomLevel( int zoomFactorDelta )
       {
          if ( _isAnimatingZooming )
          {
@@ -211,7 +215,8 @@ namespace DW3ArduinoEditor
          }
 
          _isAnimatingZooming = true;
-         double zoomFactor = Math.Clamp( Zoom + zoomFactorDelta, 0.2, 5 );
+         _zoomLevel = Math.Clamp( _zoomLevel + zoomFactorDelta, 0, _zoomTable.Length - 1 );
+         double zoomFactor = _zoomTable[_zoomLevel];
 
          var zoomLevelAnimation = new DoubleAnimation( zoomFactor, _zoomAnimationDuration )
          {
@@ -284,7 +289,7 @@ namespace DW3ArduinoEditor
       {
          base.OnMouseWheel( e );
 
-         double delta = e.Delta > 0 ? 1 : -1;
+         int delta = e.Delta > 0 ? 1 : -1;
          SetZoomLevel( delta );
       }
 
