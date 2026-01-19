@@ -232,7 +232,7 @@ namespace DW3ArduinoEditor
          return new Size( _defaultTileSize * Zoom, _defaultTileSize * Zoom );
       }
 
-      // TODO: this could be optimized to only display the portion of the tile map that is visible
+      // TODO: this could be more efficient, we could draw only the portion of the map that's visible
       private void PrepareBitmap()
       {
          if ( TileTexturePool is null || SelectedTileTextureSet is null || SelectedTileMap is null )
@@ -263,17 +263,20 @@ namespace DW3ArduinoEditor
             var tileSprite = TileTexturePool.GetSpriteFromIndex( SelectedTileTextureSet.TexturePoolIndexes[(int)SelectedTileMap.Tiles[i].TextureIndex] );
 
             tileSprite.DrawToBuffer( _rawBuffer, width, destX, destY );
+         }
 
-            if ( ShowStaticSprites && StaticSpriteTexturePool is not null && SelectedStaticSpriteTextureSet is not null )
+         if ( ShowStaticSprites && StaticSpriteTexturePool is not null && SelectedStaticSpriteTextureSet is not null )
+         {
+            foreach ( var s in SelectedTileMap.StaticSprites )
             {
-               foreach ( var s in SelectedTileMap.StaticSprites )
-               {
-                  if ( s.TileIndex == i )
-                  {
-                     var staticSprite = StaticSpriteTexturePool.GetSpriteFromIndex( s.TextureIndex );
-                     staticSprite.DrawToBuffer( _rawBuffer, width, destX, destY );
-                  }
-               }
+               int cellX = (int)s.TileIndex % tilesPerRow;
+               int cellY = (int)s.TileIndex / tilesPerRow;
+
+               int destX = cellX * _defaultTileSize * bytesPerPixel;
+               int destY = cellY * _defaultTileSize;
+
+               var staticSprite = StaticSpriteTexturePool.GetSpriteFromIndex( s.TextureIndex );
+               staticSprite.DrawToBuffer( _rawBuffer, width, destX, destY );
             }
          }
 
