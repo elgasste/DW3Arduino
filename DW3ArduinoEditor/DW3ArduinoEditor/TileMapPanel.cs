@@ -307,7 +307,8 @@ namespace DW3ArduinoEditor
          // MUFFINS: obviously use an actual offset value
          var offsetAnimation = new VectorAnimation( new Vector( -100, -150 ), _zoomAnimationDuration )
          {
-            EasingFunction = _zoomAnimationEase
+            EasingFunction = _zoomAnimationEase,
+            FillBehavior = FillBehavior.Stop
          };
 
          zoomLevelAnimation.Completed += OnZoomAnimationComplete;
