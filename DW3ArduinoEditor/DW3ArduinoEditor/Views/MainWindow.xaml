@@ -185,6 +185,7 @@
                                          SelectedTileTextureSet="{Binding SelectedTileTextureSet}"
                                          SelectedStaticSpriteTextureSet="{Binding SelectedStaticSpriteTextureSet}"
                                          SelectedTileTextureIndex="{Binding SelectedIndex, ElementName=tileSelectionListView, Mode=TwoWay}"
+                                         SelectedTileEditTool="{Binding SelectedTileEditTool, Mode=TwoWay}"
                                          ShowStaticSprites="{Binding IsChecked, ElementName=tileMapShowStaticSpritesCheckbox, Mode=OneWay }"/>
                   </StackPanel>
 

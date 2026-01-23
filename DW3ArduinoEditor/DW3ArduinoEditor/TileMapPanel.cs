@@ -3,6 +3,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
+using DW3ArduinoEditor.Enums;
 using DW3ArduinoEditor.Graphics;
 using DW3ArduinoEditor.ViewModels;
 
@@ -194,6 +196,17 @@ namespace DW3ArduinoEditor
          set => SetValue( SelectedTileTextureIndexProperty, value );
       }
 
+      public static readonly DependencyProperty SelectedTileEditToolProperty = DependencyProperty.Register(
+         nameof( SelectedTileEditTool ),
+         typeof( TileEditTool ),
+         typeof( TileMapPanel ) );
+
+      public TileEditTool SelectedTileEditTool
+      {
+         get => (TileEditTool)GetValue( SelectedTileEditToolProperty );
+         set => SetValue( SelectedTileEditToolProperty, value );
+      }
+
       public static readonly DependencyProperty ShowStaticSpritesProperty = DependencyProperty.Register(
          nameof( ShowStaticSprites ),
          typeof( bool ),
@@ -314,42 +327,6 @@ namespace DW3ArduinoEditor
          }
       }
 
-      private void ChangeTile()
-      {
-         if ( _bitmap is null || SelectedTileMap is null || TileTexturePool is null || SelectedTileTextureSet is null ||
-            SelectedTileTextureIndex < 0 || SelectedTileTextureIndex >= SelectedTileTextureSet.TexturePoolIndexes.Count )
-         {
-            return;
-         }
-
-         if ( _cellX < 0 || _cellX >= SelectedTileMap.TilesX || _cellY < 0 || _cellY >= SelectedTileMap.TilesY )
-         {
-            return;
-         }
-
-         int tilesPerRow = (int)SelectedTileMap.TilesX;
-         int offset = _cellY * tilesPerRow + _cellX;
-         var tileViewModel = SelectedTileMap.Tiles[offset];
-
-         if ( tileViewModel.TextureIndex == SelectedTileTextureIndex )
-         {
-            // No need to redraw the tile if it's the same
-            return;
-         }
-
-         tileViewModel.TextureIndex = (uint)SelectedTileTextureIndex;
-
-         var byteBuffer = new byte[_defaultTileSize * _defaultTileSize * 4];
-         var tileSprite = TileTexturePool.GetSpriteFromIndex( SelectedTileTextureSet.TexturePoolIndexes[(int)tileViewModel.TextureIndex] );
-         tileSprite.DrawToBuffer( byteBuffer, _defaultTileSize * 4, 0, 0 );
-
-         int destX = _cellX * Constants.TileSizePixels;
-         int destY = _cellY * Constants.TileSizePixels;
-
-         _bitmap.WritePixels( new Int32Rect( destX, destY, _defaultTileSize, _defaultTileSize ), byteBuffer, _defaultTileSize * 4, 0 );
-         InvalidateVisual();
-      }
-
       protected override void OnPreviewKeyDown( KeyEventArgs e )
       {
          if ( e.Key == Key.Space )
@@ -393,7 +370,10 @@ namespace DW3ArduinoEditor
          {
             case Enums.InputMode.Draw:
                {
-                  ChangeTile();
+                  if ( SelectedTileEditTool == TileEditTool.ChangeTexture )
+                  {
+                     ChangeTileTexture();
+                  }
                   break;
                }
 
@@ -436,9 +416,9 @@ namespace DW3ArduinoEditor
          {
             case Enums.InputMode.Draw:
             {
-               if ( _isLeftButtonDown )
+               if ( _isLeftButtonDown && SelectedTileEditTool == TileEditTool.ChangeTexture )
                {
-                  ChangeTile();
+                  ChangeTileTexture();
                }
                break;
             }
@@ -460,6 +440,18 @@ namespace DW3ArduinoEditor
          ReleaseMouseCapture();
 
          _isLeftButtonDown = false;
+
+         switch ( _inputMode )
+         {
+            case Enums.InputMode.Draw:
+               {
+                  if ( SelectedTileEditTool == TileEditTool.FloodFillTexture )
+                  {
+                     FloodFillTexture();
+                  }
+                  break;
+               }
+         }
       }
 
       protected override void OnRender( DrawingContext dc )
@@ -482,6 +474,119 @@ namespace DW3ArduinoEditor
 
             dc.Pop();
          }
+      }
+
+      private void ChangeTileTexture()
+      {
+         if ( !CanEditTileMap() )
+         {
+            return;
+         }
+
+         int tilesPerRow = (int)SelectedTileMap.TilesX;
+         int offset = _cellY * tilesPerRow + _cellX;
+         var tileViewModel = SelectedTileMap.Tiles[offset];
+
+         if ( tileViewModel.TextureIndex == SelectedTileTextureIndex )
+         {
+            // No need to redraw the tile if it's the same
+            return;
+         }
+
+         tileViewModel.TextureIndex = (uint)SelectedTileTextureIndex;
+         DrawTileBitmap( SelectedTileTextureIndex, _cellX, _cellY, _bitmap );
+         InvalidateVisual();
+      }
+
+      private void FloodFillTexture()
+      {
+         if ( !CanEditTileMap() )
+         {
+            return;
+         }
+
+         var targetTexture = SelectedTileMap.Tiles[(int)( _cellY * SelectedTileMap.TilesX ) + _cellX].TextureIndex;
+
+         if ( targetTexture == SelectedTileTextureIndex )
+         {
+            // No need to flood fill if the tile is already the same
+            return;
+         }
+
+         var fillTexture = (uint)SelectedTileTextureIndex;
+
+         // NOTE: this flood fill algorithm was AI-generated, so take it with a grain of salt!
+
+         // use a Queue for iterative flood fill (BFS) to avoid stack overflow issues
+         var q = new Queue<( int, int )>();
+         q.Enqueue( ( _cellY, _cellX ) );
+
+         // change the origin tile texture
+         int tileIndex = (int)( ( _cellY * SelectedTileMap.TilesX ) + _cellX );
+         SelectedTileMap.Tiles[tileIndex].TextureIndex = fillTexture;
+         DrawTileBitmap( (int)fillTexture, _cellX, _cellY, _bitmap );
+
+         // Define the 4-way direction vectors (up, down, left, right)
+         int[] dr = {-1, 1, 0, 0};
+         int[] dc = {0, 0, -1, 1};
+
+         while ( q.Count > 0 )
+         {
+            (int r, int c) = q.Dequeue();
+
+            // check neighbors in all four directions
+            for ( int i = 0; i < 4; i++ )
+            {
+               int nr = r + dr[i]; // new row
+               int nc = c + dc[i]; // new column
+
+               // check if the neighbor is within bounds
+               if ( nr >= 0 && nr < SelectedTileMap.TilesY && nc >= 0 && nc < SelectedTileMap.TilesX )
+               {
+                  // check if the neighbor has the target color
+                  tileIndex = (int)( nr * SelectedTileMap.TilesX ) + nc;
+
+                  if ( SelectedTileMap.Tiles[tileIndex].TextureIndex == targetTexture )
+                  {
+                     // fill the neighbor and add it to the queue
+                     SelectedTileMap.Tiles[tileIndex].TextureIndex = fillTexture;
+                     DrawTileBitmap( (int)fillTexture, nc, nr, _bitmap );
+                     q.Enqueue( ( nr, nc ) );
+                  }
+               }
+            }
+         }
+
+         InvalidateVisual();
+      }
+
+      private bool CanEditTileMap()
+      {
+         if ( _bitmap is null || SelectedTileMap is null || TileTexturePool is null || SelectedTileTextureSet is null ||
+              SelectedTileTextureIndex < 0 || SelectedTileTextureIndex >= SelectedTileTextureSet.TexturePoolIndexes.Count ||
+              _cellX < 0 || _cellX >= SelectedTileMap.TilesX || _cellY < 0 || _cellY >= SelectedTileMap.TilesY )
+         {
+            return false;
+         }
+
+         return true;
+      }
+
+      private void DrawTileBitmap( int textureIndex, int cellX, int cellY, WriteableBitmap? bitmap )
+      {
+         if ( bitmap is null )
+         {
+            return;
+         }
+
+         var byteBuffer = new byte[_defaultTileSize * _defaultTileSize * 4];
+         var tileSprite = TileTexturePool.GetSpriteFromIndex( SelectedTileTextureSet.TexturePoolIndexes[textureIndex] );
+         tileSprite.DrawToBuffer( byteBuffer, _defaultTileSize * 4, 0, 0 );
+
+         int destX = cellX * Constants.TileSizePixels;
+         int destY = cellY * Constants.TileSizePixels;
+
+         bitmap.WritePixels( new Int32Rect( destX, destY, _defaultTileSize, _defaultTileSize ), byteBuffer, _defaultTileSize * 4, 0 );
       }
    }
 }
