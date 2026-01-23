@@ -100,9 +100,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);VISUAL_STUDIO_DEV</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Unity</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Unity;..\..\DW3Arduino</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -115,9 +115,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);VISUAL_STUDIO_DEV</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Unity</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Unity;..\..\DW3Arduino</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,8 +125,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\DW3Arduino\input.c" />
+    <ClCompile Include="..\..\DW3Arduino\npc.c" />
+    <ClCompile Include="..\..\DW3Arduino\random.c" />
+    <ClCompile Include="..\..\DW3Arduino\sprite.c" />
+    <ClCompile Include="..\..\DW3Arduino\tile_map.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="test_input.c" />
     <ClCompile Include="Unity\unity.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
