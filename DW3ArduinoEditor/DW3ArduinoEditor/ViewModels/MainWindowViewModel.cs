@@ -1,4 +1,5 @@
 ﻿using DW3ArduinoEditor.Commands;
+using DW3ArduinoEditor.Enums;
 using DW3ArduinoEditor.Graphics;
 using DW3ArduinoEditor.SaveData;
 using DW3ArduinoEditor.Views;
@@ -103,6 +104,21 @@ namespace DW3ArduinoEditor.ViewModels
                }
             }
          }
+      }
+
+      public IEnumerable<TileEditTool> TileEditToolValues
+      {
+         get
+         {
+            return Enum.GetValues( typeof( TileEditTool ) ).Cast<TileEditTool>();
+         }
+      }
+
+      private TileEditTool _selectedTileEditTool = TileEditTool.ChangeTexture;
+      public TileEditTool SelectedTileEditTool
+      {
+         get => _selectedTileEditTool;
+         set => SetProperty( ref _selectedTileEditTool, value );
       }
 
       public MainWindowViewModel()
