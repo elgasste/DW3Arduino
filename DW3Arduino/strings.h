@@ -1,6 +1,6 @@
 #if !defined( STRINGS_H )
 #define STRINGS_H
 
-#define STR_KVSTORE_PREFIX       "dw3_"
+// TODO: put platform-independent strings in here
 
 #endif // STRINGS_H

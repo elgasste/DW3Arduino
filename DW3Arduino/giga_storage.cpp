@@ -1,40 +1,33 @@
 #include "KVStore.h"
 #include "kvstore_global_api.h"
+#include "mbed_error.h"
 
+#include "giga_common.h"
 #include "game.h"
 
-/*
-   MUFFINS: I think we only care about max key length here, but we probably won't need to use it
+internal Bool_t Storage_WritePlayers( Game_t* game );
 
-   #define KV_WRITE_ONCE_FLAG                      (1 << 0)
-   #define KV_REQUIRE_CONFIDENTIALITY_FLAG         (1 << 1)
-   #define KV_RESERVED_FLAG                        (1 << 2)
-   #define KV_REQUIRE_REPLAY_PROTECTION_FLAG       (1 << 3)
-
-   #define KV_MAX_KEY_LENGTH 128
-*/
+// NOTE:
+//
+// The format of these keys should be a prefix, then the current game's save slot,
+// and lastly the name of the key, all separated by underscores. For example, if the
+// current game is on save slot 1, and you want to store the number of players,
+// the key would look like this:
+//
+// dw3_1_playerCount
 
 Bool_t Storage_SaveGame( Game_t* game )
 {
-   UNUSED_PARAM( game );
+   if ( !Storage_WritePlayers( game ) )
+   {
+      Program_Log( "could not write player data to KV Store" );
+      return False;
+   }
 
    /*
       NOTES
 
-      Program_Log( "Testing KV store" );
-
-      const char* testKey = "kvstore_testKey";
-      const char* testInValue = "I put my keys right here, I swear";
-
-      // returns MBED_SUCCESS on success or error code on failure.
-      //kv_set( testKey, testInValue, strlen( testInValue ), 0 );
-
-      char testOutValue[strlen( testInValue ) + 1];
-      memset( testOutValue, '\0', strlen( testInValue ) + 1);
-
-      // the fourth parameter is the actual size of the data that was read
-      //kv_get( testKey, testOutValue, strlen( testInValue ), 0 );
-
+      // this is how you get a value from a key ("actualSize" is the amount of data actually retrieved)
       // size_t actualSize;
       // kv_get( "kvstore_blahBlah", testOutValue, strlen( testInValue ), &actualSize );
 
@@ -54,17 +47,47 @@ Bool_t Storage_SaveGame( Game_t* game )
          Program_Log( msg );
       }
 
-      // uncomment for clean-up
+      // uncomment for a full clean-up of the entire store
       //kv_reset( "/kv/" );
    */
 
-   return False;
+   return True;
 }
 
 Bool_t Storage_LoadGame( Game_t* game, u32 slot )
 {
+   // TODO
    UNUSED_PARAM( game );
    UNUSED_PARAM( slot );
 
    return False;
+}
+
+internal Bool_t Storage_WritePlayers( Game_t* game )
+{
+   u32 i;
+   char key[64];
+   char subkey[64];
+
+   // player count
+   sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, game->saveSlot, KVSTORE_PLAYER_COUNT_KEY );
+   if ( kv_set( key, &( game->playerCount ), sizeof( u32 ), 0 ) != MBED_SUCCESS )
+      return False;
+
+   for ( i = 0; i < game->playerCount; i++ )
+   {
+      // player name
+      sprintf( subkey, KVSTORE_PLAYER_NAME_KEY, i );
+      sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, game->saveSlot, subkey );
+      if ( kv_set( key, &( game->players[i].name ), strlen( game->players[i].name ), 0 ) != MBED_SUCCESS )
+         return False;
+
+      // player class
+      sprintf( subkey, KVSTORE_PLAYER_CLASS_KEY, i );
+      sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, game->saveSlot, subkey );
+      if ( kv_set( key, &( game->players[i].playerClass ), sizeof( PlayerClass_t ), 0 ) != MBED_SUCCESS )
+         return False;
+   }
+
+   return True;
 }

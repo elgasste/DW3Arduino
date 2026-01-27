@@ -30,7 +30,10 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->state = GameState_Overworld_Active;
 
    // MUFFINS: for testing
-   //Storage_SaveGame( game );
+   if ( Storage_SaveGame( game ) )
+   {
+      Program_Log( "Successfully saved!" );
+   }
 }
 
 void Game_Tic( Game_t* game )
