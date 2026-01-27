@@ -19,6 +19,7 @@
       <DW3ArduinoEditorConverters:BoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"
                                                             TrueValue="Collapsed"
                                                             FalseValue="Visible" />
+      <DW3ArduinoEditorConverters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
 
       <Style TargetType="Button">
          <Setter Property="Padding" Value="10, 1" />
@@ -145,28 +146,47 @@
                            </DataTemplate>
                         </ListBox.ItemTemplate>
                      </ListBox>
+                     
+                     <!-- Tile Edit Tool -->
+                     <StackPanel Orientation="Horizontal"
+                                 Margin="0,5,0,0">
+                        <TextBlock VerticalAlignment="Center"
+                                   Margin="5,0,5,0"
+                                   Text="Tool:" />
+                        <ComboBox VerticalContentAlignment="Center"
+                                  ItemsSource="{Binding TileEditToolValues}"
+                                  ItemStringFormat=""
+                                  SelectedItem="{Binding SelectedTileEditTool, Mode=TwoWay}">
+                           <ComboBox.ItemTemplate>
+                              <DataTemplate>
+                                 <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />
+                              </DataTemplate>
+                           </ComboBox.ItemTemplate>
+                        </ComboBox>
+                     </StackPanel>
 
                      <!-- Tile Map Layers -->
                      <CheckBox x:Name="tileMapShowStaticSpritesCheckbox"
-                                    Content="Show static sprites"
-                                    Margin="10,10,0,0"
-                                    IsChecked="True" />
+                               Content="Show static sprites"
+                               Margin="10,10,0,0"
+                               IsChecked="True" />
 
                   </StackPanel>
 
                   <!-- Tile Map Editor -->
                   <StackPanel Orientation="Vertical">
                      <local:TileMapPanel x:Name="TileMapPanel"
-                                      Width="640"
-                                      Height="560"
-                                      Margin="10,10,0,0"
-                                      SelectedTileMap="{Binding SelectedTileMap}"
-                                      TileTexturePool="{Binding TileTexturePool}"
-                                      StaticSpriteTexturePool="{Binding StaticSpriteTexturePool}"
-                                      SelectedTileTextureSet="{Binding SelectedTileTextureSet}"
-                                      SelectedStaticSpriteTextureSet="{Binding SelectedStaticSpriteTextureSet}"
-                                      SelectedTileTextureIndex="{Binding SelectedIndex, ElementName=tileSelectionListView, Mode=TwoWay}"
-                                      ShowStaticSprites="{Binding IsChecked, ElementName=tileMapShowStaticSpritesCheckbox, Mode=OneWay }"/>
+                                         Width="640"
+                                         Height="560"
+                                         Margin="10,10,0,0"
+                                         SelectedTileMap="{Binding SelectedTileMap}"
+                                         TileTexturePool="{Binding TileTexturePool}"
+                                         StaticSpriteTexturePool="{Binding StaticSpriteTexturePool}"
+                                         SelectedTileTextureSet="{Binding SelectedTileTextureSet}"
+                                         SelectedStaticSpriteTextureSet="{Binding SelectedStaticSpriteTextureSet}"
+                                         SelectedTileTextureIndex="{Binding SelectedIndex, ElementName=tileSelectionListView, Mode=TwoWay}"
+                                         SelectedTileEditTool="{Binding SelectedTileEditTool, Mode=TwoWay}"
+                                         ShowStaticSprites="{Binding IsChecked, ElementName=tileMapShowStaticSpritesCheckbox, Mode=OneWay }"/>
                   </StackPanel>
 
                </StackPanel>

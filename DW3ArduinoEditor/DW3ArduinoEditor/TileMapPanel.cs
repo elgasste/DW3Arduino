@@ -3,6 +3,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
+using DW3ArduinoEditor.Enums;
 using DW3ArduinoEditor.Graphics;
 using DW3ArduinoEditor.ViewModels;
 
@@ -194,6 +196,17 @@ namespace DW3ArduinoEditor
          set => SetValue( SelectedTileTextureIndexProperty, value );
       }
 
+      public static readonly DependencyProperty SelectedTileEditToolProperty = DependencyProperty.Register(
+         nameof( SelectedTileEditTool ),
+         typeof( TileEditTool ),
+         typeof( TileMapPanel ) );
+
+      public TileEditTool SelectedTileEditTool
+      {
+         get => (TileEditTool)GetValue( SelectedTileEditToolProperty );
+         set => SetValue( SelectedTileEditToolProperty, value );
+      }
+
       public static readonly DependencyProperty ShowStaticSpritesProperty = DependencyProperty.Register(
          nameof( ShowStaticSprites ),
          typeof( bool ),
@@ -314,42 +327,6 @@ namespace DW3ArduinoEditor
          }
       }
 
-      private void ChangeTile()
-      {
-         if ( _bitmap is null || SelectedTileMap is null || TileTexturePool is null || SelectedTileTextureSet is null ||
-            SelectedTileTextureIndex < 0 || SelectedTileTextureIndex >= SelectedTileTextureSet.TexturePoolIndexes.Count )
-         {
-            return;
-         }
-
-         if ( _cellX < 0 || _cellX >= SelectedTileMap.TilesX || _cellY < 0 || _cellY >= SelectedTileMap.TilesY )
-         {
-            return;
-         }
-
-         int tilesPerRow = (int)SelectedTileMap.TilesX;
-         int offset = _cellY * tilesPerRow + _cellX;
-         var tileViewModel = SelectedTileMap.Tiles[offset];
-
-         if ( tileViewModel.TextureIndex == SelectedTileTextureIndex )
-         {
-            // No need to redraw the tile if it's the same
-            return;
-         }
-
-         tileViewModel.TextureIndex = (uint)SelectedTileTextureIndex;
-
-         var byteBuffer = new byte[_defaultTileSize * _defaultTileSize * 4];
-         var tileSprite = TileTexturePool.GetSpriteFromIndex( SelectedTileTextureSet.TexturePoolIndexes[(int)tileViewModel.TextureIndex] );
-         tileSprite.DrawToBuffer( byteBuffer, _defaultTileSize * 4, 0, 0 );
-
-         int destX = _cellX * Constants.TileSizePixels;
-         int destY = _cellY * Constants.TileSizePixels;
-
-         _bitmap.WritePixels( new Int32Rect( destX, destY, _defaultTileSize, _defaultTileSize ), byteBuffer, _defaultTileSize * 4, 0 );
-         InvalidateVisual();
-      }
-
       protected override void OnPreviewKeyDown( KeyEventArgs e )
       {
          if ( e.Key == Key.Space )
@@ -379,7 +356,7 @@ namespace DW3ArduinoEditor
       {
          base.OnMouseEnter( e );
 
-         // Mousing over the control steals focus so the keyboard events will work
+         // mousing over the control steals focus so the keyboard events will work
          Focus();
       }
 
@@ -393,7 +370,10 @@ namespace DW3ArduinoEditor
          {
             case Enums.InputMode.Draw:
                {
-                  ChangeTile();
+                  if ( SelectedTileEditTool == TileEditTool.ChangeTexture )
+                  {
+                     ChangeTileTexture();
+                  }
                   break;
                }
 
@@ -436,9 +416,9 @@ namespace DW3ArduinoEditor
          {
             case Enums.InputMode.Draw:
             {
-               if ( _isLeftButtonDown )
+               if ( _isLeftButtonDown && SelectedTileEditTool == TileEditTool.ChangeTexture )
                {
-                  ChangeTile();
+                  ChangeTileTexture();
                }
                break;
             }
@@ -460,6 +440,22 @@ namespace DW3ArduinoEditor
          ReleaseMouseCapture();
 
          _isLeftButtonDown = false;
+
+         switch ( _inputMode )
+         {
+            case Enums.InputMode.Draw:
+               {
+                  if ( SelectedTileEditTool == TileEditTool.FloodFillTexture )
+                  {
+                     FloodFillTexture();
+                  }
+                  else if ( SelectedTileEditTool == TileEditTool.ShoreFill )
+                  {
+                     ShoreFill();
+                  }
+                  break;
+               }
+         }
       }
 
       protected override void OnRender( DrawingContext dc )
@@ -482,6 +478,226 @@ namespace DW3ArduinoEditor
 
             dc.Pop();
          }
+      }
+
+      private void ChangeTileTexture()
+      {
+         if ( !CanEditTileMap() )
+         {
+            return;
+         }
+
+         int tilesPerRow = (int)SelectedTileMap.TilesX;
+         int offset = _cellY * tilesPerRow + _cellX;
+         var tileViewModel = SelectedTileMap.Tiles[offset];
+
+         if ( tileViewModel.TextureIndex == SelectedTileTextureIndex )
+         {
+            // no need to redraw the tile if it's the same
+            return;
+         }
+
+         tileViewModel.TextureIndex = (uint)SelectedTileTextureIndex;
+         DrawTileBitmap( SelectedTileTextureIndex, _cellX, _cellY, _bitmap );
+         InvalidateVisual();
+      }
+
+      private void FloodFillTexture()
+      {
+         if ( !CanEditTileMap() )
+         {
+            return;
+         }
+
+         var targetTexture = SelectedTileMap.Tiles[(int)( _cellY * SelectedTileMap.TilesX ) + _cellX].TextureIndex;
+
+         if ( targetTexture == SelectedTileTextureIndex )
+         {
+            // No need to flood fill if the tile is already the same
+            return;
+         }
+
+         var fillTexture = (uint)SelectedTileTextureIndex;
+
+         // NOTE: this flood fill algorithm was AI-generated, so take it with a grain of salt!
+
+         // use a Queue for iterative flood fill (BFS) to avoid stack overflow issues
+         var q = new Queue<( int, int )>();
+         q.Enqueue( ( _cellY, _cellX ) );
+
+         // change the origin tile texture
+         int tileIndex = (int)( ( _cellY * SelectedTileMap.TilesX ) + _cellX );
+         SelectedTileMap.Tiles[tileIndex].TextureIndex = fillTexture;
+         DrawTileBitmap( (int)fillTexture, _cellX, _cellY, _bitmap );
+
+         // Define the 4-way direction vectors (up, down, left, right)
+         int[] dr = { -1, 1, 0, 0 };
+         int[] dc = { 0, 0, -1, 1 };
+
+         while ( q.Count > 0 )
+         {
+            ( int r, int c ) = q.Dequeue();
+
+            // check neighbors in all four directions
+            for ( int i = 0; i < 4; i++ )
+            {
+               int nr = r + dr[i]; // neighbor row
+               int nc = c + dc[i]; // neighbor column
+
+               // check if the neighbor is within bounds
+               if ( nr >= 0 && nr < SelectedTileMap.TilesY && nc >= 0 && nc < SelectedTileMap.TilesX )
+               {
+                  // check if the neighbor has the target texture
+                  tileIndex = (int)( nr * SelectedTileMap.TilesX ) + nc;
+
+                  if ( SelectedTileMap.Tiles[tileIndex].TextureIndex == targetTexture )
+                  {
+                     // fill the neighbor and add it to the queue
+                     SelectedTileMap.Tiles[tileIndex].TextureIndex = fillTexture;
+                     DrawTileBitmap( (int)fillTexture, nc, nr, _bitmap );
+                     q.Enqueue( ( nr, nc ) );
+                  }
+               }
+            }
+         }
+
+         InvalidateVisual();
+      }
+
+      // TODO: maybe figure out a way to combine this with FloodFillTexture()?
+      private void ShoreFill()
+      {
+         if ( !CanEditTileMap() )
+         {
+            return;
+         }
+
+         if ( !TileTextureIsWater( (int)SelectedTileMap.Tiles[(int)( _cellY * SelectedTileMap.TilesX ) + _cellX].TextureIndex ) )
+         {
+            // didn't click on water, no need to try filling in the shore
+            return;
+         }
+
+         // use a Queue for iterative flood fill (BFS) to avoid stack overflow issues
+         var q = new Queue<( int, int )>();
+         q.Enqueue( ( _cellY, _cellX ) );
+         var alreadyChecked = new List<( int, int )>();
+
+         // Define the 4-way direction vectors (up, down, left, right)
+         int[] dr = { -1, 1, 0, 0 };
+         int[] dc = { 0, 0, -1, 1 };
+
+         while ( q.Count > 0 )
+         {
+            ( int r, int c ) = q.Dequeue();
+
+            if ( alreadyChecked.Contains( ( r, c ) ) )
+            {
+               continue;
+            }
+
+            bool createShore = false;
+
+            // check neighbors in all four directions
+            for ( int i = 0; i < 4; i++ )
+            {
+               int nr = r + dr[i]; // neighbor row
+               int nc = c + dc[i]; // neighbor column
+
+               if ( alreadyChecked.Contains( ( nr, nc ) ) )
+               {
+                  continue;
+               }
+
+               // check if the neighbor is within bounds
+               if ( nr >= 0 && nr < SelectedTileMap.TilesY && nc >= 0 && nc < SelectedTileMap.TilesX )
+               {
+                  if ( TileTextureIsWater( (int)( nr * SelectedTileMap.TilesX ) + nc ) )
+                  {
+                     // neighbor is water, add to the queue
+                     q.Enqueue( ( nr, nc ) );
+                  }
+                  else
+                  {
+                     // neighbor is not water, this tile needs to be a shore
+                     createShore = true;
+                  }
+               }
+            }
+
+            if ( createShore )
+            {
+               CreateShore( r, c );
+            }
+
+            alreadyChecked.Add( (r, c) );
+         }
+
+         InvalidateVisual();
+      }
+
+      private bool TileTextureIsWater( int tileIndex ) => ( SelectedTileMap.Tiles[tileIndex].TextureIndex == SelectedTileTextureSet.WaterTextureIndex ||
+                                                            ( SelectedTileMap.Tiles[tileIndex].TextureIndex >= SelectedTileTextureSet.ShoreTextureStartIndex &&
+                                                              SelectedTileMap.Tiles[tileIndex].TextureIndex < SelectedTileTextureSet.ShoreTextureStartIndex + (uint)ShoreType.Count ) ||
+                                                            SelectedTileMap.Tiles[tileIndex].TextureIndex == SelectedTileTextureSet.ShoalTextureIndex );
+
+      private bool TileTextureIsWaterOrFloating( int tileIndex ) => TileTextureIsWater( tileIndex ) ||
+                                                                    SelectedTileMap.Tiles[tileIndex].TextureIndex == SelectedTileTextureSet.HorizontalBridgeTextureIndex ||
+                                                                    SelectedTileMap.Tiles[tileIndex].TextureIndex == SelectedTileTextureSet.VerticalBridgeTextureIndex;
+
+      private void CreateShore( int row, int col )
+      {
+         int tileIndex = (int)( row * SelectedTileMap.TilesX ) + col;
+
+         bool leftIsWater = ( col > 0 ) ? TileTextureIsWaterOrFloating( tileIndex - 1 ) : true;
+         bool topIsWater = ( row > 0 ) ? TileTextureIsWaterOrFloating( tileIndex - (int)SelectedTileMap.TilesX ) : true;
+         bool rightIsWater = ( col < SelectedTileMap.TilesX - 1 ) ? TileTextureIsWaterOrFloating( tileIndex + 1 ) : true;
+         bool bottomIsWater = ( row < SelectedTileMap.TilesY - 1 ) ? TileTextureIsWaterOrFloating( tileIndex + (int)SelectedTileMap.TilesY ) : true;
+
+         string enumValue = string.Format( "{0}{1}{2}{3}", leftIsWater ? string.Empty : "Left", topIsWater ? string.Empty : "Top", rightIsWater ? string.Empty : "Right", bottomIsWater ? string.Empty : "Bottom" );
+
+         if ( !Enum.TryParse( enumValue, out ShoreType shoreType ) )
+         {
+            shoreType = ShoreType.LeftTopRightBottom;
+         }
+
+         var textureIndex = SelectedTileTextureSet.ShoreTextureStartIndex + (uint)shoreType;
+         SelectedTileMap.Tiles[tileIndex].TextureIndex = textureIndex;
+         DrawTileBitmap( (int)textureIndex, col, row, _bitmap );
+      }
+
+      private bool CanEditTileMap()
+      {
+         if ( _bitmap is null || SelectedTileMap is null || TileTexturePool is null || SelectedTileTextureSet is null ||
+              _cellX < 0 || _cellX >= SelectedTileMap.TilesX || _cellY < 0 || _cellY >= SelectedTileMap.TilesY )
+         {
+            return false;
+         }
+
+         if ( ( SelectedTileEditTool == TileEditTool.ChangeTexture || SelectedTileEditTool == TileEditTool.FloodFillTexture ) &&
+              ( SelectedTileTextureIndex < 0 || SelectedTileTextureIndex >= SelectedTileTextureSet.TexturePoolIndexes.Count ) )
+         {
+            return false;
+         }
+
+         return true;
+      }
+
+      private void DrawTileBitmap( int textureIndex, int cellX, int cellY, WriteableBitmap? bitmap )
+      {
+         if ( bitmap is null )
+         {
+            return;
+         }
+
+         var byteBuffer = new byte[_defaultTileSize * _defaultTileSize * 4];
+         var tileSprite = TileTexturePool.GetSpriteFromIndex( SelectedTileTextureSet.TexturePoolIndexes[textureIndex] );
+         tileSprite.DrawToBuffer( byteBuffer, _defaultTileSize * 4, 0, 0 );
+
+         int destX = cellX * Constants.TileSizePixels;
+         int destY = cellY * Constants.TileSizePixels;
+
+         bitmap.WritePixels( new Int32Rect( destX, destY, _defaultTileSize, _defaultTileSize ), byteBuffer, _defaultTileSize * 4, 0 );
       }
    }
 }
