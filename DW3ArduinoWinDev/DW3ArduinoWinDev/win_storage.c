@@ -4,7 +4,12 @@
 #include "win_common.h"
 #include "game.h"
 
-internal Bool_t Storage_WritePlayersJSON( Game_t* game, cJSON* parent );
+internal Bool_t Storage_WritePlayersJSON( Game_t* game, cJSON* node );
+internal Bool_t Storage_LoadGameFromJSONString( Game_t* game, const char* jsonStr, const char* fileName );
+internal Bool_t Storage_LoadPlayersFromJSON( Game_t* game, cJSON* node );
+internal Bool_t Storage_FindJSONItem32i( cJSON* node, i32* val, const char* itemName );
+internal Bool_t Storage_FindJSONArray( cJSON* node, cJSON** val, const char* itemName );
+internal Bool_t Storage_FindJSONItemString( cJSON* node, char** val, const char* itemName );
 
 Bool_t Storage_SaveGame( Game_t* game )
 {
@@ -35,7 +40,7 @@ Bool_t Storage_SaveGame( Game_t* game )
 
    if ( !saveFile )
    {
-      sprintf( msg, JSON_ERROR_FILE_OPEN, fileName );
+      sprintf( msg, JSON_ERROR_FILE_OPEN_WRITE, fileName );
       Program_Log( msg );
       cJSON_Delete( root );
       return False;
@@ -58,14 +63,59 @@ Bool_t Storage_SaveGame( Game_t* game )
 
 Bool_t Storage_LoadGame( Game_t* game, u32 slot )
 {
-   // TODO: read in JSON data from corresponding file (if it exists), then validate
-   UNUSED_PARAM( game );
-   UNUSED_PARAM( slot );
+   char fileName[256];
+   char msg[256];
+   FILE* saveFile;
+   long fileSize;
+   char* fileContents;
+   size_t bytesRead = 0;
+   Bool_t result;
 
-   return False;
+   sprintf( fileName, JSON_SAVE_FILE_NAME, slot );
+   saveFile = fopen( fileName, "rb" );
+
+   if ( !saveFile )
+   {
+      sprintf( msg, JSON_ERROR_FILE_OPEN_READ, fileName );
+      Program_Log( msg );
+      return False;
+   }
+
+   fseek( saveFile, 0, SEEK_END );
+   fileSize = ftell( saveFile );
+   fseek( saveFile, 0, SEEK_SET );
+
+   fileContents = (char*)malloc( sizeof( char ) * ( (size_t)fileSize + 1 ) );
+   if ( fileContents == 0 )
+   {
+      fclose( saveFile );
+      Program_Log( JSON_ERROR_MALLOC );
+      return False;
+   }
+   else
+   {
+      bytesRead = fread( fileContents, 1, (size_t)fileSize, saveFile );
+   }
+
+   if ( bytesRead != fileSize )
+   {
+      free( fileContents );
+      fclose( saveFile );
+      sprintf( msg, JSON_ERROR_FILE_READ, fileName );
+      Program_Log( msg );
+      return False;
+   }
+
+   fileContents[fileSize] = '\0';
+   fclose( saveFile );
+
+   result = Storage_LoadGameFromJSONString( game, fileContents, fileName );
+
+   free( fileContents );
+   return result;
 }
 
-internal Bool_t Storage_WritePlayersJSON( Game_t* game, cJSON* parent )
+internal Bool_t Storage_WritePlayersJSON( Game_t* game, cJSON* node )
 {
    u32 i;
    cJSON *playerCount, *players, *player, *name, *playerClass;
@@ -74,13 +124,13 @@ internal Bool_t Storage_WritePlayersJSON( Game_t* game, cJSON* parent )
    playerCount = cJSON_CreateNumber( game->playerCount );
    if ( playerCount == 0 )
       return False;
-   cJSON_AddItemToObject( parent, JSON_PLAYER_COUNT, playerCount );
+   cJSON_AddItemToObject( node, JSON_PLAYER_COUNT, playerCount );
 
    // players array
    players = cJSON_CreateArray();
    if ( players == 0 )
       return False;
-   cJSON_AddItemToObject( parent, JSON_PLAYERS, players );
+   cJSON_AddItemToObject( node, JSON_PLAYERS, players );
 
    for ( i = 0; i < game->playerCount; i++ )
    {
@@ -104,4 +154,124 @@ internal Bool_t Storage_WritePlayersJSON( Game_t* game, cJSON* parent )
    }
 
    return True;
+}
+
+internal Bool_t Storage_LoadGameFromJSONString( Game_t* game, const char* jsonStr, const char* fileName )
+{
+   char msg[256];
+   cJSON* root;
+   Bool_t result;
+
+   root = cJSON_Parse( jsonStr );
+   if ( root == 0 || root->child == 0 )
+   {
+      sprintf( msg, JSON_ERROR_PARSE_SAVE_FILE, fileName );
+      Program_Log( msg );
+      return False;
+   }
+
+   result = Storage_LoadPlayersFromJSON( game, root->child );
+
+   cJSON_Delete( root );
+   return result;
+}
+
+internal Bool_t Storage_LoadPlayersFromJSON( Game_t* game, cJSON* node )
+{
+   i32 i;
+   i32 playerCount, playerClass;
+   cJSON *players, *player;
+   char* playerName;
+
+   // player count
+   if ( !Storage_FindJSONItem32i( node, &playerCount, JSON_PLAYER_COUNT ) )
+      return False;
+   if ( !Validate_PlayerCount( playerCount ) )
+      return False;
+   game->playerCount = (u32)playerCount;
+
+   // players
+   if ( !Storage_FindJSONArray( node, &players, JSON_PLAYERS ) )
+      return False;
+
+   for ( i = 0, player = players->child; i < playerCount; i++ )
+   {
+      if ( player == 0 || player->child == 0 )
+         return False;
+
+      // player name
+      if ( !Storage_FindJSONItemString( player->child, &playerName, JSON_PLAYER_NAME ) )
+         return False;
+      if ( !Validate_PlayerName( playerName ) )
+         return False;
+      strcpy( game->players[i].name, playerName );
+
+      // player class
+      if ( !Storage_FindJSONItem32i( player->child, &playerClass, JSON_PLAYER_CLASS ) )
+         return False;
+      if ( !Validate_PlayerClass( playerClass ) )
+         return False;
+      game->players[i].playerClass = (PlayerClass_t)playerClass;
+
+      player = player->next;
+   }
+
+   if ( !Validate_SingleHero( game ) )
+      return False;
+
+   return True;
+}
+
+internal Bool_t Storage_FindJSONItem32i( cJSON* node, i32* val, const char* itemName )
+{
+   cJSON* item = node;
+
+   while ( item != 0 )
+   {
+      if ( cJSON_IsNumber( item ) && strcmp( item->string, itemName ) == 0 )
+      {
+         *val = item->valueint;
+         return True;
+      }
+
+      item = item->next;
+   }
+
+   return False;
+}
+
+internal Bool_t Storage_FindJSONArray( cJSON* node, cJSON** val, const char* itemName )
+{
+   cJSON* item = node;
+
+   while ( item != 0 )
+   {
+      if ( cJSON_IsArray( item ) && strcmp( item->string, itemName ) == 0 )
+      {
+         *val = item;
+         return True;
+      }
+
+      item = item->next;
+   }
+
+   return False;
+}
+
+internal Bool_t Storage_FindJSONItemString( cJSON* node, char** val, const char* itemName )
+{
+   cJSON* item = node;
+
+   while ( item != 0 )
+   {
+      if ( cJSON_IsString( item ) && strcmp( item->string, itemName ) == 0 )
+      {
+         *val = item->valuestring;
+         return True;
+      }
+
+      item = item->next;
+   }
+
+   return False;
 }

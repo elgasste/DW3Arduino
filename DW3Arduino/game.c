@@ -27,13 +27,14 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->playerMovedCallback = Game_HandlePlayerMoved;
 
    Game_Reset( game );
-   game->state = GameState_Overworld_Active;
 
-   // MUFFINS: for testing
-   if ( Storage_SaveGame( game ) )
+   // MUFFINS: we still need to do all the stuff that Game_Reset() does
+   /*if ( Storage_LoadGame( game, 0 ) )
    {
-      Program_Log( "Successfully saved!" );
-   }
+      Program_Log( "Successfully loaded!" );
+   }*/
+
+   game->state = GameState_Overworld_Active;
 }
 
 void Game_Tic( Game_t* game )

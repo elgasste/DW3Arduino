@@ -64,6 +64,9 @@
     <ClCompile Include="cJSON\cJSON.c">
       <Filter>cJSON</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\validate_save.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\DW3Arduino\clock.h">

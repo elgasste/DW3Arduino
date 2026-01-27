@@ -175,6 +175,7 @@
     <ClCompile Include="..\..\DW3Arduino\sprite.c" />
     <ClCompile Include="..\..\DW3Arduino\tile_map.c" />
     <ClCompile Include="..\..\DW3Arduino\utility.c" />
+    <ClCompile Include="..\..\DW3Arduino\validate_save.c" />
     <ClCompile Include="cJSON\cJSON.c" />
     <ClCompile Include="win_clock.c" />
     <ClCompile Include="win_input.c" />
