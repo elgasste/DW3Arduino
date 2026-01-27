@@ -8,6 +8,9 @@ namespace DW3ArduinoEditor.Enums
       ChangeTexture = 0,
 
       [Description( "Flood Fill Texture" )]
-      FloodFillTexture
+      FloodFillTexture,
+
+      [Description( "Shore Fill" )]
+      ShoreFill
    }
 }

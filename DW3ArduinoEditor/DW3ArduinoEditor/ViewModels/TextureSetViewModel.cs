@@ -37,17 +37,30 @@ namespace DW3ArduinoEditor.ViewModels
       public ObservableCollection<uint> TexturePoolIndexes { get; private set; } = [];
       public ObservableCollection<TextureImageViewModel> TextureImages { get; private set; } = [];
 
-      public TextureSetViewModel( ITextureImageProvider textureImageProvider, uint index, string name )
+      public int WaterTextureIndex { get; private set; } = -1;
+      public int HorizontalBridgeTextureIndex { get; private set; } = -1;
+      public int VerticalBridgeTextureIndex { get; private set; } = -1;
+      public int ShoalTextureIndex { get; private set; } = -1;
+      public uint ShoreTextureStartIndex { get; private set; }
+
+      public TextureSetViewModel( ITextureImageProvider textureImageProvider, uint index, string name, int waterTextureIndex, uint shoreTextureStartIndex )
       {
          _textureImageProvider = textureImageProvider;
          Index = index;
          Name = name;
+         WaterTextureIndex = waterTextureIndex;
+         ShoreTextureStartIndex = shoreTextureStartIndex;
       }
 
       public TextureSetViewModel( ITextureImageProvider textureImageProvider, TextureSetSaveData saveData )
       {
          _textureImageProvider = textureImageProvider;
          Name = saveData.Name;
+         WaterTextureIndex = saveData.WaterTextureIndex;
+         HorizontalBridgeTextureIndex = saveData.HorizontalBridgeTextureIndex;
+         VerticalBridgeTextureIndex = saveData.VerticalBridgeTextureIndex;
+         ShoalTextureIndex = saveData.ShoalTextureIndex;
+         ShoreTextureStartIndex= saveData.ShoreTextureStartIndex;
 
          foreach ( var index in saveData.TexturePoolIndexes )
          {
