@@ -35,7 +35,10 @@ namespace DW3ArduinoEditor
 
       public const int UnitsPerPixel = 100;
 
+      public const int MaxSaveSlots = 3;
+
       public const int MaxPlayers = 4;
+      public const int PlayerMaxNameLength = 8;
 
       public const int ClockFps = 60;
 

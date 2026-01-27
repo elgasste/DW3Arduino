@@ -61,6 +61,9 @@
     <ClCompile Include="win_storage.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cJSON\cJSON.c">
+      <Filter>cJSON</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\DW3Arduino\clock.h">
@@ -141,6 +144,9 @@
     <ClInclude Include="..\..\DW3Arduino\strings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cJSON\cJSON.h">
+      <Filter>cJSON</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -154,6 +160,9 @@
     </Filter>
     <Filter Include="Game Data Files">
       <UniqueIdentifier>{80d9e576-410d-4e18-981e-1c866521a239}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cJSON">
+      <UniqueIdentifier>{8f516daf-c024-4135-bcd0-512363605e0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

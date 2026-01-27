@@ -11,6 +11,18 @@
 #define VK_FASTWALK                 50    // 2
 #define VK_SHOWHITBOXES             51    // 3
 
+#define JSON_SAVE_FILE_NAME         "save_%d.json"
+#define JSON_PLAYER_COUNT           "playerCount"
+#define JSON_PLAYERS                "players"
+#define JSON_PLAYER_NAME            "name"
+#define JSON_PLAYER_CLASS           "class"
+
+#define JSON_ERROR_ROOT             "error creating JSON root object"
+#define JSON_ERROR_PLAYERS          "error creating JSON player objects"
+#define JSON_ERROR_FILE_OPEN        "error opening JSON save file: %s"
+#define JSON_ERROR_FILE_WRITE       "error writing JSON save file: %s"
+#define JSON_ERROR_FILE_READ        "error reading JSON save file: %s"
+
 #include <Windows.h>
 #include <mmsystem.h>
 #include <stdlib.h>

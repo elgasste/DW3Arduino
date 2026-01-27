@@ -5,7 +5,10 @@
 
 #define UNITS_PER_PIXEL                         100
 
+#define MAX_SAVE_SLOTS                          3
+
 #define MAX_PLAYERS                             4
+#define PLAYER_MAX_NAME_LENGTH                  8
 
 #define CLOCK_FPS                               60
 #define CLOCK_FRAME_MICROSECONDS                16666

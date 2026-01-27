@@ -20,6 +20,8 @@ typedef struct Player_t
    PlayerClass_t playerClass;
    Entity_t* entity;
 
+   char name[PLAYER_MAX_NAME_LENGTH + 1];
+
    PlayerMovement_t moveHistory[PLAYER_MOVE_HISTORY_SIZE];
    u32 moveHistoryIndex;
    Bool_t chainNextPlayer;

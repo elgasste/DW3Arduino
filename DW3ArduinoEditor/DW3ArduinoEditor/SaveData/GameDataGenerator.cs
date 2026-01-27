@@ -89,7 +89,10 @@ namespace DW3ArduinoEditor.SaveData
 
          WriteToFileStream( fs, string.Format( "#define UNITS_PER_PIXEL                         {0}\n\n", Constants.UnitsPerPixel ) );
 
-         WriteToFileStream( fs, string.Format( "#define MAX_PLAYERS                             {0}\n\n", Constants.MaxPlayers ) );
+         WriteToFileStream( fs, string.Format( "#define MAX_SAVE_SLOTS                          {0}\n\n", Constants.MaxSaveSlots ) );
+
+         WriteToFileStream( fs, string.Format( "#define MAX_PLAYERS                             {0}\n", Constants.MaxPlayers ) );
+         WriteToFileStream( fs, string.Format( "#define PLAYER_MAX_NAME_LENGTH                  {0}\n\n", Constants.PlayerMaxNameLength ) );
 
          WriteToFileStream( fs, string.Format( "#define CLOCK_FPS                               {0}\n", Constants.ClockFps ) );
          WriteToFileStream( fs, string.Format( "#define CLOCK_FRAME_MICROSECONDS                {0}\n", (int)( ( 1.0 / Constants.ClockFps ) * 1000000 ) ) );

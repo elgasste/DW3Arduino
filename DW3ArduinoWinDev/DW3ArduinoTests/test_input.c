@@ -19,7 +19,6 @@ void Input_Init_Always_SetsAllStatesToFalse( void )
 void Input_AnyButtonPressed_NoButtonsPressed_ReturnsFalse( void )
 {
    Input_t input;
-   u32 i;
    Bool_t result;
 
    Input_Init( &input );

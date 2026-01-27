@@ -14,7 +14,7 @@
    #define KV_MAX_KEY_LENGTH 128
 */
 
-void Storage_SaveGame( Game_t* game )
+Bool_t Storage_SaveGame( Game_t* game )
 {
    UNUSED_PARAM( game );
 
@@ -57,4 +57,14 @@ void Storage_SaveGame( Game_t* game )
       // uncomment for clean-up
       //kv_reset( "/kv/" );
    */
+
+   return False;
+}
+
+Bool_t Storage_LoadGame( Game_t* game, u32 slot )
+{
+   UNUSED_PARAM( game );
+   UNUSED_PARAM( slot );
+
+   return False;
 }
