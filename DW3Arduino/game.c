@@ -28,11 +28,17 @@ void Game_Init( Game_t* game, u16* screenBuffer )
 
    Game_Reset( game );
 
-   // MUFFINS: we still need to do all the stuff that Game_Reset() does
-   /*if ( Storage_LoadGame( game, 0 ) )
+   // TODO: I'm leaving this here for testing purposes, but it'll move eventually
+   if ( Storage_LoadGame( game, 0 ) )
    {
-      Program_Log( "Successfully loaded!" );
-   }*/
+      Program_Log( "save data successfully loaded" );
+      TileMap_LoadPlayerSprites( &game->tileMap );
+   }
+   else
+   {
+      Program_Log( "save data failed to load" );
+      Game_Reset( game );
+   }
 
    game->state = GameState_Overworld_Active;
 }

@@ -96,6 +96,7 @@ i32 TileMap_GetTileVelocity( TileMap_t* tileMap, u32 tileIndex );
 i32 TileMap_GetTileDiagonalVelocity( i32 regularVelocity );
 
 // game_data.c
+void TileMap_LoadPlayerSprites( TileMap_t* tileMap );
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index );
 
 #if defined( __cplusplus )

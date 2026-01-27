@@ -450,7 +450,6 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
-         WriteToFileStream( fs, "internal void TileMap_LoadPlayerSprites( TileMap_t* tileMap );\n" );
       }
 
       private void WriteHelperFunctions( FileStream fs )
@@ -683,23 +682,35 @@ namespace DW3ArduinoEditor.SaveData
 
       private void WriteGameResetFunction( FileStream fs )
       {
-         // TODO: all of this should come from _gameSaveData eventually
+         // TODO: a bunch of this will probably move somewhere else eventually
          WriteToFileStream( fs, "\nvoid Game_Reset( Game_t* game )\n" );
          WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, string.Format( "   TileMap_LoadFromIndex( &game->tileMap, {0} );\n", _gameSaveData?.GameStartup.PlayerStartTileMapIndex ) );
-         WriteToFileStream( fs, "   game->playerCount = 1;\n" );
-         WriteToFileStream( fs, string.Format( "   game->players[0].playerClass = PlayerClass_{0};\n", PlayerClass.Hero.ToString() ) );
-         WriteToFileStream( fs, "   game->players[0].entity = game->tileMap.playerEntities;\n" );
-         WriteToFileStream( fs, "   game->players[0].entity->sprite = game->tileMap.playerSprites;\n" );
-         WriteToFileStream( fs, string.Format( "   TileMap_CenterEntityOnTile( &game->tileMap, game->players[0].entity, {0} );\n", _gameSaveData?.GameStartup.PlayerStartTileIndex ) );
-         WriteToFileStream( fs, string.Format( "   game->players[0].entity->pos.w = {0};\n", Constants.PlayerEntityWidth ) );
-         WriteToFileStream( fs, string.Format( "   game->players[0].entity->pos.h = {0};\n", Constants.PlayerEntityHeight ) );
-         WriteToFileStream( fs, "   game->players[0].entity->prevPos = game->players[0].entity->pos;\n" );
-         WriteToFileStream( fs, "   game->players[0].entity->velocity.x = 0;\n" );
-         WriteToFileStream( fs, "   game->players[0].entity->velocity.y = 0;\n\n" );
+         WriteToFileStream( fs, "   u32 i;\n\n" );
 
-         WriteToFileStream( fs, "   TileMap_LoadPlayerSprites( &game->tileMap );\n" );
-         WriteToFileStream( fs, string.Format( "   ActiveSprite_SetDirection( game->players->entity->sprite, Direction_{0} );\n", _gameSaveData?.GameStartup.PlayerStartDirection.ToString() ) );
+         WriteToFileStream( fs, string.Format( "   TileMap_LoadFromIndex( &game->tileMap, {0} );\n", _gameSaveData?.GameStartup.PlayerStartTileMapIndex ) );
+         WriteToFileStream( fs, "   game->playerCount = 1;\n\n" );
+
+         WriteToFileStream( fs, "   for ( i = 0; i < MAX_PLAYERS; i++ )\n" );
+         WriteToFileStream( fs, "   {\n" );
+         WriteToFileStream( fs, "      game->players[i].name[0] = '\\n';\n" );
+         WriteToFileStream( fs, string.Format( "      game->players[i].playerClass = ( i == 0 ) ? PlayerClass_{0} : PlayerClass_{1};\n", PlayerClass.Hero.ToString(), PlayerClass.Soldier.ToString() ) );
+         WriteToFileStream( fs, "      game->players[i].entity = game->tileMap.playerEntities + i;\n" );
+         WriteToFileStream( fs, "      game->players[i].entity->sprite = game->tileMap.playerSprites + i;\n" );
+         WriteToFileStream( fs, string.Format( "      TileMap_CenterEntityOnTile( &game->tileMap, game->players[i].entity, {0} );\n", _gameSaveData?.GameStartup.PlayerStartTileIndex ) );
+         WriteToFileStream( fs, string.Format( "      game->players[i].entity->pos.w = {0};\n", Constants.PlayerEntityWidth ) );
+         WriteToFileStream( fs, string.Format( "      game->players[i].entity->pos.h = {0};\n", Constants.PlayerEntityHeight ) );
+         WriteToFileStream( fs, "      game->players[i].entity->prevPos = game->players[0].entity->pos;\n" );
+         WriteToFileStream( fs, "      game->players[i].entity->velocity.x = 0;\n" );
+         WriteToFileStream( fs, "      game->players[i].entity->velocity.y = 0;\n" );
+         WriteToFileStream( fs, "   }\n\n" );
+
+         WriteToFileStream( fs, "   TileMap_LoadPlayerSprites( &game->tileMap );\n\n" );
+
+         WriteToFileStream( fs, "   for ( i = 0; i < MAX_PLAYERS; i++ )\n" );
+         WriteToFileStream( fs, "   {\n" );
+         WriteToFileStream( fs, string.Format( "      ActiveSprite_SetDirection( game->players[i].entity->sprite, Direction_{0} );\n", _gameSaveData?.GameStartup.PlayerStartDirection.ToString() ) );
+         WriteToFileStream( fs, "   }\n\n" );
+
          WriteToFileStream( fs, "   TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );\n" );
          WriteToFileStream( fs, "   game->isAM = False;\n" );
          WriteToFileStream( fs, "   game->daylightFactor = 1.0f; // noon\n" );
