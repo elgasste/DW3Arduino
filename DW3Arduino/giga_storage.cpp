@@ -6,6 +6,7 @@
 #include "game.h"
 
 internal Bool_t Storage_WritePlayers( Game_t* game );
+internal Bool_t Storage_ReadPlayers( Game_t* game, u32 slot );
 
 // NOTE:
 //
@@ -20,47 +21,22 @@ Bool_t Storage_SaveGame( Game_t* game )
 {
    if ( !Storage_WritePlayers( game ) )
    {
-      Program_Log( "could not write player data to KV Store" );
+      Program_Log( KVSTORE_ERROR_PLAYER_WRITE );
       return False;
    }
-
-   /*
-      NOTES
-
-      // this is how you get a value from a key ("actualSize" is the amount of data actually retrieved)
-      // size_t actualSize;
-      // kv_get( "kvstore_blahBlah", testOutValue, strlen( testInValue ), &actualSize );
-
-      // this is how you check if a key exists
-      kv_info_t info;
-      int result = kv_get_info( "kvstore_testKey", &info );
-      delay( 100 ); // for some reason Program_Log doesn't work without this
-
-      if ( result == MBED_SUCCESS )
-      {
-         Program_Log( "The key exists" );
-      }
-      else // error code is probably MBED_ERROR_ITEM_NOT_FOUND
-      {
-         char msg[100];
-         sprintf( msg, "Error reading the key, code is %d", result );
-         Program_Log( msg );
-      }
-
-      // uncomment for a full clean-up of the entire store
-      //kv_reset( "/kv/" );
-   */
 
    return True;
 }
 
 Bool_t Storage_LoadGame( Game_t* game, u32 slot )
 {
-   // TODO
-   UNUSED_PARAM( game );
-   UNUSED_PARAM( slot );
+   if ( !Storage_ReadPlayers( game, slot ) )
+   {
+      Program_Log( KVSTORE_ERROR_PLAYER_READ );
+      return False;
+   }
 
-   return False;
+   return True;
 }
 
 internal Bool_t Storage_WritePlayers( Game_t* game )
@@ -88,6 +64,53 @@ internal Bool_t Storage_WritePlayers( Game_t* game )
       if ( kv_set( key, &( game->players[i].playerClass ), sizeof( PlayerClass_t ), 0 ) != MBED_SUCCESS )
          return False;
    }
+
+   return True;
+}
+
+internal Bool_t Storage_ReadPlayers( Game_t* game, u32 slot )
+{
+   u32 i, playerCount;
+   PlayerClass_t playerClass;
+   int result;
+   char key[64];
+   char subkey[64];
+   char playerName[PLAYER_MAX_NAME_LENGTH + 1];
+   kv_info_t info;
+
+   // player count
+   sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, slot, KVSTORE_PLAYER_COUNT_KEY );
+   if ( kv_get_info( key, &info ) != MBED_SUCCESS || kv_get( key, &playerCount, sizeof( u32 ), 0 ) != MBED_SUCCESS )
+      return False;
+   if ( !Validate_PlayerCount( (i32)playerCount ) )
+      return False;
+   game->playerCount = playerCount;
+
+   // players
+   for ( i = 0; i < playerCount; i++ )
+   {
+      // player name
+      sprintf( subkey, KVSTORE_PLAYER_NAME_KEY, i );
+      sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, slot, subkey );
+      if ( kv_get_info( key, &info ) != MBED_SUCCESS || kv_get( key, playerName, PLAYER_MAX_NAME_LENGTH, 0 ) != MBED_SUCCESS )
+         return False;
+      playerName[PLAYER_MAX_NAME_LENGTH] = '\0';
+      if ( !Validate_PlayerName( playerName ) )
+         return False;
+      strcpy( game->players[i].name, playerName );
+
+      // player class
+      sprintf( subkey, KVSTORE_PLAYER_CLASS_KEY, i );
+      sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, slot, subkey );
+      if ( kv_get_info( key, &info ) != MBED_SUCCESS || kv_get( key, &playerClass, sizeof( PlayerClass_t ), 0 ) != MBED_SUCCESS )
+         return False;
+      if ( !Validate_PlayerClass( (i32)playerClass ) )
+         return False;
+      game->players[i].playerClass = playerClass;
+   }
+
+   if ( !Validate_SingleHero( game ) )
+      return False;
 
    return True;
 }
