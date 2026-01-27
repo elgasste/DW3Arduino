@@ -58,6 +58,9 @@
     <ClCompile Include="..\..\DW3Arduino\game_data.c">
       <Filter>Game Data Files</Filter>
     </ClCompile>
+    <ClCompile Include="win_storage.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\DW3Arduino\clock.h">
@@ -133,6 +136,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\DW3Arduino\gen_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\strings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

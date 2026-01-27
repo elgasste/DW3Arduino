@@ -47,6 +47,9 @@ void Physics_Tic( Game_t* game );
 // render.c
 void Render_DrawGame( Game_t* game );
 
+// platform-dependent
+void Storage_SaveGame( Game_t* game );
+
 #if defined( __cplusplus )
 }
 #endif

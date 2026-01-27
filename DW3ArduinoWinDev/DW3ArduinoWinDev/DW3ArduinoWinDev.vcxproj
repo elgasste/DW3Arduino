@@ -149,6 +149,7 @@
     <ClInclude Include="..\..\DW3Arduino\game.h" />
     <ClInclude Include="..\..\DW3Arduino\sprite.h" />
     <ClInclude Include="..\..\DW3Arduino\static_sprite_textures.h" />
+    <ClInclude Include="..\..\DW3Arduino\strings.h" />
     <ClInclude Include="..\..\DW3Arduino\text_bit_fields.h" />
     <ClInclude Include="..\..\DW3Arduino\tile_map.h" />
     <ClInclude Include="..\..\DW3Arduino\tile_maps.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="win_pixel_buffer.c" />
     <ClCompile Include="win_random.c" />
     <ClCompile Include="win_screen.c" />
+    <ClCompile Include="win_storage.c" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
