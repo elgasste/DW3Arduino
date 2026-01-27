@@ -25,6 +25,7 @@
 #define JSON_ERROR_FILE_WRITE             "error writing JSON save file: %s"
 #define JSON_ERROR_FILE_READ              "error reading JSON save file: %s"
 #define JSON_ERROR_PARSE_SAVE_FILE        "error parsing JSON from save file: %s"
+#define JSON_ERROR_REMOVE_FILE            "error removing JSON save file: %s"
 
 #include <Windows.h>
 #include <mmsystem.h>

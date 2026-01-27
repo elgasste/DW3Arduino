@@ -115,6 +115,22 @@ Bool_t Storage_LoadGame( Game_t* game, u32 slot )
    return result;
 }
 
+Bool_t Storage_DeleteSlot( u32 slot )
+{
+   char fileName[256];
+   int result;
+
+   sprintf( fileName, JSON_SAVE_FILE_NAME, slot );
+   result = remove( fileName );
+
+   if ( result != 0 )
+   {
+      Program_Log( JSON_ERROR_REMOVE_FILE );
+   }
+
+   return ( result == 0 ) ? True : False;
+}
+
 internal Bool_t Storage_WritePlayersJSON( Game_t* game, cJSON* node )
 {
    u32 i;

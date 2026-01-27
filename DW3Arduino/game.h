@@ -49,9 +49,10 @@ void Physics_Tic( Game_t* game );
 // render.c
 void Render_DrawGame( Game_t* game );
 
-// platform-dependent
+// platform-dependent storage
 Bool_t Storage_SaveGame( Game_t* game );
 Bool_t Storage_LoadGame( Game_t* game, u32 slot );
+Bool_t Storage_DeleteSlot( u32 slot );
 
 // validate_save.c
 Bool_t Validate_PlayerCount( i32 count );
