@@ -3,7 +3,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
 using DW3ArduinoEditor.Enums;
 using DW3ArduinoEditor.Graphics;
 using DW3ArduinoEditor.ViewModels;
