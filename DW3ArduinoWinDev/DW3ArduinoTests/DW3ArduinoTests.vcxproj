@@ -130,8 +130,10 @@
     <ClCompile Include="..\..\DW3Arduino\random.c" />
     <ClCompile Include="..\..\DW3Arduino\sprite.c" />
     <ClCompile Include="..\..\DW3Arduino\tile_map.c" />
+    <ClCompile Include="..\..\DW3Arduino\validate_save.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="test_input.c" />
+    <ClCompile Include="test_validate_save.c" />
     <ClCompile Include="Unity\unity.c" />
   </ItemGroup>
   <ItemGroup>

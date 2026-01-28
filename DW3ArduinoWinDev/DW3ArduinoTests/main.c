@@ -19,5 +19,10 @@ int main( int argc, char** argv )
    RUN_TEST( Input_AnyButtonPressed_NoButtonsPressed_ReturnsFalse );
    RUN_TEST( Input_AnyButtonPressed_ButtonWasPressed_ReturnsTrue );
 
+   // validate_save tests
+   RUN_TEST( Validate_PlayerCount_TooFewPlayers_ReturnsFalse );
+   RUN_TEST( Validate_PlayerCount_TooManyPlayers_ReturnsFalse );
+   RUN_TEST( Validate_PlayerCount_EnoughPlayers_ReturnsTrue );
+
    return UNITY_END();
 }

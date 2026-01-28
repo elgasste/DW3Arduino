@@ -42,6 +42,12 @@
     <ClCompile Include="test_input.c">
       <Filter>Test Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test_validate_save.c">
+      <Filter>Test Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\validate_save.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
