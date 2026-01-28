@@ -8,6 +8,7 @@ This project is designed to use the following hardware:
 
 - [Arduino Giga R1 Wifi board](https://store-usa.arduino.cc/products/giga-r1-wifi)
 - [Arduino Giga R1 Display Shield](https://store-usa.arduino.cc/products/giga-display-shield)
+- [Arduino_KVStore](https://github.com/arduino-libraries/Arduino_KVStore)
 - Nintendo Entertainment System controller (any knockoff will do), plus a cord extender
 
 ## Wiring
