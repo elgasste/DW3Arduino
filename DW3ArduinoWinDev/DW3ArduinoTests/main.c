@@ -23,6 +23,9 @@ int main( int argc, char** argv )
    RUN_TEST( Validate_PlayerCount_TooFewPlayers_ReturnsFalse );
    RUN_TEST( Validate_PlayerCount_TooManyPlayers_ReturnsFalse );
    RUN_TEST( Validate_PlayerCount_EnoughPlayers_ReturnsTrue );
+   RUN_TEST( Validate_PlayerName_TooShort_ReturnsFalse );
+   RUN_TEST( Validate_PlayerName_TooLong_ReturnsFalse );
+   RUN_TEST( Validate_PlayerName_GoodLength_ReturnsTrue );
 
    return UNITY_END();
 }
