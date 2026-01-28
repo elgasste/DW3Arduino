@@ -42,3 +42,63 @@ void Validate_PlayerName_GoodLength_ReturnsTrue( void )
 
    TEST_ASSERT_EQUAL( True, result );
 }
+
+void Validate_PlayerClass_TooLow_ReturnsFalse( void )
+{
+   Bool_t result = Validate_PlayerClass( -1 );
+
+   TEST_ASSERT_EQUAL( False, result );
+}
+
+void Validate_PlayerClass_TooHigh_ReturnsFalse( void )
+{
+   Bool_t result = Validate_PlayerClass( (i32)PlayerClass_Count );
+
+   TEST_ASSERT_EQUAL( False, result );
+}
+
+void Validate_PlayerClass_GoodClass_ReturnsTrue( void )
+{
+   Bool_t result = Validate_PlayerClass( (i32)PlayerClass_Count - 1 );
+
+   TEST_ASSERT_EQUAL( True, result );
+}
+
+void Validate_SingleHero_NoHeroes_ReturnsFalse( void )
+{
+   Game_t game;
+   game.playerCount = 1;
+   game.players[0].playerClass = PlayerClass_Fighter;
+   game.players[1].playerClass = PlayerClass_GoofOff;
+   game.players[2].playerClass = PlayerClass_Soldier;
+
+   Bool_t result = Validate_SingleHero( &game );
+
+   TEST_ASSERT_EQUAL( False, result );
+}
+
+void Validate_SingleHero_MultipleHeroes_ReturnsFalse( void )
+{
+   Game_t game;
+   game.playerCount = 3;
+   game.players[0].playerClass = PlayerClass_Hero;
+   game.players[1].playerClass = PlayerClass_Merchant;
+   game.players[2].playerClass = PlayerClass_Hero;
+
+   Bool_t result = Validate_SingleHero( &game );
+
+   TEST_ASSERT_EQUAL( False, result );
+}
+
+void Validate_SingleHero_OneHero_ReturnsTrue( void )
+{
+   Game_t game;
+   game.playerCount = 3;
+   game.players[0].playerClass = PlayerClass_Pilgrim;
+   game.players[1].playerClass = PlayerClass_Hero;
+   game.players[2].playerClass = PlayerClass_Wizard;
+
+   Bool_t result = Validate_SingleHero( &game );
+
+   TEST_ASSERT_EQUAL( True, result );
+}
