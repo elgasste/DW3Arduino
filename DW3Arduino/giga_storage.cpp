@@ -5,6 +5,17 @@
 #include "giga_common.h"
 #include "game.h"
 
+#define TRY_DELETING_GENERAL_KEY( n ) \
+   sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, slot, n ); \
+   if ( kv_remove( key ) == MBED_SUCCESS ) \
+      result = True
+
+#define TRY_DELETING_PLAYER_KEY( n, p ) \
+   sprintf( subkey, n, p ); \
+   sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, slot, subkey ); \
+   if ( kv_remove( key ) == MBED_SUCCESS ) \
+      result = True
+
 internal Bool_t Storage_WritePlayers( Game_t* game );
 internal Bool_t Storage_ReadPlayers( Game_t* game, u32 slot );
 
@@ -37,6 +48,31 @@ Bool_t Storage_LoadGame( Game_t* game, u32 slot )
    }
 
    return True;
+}
+
+Bool_t Storage_DeleteSlot( u32 slot )
+{
+   u32 i;
+   char key[64];
+   char subkey[64];
+   char msg[128];
+   Bool_t result = False;
+
+   TRY_DELETING_GENERAL_KEY( KVSTORE_PLAYER_COUNT_KEY );
+
+   for ( i = 0; i < MAX_PLAYERS; i++ )
+   {
+      TRY_DELETING_PLAYER_KEY( KVSTORE_PLAYER_NAME_KEY, i );
+      TRY_DELETING_PLAYER_KEY( KVSTORE_PLAYER_CLASS_KEY, i );
+   }
+
+   if ( !result )
+   {
+      sprintf( msg, KVSTORE_ERROR_DELETE_SLOT, slot );
+      Program_Log( msg );
+   }
+
+   return result;
 }
 
 internal Bool_t Storage_WritePlayers( Game_t* game )
