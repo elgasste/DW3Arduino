@@ -4,12 +4,28 @@
 #define VC_EXTRALEAN
 #define WIN32_LEAN_AND_MEAN
 
-#define STRING_SIZE_DEFAULT         1024
-#define GRAPHICS_SCALE              3.0f
+#define STRING_SIZE_DEFAULT               1024
+#define GRAPHICS_SCALE                    3.0f
 
-#define VK_NOCLIP                   49    // 1
-#define VK_FASTWALK                 50    // 2
-#define VK_SHOWHITBOXES             51    // 3
+#define VK_NOCLIP                         49    // 1
+#define VK_FASTWALK                       50    // 2
+#define VK_SHOWHITBOXES                   51    // 3
+
+#define JSON_SAVE_FILE_NAME               "save_%d.json"
+#define JSON_PLAYER_COUNT                 "playerCount"
+#define JSON_PLAYERS                      "players"
+#define JSON_PLAYER_NAME                  "name"
+#define JSON_PLAYER_CLASS                 "class"
+
+#define JSON_ERROR_ROOT                   "error creating JSON root object"
+#define JSON_ERROR_PLAYERS                "error creating JSON player objects"
+#define JSON_ERROR_MALLOC                 "error allocating memory for reading save file contents"
+#define JSON_ERROR_FILE_OPEN_WRITE        "error opening JSON save file for writing: %s"
+#define JSON_ERROR_FILE_OPEN_READ         "error opening JSON save file for reading: %s"
+#define JSON_ERROR_FILE_WRITE             "error writing JSON save file: %s"
+#define JSON_ERROR_FILE_READ              "error reading JSON save file: %s"
+#define JSON_ERROR_PARSE_SAVE_FILE        "error parsing JSON from save file: %s"
+#define JSON_ERROR_REMOVE_FILE            "error removing JSON save file: %s"
 
 #include <Windows.h>
 #include <mmsystem.h>

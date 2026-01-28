@@ -27,6 +27,19 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->playerMovedCallback = Game_HandlePlayerMoved;
 
    Game_Reset( game );
+
+   // TODO: I'm leaving this here for testing purposes, but it'll move eventually
+   if ( Storage_LoadGame( game, 0 ) )
+   {
+      Program_Log( "save data successfully loaded" );
+      TileMap_LoadPlayerSprites( &game->tileMap );
+   }
+   else
+   {
+      Program_Log( "save data failed to load" );
+      Game_Reset( game );
+   }
+
    game->state = GameState_Overworld_Active;
 }
 

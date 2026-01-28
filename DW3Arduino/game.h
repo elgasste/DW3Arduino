@@ -17,6 +17,8 @@ typedef struct Game_t
    AnimationChain_t animationChain;
    TileMap_t tileMap;
 
+   u32 saveSlot;
+
    Player_t players[MAX_PLAYERS];
    u32 playerCount;
 
@@ -46,6 +48,17 @@ void Physics_Tic( Game_t* game );
 
 // render.c
 void Render_DrawGame( Game_t* game );
+
+// platform-dependent storage
+Bool_t Storage_SaveGame( Game_t* game );
+Bool_t Storage_LoadGame( Game_t* game, u32 slot );
+Bool_t Storage_DeleteSlot( u32 slot );
+
+// validate_save.c
+Bool_t Validate_PlayerCount( i32 count );
+Bool_t Validate_PlayerName( const char* name );
+Bool_t Validate_PlayerClass( i32 playerClass );
+Bool_t Validate_SingleHero( Game_t* game );
 
 #if defined( __cplusplus )
 }

@@ -12,7 +12,6 @@
 internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
 internal void TileMap_LoadStaticSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
 internal void TileMap_LoadActiveSpriteTexturesFromSetIndex( TileMap_t* tileMap, u32 index );
-internal void TileMap_LoadPlayerSprites( TileMap_t* tileMap );
 
 internal void TileMap_LoadInitialData( TileMap_t* tm, u32 tx, u32 ty, Bool_t w, Bool_t d, Bool_t u, Bool_t he, u32 ssc, u32 asc, u32 pc, Bool_t ep, u32 ec, u32 nc )
 {
@@ -607,20 +606,32 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
 
 void Game_Reset( Game_t* game )
 {
+   u32 i;
+
    TileMap_LoadFromIndex( &game->tileMap, 0 );
    game->playerCount = 1;
-   game->players[0].playerClass = PlayerClass_Hero;
-   game->players[0].entity = game->tileMap.playerEntities;
-   game->players[0].entity->sprite = game->tileMap.playerSprites;
-   TileMap_CenterEntityOnTile( &game->tileMap, game->players[0].entity, 56746 );
-   game->players[0].entity->pos.w = 1200;
-   game->players[0].entity->pos.h = 1200;
-   game->players[0].entity->prevPos = game->players[0].entity->pos;
-   game->players[0].entity->velocity.x = 0;
-   game->players[0].entity->velocity.y = 0;
+
+   for ( i = 0; i < MAX_PLAYERS; i++ )
+   {
+      game->players[i].name[0] = '\n';
+      game->players[i].playerClass = ( i == 0 ) ? PlayerClass_Hero : PlayerClass_Soldier;
+      game->players[i].entity = game->tileMap.playerEntities + i;
+      game->players[i].entity->sprite = game->tileMap.playerSprites + i;
+      TileMap_CenterEntityOnTile( &game->tileMap, game->players[i].entity, 56746 );
+      game->players[i].entity->pos.w = 1200;
+      game->players[i].entity->pos.h = 1200;
+      game->players[i].entity->prevPos = game->players[0].entity->pos;
+      game->players[i].entity->velocity.x = 0;
+      game->players[i].entity->velocity.y = 0;
+   }
 
    TileMap_LoadPlayerSprites( &game->tileMap );
-   ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );
+
+   for ( i = 0; i < MAX_PLAYERS; i++ )
+   {
+      ActiveSprite_SetDirection( game->players[i].entity->sprite, Direction_Down );
+   }
+
    TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
    game->isAM = False;
    game->daylightFactor = 1.0f; // noon

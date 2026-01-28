@@ -149,12 +149,14 @@
     <ClInclude Include="..\..\DW3Arduino\game.h" />
     <ClInclude Include="..\..\DW3Arduino\sprite.h" />
     <ClInclude Include="..\..\DW3Arduino\static_sprite_textures.h" />
+    <ClInclude Include="..\..\DW3Arduino\strings.h" />
     <ClInclude Include="..\..\DW3Arduino\text_bit_fields.h" />
     <ClInclude Include="..\..\DW3Arduino\tile_map.h" />
     <ClInclude Include="..\..\DW3Arduino\tile_maps.h" />
     <ClInclude Include="..\..\DW3Arduino\tile_textures.h" />
     <ClInclude Include="..\..\DW3Arduino\utility.h" />
     <ClInclude Include="..\..\DW3Arduino\vector.h" />
+    <ClInclude Include="cJSON\cJSON.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="win_common.h" />
     <ClInclude Include="win_pixel_buffer.h" />
@@ -173,12 +175,15 @@
     <ClCompile Include="..\..\DW3Arduino\sprite.c" />
     <ClCompile Include="..\..\DW3Arduino\tile_map.c" />
     <ClCompile Include="..\..\DW3Arduino\utility.c" />
+    <ClCompile Include="..\..\DW3Arduino\validate_save.c" />
+    <ClCompile Include="cJSON\cJSON.c" />
     <ClCompile Include="win_clock.c" />
     <ClCompile Include="win_input.c" />
     <ClCompile Include="win_main.c" />
     <ClCompile Include="win_pixel_buffer.c" />
     <ClCompile Include="win_random.c" />
     <ClCompile Include="win_screen.c" />
+    <ClCompile Include="win_storage.c" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
