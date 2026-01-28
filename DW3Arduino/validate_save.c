@@ -2,14 +2,14 @@
 
 Bool_t Validate_PlayerCount( i32 count )
 {
-   return ( count > 0 && count < MAX_PLAYERS ) ? True : False;
+   return ( count > 0 && count <= MAX_PLAYERS ) ? True : False;
 }
 
 Bool_t Validate_PlayerName( const char* name )
 {
    // TODO: also check that the characters are valid
    size_t length = strlen( name );
-   return ( length > 0 || length < PLAYER_MAX_NAME_LENGTH ) ? True : False;
+   return ( length > 0 && length <= PLAYER_MAX_NAME_LENGTH ) ? True : False;
 }
 
 Bool_t Validate_PlayerClass( i32 playerClass )
