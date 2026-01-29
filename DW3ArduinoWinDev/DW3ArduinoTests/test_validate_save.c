@@ -66,39 +66,54 @@ void Validate_PlayerClass_GoodClass_ReturnsTrue( void )
 
 void Validate_SingleHero_NoHeroes_ReturnsFalse( void )
 {
-   Game_t game;
-   game.playerCount = 1;
-   game.players[0].playerClass = PlayerClass_Fighter;
-   game.players[1].playerClass = PlayerClass_GoofOff;
-   game.players[2].playerClass = PlayerClass_Soldier;
+   Game_t* game = (Game_t*)malloc( sizeof( Game_t ) );
+   Bool_t result = True;
 
-   Bool_t result = Validate_SingleHero( &game );
+   if ( game )
+   {
+      game->playerCount = 1;
+      game->players[0].playerClass = PlayerClass_Fighter;
+      game->players[1].playerClass = PlayerClass_GoofOff;
+      game->players[2].playerClass = PlayerClass_Soldier;
+      result = Validate_SingleHero( game );
+      free( game );
+   }
 
    TEST_ASSERT_EQUAL( False, result );
 }
 
 void Validate_SingleHero_MultipleHeroes_ReturnsFalse( void )
 {
-   Game_t game;
-   game.playerCount = 3;
-   game.players[0].playerClass = PlayerClass_Hero;
-   game.players[1].playerClass = PlayerClass_Merchant;
-   game.players[2].playerClass = PlayerClass_Hero;
+   Game_t* game = (Game_t*)malloc( sizeof( Game_t ) );
+   Bool_t result = True;
 
-   Bool_t result = Validate_SingleHero( &game );
+   if ( game )
+   {
+      game->playerCount = 3;
+      game->players[0].playerClass = PlayerClass_Hero;
+      game->players[1].playerClass = PlayerClass_Merchant;
+      game->players[2].playerClass = PlayerClass_Hero;
+      result = Validate_SingleHero( game );
+      free( game );
+   }
 
    TEST_ASSERT_EQUAL( False, result );
 }
 
 void Validate_SingleHero_OneHero_ReturnsTrue( void )
 {
-   Game_t game;
-   game.playerCount = 3;
-   game.players[0].playerClass = PlayerClass_Pilgrim;
-   game.players[1].playerClass = PlayerClass_Hero;
-   game.players[2].playerClass = PlayerClass_Wizard;
+   Game_t* game = (Game_t*)malloc( sizeof( Game_t ) );
+   Bool_t result = False;
 
-   Bool_t result = Validate_SingleHero( &game );
+   if ( game )
+   {
+      game->playerCount = 3;
+      game->players[0].playerClass = PlayerClass_Pilgrim;
+      game->players[1].playerClass = PlayerClass_Hero;
+      game->players[2].playerClass = PlayerClass_Wizard;
+      result = Validate_SingleHero( game );
+      free( game );
+   }
 
    TEST_ASSERT_EQUAL( True, result );
 }
