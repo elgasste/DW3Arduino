@@ -25,6 +25,9 @@
 #define ENCOUNTER_CHANCE_MEDIUM                 16   // 1 out of 16 chance
 #define ENCOUNTER_CHANCE_HIGH                   8   // 1 out of 8 chance
 
+#define GENERIC_ENTITY_WIDTH                    1200
+#define GENERIC_ENTITY_HEIGHT                   1200
+
 #define NPC_MIN_ACTION_SECONDS                  1
 #define NPC_MAX_ACTION_SECONDS                  4
 #define NPC_MIN_VELOCITY                        8    // units per frame

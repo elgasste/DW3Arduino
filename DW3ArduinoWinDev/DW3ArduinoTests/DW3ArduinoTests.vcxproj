@@ -131,12 +131,14 @@
     <ClCompile Include="..\..\DW3Arduino\sprite.c" />
     <ClCompile Include="..\..\DW3Arduino\tile_map.c" />
     <ClCompile Include="..\..\DW3Arduino\validate_save.c" />
+    <ClCompile Include="game_util.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="test_input.c" />
     <ClCompile Include="test_validate_save.c" />
     <ClCompile Include="Unity\unity.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="game_util.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

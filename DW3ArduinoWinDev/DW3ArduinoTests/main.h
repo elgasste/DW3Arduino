@@ -5,6 +5,10 @@
 void Input_Init_Always_SetsAllStatesToFalse( void );
 void Input_AnyButtonPressed_NoButtonsPressed_ReturnsFalse( void );
 void Input_AnyButtonPressed_ButtonWasPressed_ReturnsTrue( void );
+void Input_HandleInput_OverworldActiveState_OnlyLeftIsDown_HorizontalVelocityIsCorrect( void );
+void Input_HandleInput_OverworldActiveState_OnlyUpIsDown_VerticalVelocityIsCorrect( void );
+void Input_HandleInput_OverworldActiveState_OnlyRightIsDown_HorizontalVelocityIsCorrect( void );
+void Input_HandleInput_OverworldActiveState_OnlyDownIsDown_VerticalVelocityIsCorrect( void );
 
 // test_validate_save.c
 void Validate_PlayerCount_TooFewPlayers_ReturnsFalse( void );
