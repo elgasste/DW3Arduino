@@ -1,5 +1,6 @@
 #include <unity.h>
-#include <input.h>
+
+#include "game_util.h"
 
 void Input_Init_Always_SetsAllStatesToFalse( void )
 {
@@ -37,4 +38,84 @@ void Input_AnyButtonPressed_ButtonWasPressed_ReturnsTrue( void )
    result = Input_AnyButtonPressed( &input );
 
    TEST_ASSERT_EQUAL( True, result );
+}
+
+void Input_HandleInput_OverworldActiveState_OnlyLeftIsDown_HorizontalVelocityIsCorrect( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+   i32 velocity = 0, expected;
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Left].down = True;
+
+      game->players->entity->velocity.x = 0;
+      Input_HandleInput( game );
+      velocity = game->players->entity->velocity.x;
+      expected = -( TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex ) );
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( expected, velocity );
+   }
+}
+
+void Input_HandleInput_OverworldActiveState_OnlyUpIsDown_VerticalVelocityIsCorrect( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+   i32 velocity = 0, expected;
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Up].down = True;
+
+      game->players->entity->velocity.y = 0;
+      Input_HandleInput( game );
+      velocity = game->players->entity->velocity.y;
+      expected = -( TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex ) );
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( expected, velocity );
+   }
+}
+
+void Input_HandleInput_OverworldActiveState_OnlyRightIsDown_HorizontalVelocityIsCorrect( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+   i32 velocity = 0, expected;
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Right].down = True;
+
+      game->players->entity->velocity.x = 0;
+      Input_HandleInput( game );
+      velocity = game->players->entity->velocity.x;
+      expected = TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex );
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( expected, velocity );
+   }
+}
+
+void Input_HandleInput_OverworldActiveState_OnlyDownIsDown_VerticalVelocityIsCorrect( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+   i32 velocity = 0, expected;
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Down].down = True;
+
+      game->players->entity->velocity.y = 0;
+      Input_HandleInput( game );
+      velocity = game->players->entity->velocity.y;
+      expected = TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex );
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( expected, velocity );
+   }
 }

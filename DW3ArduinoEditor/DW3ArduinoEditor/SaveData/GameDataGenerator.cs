@@ -109,6 +109,9 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "#define ENCOUNTER_CHANCE_MEDIUM                 {0}   // 1 out of {0} chance\n", Constants.EncounterChanceMedium ) );
          WriteToFileStream( fs, string.Format( "#define ENCOUNTER_CHANCE_HIGH                   {0}   // 1 out of {0} chance\n\n", Constants.EncounterChanceHigh ) );
 
+         WriteToFileStream( fs, string.Format( "#define GENERIC_ENTITY_WIDTH                    {0}\n", Constants.GenericEntityWidth ) );
+         WriteToFileStream( fs, string.Format( "#define GENERIC_ENTITY_HEIGHT                   {0}\n\n", Constants.GenericEntityHeight ) );
+
          WriteToFileStream( fs, string.Format( "#define NPC_MIN_ACTION_SECONDS                  {0}\n", Constants.NpcMinActionSeconds ) );
          WriteToFileStream( fs, string.Format( "#define NPC_MAX_ACTION_SECONDS                  {0}\n", Constants.NpcMaxActionSeconds ) );
          WriteToFileStream( fs, string.Format( "#define NPC_MIN_VELOCITY                        {0}    // units per frame\n", Constants.NpcMinVelocity ) );
@@ -697,8 +700,8 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "      game->players[i].entity = game->tileMap.playerEntities + i;\n" );
          WriteToFileStream( fs, "      game->players[i].entity->sprite = game->tileMap.playerSprites + i;\n" );
          WriteToFileStream( fs, string.Format( "      TileMap_CenterEntityOnTile( &game->tileMap, game->players[i].entity, {0} );\n", _gameSaveData?.GameStartup.PlayerStartTileIndex ) );
-         WriteToFileStream( fs, string.Format( "      game->players[i].entity->pos.w = {0};\n", Constants.PlayerEntityWidth ) );
-         WriteToFileStream( fs, string.Format( "      game->players[i].entity->pos.h = {0};\n", Constants.PlayerEntityHeight ) );
+         WriteToFileStream( fs, string.Format( "      game->players[i].entity->pos.w = {0};\n", Constants.GenericEntityWidth ) );
+         WriteToFileStream( fs, string.Format( "      game->players[i].entity->pos.h = {0};\n", Constants.GenericEntityHeight ) );
          WriteToFileStream( fs, "      game->players[i].entity->prevPos = game->players[0].entity->pos;\n" );
          WriteToFileStream( fs, "      game->players[i].entity->velocity.x = 0;\n" );
          WriteToFileStream( fs, "      game->players[i].entity->velocity.y = 0;\n" );

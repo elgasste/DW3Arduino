@@ -124,6 +124,7 @@ internal void Input_HandleOverworldGeneral( Game_t* game )
          entity->velocity.x = ( entity->velocity.x < 0 ) ? -( TileMap_GetTileDiagonalVelocity( velocity ) ) : TileMap_GetTileDiagonalVelocity( velocity );
       }
    }
+
    if ( upIsDown && !downIsDown )
    {
       entity->velocity.y = -velocity;

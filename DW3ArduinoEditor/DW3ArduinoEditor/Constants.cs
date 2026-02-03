@@ -58,9 +58,10 @@ namespace DW3ArduinoEditor
       public const int NpcMinVelocity = 8;
       public const int NpcMaxVelocity = 40;
 
+      public const int GenericEntityWidth = 12 * UnitsPerPixel;
+      public const int GenericEntityHeight = 12 * UnitsPerPixel;
+
       public const int PlayerMoveHistorySize = 16;
-      public const int PlayerEntityWidth = 12 * UnitsPerPixel;
-      public const int PlayerEntityHeight = 12 * UnitsPerPixel;
       public const int PlayerSpriteXOffsetPixels = 2;
       public const int PlayerSpriteYOffsetPixels = 4;
 
