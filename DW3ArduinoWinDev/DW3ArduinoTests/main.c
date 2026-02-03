@@ -18,10 +18,14 @@ int main( int argc, char** argv )
    RUN_TEST( Input_Init_Always_SetsAllStatesToFalse );
    RUN_TEST( Input_AnyButtonPressed_NoButtonsPressed_ReturnsFalse );
    RUN_TEST( Input_AnyButtonPressed_ButtonWasPressed_ReturnsTrue );
-   RUN_TEST( Input_HandleInput_OverworldActiveState_OnlyLeftIsDown_HorizontalVelocityIsCorrect );
-   RUN_TEST( Input_HandleInput_OverworldActiveState_OnlyUpIsDown_VerticalVelocityIsCorrect );
-   RUN_TEST( Input_HandleInput_OverworldActiveState_OnlyRightIsDown_HorizontalVelocityIsCorrect );
-   RUN_TEST( Input_HandleInput_OverworldActiveState_OnlyDownIsDown_VerticalVelocityIsCorrect );
+   RUN_TEST( Input_HandleInput_OverworldActiveState_OnlyLeftIsDown_VelocityIsCorrect );
+   RUN_TEST( Input_HandleInput_OverworldActiveState_OnlyUpIsDown_VelocityIsCorrect );
+   RUN_TEST( Input_HandleInput_OverworldActiveState_OnlyRightIsDown_VelocityIsCorrect );
+   RUN_TEST( Input_HandleInput_OverworldActiveState_OnlyDownIsDown_VelocityIsCorrect );
+   RUN_TEST( Input_HandleInput_OverworldActiveState_LeftAndUpAreDown_VelocitiesAreCorrect );
+   RUN_TEST( Input_HandleInput_OverworldActiveState_UpAndRightAreDown_VelocitiesAreCorrect );
+   RUN_TEST( Input_HandleInput_OverworldActiveState_RightAndDownAreDown_VelocitiesAreCorrect );
+   RUN_TEST( Input_HandleInput_OverworldActiveState_DownAndLeftAreDown_VelocitiesAreCorrect );
 
    // test_validate_save.c
    RUN_TEST( Validate_PlayerCount_TooFewPlayers_ReturnsFalse );

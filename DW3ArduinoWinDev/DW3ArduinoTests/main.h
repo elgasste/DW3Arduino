@@ -5,10 +5,14 @@
 void Input_Init_Always_SetsAllStatesToFalse( void );
 void Input_AnyButtonPressed_NoButtonsPressed_ReturnsFalse( void );
 void Input_AnyButtonPressed_ButtonWasPressed_ReturnsTrue( void );
-void Input_HandleInput_OverworldActiveState_OnlyLeftIsDown_HorizontalVelocityIsCorrect( void );
-void Input_HandleInput_OverworldActiveState_OnlyUpIsDown_VerticalVelocityIsCorrect( void );
-void Input_HandleInput_OverworldActiveState_OnlyRightIsDown_HorizontalVelocityIsCorrect( void );
-void Input_HandleInput_OverworldActiveState_OnlyDownIsDown_VerticalVelocityIsCorrect( void );
+void Input_HandleInput_OverworldActiveState_OnlyLeftIsDown_VelocityIsCorrect( void );
+void Input_HandleInput_OverworldActiveState_OnlyUpIsDown_VelocityIsCorrect( void );
+void Input_HandleInput_OverworldActiveState_OnlyRightIsDown_VelocityIsCorrect( void );
+void Input_HandleInput_OverworldActiveState_OnlyDownIsDown_VelocityIsCorrect( void );
+void Input_HandleInput_OverworldActiveState_LeftAndUpAreDown_VelocitiesAreCorrect( void );
+void Input_HandleInput_OverworldActiveState_UpAndRightAreDown_VelocitiesAreCorrect( void );
+void Input_HandleInput_OverworldActiveState_RightAndDownAreDown_VelocitiesAreCorrect( void );
+void Input_HandleInput_OverworldActiveState_DownAndLeftAreDown_VelocitiesAreCorrect( void );
 
 // test_validate_save.c
 void Validate_PlayerCount_TooFewPlayers_ReturnsFalse( void );
