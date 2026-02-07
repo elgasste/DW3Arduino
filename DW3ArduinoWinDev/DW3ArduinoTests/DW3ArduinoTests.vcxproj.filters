@@ -60,6 +60,12 @@
     <ClCompile Include="test_sprite.c">
       <Filter>Test Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test_player.c">
+      <Filter>Test Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\player.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">

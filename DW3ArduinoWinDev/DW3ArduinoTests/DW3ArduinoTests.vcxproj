@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\DW3Arduino\input.c" />
     <ClCompile Include="..\..\DW3Arduino\npc.c" />
+    <ClCompile Include="..\..\DW3Arduino\player.c" />
     <ClCompile Include="..\..\DW3Arduino\random.c" />
     <ClCompile Include="..\..\DW3Arduino\sprite.c" />
     <ClCompile Include="..\..\DW3Arduino\tile_map.c" />
@@ -134,6 +135,7 @@
     <ClCompile Include="game_util.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="test_input.c" />
+    <ClCompile Include="test_player.c" />
     <ClCompile Include="test_sprite.c" />
     <ClCompile Include="test_validate_save.c" />
     <ClCompile Include="Unity\unity.c" />

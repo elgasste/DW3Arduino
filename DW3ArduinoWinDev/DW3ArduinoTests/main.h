@@ -40,6 +40,9 @@ void Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingHor
 void Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingUp_PlayerFacesDown( void );
 void Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown( void );
 
+// test_player.c
+void Player_ResetChaining_ResetsParameters( void );
+
 // test_sprite.c
 void ActiveSprite_Init_Always_InitializesParameters( void );
 void ActiveSprite_SetDirection_DirectionHasNotChanged_DoesNotResetFrame( void );

@@ -2,7 +2,6 @@
 
 void Player_ResetChaining( Player_t* player )
 {
-   player->name[0] = '\0';
    player->chainNextPlayer = False;
    player->moveHistoryIndex = 0;
 }

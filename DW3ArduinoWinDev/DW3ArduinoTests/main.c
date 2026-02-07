@@ -53,6 +53,9 @@ int main( int argc, char** argv )
    RUN_TEST( Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingUp_PlayerFacesDown );
    RUN_TEST( Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown );
 
+   // test_player.c
+   RUN_TEST( Player_ResetChaining_ResetsParameters );
+
    // test_sprite.c
    RUN_TEST( ActiveSprite_Init_Always_InitializesParameters );
    RUN_TEST( ActiveSprite_SetDirection_DirectionHasNotChanged_DoesNotResetFrame );
