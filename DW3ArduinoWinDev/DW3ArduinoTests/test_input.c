@@ -228,7 +228,7 @@ void Input_HandleOverworldGeneral_DownAndLeftAreDown_VelocitiesAreCorrect( void 
    }
 }
 
-void Input_HandleOverworldGeneral_OnlyLeftIsDown_PlayerFacesLeft( void )
+void Input_HandleOverworldGeneral_LeftIsDown_PlayerFacesLeft( void )
 {
    Direction_t dir;
    Game_t* game = GameUtil_CreateSimpleGame();
@@ -249,7 +249,7 @@ void Input_HandleOverworldGeneral_OnlyLeftIsDown_PlayerFacesLeft( void )
    }
 }
 
-void Input_HandleOverworldGeneral_OnlyUpIsDown_PlayerFacesUp( void )
+void Input_HandleOverworldGeneral_UpIsDown_PlayerFacesUp( void )
 {
    Direction_t dir;
    Game_t* game = GameUtil_CreateSimpleGame();
@@ -270,7 +270,7 @@ void Input_HandleOverworldGeneral_OnlyUpIsDown_PlayerFacesUp( void )
    }
 }
 
-void Input_HandleOverworldGeneral_OnlyRightIsDown_PlayerFacesRight( void )
+void Input_HandleOverworldGeneral_RightIsDown_PlayerFacesRight( void )
 {
    Direction_t dir;
    Game_t* game = GameUtil_CreateSimpleGame();
@@ -291,7 +291,7 @@ void Input_HandleOverworldGeneral_OnlyRightIsDown_PlayerFacesRight( void )
    }
 }
 
-void Input_HandleOverworldGeneral_OnlyDownIsDown_PlayerFacesDown( void )
+void Input_HandleOverworldGeneral_DownIsDown_PlayerFacesDown( void )
 {
    Direction_t dir;
    Game_t* game = GameUtil_CreateSimpleGame();
@@ -309,6 +309,182 @@ void Input_HandleOverworldGeneral_OnlyDownIsDown_PlayerFacesDown( void )
       GameUtil_DeleteGame( game );
 
       TEST_ASSERT_EQUAL( Direction_Down, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_LeftAndUpAreDownAndPlayerIsFacingUp_PlayerKeepsFacingUp( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Left].down = True;
+      game->input.buttonStates[InputButton_Up].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Up );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Up, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_LeftAndUpAreDownAndPlayerIsNotFacingUp_PlayerFacesLeft( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Left].down = True;
+      game->input.buttonStates[InputButton_Up].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Right );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Left, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_UpAndRightAreDownAndPlayerIsFacingUp_PlayerKeepsFacingUp( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Up].down = True;
+      game->input.buttonStates[InputButton_Right].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Up );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Up, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_UpAndRightAreDownAndPlayerIsNotFacingUp_PlayerFacesRight( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Up].down = True;
+      game->input.buttonStates[InputButton_Right].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Left );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Right, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_RightAndDownAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Right].down = True;
+      game->input.buttonStates[InputButton_Down].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Down, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_RightAndDownAreDownAndPlayerIsNotFacingDown_PlayerFacesRight( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Right].down = True;
+      game->input.buttonStates[InputButton_Down].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Up );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Right, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_DownAndLeftAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Left].down = True;
+      game->input.buttonStates[InputButton_Down].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Down, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_DownAndLeftAreDownAndPlayerIsNotFacingDown_PlayerFacesLeft( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Left].down = True;
+      game->input.buttonStates[InputButton_Down].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Up );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Left, dir );
    }
 }
 
@@ -356,14 +532,278 @@ void Input_HandleOverworldGeneral_UpAndDownAreDown_PlayerDirectionDoesNotChange(
    }
 }
 
-// MUFFINS: multiple directional tests:
-//
-// - we're pressing left:
-//    - the sprite is facing up and we're also pressing up
-//       - check that it still faces up
-//       - otherwise check that it faces left
-//    - the sprite is facing down and we're also pressing down
-//       - check that it still faces down
-//       - otherwise check that it faces left
-//
-// (figure out the rest of these later)
+void Input_HandleOverworldGeneral_LeftAndUpAndRightAreDownAndPlayerIsFacingHorizontal_PlayerKeepsFacingHorizontal( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Left].down = True;
+      game->input.buttonStates[InputButton_Up].down = True;
+      game->input.buttonStates[InputButton_Right].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Right );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Right, dir);
+   }
+}
+
+void Input_HandleOverworldGeneral_LeftAndUpAndRightAreDownAndPlayerIsFacingDown_PlayerFacesUp( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Left].down = True;
+      game->input.buttonStates[InputButton_Up].down = True;
+      game->input.buttonStates[InputButton_Right].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Up, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_LeftAndUpAndRightAreDownAndPlayerIsFacingUp_PlayerKeepsFacingUp( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Left].down = True;
+      game->input.buttonStates[InputButton_Up].down = True;
+      game->input.buttonStates[InputButton_Right].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Up );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Up, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_UpAndRightAndDownAreDownAndPlayerIsFacingVertical_PlayerKeepsFacingVertical( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Up].down = True;
+      game->input.buttonStates[InputButton_Right].down = True;
+      game->input.buttonStates[InputButton_Down].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Up );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Up, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_UpAndRightAndDownAreDownAndPlayerIsFacingLeft_PlayerFacesRight( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Up].down = True;
+      game->input.buttonStates[InputButton_Right].down = True;
+      game->input.buttonStates[InputButton_Down].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Left );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Right, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_UpAndRightAndDownAreDownAndPlayerIsFacingRight_PlayerKeepsFacingRight( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Up].down = True;
+      game->input.buttonStates[InputButton_Right].down = True;
+      game->input.buttonStates[InputButton_Down].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Right );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Right, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_RightAndDownAndLeftAreDownAndPlayerIsFacingHorizontal_PlayerKeepsFacingHorizontal( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Right].down = True;
+      game->input.buttonStates[InputButton_Down].down = True;
+      game->input.buttonStates[InputButton_Left].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Right );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Right, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_RightAndDownAndLeftAreDownAndPlayerIsFacingUp_PlayerFacesDown( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Right].down = True;
+      game->input.buttonStates[InputButton_Down].down = True;
+      game->input.buttonStates[InputButton_Left].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Up );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Down, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_RightAndDownAndLeftAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Right].down = True;
+      game->input.buttonStates[InputButton_Down].down = True;
+      game->input.buttonStates[InputButton_Left].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Down, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingHorizontal_PlayerKeepsFacingHorizontal( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Down].down = True;
+      game->input.buttonStates[InputButton_Left].down = True;
+      game->input.buttonStates[InputButton_Right].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Right );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Right, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingUp_PlayerFacesDown( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Down].down = True;
+      game->input.buttonStates[InputButton_Left].down = True;
+      game->input.buttonStates[InputButton_Right].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Up );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Down, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Down].down = True;
+      game->input.buttonStates[InputButton_Left].down = True;
+      game->input.buttonStates[InputButton_Right].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Down, dir );
+   }
+}

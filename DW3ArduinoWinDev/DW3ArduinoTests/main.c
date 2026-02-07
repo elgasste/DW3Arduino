@@ -26,12 +26,32 @@ int main( int argc, char** argv )
    RUN_TEST( Input_HandleOverworldGeneral_UpAndRightAreDown_VelocitiesAreCorrect );
    RUN_TEST( Input_HandleOverworldGeneral_RightAndDownAreDown_VelocitiesAreCorrect );
    RUN_TEST( Input_HandleOverworldGeneral_DownAndLeftAreDown_VelocitiesAreCorrect );
-   RUN_TEST( Input_HandleOverworldGeneral_OnlyLeftIsDown_PlayerFacesLeft );
-   RUN_TEST( Input_HandleOverworldGeneral_OnlyUpIsDown_PlayerFacesUp );
-   RUN_TEST( Input_HandleOverworldGeneral_OnlyRightIsDown_PlayerFacesRight );
-   RUN_TEST( Input_HandleOverworldGeneral_OnlyDownIsDown_PlayerFacesDown );
+   RUN_TEST( Input_HandleOverworldGeneral_LeftIsDown_PlayerFacesLeft );
+   RUN_TEST( Input_HandleOverworldGeneral_UpIsDown_PlayerFacesUp );
+   RUN_TEST( Input_HandleOverworldGeneral_RightIsDown_PlayerFacesRight );
+   RUN_TEST( Input_HandleOverworldGeneral_DownIsDown_PlayerFacesDown );
+   RUN_TEST( Input_HandleOverworldGeneral_LeftAndUpAreDownAndPlayerIsFacingUp_PlayerKeepsFacingUp );
+   RUN_TEST( Input_HandleOverworldGeneral_LeftAndUpAreDownAndPlayerIsNotFacingUp_PlayerFacesLeft );
+   RUN_TEST( Input_HandleOverworldGeneral_UpAndRightAreDownAndPlayerIsFacingUp_PlayerKeepsFacingUp );
+   RUN_TEST( Input_HandleOverworldGeneral_UpAndRightAreDownAndPlayerIsNotFacingUp_PlayerFacesRight );
+   RUN_TEST( Input_HandleOverworldGeneral_RightAndDownAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown );
+   RUN_TEST( Input_HandleOverworldGeneral_RightAndDownAreDownAndPlayerIsNotFacingDown_PlayerFacesRight );
+   RUN_TEST( Input_HandleOverworldGeneral_DownAndLeftAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown );
+   RUN_TEST( Input_HandleOverworldGeneral_DownAndLeftAreDownAndPlayerIsNotFacingDown_PlayerFacesLeft );
    RUN_TEST( Input_HandleOverworldGeneral_LeftAndRightAreDown_PlayerDirectionDoesNotChange );
    RUN_TEST( Input_HandleOverworldGeneral_UpAndDownAreDown_PlayerDirectionDoesNotChange );
+   RUN_TEST( Input_HandleOverworldGeneral_LeftAndUpAndRightAreDownAndPlayerIsFacingHorizontal_PlayerKeepsFacingHorizontal );
+   RUN_TEST( Input_HandleOverworldGeneral_LeftAndUpAndRightAreDownAndPlayerIsFacingDown_PlayerFacesUp );
+   RUN_TEST( Input_HandleOverworldGeneral_LeftAndUpAndRightAreDownAndPlayerIsFacingUp_PlayerKeepsFacingUp );
+   RUN_TEST( Input_HandleOverworldGeneral_UpAndRightAndDownAreDownAndPlayerIsFacingVertical_PlayerKeepsFacingVertical );
+   RUN_TEST( Input_HandleOverworldGeneral_UpAndRightAndDownAreDownAndPlayerIsFacingLeft_PlayerFacesRight );
+   RUN_TEST( Input_HandleOverworldGeneral_UpAndRightAndDownAreDownAndPlayerIsFacingRight_PlayerKeepsFacingRight );
+   RUN_TEST( Input_HandleOverworldGeneral_RightAndDownAndLeftAreDownAndPlayerIsFacingHorizontal_PlayerKeepsFacingHorizontal );
+   RUN_TEST( Input_HandleOverworldGeneral_RightAndDownAndLeftAreDownAndPlayerIsFacingUp_PlayerFacesDown );
+   RUN_TEST( Input_HandleOverworldGeneral_RightAndDownAndLeftAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown );
+   RUN_TEST( Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingHorizontal_PlayerKeepsFacingHorizontal );
+   RUN_TEST( Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingUp_PlayerFacesDown );
+   RUN_TEST( Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown );
 
    // test_sprite.c
    RUN_TEST( ActiveSprite_Init_Always_InitializesParameters );
