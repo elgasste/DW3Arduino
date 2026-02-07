@@ -27,6 +27,14 @@ int main( int argc, char** argv )
    RUN_TEST( Input_HandleInput_OverworldActiveState_RightAndDownAreDown_VelocitiesAreCorrect );
    RUN_TEST( Input_HandleInput_OverworldActiveState_DownAndLeftAreDown_VelocitiesAreCorrect );
 
+   // test_sprite.c
+   RUN_TEST( ActiveSprite_Init_Always_InitializesParameters );
+   RUN_TEST( ActiveSprite_SetDirection_DirectionHasNotChanged_DoesNotResetFrame );
+   RUN_TEST( ActiveSprite_SetDirection_DirectionHasChanged_ResetsFrameAndChangesDirection );
+   RUN_TEST( ActiveSprite_Tic_FrameSecondsHasNotExceededTotal_FrameAndFrameSecondsDoNotChange );
+   RUN_TEST( ActiveSprite_Tic_FrameSecondsHasExceededTotal_ResetsFrameSecondsAndIncrementsFrame );
+   RUN_TEST( ActiveSprite_Tic_LastFrameAndFrameSecondsHasExceededTotal_SetsFrameToZero );
+
    // test_validate_save.c
    RUN_TEST( Validate_PlayerCount_TooFewPlayers_ReturnsFalse );
    RUN_TEST( Validate_PlayerCount_TooManyPlayers_ReturnsFalse );

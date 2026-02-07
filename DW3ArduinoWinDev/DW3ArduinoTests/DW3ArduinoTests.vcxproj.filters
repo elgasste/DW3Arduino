@@ -57,6 +57,9 @@
     <ClCompile Include="game_util.c">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="test_sprite.c">
+      <Filter>Test Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">

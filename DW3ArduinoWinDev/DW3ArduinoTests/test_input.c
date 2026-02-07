@@ -215,3 +215,13 @@ void Input_HandleInput_OverworldActiveState_DownAndLeftAreDown_VelocitiesAreCorr
 //void Input_HandleInput_OverworldActiveState_LeftAndUpAreDown_
 
 // MUFFINS: test sprite directions
+//
+// - we're pressing left:
+//    - the sprite is facing up and we're also pressing up
+//       - check that it still faces up
+//       - otherwise check that it faces left
+//    - the sprite is facing down and we're also pressing down
+//       - check that it still faces down
+//       - otherwise check that it faces left
+//
+// (figure out the rest of these later)

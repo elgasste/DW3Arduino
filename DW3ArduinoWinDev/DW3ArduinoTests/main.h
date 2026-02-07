@@ -14,6 +14,14 @@ void Input_HandleInput_OverworldActiveState_UpAndRightAreDown_VelocitiesAreCorre
 void Input_HandleInput_OverworldActiveState_RightAndDownAreDown_VelocitiesAreCorrect( void );
 void Input_HandleInput_OverworldActiveState_DownAndLeftAreDown_VelocitiesAreCorrect( void );
 
+// test_sprite.c
+void ActiveSprite_Init_Always_InitializesParameters( void );
+void ActiveSprite_SetDirection_DirectionHasNotChanged_DoesNotResetFrame( void );
+void ActiveSprite_SetDirection_DirectionHasChanged_ResetsFrameAndChangesDirection( void );
+void ActiveSprite_Tic_FrameSecondsHasNotExceededTotal_FrameAndFrameSecondsDoNotChange( void );
+void ActiveSprite_Tic_FrameSecondsHasExceededTotal_ResetsFrameSecondsAndIncrementsFrame( void );
+void ActiveSprite_Tic_LastFrameAndFrameSecondsHasExceededTotal_SetsFrameToZero( void );
+
 // test_validate_save.c
 void Validate_PlayerCount_TooFewPlayers_ReturnsFalse( void );
 void Validate_PlayerCount_TooManyPlayers_ReturnsFalse( void );
