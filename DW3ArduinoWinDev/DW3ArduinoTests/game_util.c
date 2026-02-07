@@ -27,6 +27,8 @@ Game_t* GameUtil_CreateSimpleGame()
    {
       game->tileMap.playerEntities[i].pos.w = GENERIC_ENTITY_WIDTH;
       game->tileMap.playerEntities[i].pos.h = GENERIC_ENTITY_HEIGHT;
+      game->tileMap.playerEntities[i].velocity.x = 0;
+      game->tileMap.playerEntities[i].velocity.y = 0;
    }
 
    game->playerCount = 1;
