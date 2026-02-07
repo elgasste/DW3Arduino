@@ -18,14 +18,20 @@ int main( int argc, char** argv )
    RUN_TEST( Input_Init_Always_SetsAllStatesToFalse );
    RUN_TEST( Input_AnyButtonPressed_NoButtonsPressed_ReturnsFalse );
    RUN_TEST( Input_AnyButtonPressed_ButtonWasPressed_ReturnsTrue );
-   RUN_TEST( Input_HandleInput_OverworldActiveState_OnlyLeftIsDown_VelocityIsCorrect );
-   RUN_TEST( Input_HandleInput_OverworldActiveState_OnlyUpIsDown_VelocityIsCorrect );
-   RUN_TEST( Input_HandleInput_OverworldActiveState_OnlyRightIsDown_VelocityIsCorrect );
-   RUN_TEST( Input_HandleInput_OverworldActiveState_OnlyDownIsDown_VelocityIsCorrect );
-   RUN_TEST( Input_HandleInput_OverworldActiveState_LeftAndUpAreDown_VelocitiesAreCorrect );
-   RUN_TEST( Input_HandleInput_OverworldActiveState_UpAndRightAreDown_VelocitiesAreCorrect );
-   RUN_TEST( Input_HandleInput_OverworldActiveState_RightAndDownAreDown_VelocitiesAreCorrect );
-   RUN_TEST( Input_HandleInput_OverworldActiveState_DownAndLeftAreDown_VelocitiesAreCorrect );
+   RUN_TEST( Input_HandleOverworldGeneral_OnlyLeftIsDown_VelocityIsCorrect );
+   RUN_TEST( Input_HandleOverworldGeneral_OnlyUpIsDown_VelocityIsCorrect );
+   RUN_TEST( Input_HandleOverworldGeneral_OnlyRightIsDown_VelocityIsCorrect );
+   RUN_TEST( Input_HandleOverworldGeneral_OnlyDownIsDown_VelocityIsCorrect );
+   RUN_TEST( Input_HandleOverworldGeneral_LeftAndUpAreDown_VelocitiesAreCorrect );
+   RUN_TEST( Input_HandleOverworldGeneral_UpAndRightAreDown_VelocitiesAreCorrect );
+   RUN_TEST( Input_HandleOverworldGeneral_RightAndDownAreDown_VelocitiesAreCorrect );
+   RUN_TEST( Input_HandleOverworldGeneral_DownAndLeftAreDown_VelocitiesAreCorrect );
+   RUN_TEST( Input_HandleOverworldGeneral_OnlyLeftIsDown_PlayerFacesLeft );
+   RUN_TEST( Input_HandleOverworldGeneral_OnlyUpIsDown_PlayerFacesUp );
+   RUN_TEST( Input_HandleOverworldGeneral_OnlyRightIsDown_PlayerFacesRight );
+   RUN_TEST( Input_HandleOverworldGeneral_OnlyDownIsDown_PlayerFacesDown );
+   RUN_TEST( Input_HandleOverworldGeneral_LeftAndRightAreDown_PlayerDirectionDoesNotChange );
+   RUN_TEST( Input_HandleOverworldGeneral_UpAndDownAreDown_PlayerDirectionDoesNotChange );
 
    // test_sprite.c
    RUN_TEST( ActiveSprite_Init_Always_InitializesParameters );

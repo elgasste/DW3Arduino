@@ -40,10 +40,11 @@ void Input_AnyButtonPressed_ButtonWasPressed_ReturnsTrue( void )
    TEST_ASSERT_EQUAL( True, result );
 }
 
-void Input_HandleInput_OverworldActiveState_OnlyLeftIsDown_VelocityIsCorrect( void )
+void Input_HandleOverworldGeneral_OnlyLeftIsDown_VelocityIsCorrect( void )
 {
-   Game_t* game = GameUtil_CreateSimpleGame();
    i32 velocityX, velocityY, expected;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
 
    if ( game )
    {
@@ -54,6 +55,7 @@ void Input_HandleInput_OverworldActiveState_OnlyLeftIsDown_VelocityIsCorrect( vo
       velocityX = game->players->entity->velocity.x;
       velocityY = game->players->entity->velocity.y;
       expected = -( TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex ) );
+
       GameUtil_DeleteGame( game );
 
       TEST_ASSERT_EQUAL( expected, velocityX );
@@ -61,10 +63,11 @@ void Input_HandleInput_OverworldActiveState_OnlyLeftIsDown_VelocityIsCorrect( vo
    }
 }
 
-void Input_HandleInput_OverworldActiveState_OnlyUpIsDown_VelocityIsCorrect( void )
+void Input_HandleOverworldGeneral_OnlyUpIsDown_VelocityIsCorrect( void )
 {
-   Game_t* game = GameUtil_CreateSimpleGame();
    i32 velocityX, velocityY, expected;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
 
    if ( game )
    {
@@ -75,6 +78,7 @@ void Input_HandleInput_OverworldActiveState_OnlyUpIsDown_VelocityIsCorrect( void
       velocityX = game->players->entity->velocity.x;
       velocityY = game->players->entity->velocity.y;
       expected = -( TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex ) );
+
       GameUtil_DeleteGame( game );
 
       TEST_ASSERT_EQUAL( 0, velocityX );
@@ -82,10 +86,11 @@ void Input_HandleInput_OverworldActiveState_OnlyUpIsDown_VelocityIsCorrect( void
    }
 }
 
-void Input_HandleInput_OverworldActiveState_OnlyRightIsDown_VelocityIsCorrect( void )
+void Input_HandleOverworldGeneral_OnlyRightIsDown_VelocityIsCorrect( void )
 {
-   Game_t* game = GameUtil_CreateSimpleGame();
    i32 velocityX, velocityY, expected;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
 
    if ( game )
    {
@@ -96,6 +101,7 @@ void Input_HandleInput_OverworldActiveState_OnlyRightIsDown_VelocityIsCorrect( v
       velocityX = game->players->entity->velocity.x;
       velocityY = game->players->entity->velocity.y;
       expected = TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex );
+
       GameUtil_DeleteGame( game );
 
       TEST_ASSERT_EQUAL( expected, velocityX );
@@ -103,10 +109,11 @@ void Input_HandleInput_OverworldActiveState_OnlyRightIsDown_VelocityIsCorrect( v
    }
 }
 
-void Input_HandleInput_OverworldActiveState_OnlyDownIsDown_VelocityIsCorrect( void )
+void Input_HandleOverworldGeneral_OnlyDownIsDown_VelocityIsCorrect( void )
 {
-   Game_t* game = GameUtil_CreateSimpleGame();
    i32 velocityX, velocityY, expected;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
 
    if ( game )
    {
@@ -117,6 +124,7 @@ void Input_HandleInput_OverworldActiveState_OnlyDownIsDown_VelocityIsCorrect( vo
       velocityX = game->players->entity->velocity.x;
       velocityY = game->players->entity->velocity.y;
       expected = TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex );
+
       GameUtil_DeleteGame( game );
 
       TEST_ASSERT_EQUAL( 0, velocityX );
@@ -124,10 +132,11 @@ void Input_HandleInput_OverworldActiveState_OnlyDownIsDown_VelocityIsCorrect( vo
    }
 }
 
-void Input_HandleInput_OverworldActiveState_LeftAndUpAreDown_VelocitiesAreCorrect( void )
+void Input_HandleOverworldGeneral_LeftAndUpAreDown_VelocitiesAreCorrect( void )
 {
-   Game_t* game = GameUtil_CreateSimpleGame();
    i32 velocityX, velocityY, expected;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
 
    if ( game )
    {
@@ -139,6 +148,7 @@ void Input_HandleInput_OverworldActiveState_LeftAndUpAreDown_VelocitiesAreCorrec
       velocityX = game->players->entity->velocity.x;
       velocityY = game->players->entity->velocity.y;
       expected = TileMap_GetTileDiagonalVelocity( TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex ) );
+
       GameUtil_DeleteGame( game );
 
       TEST_ASSERT_EQUAL( -expected, velocityX );
@@ -146,10 +156,11 @@ void Input_HandleInput_OverworldActiveState_LeftAndUpAreDown_VelocitiesAreCorrec
    }
 }
 
-void Input_HandleInput_OverworldActiveState_UpAndRightAreDown_VelocitiesAreCorrect( void )
+void Input_HandleOverworldGeneral_UpAndRightAreDown_VelocitiesAreCorrect( void )
 {
-   Game_t* game = GameUtil_CreateSimpleGame();
    i32 velocityX, velocityY, expected;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
 
    if ( game )
    {
@@ -161,6 +172,7 @@ void Input_HandleInput_OverworldActiveState_UpAndRightAreDown_VelocitiesAreCorre
       velocityX = game->players->entity->velocity.x;
       velocityY = game->players->entity->velocity.y;
       expected = TileMap_GetTileDiagonalVelocity( TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex ) );
+
       GameUtil_DeleteGame( game );
 
       TEST_ASSERT_EQUAL( expected, velocityX );
@@ -168,10 +180,11 @@ void Input_HandleInput_OverworldActiveState_UpAndRightAreDown_VelocitiesAreCorre
    }
 }
 
-void Input_HandleInput_OverworldActiveState_RightAndDownAreDown_VelocitiesAreCorrect( void )
+void Input_HandleOverworldGeneral_RightAndDownAreDown_VelocitiesAreCorrect( void )
 {
-   Game_t* game = GameUtil_CreateSimpleGame();
    i32 velocityX, velocityY, expected;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
 
    if ( game )
    {
@@ -183,6 +196,7 @@ void Input_HandleInput_OverworldActiveState_RightAndDownAreDown_VelocitiesAreCor
       velocityX = game->players->entity->velocity.x;
       velocityY = game->players->entity->velocity.y;
       expected = TileMap_GetTileDiagonalVelocity( TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex ) );
+
       GameUtil_DeleteGame( game );
 
       TEST_ASSERT_EQUAL( expected, velocityX );
@@ -190,10 +204,11 @@ void Input_HandleInput_OverworldActiveState_RightAndDownAreDown_VelocitiesAreCor
    }
 }
 
-void Input_HandleInput_OverworldActiveState_DownAndLeftAreDown_VelocitiesAreCorrect( void )
+void Input_HandleOverworldGeneral_DownAndLeftAreDown_VelocitiesAreCorrect( void )
 {
-   Game_t* game = GameUtil_CreateSimpleGame();
    i32 velocityX, velocityY, expected;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
 
    if ( game )
    {
@@ -205,6 +220,7 @@ void Input_HandleInput_OverworldActiveState_DownAndLeftAreDown_VelocitiesAreCorr
       velocityX = game->players->entity->velocity.x;
       velocityY = game->players->entity->velocity.y;
       expected = TileMap_GetTileDiagonalVelocity( TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex ) );
+
       GameUtil_DeleteGame( game );
 
       TEST_ASSERT_EQUAL( -expected, velocityX );
@@ -212,9 +228,135 @@ void Input_HandleInput_OverworldActiveState_DownAndLeftAreDown_VelocitiesAreCorr
    }
 }
 
-//void Input_HandleInput_OverworldActiveState_LeftAndUpAreDown_
+void Input_HandleOverworldGeneral_OnlyLeftIsDown_PlayerFacesLeft( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
 
-// MUFFINS: test sprite directions
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Left].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Up );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Left, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_OnlyUpIsDown_PlayerFacesUp( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Up].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Down );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Up, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_OnlyRightIsDown_PlayerFacesRight( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Right].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Up );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Right, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_OnlyDownIsDown_PlayerFacesDown( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Down].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Up );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Down, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_LeftAndRightAreDown_PlayerDirectionDoesNotChange( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Left].down = True;
+      game->input.buttonStates[InputButton_Right].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Up );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Up, dir );
+   }
+}
+
+void Input_HandleOverworldGeneral_UpAndDownAreDown_PlayerDirectionDoesNotChange( void )
+{
+   Direction_t dir;
+   Game_t* game = GameUtil_CreateSimpleGame();
+   TEST_ASSERT_NOT_NULL( game );
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Up].down = True;
+      game->input.buttonStates[InputButton_Down].down = True;
+      ActiveSprite_SetDirection( game->players->entity->sprite, Direction_Right );
+
+      Input_HandleInput( game );
+      dir = game->players->entity->sprite->direction;
+
+      GameUtil_DeleteGame( game );
+
+      TEST_ASSERT_EQUAL( Direction_Right, dir );
+   }
+}
+
+// MUFFINS: multiple directional tests:
 //
 // - we're pressing left:
 //    - the sprite is facing up and we're also pressing up

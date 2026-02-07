@@ -5,14 +5,22 @@
 void Input_Init_Always_SetsAllStatesToFalse( void );
 void Input_AnyButtonPressed_NoButtonsPressed_ReturnsFalse( void );
 void Input_AnyButtonPressed_ButtonWasPressed_ReturnsTrue( void );
-void Input_HandleInput_OverworldActiveState_OnlyLeftIsDown_VelocityIsCorrect( void );
-void Input_HandleInput_OverworldActiveState_OnlyUpIsDown_VelocityIsCorrect( void );
-void Input_HandleInput_OverworldActiveState_OnlyRightIsDown_VelocityIsCorrect( void );
-void Input_HandleInput_OverworldActiveState_OnlyDownIsDown_VelocityIsCorrect( void );
-void Input_HandleInput_OverworldActiveState_LeftAndUpAreDown_VelocitiesAreCorrect( void );
-void Input_HandleInput_OverworldActiveState_UpAndRightAreDown_VelocitiesAreCorrect( void );
-void Input_HandleInput_OverworldActiveState_RightAndDownAreDown_VelocitiesAreCorrect( void );
-void Input_HandleInput_OverworldActiveState_DownAndLeftAreDown_VelocitiesAreCorrect( void );
+void Input_HandleOverworldGeneral_OnlyLeftIsDown_VelocityIsCorrect( void );
+void Input_HandleOverworldGeneral_OnlyUpIsDown_VelocityIsCorrect( void );
+void Input_HandleOverworldGeneral_OnlyRightIsDown_VelocityIsCorrect( void );
+void Input_HandleOverworldGeneral_OnlyDownIsDown_VelocityIsCorrect( void );
+void Input_HandleOverworldGeneral_LeftAndUpAreDown_VelocitiesAreCorrect( void );
+void Input_HandleOverworldGeneral_UpAndRightAreDown_VelocitiesAreCorrect( void );
+void Input_HandleOverworldGeneral_RightAndDownAreDown_VelocitiesAreCorrect( void );
+void Input_HandleOverworldGeneral_DownAndLeftAreDown_VelocitiesAreCorrect( void );
+void Input_HandleOverworldGeneral_OnlyLeftIsDown_PlayerFacesLeft( void );
+void Input_HandleOverworldGeneral_OnlyUpIsDown_PlayerFacesUp( void );
+void Input_HandleOverworldGeneral_OnlyRightIsDown_PlayerFacesRight( void );
+void Input_HandleOverworldGeneral_OnlyDownIsDown_PlayerFacesDown( void );
+
+// MUFFINS: these are new
+void Input_HandleOverworldGeneral_LeftAndRightAreDown_PlayerDirectionDoesNotChange( void );
+void Input_HandleOverworldGeneral_UpAndDownAreDown_PlayerDirectionDoesNotChange( void );
 
 // test_sprite.c
 void ActiveSprite_Init_Always_InitializesParameters( void );
