@@ -51,6 +51,9 @@ void ActiveSprite_Tic_FrameSecondsHasNotExceededTotal_FrameAndFrameSecondsDoNotC
 void ActiveSprite_Tic_FrameSecondsHasExceededTotal_ResetsFrameSecondsAndIncrementsFrame( void );
 void ActiveSprite_Tic_LastFrameAndFrameSecondsHasExceededTotal_SetsFrameToZero( void );
 
+// test_tile_map.c
+void TileMap_Init_Always_InitializesParameters( void );
+
 // test_validate_save.c
 void Validate_PlayerCount_TooFewPlayers_ReturnsFalse( void );
 void Validate_PlayerCount_TooManyPlayers_ReturnsFalse( void );

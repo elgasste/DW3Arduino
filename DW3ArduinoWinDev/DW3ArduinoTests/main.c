@@ -64,6 +64,9 @@ int main( int argc, char** argv )
    RUN_TEST( ActiveSprite_Tic_FrameSecondsHasExceededTotal_ResetsFrameSecondsAndIncrementsFrame );
    RUN_TEST( ActiveSprite_Tic_LastFrameAndFrameSecondsHasExceededTotal_SetsFrameToZero );
 
+   // test_tile_map.c
+   RUN_TEST( TileMap_Init_Always_InitializesParameters );
+
    // test_validate_save.c
    RUN_TEST( Validate_PlayerCount_TooFewPlayers_ReturnsFalse );
    RUN_TEST( Validate_PlayerCount_TooManyPlayers_ReturnsFalse );

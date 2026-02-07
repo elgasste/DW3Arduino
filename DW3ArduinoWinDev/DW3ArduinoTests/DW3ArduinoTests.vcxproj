@@ -137,6 +137,7 @@
     <ClCompile Include="test_input.c" />
     <ClCompile Include="test_player.c" />
     <ClCompile Include="test_sprite.c" />
+    <ClCompile Include="test_tile_map.c" />
     <ClCompile Include="test_validate_save.c" />
     <ClCompile Include="Unity\unity.c" />
   </ItemGroup>
