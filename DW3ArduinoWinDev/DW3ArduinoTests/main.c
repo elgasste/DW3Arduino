@@ -66,6 +66,9 @@ int main( int argc, char** argv )
 
    // test_tile_map.c
    RUN_TEST( TileMap_Init_Always_InitializesParameters );
+   RUN_TEST( TileMap_Tic_Always_TicsNpcs );
+   RUN_TEST( TileMap_Tic_Always_TicsActiveSprites );
+   RUN_TEST( TileMap_Tic_Always_TicsPlayerSprites );
    RUN_TEST( TileMap_CenterEntityOnTile_Always_UpdatesEntityTileIndex );
    RUN_TEST( TileMap_CenterEntityOnTile_Always_CentersEntityOnCorrectTile );
    RUN_TEST( TileMap_GetTileIndexAtPosition_Always_ReturnsCorrectTileIndex );

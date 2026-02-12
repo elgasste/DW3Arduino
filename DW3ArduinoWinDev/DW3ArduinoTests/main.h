@@ -53,6 +53,9 @@ void ActiveSprite_Tic_LastFrameAndFrameSecondsHasExceededTotal_SetsFrameToZero( 
 
 // test_tile_map.c
 void TileMap_Init_Always_InitializesParameters( void );
+void TileMap_Tic_Always_TicsNpcs( void );
+void TileMap_Tic_Always_TicsActiveSprites( void );
+void TileMap_Tic_Always_TicsPlayerSprites( void );
 void TileMap_CenterEntityOnTile_Always_UpdatesEntityTileIndex( void );
 void TileMap_CenterEntityOnTile_Always_CentersEntityOnCorrectTile( void );
 void TileMap_GetTileIndexAtPosition_Always_ReturnsCorrectTileIndex( void );

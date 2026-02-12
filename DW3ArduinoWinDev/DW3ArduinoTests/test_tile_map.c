@@ -4,9 +4,19 @@
 
 #include "main.h"
 
-internal u32 getPlayerCountFunc_Mock( Game_t* game )
+internal u32 getPlayerCountFunc_Mock0( Game_t* game )
+{
+   return 0;
+}
+
+internal u32 getPlayerCountFunc_Mock1( Game_t* game )
 {
    return 1;
+}
+
+internal u32 getPlayerCountFunc_Mock2( Game_t* game )
+{
+   return 2;
 }
 
 void TileMap_Init_Always_InitializesParameters( void )
@@ -23,16 +33,85 @@ void TileMap_Init_Always_InitializesParameters( void )
       tileMap->entityCount = 3;
       tileMap->npcCount = 4;
 
-      TileMap_Init( tileMap, &player, &getPlayerCountFunc_Mock, &playerCountProvider );
+      TileMap_Init( tileMap, &player, &getPlayerCountFunc_Mock1, &playerCountProvider );
 
       TEST_ASSERT_EQUAL( &player, tileMap->players );
-      TEST_ASSERT_EQUAL( &getPlayerCountFunc_Mock, tileMap->getPlayerCountFunc );
+      TEST_ASSERT_EQUAL( &getPlayerCountFunc_Mock1, tileMap->getPlayerCountFunc );
       TEST_ASSERT_EQUAL( &playerCountProvider, tileMap->playerCountProvider );
 
       TEST_ASSERT_EQUAL( 0, tileMap->staticSpriteCount );
       TEST_ASSERT_EQUAL( 0, tileMap->activeSpriteCount );
       TEST_ASSERT_EQUAL( 0, tileMap->entityCount );
       TEST_ASSERT_EQUAL( 0, tileMap->npcCount );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_Tic_Always_TicsNpcs( void )
+{
+   Entity_t npcEntity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->getPlayerCountFunc = getPlayerCountFunc_Mock0;
+      tileMap->npcCount = 2;
+      tileMap->activeSpriteCount = 0;
+
+      tileMap->npcs[0].entity = &npcEntity;
+      tileMap->npcs[0].wanders = True;
+      tileMap->npcs[0].elapsedSeconds = 0.0f;
+      tileMap->npcs[1].wanders = False;
+      tileMap->npcs[1].elapsedSeconds = 0.0f;
+
+      TileMap_Tic( tileMap );
+
+      TEST_ASSERT_EQUAL( CLOCK_FRAME_SECONDS, tileMap->npcs[0].elapsedSeconds );
+      TEST_ASSERT_EQUAL( 0.0f, tileMap->npcs[1].elapsedSeconds );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_Tic_Always_TicsActiveSprites( void )
+{
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->getPlayerCountFunc = getPlayerCountFunc_Mock0;
+      tileMap->npcCount = 0;
+      tileMap->activeSpriteCount = 1;
+      tileMap->activeSprites[0].frameSeconds = 0.0f;
+
+      TileMap_Tic( tileMap );
+
+      TEST_ASSERT_EQUAL( CLOCK_FRAME_SECONDS, tileMap->activeSprites[0].frameSeconds );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_Tic_Always_TicsPlayerSprites( void )
+{
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->getPlayerCountFunc = getPlayerCountFunc_Mock2;
+      tileMap->npcCount = 0;
+      tileMap->activeSpriteCount = 0;
+      tileMap->playerSprites[0].frameSeconds = 0.0f;
+      tileMap->playerSprites[1].frameSeconds = 0.0f;
+
+      TileMap_Tic( tileMap );
+
+      TEST_ASSERT_EQUAL( CLOCK_FRAME_SECONDS, tileMap->playerSprites[0].frameSeconds );
+      TEST_ASSERT_EQUAL( CLOCK_FRAME_SECONDS, tileMap->playerSprites[1].frameSeconds );
 
       free( tileMap );
    }
@@ -343,7 +422,6 @@ void TileMap_GetTileDiagonalVelocity_UnknownWalkSpeed_ReturnsCalculatedDiagonalS
    TEST_ASSERT_EQUAL( (i32)( ( TILE_WALK_SPEED_NORMAL - 4 ) * DIAGONAL_SCALAR ), velocity );
 }
 
-// MUFFINS: add tests for all the other functions:
+// MUFFINS: last one:
 //
-// - void TileMap_Tic( TileMap_t* tileMap )
 // - void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
