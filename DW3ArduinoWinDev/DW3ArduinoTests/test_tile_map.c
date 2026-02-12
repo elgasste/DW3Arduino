@@ -1,5 +1,6 @@
 #include <unity.h>
 #include <game.h>
+#include <utility.h>
 
 #include "main.h"
 
@@ -231,9 +232,118 @@ void TileMap_TileIndexIsEdgeTile_TileIndexIsBottomEdgeTile_ReturnsTrue( void )
    }
 }
 
+void TileMap_GetTileVelocity_TileHasNormalSpeedFactor_ReturnsNormalWalkSpeed( void )
+{
+   i32 velocity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->tiles[22] = 0;
+      velocity = TileMap_GetTileVelocity( tileMap, 22 );
+
+      TEST_ASSERT_EQUAL( TILE_WALK_SPEED_NORMAL, velocity );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_GetTileVelocity_TileHasSlowSpeedFactor_ReturnsSlowWalkSpeed( void )
+{
+   i32 velocity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->tiles[22] = 0x1 << 6;
+      velocity = TileMap_GetTileVelocity( tileMap, 22 );
+
+      TEST_ASSERT_EQUAL( TILE_WALK_SPEED_SLOW, velocity );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_GetTileVelocity_TileHasVerySlowSpeedFactor_ReturnsVerySlowWalkSpeed( void )
+{
+   i32 velocity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->tiles[22] = 0x2 << 6;
+      velocity = TileMap_GetTileVelocity( tileMap, 22 );
+
+      TEST_ASSERT_EQUAL( TILE_WALK_SPEED_VERY_SLOW, velocity );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_GetTileVelocity_TileHasCrawlSpeedFactor_ReturnsCrawlWalkSpeed( void )
+{
+   i32 velocity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->tiles[22] = 0x3 << 6;
+      velocity = TileMap_GetTileVelocity( tileMap, 22 );
+
+      TEST_ASSERT_EQUAL( TILE_WALK_SPEED_CRAWL, velocity );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_GetTileDiagonalVelocity_NormalWalkSpeed_ReturnsNormalDiagonalSpeed( void )
+{
+   i32 velocity = TileMap_GetTileDiagonalVelocity( TILE_WALK_SPEED_NORMAL );
+
+   TEST_ASSERT_EQUAL( TILE_WALK_SPEED_DIAGONAL_NORMAL, velocity );
+}
+
+void TileMap_GetTileDiagonalVelocity_SlowWalkSpeed_ReturnsNormalDiagonalSpeed( void )
+{
+   i32 velocity = TileMap_GetTileDiagonalVelocity( TILE_WALK_SPEED_SLOW );
+
+   TEST_ASSERT_EQUAL( TILE_WALK_SPEED_DIAGONAL_SLOW, velocity );
+}
+
+void TileMap_GetTileDiagonalVelocity_VerySlowWalkSpeed_ReturnsNormalDiagonalSpeed( void )
+{
+   i32 velocity = TileMap_GetTileDiagonalVelocity( TILE_WALK_SPEED_VERY_SLOW );
+
+   TEST_ASSERT_EQUAL( TILE_WALK_SPEED_DIAGONAL_VERY_SLOW, velocity );
+}
+
+void TileMap_GetTileDiagonalVelocity_CrawlWalkSpeed_ReturnsNormalDiagonalSpeed( void )
+{
+   i32 velocity = TileMap_GetTileDiagonalVelocity( TILE_WALK_SPEED_CRAWL );
+
+   TEST_ASSERT_EQUAL( TILE_WALK_SPEED_DIAGONAL_CRAWL, velocity );
+}
+
+void TileMap_GetTileDiagonalVelocity_UnknownWalkSpeed_ReturnsCalculatedDiagonalSpeed( void )
+{
+   i32 velocity = TileMap_GetTileDiagonalVelocity( TILE_WALK_SPEED_NORMAL - 4 );
+
+   TEST_ASSERT_EQUAL( (i32)( ( TILE_WALK_SPEED_NORMAL - 4 ) * DIAGONAL_SCALAR ), velocity );
+}
+
 // MUFFINS: add tests for all the other functions:
 //
 // - void TileMap_Tic( TileMap_t* tileMap )
 // - void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
-// - i32 TileMap_GetTileVelocity( TileMap_t* tileMap, u32 tileIndex )
-// - i32 TileMap_GetTileDiagonalVelocity( i32 regularVelocity )

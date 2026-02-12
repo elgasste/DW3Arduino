@@ -1,5 +1,6 @@
 #include "tile_map.h"
 #include "entity.h"
+#include "utility.h"
 
 void TileMap_Init( TileMap_t* tileMap, Player_t* players, u32( *getPlayerCountFunc )( void* ), void* playerCountProvider )
 {
@@ -127,18 +128,19 @@ Bool_t TileMap_TileIndexIsEdgeTile( TileMap_t* tileMap, u32 tileIndex )
 
 i32 TileMap_GetTileVelocity( TileMap_t* tileMap, u32 tileIndex )
 {
-   u16 tile = tileMap->tiles[tileIndex];
+   u16 tile = tileMap->tiles[( ( tileIndex / tileMap->tilesX ) * tileMap->tilesX ) + ( tileIndex % tileMap->tilesX )];
    u32 speedFactor = TILE_GET_WALKING_SPEED( tile );
+   i32 velocity = TILE_WALK_SPEED_NORMAL;
 
    switch ( speedFactor )
    {
-      case 0: return TILE_WALK_SPEED_NORMAL;
-      case 1: return TILE_WALK_SPEED_SLOW;
-      case 2: return TILE_WALK_SPEED_VERY_SLOW;
-      case 3: return TILE_WALK_SPEED_CRAWL;
-
-      default: return TILE_WALK_SPEED_NORMAL;
+      case 0: velocity = TILE_WALK_SPEED_NORMAL; break;
+      case 1: velocity = TILE_WALK_SPEED_SLOW; break;
+      case 2: velocity = TILE_WALK_SPEED_VERY_SLOW; break;
+      case 3: velocity = TILE_WALK_SPEED_CRAWL; break;
    }
+
+   return velocity;
 }
 
 i32 TileMap_GetTileDiagonalVelocity( i32 regularVelocity )
@@ -150,6 +152,6 @@ i32 TileMap_GetTileDiagonalVelocity( i32 regularVelocity )
       case TILE_WALK_SPEED_VERY_SLOW: return TILE_WALK_SPEED_DIAGONAL_VERY_SLOW;
       case TILE_WALK_SPEED_CRAWL: return TILE_WALK_SPEED_DIAGONAL_CRAWL;
 
-      default: return (i32)( regularVelocity * 0.707f );
+      default: return (i32)( regularVelocity * DIAGONAL_SCALAR );
    }
 }

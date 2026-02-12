@@ -63,7 +63,15 @@ void TileMap_TileIndexIsEdgeTile_TileIndexIsLeftEdgeTile_ReturnsTrue( void );
 void TileMap_TileIndexIsEdgeTile_TileIndexIsTopEdgeTile_ReturnsTrue( void );
 void TileMap_TileIndexIsEdgeTile_TileIndexIsRightEdgeTile_ReturnsTrue( void );
 void TileMap_TileIndexIsEdgeTile_TileIndexIsBottomEdgeTile_ReturnsTrue( void );
-
+void TileMap_GetTileVelocity_TileHasNormalSpeedFactor_ReturnsNormalWalkSpeed( void );
+void TileMap_GetTileVelocity_TileHasSlowSpeedFactor_ReturnsSlowWalkSpeed( void );
+void TileMap_GetTileVelocity_TileHasVerySlowSpeedFactor_ReturnsVerySlowWalkSpeed( void );
+void TileMap_GetTileVelocity_TileHasCrawlSpeedFactor_ReturnsCrawlWalkSpeed( void );
+void TileMap_GetTileDiagonalVelocity_NormalWalkSpeed_ReturnsNormalDiagonalSpeed( void );
+void TileMap_GetTileDiagonalVelocity_SlowWalkSpeed_ReturnsNormalDiagonalSpeed( void );
+void TileMap_GetTileDiagonalVelocity_VerySlowWalkSpeed_ReturnsNormalDiagonalSpeed( void );
+void TileMap_GetTileDiagonalVelocity_CrawlWalkSpeed_ReturnsNormalDiagonalSpeed( void );
+void TileMap_GetTileDiagonalVelocity_UnknownWalkSpeed_ReturnsCalculatedDiagonalSpeed( void );
 
 // test_validate_save.c
 void Validate_PlayerCount_TooFewPlayers_ReturnsFalse( void );
