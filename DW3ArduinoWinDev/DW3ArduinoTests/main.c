@@ -68,6 +68,14 @@ int main( int argc, char** argv )
    RUN_TEST( TileMap_Init_Always_InitializesParameters );
    RUN_TEST( TileMap_CenterEntityOnTile_Always_UpdatesEntityTileIndex );
    RUN_TEST( TileMap_CenterEntityOnTile_Always_CentersEntityOnCorrectTile );
+   RUN_TEST( TileMap_GetTileIndexAtPosition_Always_ReturnsCorrectTileIndex );
+   RUN_TEST( TileMap_GetPositionOfTileIndex_Always_ReturnsCorrectTileIndexPosition );
+   RUN_TEST( TileMap_TileIndexIsEdgeTile_TileIndexIsNotEdgeTile_ReturnsFalse );
+   RUN_TEST( TileMap_TileIndexIsEdgeTile_TileMapWraps_ReturnsFalse );
+   RUN_TEST( TileMap_TileIndexIsEdgeTile_TileIndexIsLeftEdgeTile_ReturnsTrue );
+   RUN_TEST( TileMap_TileIndexIsEdgeTile_TileIndexIsTopEdgeTile_ReturnsTrue );
+   RUN_TEST( TileMap_TileIndexIsEdgeTile_TileIndexIsRightEdgeTile_ReturnsTrue );
+   RUN_TEST( TileMap_TileIndexIsEdgeTile_TileIndexIsBottomEdgeTile_ReturnsTrue );
 
    // test_validate_save.c
    RUN_TEST( Validate_PlayerCount_TooFewPlayers_ReturnsFalse );

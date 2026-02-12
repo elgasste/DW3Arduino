@@ -114,6 +114,11 @@ void TileMap_GetPositionOfTileIndex( TileMap_t* tileMap, u32 tileIndex, i32* x, 
 
 Bool_t TileMap_TileIndexIsEdgeTile( TileMap_t* tileMap, u32 tileIndex )
 {
+   if ( tileMap->wraps )
+   {
+      return False;
+   }
+
    return ( tileIndex < tileMap->tilesX ) ||                                     // top edge
           ( ( tileIndex % tileMap->tilesX ) == 0 ) ||                            // left edge
           ( ( tileIndex % tileMap->tilesX ) == ( tileMap->tilesX - 1 ) ) ||      // right edge

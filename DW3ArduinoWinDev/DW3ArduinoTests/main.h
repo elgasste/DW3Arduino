@@ -55,6 +55,15 @@ void ActiveSprite_Tic_LastFrameAndFrameSecondsHasExceededTotal_SetsFrameToZero( 
 void TileMap_Init_Always_InitializesParameters( void );
 void TileMap_CenterEntityOnTile_Always_UpdatesEntityTileIndex( void );
 void TileMap_CenterEntityOnTile_Always_CentersEntityOnCorrectTile( void );
+void TileMap_GetTileIndexAtPosition_Always_ReturnsCorrectTileIndex( void );
+void TileMap_GetPositionOfTileIndex_Always_ReturnsCorrectTileIndexPosition( void );
+void TileMap_TileIndexIsEdgeTile_TileIndexIsNotEdgeTile_ReturnsFalse( void );
+void TileMap_TileIndexIsEdgeTile_TileMapWraps_ReturnsFalse( void );
+void TileMap_TileIndexIsEdgeTile_TileIndexIsLeftEdgeTile_ReturnsTrue( void );
+void TileMap_TileIndexIsEdgeTile_TileIndexIsTopEdgeTile_ReturnsTrue( void );
+void TileMap_TileIndexIsEdgeTile_TileIndexIsRightEdgeTile_ReturnsTrue( void );
+void TileMap_TileIndexIsEdgeTile_TileIndexIsBottomEdgeTile_ReturnsTrue( void );
+
 
 // test_validate_save.c
 void Validate_PlayerCount_TooFewPlayers_ReturnsFalse( void );

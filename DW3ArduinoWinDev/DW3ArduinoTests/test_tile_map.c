@@ -37,16 +37,6 @@ void TileMap_Init_Always_InitializesParameters( void )
    }
 }
 
-// MUFFINS: add tests for all the other functions:
-//
-// - void TileMap_Tic( TileMap_t* tileMap )
-// - void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
-// - u32 TileMap_GetTileIndexAtPosition( TileMap_t* tileMap, i32 x, i32 y )
-// - void TileMap_GetPositionOfTileIndex( TileMap_t* tileMap, u32 tileIndex, i32* x, i32* y )
-// - Bool_t TileMap_TileIndexIsEdgeTile( TileMap_t* tileMap, u32 tileIndex )
-// - i32 TileMap_GetTileVelocity( TileMap_t* tileMap, u32 tileIndex )
-// - i32 TileMap_GetTileDiagonalVelocity( i32 regularVelocity )
-
 void TileMap_CenterEntityOnTile_Always_UpdatesEntityTileIndex( void )
 {
    Entity_t entity;
@@ -89,3 +79,161 @@ void TileMap_CenterEntityOnTile_Always_CentersEntityOnCorrectTile( void )
       free( tileMap );
    }
 }
+
+void TileMap_GetTileIndexAtPosition_Always_ReturnsCorrectTileIndex( void )
+{
+   u32 tileIndex;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileIndex = TileMap_GetTileIndexAtPosition( tileMap, TILEMAP_TILE_SIZE_UNITS + 1, TILEMAP_TILE_SIZE_UNITS + 1 );
+
+      TEST_ASSERT_EQUAL( 11, tileIndex );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_GetPositionOfTileIndex_Always_ReturnsCorrectTileIndexPosition( void )
+{
+   i32 x, y;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      TileMap_GetPositionOfTileIndex( tileMap, 32, &x, &y );
+
+      TEST_ASSERT_EQUAL( TILEMAP_TILE_SIZE_UNITS * 2, x );
+      TEST_ASSERT_EQUAL( TILEMAP_TILE_SIZE_UNITS * 3, y );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_TileIndexIsEdgeTile_TileIndexIsNotEdgeTile_ReturnsFalse( void )
+{
+   Bool_t result;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->wraps = False;
+      result = TileMap_TileIndexIsEdgeTile( tileMap, 11 );
+
+      TEST_ASSERT_EQUAL( False, result );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_TileIndexIsEdgeTile_TileMapWraps_ReturnsFalse( void )
+{
+   Bool_t result;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->wraps = True;
+      result = TileMap_TileIndexIsEdgeTile( tileMap, 0 );
+
+      TEST_ASSERT_EQUAL( False, result );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_TileIndexIsEdgeTile_TileIndexIsLeftEdgeTile_ReturnsTrue( void )
+{
+   Bool_t result;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->wraps = False;
+      result = TileMap_TileIndexIsEdgeTile( tileMap, 20 );
+
+      TEST_ASSERT_EQUAL( True, result );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_TileIndexIsEdgeTile_TileIndexIsTopEdgeTile_ReturnsTrue( void )
+{
+   Bool_t result;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->wraps = False;
+      result = TileMap_TileIndexIsEdgeTile( tileMap, 5 );
+
+      TEST_ASSERT_EQUAL( True, result );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_TileIndexIsEdgeTile_TileIndexIsRightEdgeTile_ReturnsTrue( void )
+{
+   Bool_t result;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->wraps = False;
+      result = TileMap_TileIndexIsEdgeTile( tileMap, 39 );
+
+      TEST_ASSERT_EQUAL( True, result );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_TileIndexIsEdgeTile_TileIndexIsBottomEdgeTile_ReturnsTrue( void )
+{
+   Bool_t result;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->wraps = False;
+      result = TileMap_TileIndexIsEdgeTile( tileMap, 93 );
+
+      TEST_ASSERT_EQUAL( True, result );
+
+      free( tileMap );
+   }
+}
+
+// MUFFINS: add tests for all the other functions:
+//
+// - void TileMap_Tic( TileMap_t* tileMap )
+// - void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
+// - i32 TileMap_GetTileVelocity( TileMap_t* tileMap, u32 tileIndex )
+// - i32 TileMap_GetTileDiagonalVelocity( i32 regularVelocity )
