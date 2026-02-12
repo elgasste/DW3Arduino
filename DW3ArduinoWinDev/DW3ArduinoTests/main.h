@@ -53,6 +53,8 @@ void ActiveSprite_Tic_LastFrameAndFrameSecondsHasExceededTotal_SetsFrameToZero( 
 
 // test_tile_map.c
 void TileMap_Init_Always_InitializesParameters( void );
+void TileMap_CenterEntityOnTile_Always_UpdatesEntityTileIndex( void );
+void TileMap_CenterEntityOnTile_Always_CentersEntityOnCorrectTile( void );
 
 // test_validate_save.c
 void Validate_PlayerCount_TooFewPlayers_ReturnsFalse( void );
