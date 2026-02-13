@@ -39,9 +39,6 @@
     <ClCompile Include="..\..\DW3Arduino\input.c">
       <Filter>DW3 Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\DW3Arduino\random.c">
-      <Filter>DW3 Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="test_input.c">
       <Filter>Test Source Files</Filter>
     </ClCompile>
@@ -68,6 +65,12 @@
     </ClCompile>
     <ClCompile Include="test_tile_map.c">
       <Filter>Test Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test_npc.c">
+      <Filter>Test Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mock_random.c">
+      <Filter>DW3 Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

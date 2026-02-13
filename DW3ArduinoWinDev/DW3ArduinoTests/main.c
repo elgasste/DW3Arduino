@@ -53,6 +53,11 @@ int main( int argc, char** argv )
    RUN_TEST( Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingUp_PlayerFacesDown );
    RUN_TEST( Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown );
 
+   // test_npc.c
+   RUN_TEST( Npc_Init_Always_InitializesBasicParameters );
+   RUN_TEST( Npc_Init_NpcWanders_InitializesWanderParameters );
+   RUN_TEST( Npc_Init_NpcDoesNotWander_DoesNotInitializeWanderParameters );
+
    // test_player.c
    RUN_TEST( Player_ResetChaining_ResetsParameters );
 

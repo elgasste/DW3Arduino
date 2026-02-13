@@ -1,5 +1,11 @@
-#if !defined( MAIN_H )
-#define MAIN_H
+#if !defined( TEST_MAIN_H )
+#define TEST_MAIN_H
+
+#include <common.h>
+
+extern u32 g_randomPercentResult;
+extern i32 g_random32iResult;
+extern u32 g_random32uResult;
 
 // test_input.c
 void Input_Init_Always_SetsAllStatesToFalse( void );
@@ -39,6 +45,11 @@ void Input_HandleOverworldGeneral_RightAndDownAndLeftAreDownAndPlayerIsFacingDow
 void Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingHorizontal_PlayerKeepsFacingHorizontal( void );
 void Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingUp_PlayerFacesDown( void );
 void Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown( void );
+
+// test_npc.c
+void Npc_Init_Always_InitializesBasicParameters( void );
+void Npc_Init_NpcWanders_InitializesWanderParameters( void );
+void Npc_Init_NpcDoesNotWander_DoesNotInitializeWanderParameters( void );
 
 // test_player.c
 void Player_ResetChaining_ResetsParameters( void );
@@ -98,4 +109,4 @@ void Validate_SingleHero_NoHeroes_ReturnsFalse( void );
 void Validate_SingleHero_MultipleHeroes_ReturnsFalse( void );
 void Validate_SingleHero_OneHero_ReturnsTrue( void );
 
-#endif // MAIN_H
+#endif // TEST_MAIN_H
