@@ -88,6 +88,14 @@ int main( int argc, char** argv )
    RUN_TEST( TileMap_GetTileDiagonalVelocity_VerySlowWalkSpeed_ReturnsNormalDiagonalSpeed );
    RUN_TEST( TileMap_GetTileDiagonalVelocity_CrawlWalkSpeed_ReturnsNormalDiagonalSpeed );
    RUN_TEST( TileMap_GetTileDiagonalVelocity_UnknownWalkSpeed_ReturnsCalculatedDiagonalSpeed );
+   RUN_TEST( TileMap_ClampViewportToEntity_EdgeOfMapAndTileMapWraps_ClampsToFocalEntity );
+   RUN_TEST( TileMap_ClampViewportToEntity_MapIsThinnerThanViewport_ClampsHorizontally );
+   RUN_TEST( TileMap_ClampViewportToEntity_MapIsShorterThanViewport_ClampsVertically );
+   RUN_TEST( TileMap_ClampViewportToEntity_CloseToLeftEdge_ClampsToScreen );
+   RUN_TEST( TileMap_ClampViewportToEntity_CloseToTopEdge_ClampsToScreen );
+   RUN_TEST( TileMap_ClampViewportToEntity_CloseToRightEdge_ClampsToScreen );
+   RUN_TEST( TileMap_ClampViewportToEntity_CloseToBottomEdge_ClampsToScreen );
+   RUN_TEST( TileMap_ClampViewportToEntity_NotCloseToEdge_ClampsToEntity );
 
    // test_validate_save.c
    RUN_TEST( Validate_PlayerCount_TooFewPlayers_ReturnsFalse );

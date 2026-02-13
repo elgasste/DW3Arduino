@@ -75,6 +75,14 @@ void TileMap_GetTileDiagonalVelocity_SlowWalkSpeed_ReturnsNormalDiagonalSpeed( v
 void TileMap_GetTileDiagonalVelocity_VerySlowWalkSpeed_ReturnsNormalDiagonalSpeed( void );
 void TileMap_GetTileDiagonalVelocity_CrawlWalkSpeed_ReturnsNormalDiagonalSpeed( void );
 void TileMap_GetTileDiagonalVelocity_UnknownWalkSpeed_ReturnsCalculatedDiagonalSpeed( void );
+void TileMap_ClampViewportToEntity_EdgeOfMapAndTileMapWraps_ClampsToFocalEntity( void );
+void TileMap_ClampViewportToEntity_MapIsThinnerThanViewport_ClampsHorizontally( void );
+void TileMap_ClampViewportToEntity_MapIsShorterThanViewport_ClampsVertically( void );
+void TileMap_ClampViewportToEntity_CloseToLeftEdge_ClampsToScreen( void );
+void TileMap_ClampViewportToEntity_CloseToTopEdge_ClampsToScreen( void );
+void TileMap_ClampViewportToEntity_CloseToRightEdge_ClampsToScreen( void );
+void TileMap_ClampViewportToEntity_CloseToBottomEdge_ClampsToScreen( void );
+void TileMap_ClampViewportToEntity_NotCloseToEdge_ClampsToEntity( void );
 
 // test_validate_save.c
 void Validate_PlayerCount_TooFewPlayers_ReturnsFalse( void );

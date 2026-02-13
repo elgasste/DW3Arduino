@@ -422,6 +422,211 @@ void TileMap_GetTileDiagonalVelocity_UnknownWalkSpeed_ReturnsCalculatedDiagonalS
    TEST_ASSERT_EQUAL( (i32)( ( TILE_WALK_SPEED_NORMAL - 4 ) * DIAGONAL_SCALAR ), velocity );
 }
 
-// MUFFINS: last one:
-//
-// - void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
+void TileMap_ClampViewportToEntity_EdgeOfMapAndTileMapWraps_ClampsToFocalEntity( void )
+{
+   Entity_t entity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      entity.pos.x = 1;
+      entity.pos.y = 1;
+      entity.pos.w = 50;
+      entity.pos.h = 50;
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->viewport.w = 1000;
+      tileMap->viewport.h = 1000;
+      tileMap->wraps = True;
+
+      TileMap_ClampViewportToEntity( tileMap, &entity );
+
+      TEST_ASSERT_EQUAL( -474, tileMap->viewport.x );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_ClampViewportToEntity_MapIsThinnerThanViewport_ClampsHorizontally( void )
+{
+   Entity_t entity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      entity.pos.x = 1;
+      entity.pos.y = 1;
+      entity.pos.w = 50;
+      entity.pos.h = 50;
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
+      tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
+      tileMap->wraps = False;
+
+      TileMap_ClampViewportToEntity( tileMap, &entity );
+
+      TEST_ASSERT_EQUAL( -( ( ( TILEMAP_TILE_SIZE_UNITS * 20 ) - ( 10 * TILEMAP_TILE_SIZE_UNITS ) ) / 2 ), tileMap->viewport.x );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_ClampViewportToEntity_MapIsShorterThanViewport_ClampsVertically( void )
+{
+   Entity_t entity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      entity.pos.x = 1;
+      entity.pos.y = 1;
+      entity.pos.w = 50;
+      entity.pos.h = 50;
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
+      tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
+      tileMap->wraps = False;
+
+      TileMap_ClampViewportToEntity( tileMap, &entity );
+
+      TEST_ASSERT_EQUAL( -( ( ( TILEMAP_TILE_SIZE_UNITS * 16 ) - ( 10 * TILEMAP_TILE_SIZE_UNITS ) ) / 2 ), tileMap->viewport.y );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_ClampViewportToEntity_CloseToLeftEdge_ClampsToScreen( void )
+{
+   Entity_t entity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      entity.pos.x = 1;
+      entity.pos.y = 1;
+      entity.pos.w = 50;
+      entity.pos.h = 50;
+      tileMap->tilesX = 50;
+      tileMap->tilesY = 50;
+      tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
+      tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
+      tileMap->wraps = False;
+
+      TileMap_ClampViewportToEntity( tileMap, &entity );
+
+      TEST_ASSERT_EQUAL( 0, tileMap->viewport.x );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_ClampViewportToEntity_CloseToTopEdge_ClampsToScreen( void )
+{
+   Entity_t entity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      entity.pos.x = 1;
+      entity.pos.y = 1;
+      entity.pos.w = 50;
+      entity.pos.h = 50;
+      tileMap->tilesX = 50;
+      tileMap->tilesY = 50;
+      tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
+      tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
+      tileMap->wraps = False;
+
+      TileMap_ClampViewportToEntity( tileMap, &entity );
+
+      TEST_ASSERT_EQUAL( 0, tileMap->viewport.y );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_ClampViewportToEntity_CloseToRightEdge_ClampsToScreen( void )
+{
+   Entity_t entity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      entity.pos.x = ( 50 * TILEMAP_TILE_SIZE_UNITS ) - 51;
+      entity.pos.y = ( 50 * TILEMAP_TILE_SIZE_UNITS ) - 51;
+      entity.pos.w = 50;
+      entity.pos.h = 50;
+      tileMap->tilesX = 50;
+      tileMap->tilesY = 50;
+      tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
+      tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
+      tileMap->wraps = False;
+
+      TileMap_ClampViewportToEntity( tileMap, &entity );
+
+      TEST_ASSERT_EQUAL( ( 50 * TILEMAP_TILE_SIZE_UNITS ) - ( TILEMAP_TILE_SIZE_UNITS * 20 ), tileMap->viewport.x);
+
+      free( tileMap );
+   }
+}
+
+void TileMap_ClampViewportToEntity_CloseToBottomEdge_ClampsToScreen( void )
+{
+   Entity_t entity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      entity.pos.x = ( 50 * TILEMAP_TILE_SIZE_UNITS ) - 51;
+      entity.pos.y = ( 50 * TILEMAP_TILE_SIZE_UNITS ) - 51;
+      entity.pos.w = 50;
+      entity.pos.h = 50;
+      tileMap->tilesX = 50;
+      tileMap->tilesY = 50;
+      tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
+      tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
+      tileMap->wraps = False;
+
+      TileMap_ClampViewportToEntity( tileMap, &entity );
+
+      TEST_ASSERT_EQUAL( ( 50 * TILEMAP_TILE_SIZE_UNITS ) - ( TILEMAP_TILE_SIZE_UNITS * 16 ), tileMap->viewport.y );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_ClampViewportToEntity_NotCloseToEdge_ClampsToEntity( void )
+{
+   Entity_t entity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      entity.pos.x = ( 22 * TILEMAP_TILE_SIZE_UNITS );
+      entity.pos.y = ( 24 * TILEMAP_TILE_SIZE_UNITS );
+      entity.pos.w = 50;
+      entity.pos.h = 50;
+      tileMap->tilesX = 50;
+      tileMap->tilesY = 50;
+      tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
+      tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
+      tileMap->wraps = False;
+
+      TileMap_ClampViewportToEntity( tileMap, &entity );
+
+      TEST_ASSERT_EQUAL( ( ( 22 * TILEMAP_TILE_SIZE_UNITS ) + 25 ) - ( 10 * TILEMAP_TILE_SIZE_UNITS ), tileMap->viewport.x );
+      TEST_ASSERT_EQUAL( ( ( 24 * TILEMAP_TILE_SIZE_UNITS ) + 25 ) - ( 8 * TILEMAP_TILE_SIZE_UNITS ), tileMap->viewport.y );
+
+      free( tileMap );
+   }
+}
