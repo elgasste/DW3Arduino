@@ -1,6 +1,14 @@
 #if !defined( TEST_MAIN_H )
 #define TEST_MAIN_H
 
+// test_game.c
+void Game_Init_Always_InitializesClock( void );
+void Game_Init_Always_InitializesScreen( void );
+void Game_Init_Always_InitializesInput( void );
+void Game_Init_Always_InitializesAnimationChain( void );
+void Game_Init_Always_InitializesTileMap( void );
+void Game_Init_Always_InitializesViewports( void );
+
 // test_input.c
 void Input_Init_Always_SetsAllStatesToFalse( void );
 void Input_AnyButtonPressed_NoButtonsPressed_ReturnsFalse( void );

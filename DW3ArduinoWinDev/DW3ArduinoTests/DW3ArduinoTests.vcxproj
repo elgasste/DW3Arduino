@@ -125,15 +125,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\DW3Arduino\animation.c" />
+    <ClCompile Include="..\..\DW3Arduino\game.c" />
     <ClCompile Include="..\..\DW3Arduino\input.c" />
     <ClCompile Include="..\..\DW3Arduino\npc.c" />
+    <ClCompile Include="..\..\DW3Arduino\physics.c" />
     <ClCompile Include="..\..\DW3Arduino\player.c" />
+    <ClCompile Include="..\..\DW3Arduino\render.c" />
+    <ClCompile Include="..\..\DW3Arduino\screen.c" />
     <ClCompile Include="..\..\DW3Arduino\sprite.c" />
     <ClCompile Include="..\..\DW3Arduino\tile_map.c" />
+    <ClCompile Include="..\..\DW3Arduino\utility.c" />
     <ClCompile Include="..\..\DW3Arduino\validate_save.c" />
     <ClCompile Include="game_util.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="mock_clock.c" />
+    <ClCompile Include="mock_game_data.c" />
+    <ClCompile Include="mock_main.c" />
     <ClCompile Include="mock_random.c" />
+    <ClCompile Include="mock_screen.c" />
+    <ClCompile Include="mock_storage.c" />
+    <ClCompile Include="test_game.c" />
     <ClCompile Include="test_input.c" />
     <ClCompile Include="test_npc.c" />
     <ClCompile Include="test_player.c" />
@@ -145,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="game_util.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="mock_clock.h" />
     <ClInclude Include="mock_random.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
