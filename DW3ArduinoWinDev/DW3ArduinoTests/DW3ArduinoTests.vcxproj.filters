@@ -66,6 +66,9 @@
     <ClCompile Include="..\..\DW3Arduino\player.c">
       <Filter>DW3 Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test_tile_map.c">
+      <Filter>Test Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">

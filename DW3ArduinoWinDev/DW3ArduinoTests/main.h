@@ -51,6 +51,39 @@ void ActiveSprite_Tic_FrameSecondsHasNotExceededTotal_FrameAndFrameSecondsDoNotC
 void ActiveSprite_Tic_FrameSecondsHasExceededTotal_ResetsFrameSecondsAndIncrementsFrame( void );
 void ActiveSprite_Tic_LastFrameAndFrameSecondsHasExceededTotal_SetsFrameToZero( void );
 
+// test_tile_map.c
+void TileMap_Init_Always_InitializesParameters( void );
+void TileMap_Tic_Always_TicsNpcs( void );
+void TileMap_Tic_Always_TicsActiveSprites( void );
+void TileMap_Tic_Always_TicsPlayerSprites( void );
+void TileMap_CenterEntityOnTile_Always_UpdatesEntityTileIndex( void );
+void TileMap_CenterEntityOnTile_Always_CentersEntityOnCorrectTile( void );
+void TileMap_GetTileIndexAtPosition_Always_ReturnsCorrectTileIndex( void );
+void TileMap_GetPositionOfTileIndex_Always_ReturnsCorrectTileIndexPosition( void );
+void TileMap_TileIndexIsEdgeTile_TileIndexIsNotEdgeTile_ReturnsFalse( void );
+void TileMap_TileIndexIsEdgeTile_TileMapWraps_ReturnsFalse( void );
+void TileMap_TileIndexIsEdgeTile_TileIndexIsLeftEdgeTile_ReturnsTrue( void );
+void TileMap_TileIndexIsEdgeTile_TileIndexIsTopEdgeTile_ReturnsTrue( void );
+void TileMap_TileIndexIsEdgeTile_TileIndexIsRightEdgeTile_ReturnsTrue( void );
+void TileMap_TileIndexIsEdgeTile_TileIndexIsBottomEdgeTile_ReturnsTrue( void );
+void TileMap_GetTileVelocity_TileHasNormalSpeedFactor_ReturnsNormalWalkSpeed( void );
+void TileMap_GetTileVelocity_TileHasSlowSpeedFactor_ReturnsSlowWalkSpeed( void );
+void TileMap_GetTileVelocity_TileHasVerySlowSpeedFactor_ReturnsVerySlowWalkSpeed( void );
+void TileMap_GetTileVelocity_TileHasCrawlSpeedFactor_ReturnsCrawlWalkSpeed( void );
+void TileMap_GetTileDiagonalVelocity_NormalWalkSpeed_ReturnsNormalDiagonalSpeed( void );
+void TileMap_GetTileDiagonalVelocity_SlowWalkSpeed_ReturnsNormalDiagonalSpeed( void );
+void TileMap_GetTileDiagonalVelocity_VerySlowWalkSpeed_ReturnsNormalDiagonalSpeed( void );
+void TileMap_GetTileDiagonalVelocity_CrawlWalkSpeed_ReturnsNormalDiagonalSpeed( void );
+void TileMap_GetTileDiagonalVelocity_UnknownWalkSpeed_ReturnsCalculatedDiagonalSpeed( void );
+void TileMap_ClampViewportToEntity_EdgeOfMapAndTileMapWraps_ClampsToFocalEntity( void );
+void TileMap_ClampViewportToEntity_MapIsThinnerThanViewport_ClampsHorizontally( void );
+void TileMap_ClampViewportToEntity_MapIsShorterThanViewport_ClampsVertically( void );
+void TileMap_ClampViewportToEntity_CloseToLeftEdge_ClampsToScreen( void );
+void TileMap_ClampViewportToEntity_CloseToTopEdge_ClampsToScreen( void );
+void TileMap_ClampViewportToEntity_CloseToRightEdge_ClampsToScreen( void );
+void TileMap_ClampViewportToEntity_CloseToBottomEdge_ClampsToScreen( void );
+void TileMap_ClampViewportToEntity_NotCloseToEdge_ClampsToEntity( void );
+
 // test_validate_save.c
 void Validate_PlayerCount_TooFewPlayers_ReturnsFalse( void );
 void Validate_PlayerCount_TooManyPlayers_ReturnsFalse( void );

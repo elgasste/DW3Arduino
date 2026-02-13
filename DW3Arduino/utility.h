@@ -4,6 +4,8 @@
 #include "common.h"
 #include "vector.h"
 
+#define DIAGONAL_SCALAR    0.707f
+
 #if defined( __cplusplus )
 extern "C" {
 #endif
