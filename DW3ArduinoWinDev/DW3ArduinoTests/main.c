@@ -53,6 +53,27 @@ int main( int argc, char** argv )
    RUN_TEST( Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingUp_PlayerFacesDown );
    RUN_TEST( Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown );
 
+   // test_npc.c
+   RUN_TEST( Npc_Init_Always_InitializesBasicParameters );
+   RUN_TEST( Npc_Init_NpcWanders_InitializesWanderParameters );
+   RUN_TEST( Npc_Init_NpcDoesNotWander_DoesNotInitializeWanderParameters );
+   RUN_TEST( Npc_Tic_DoesNotWander_DoesNothing );
+   RUN_TEST( Npc_Tic_Wanders_IncrementsElapsedSeconds );
+   RUN_TEST( Npc_Tic_WandersAndIsWanderingAndActionHasElapsed_StopsMoving );
+   RUN_TEST( Npc_Tic_WandersAndIsNotWanderingAndActionHasElapsed_StartsMoving );
+   RUN_TEST( Npc_Tic_FacingLeftAndNotMovingLeftAndMovingUp_SetsDirectionToUp );
+   RUN_TEST( Npc_Tic_FacingLeftAndNotMovingLeftAndNotMovingUpAndMovingRight_SetsDirectionToRight );
+   RUN_TEST( Npc_Tic_FacingLeftAndNotMovingLeftAndNotMovingUpAndNotMovingRight_SetsDirectionToDown );
+   RUN_TEST( Npc_Tic_FacingUpAndNotMovingUpAndMovingRight_SetsDirectionToRight );
+   RUN_TEST( Npc_Tic_FacingUpAndNotMovingUpAndNotMovingRightAndMovingDown_SetsDirectionToDown );
+   RUN_TEST( Npc_Tic_FacingUpAndNotMovingUpAndNotMovingRightAndNotMovingDown_SetsDirectionToLeft );
+   RUN_TEST( Npc_Tic_FacingRightAndNotMovingRightAndMovingDown_SetsDirectionToDown );
+   RUN_TEST( Npc_Tic_FacingRightAndNotMovingRightAndNotMovingDownAndMovingLeft_SetsDirectionToLeft );
+   RUN_TEST( Npc_Tic_FacingRightAndNotMovingRightAndNotMovingDownAndNotMovingLeft_SetsDirectionToUp );
+   RUN_TEST( Npc_Tic_FacingDownAndNotMovingDownAndMovingLeft_SetsDirectionToLeft );
+   RUN_TEST( Npc_Tic_FacingDownAndNotMovingDownAndNotMovingLeftAndMovingUp_SetsDirectionToUp );
+   RUN_TEST( Npc_Tic_FacingDownAndNotMovingDownAndNotMovingLeftAndNotMovingUp_SetsDirectionToRight );
+
    // test_player.c
    RUN_TEST( Player_ResetChaining_ResetsParameters );
 

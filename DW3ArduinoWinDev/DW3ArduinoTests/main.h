@@ -1,5 +1,5 @@
-#if !defined( MAIN_H )
-#define MAIN_H
+#if !defined( TEST_MAIN_H )
+#define TEST_MAIN_H
 
 // test_input.c
 void Input_Init_Always_SetsAllStatesToFalse( void );
@@ -39,6 +39,27 @@ void Input_HandleOverworldGeneral_RightAndDownAndLeftAreDownAndPlayerIsFacingDow
 void Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingHorizontal_PlayerKeepsFacingHorizontal( void );
 void Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingUp_PlayerFacesDown( void );
 void Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingDown_PlayerKeepsFacingDown( void );
+
+// test_npc.c
+void Npc_Init_Always_InitializesBasicParameters( void );
+void Npc_Init_NpcWanders_InitializesWanderParameters( void );
+void Npc_Init_NpcDoesNotWander_DoesNotInitializeWanderParameters( void );
+void Npc_Tic_DoesNotWander_DoesNothing( void );
+void Npc_Tic_Wanders_IncrementsElapsedSeconds( void );
+void Npc_Tic_WandersAndIsWanderingAndActionHasElapsed_StopsMoving( void );
+void Npc_Tic_WandersAndIsNotWanderingAndActionHasElapsed_StartsMoving( void );
+void Npc_Tic_FacingLeftAndNotMovingLeftAndMovingUp_SetsDirectionToUp( void );
+void Npc_Tic_FacingLeftAndNotMovingLeftAndNotMovingUpAndMovingRight_SetsDirectionToRight( void );
+void Npc_Tic_FacingLeftAndNotMovingLeftAndNotMovingUpAndNotMovingRight_SetsDirectionToDown( void );
+void Npc_Tic_FacingUpAndNotMovingUpAndMovingRight_SetsDirectionToRight( void );
+void Npc_Tic_FacingUpAndNotMovingUpAndNotMovingRightAndMovingDown_SetsDirectionToDown( void );
+void Npc_Tic_FacingUpAndNotMovingUpAndNotMovingRightAndNotMovingDown_SetsDirectionToLeft( void );
+void Npc_Tic_FacingRightAndNotMovingRightAndMovingDown_SetsDirectionToDown( void );
+void Npc_Tic_FacingRightAndNotMovingRightAndNotMovingDownAndMovingLeft_SetsDirectionToLeft( void );
+void Npc_Tic_FacingRightAndNotMovingRightAndNotMovingDownAndNotMovingLeft_SetsDirectionToUp( void );
+void Npc_Tic_FacingDownAndNotMovingDownAndMovingLeft_SetsDirectionToLeft( void );
+void Npc_Tic_FacingDownAndNotMovingDownAndNotMovingLeftAndMovingUp_SetsDirectionToUp( void );
+void Npc_Tic_FacingDownAndNotMovingDownAndNotMovingLeftAndNotMovingUp_SetsDirectionToRight( void );
 
 // test_player.c
 void Player_ResetChaining_ResetsParameters( void );
@@ -98,4 +119,4 @@ void Validate_SingleHero_NoHeroes_ReturnsFalse( void );
 void Validate_SingleHero_MultipleHeroes_ReturnsFalse( void );
 void Validate_SingleHero_OneHero_ReturnsTrue( void );
 
-#endif // MAIN_H
+#endif // TEST_MAIN_H

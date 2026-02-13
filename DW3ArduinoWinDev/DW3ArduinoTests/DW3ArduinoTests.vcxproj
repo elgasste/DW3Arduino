@@ -128,13 +128,14 @@
     <ClCompile Include="..\..\DW3Arduino\input.c" />
     <ClCompile Include="..\..\DW3Arduino\npc.c" />
     <ClCompile Include="..\..\DW3Arduino\player.c" />
-    <ClCompile Include="..\..\DW3Arduino\random.c" />
     <ClCompile Include="..\..\DW3Arduino\sprite.c" />
     <ClCompile Include="..\..\DW3Arduino\tile_map.c" />
     <ClCompile Include="..\..\DW3Arduino\validate_save.c" />
     <ClCompile Include="game_util.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="mock_random.c" />
     <ClCompile Include="test_input.c" />
+    <ClCompile Include="test_npc.c" />
     <ClCompile Include="test_player.c" />
     <ClCompile Include="test_sprite.c" />
     <ClCompile Include="test_tile_map.c" />
@@ -144,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="game_util.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="mock_random.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
