@@ -1,12 +1,6 @@
 #if !defined( TEST_MAIN_H )
 #define TEST_MAIN_H
 
-#include <common.h>
-
-extern u32 g_randomPercentResult;
-extern i32 g_random32iResult;
-extern u32 g_random32uResult;
-
 // test_input.c
 void Input_Init_Always_SetsAllStatesToFalse( void );
 void Input_AnyButtonPressed_NoButtonsPressed_ReturnsFalse( void );
@@ -50,6 +44,22 @@ void Input_HandleOverworldGeneral_DownAndLeftAndRightAreDownAndPlayerIsFacingDow
 void Npc_Init_Always_InitializesBasicParameters( void );
 void Npc_Init_NpcWanders_InitializesWanderParameters( void );
 void Npc_Init_NpcDoesNotWander_DoesNotInitializeWanderParameters( void );
+void Npc_Tic_DoesNotWander_DoesNothing( void );
+void Npc_Tic_Wanders_IncrementsElapsedSeconds( void );
+void Npc_Tic_WandersAndIsWanderingAndActionHasElapsed_StopsMoving( void );
+void Npc_Tic_WandersAndIsNotWanderingAndActionHasElapsed_StartsMoving( void );
+void Npc_Tic_FacingLeftAndNotMovingLeftAndMovingUp_SetsDirectionToUp( void );
+void Npc_Tic_FacingLeftAndNotMovingLeftAndNotMovingUpAndMovingRight_SetsDirectionToRight( void );
+void Npc_Tic_FacingLeftAndNotMovingLeftAndNotMovingUpAndNotMovingRight_SetsDirectionToDown( void );
+void Npc_Tic_FacingUpAndNotMovingUpAndMovingRight_SetsDirectionToRight( void );
+void Npc_Tic_FacingUpAndNotMovingUpAndNotMovingRightAndMovingDown_SetsDirectionToDown( void );
+void Npc_Tic_FacingUpAndNotMovingUpAndNotMovingRightAndNotMovingDown_SetsDirectionToLeft( void );
+void Npc_Tic_FacingRightAndNotMovingRightAndMovingDown_SetsDirectionToDown( void );
+void Npc_Tic_FacingRightAndNotMovingRightAndNotMovingDownAndMovingLeft_SetsDirectionToLeft( void );
+void Npc_Tic_FacingRightAndNotMovingRightAndNotMovingDownAndNotMovingLeft_SetsDirectionToUp( void );
+void Npc_Tic_FacingDownAndNotMovingDownAndMovingLeft_SetsDirectionToLeft( void );
+void Npc_Tic_FacingDownAndNotMovingDownAndNotMovingLeftAndMovingUp_SetsDirectionToUp( void );
+void Npc_Tic_FacingDownAndNotMovingDownAndNotMovingLeftAndNotMovingUp_SetsDirectionToRight( void );
 
 // test_player.c
 void Player_ResetChaining_ResetsParameters( void );

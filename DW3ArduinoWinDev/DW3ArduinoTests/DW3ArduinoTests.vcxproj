@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="game_util.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="mock_random.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
