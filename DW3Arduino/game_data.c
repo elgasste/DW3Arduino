@@ -286,8 +286,8 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 9, 3, 153, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
          ActiveSprite_Init( tileMap->activeSprites + 0, 0, 2, 4, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 0, 582, 2, 115, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 1, 583, 2, 116, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 0, 548, 2, 107, Direction_Up );
+         TileMap_LoadPortalData( tileMap->portals + 1, 549, 2, 108, Direction_Up );
          TileMap_LoadPortalData( tileMap->portals + 2, 913, 4, 17, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 3, 152, 6, 884, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 4, 153, 6, 885, Direction_Left );
@@ -308,9 +308,9 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 5, 17, 43, False );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 6, 15, 78, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         TileMap_LoadPortalData( tileMap->portals + 0, 115, 1, 582, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 1, 116, 1, 583, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 2, 22, 3, 30, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 0, 115, 1, 582, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 1, 116, 1, 583, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 2, 22, 3, 30, Direction_Right );
          memcpy( tileMap->tiles, g_mapTiles2, sizeof( u16 ) * 120 );
          break;
       case 3: // Aliahan Eatery 2F
