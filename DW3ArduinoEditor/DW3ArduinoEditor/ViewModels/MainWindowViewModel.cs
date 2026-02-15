@@ -223,10 +223,10 @@ namespace DW3ArduinoEditor.ViewModels
          // MUFFINS: temp code
          //foreach ( var tileMap in TileMaps )
          //{
-         //   if ( tileMap.Index == 21 )
+         //   if ( tileMap.Index == 13 )
          //   {
-         //      PadTopOfTileMap( tileMap, 1, 9 );
-         //      PadBottomOfTileMap( tileMap, 1, 9 );
+         //      PadTopOfTileMap( tileMap, 1, 8 );
+         //      PadBottomOfTileMap( tileMap, 1, 8 );
          //   }
          //}
       }
