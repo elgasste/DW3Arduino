@@ -221,6 +221,232 @@ namespace DW3ArduinoEditor.ViewModels
          }
       }
 
+      // TODO: move this to a utility or something
+      private void PadLeftOfTileMap( TileMapViewModel tileMap, uint count, uint newTextureIndex )
+      {
+         int rows = (int)( tileMap.TilesY );
+         int cols = (int)( tileMap.TilesX );
+         List<TileViewModel> tiles = [];
+
+         for ( int i = 0, j = 0; i < ( rows * cols ); i++, j++ )
+         {
+            if ( i % cols == 0 )
+            {
+               for ( int k = 0; k < count; k++, j++ )
+               {
+                  tiles.Add( new() );
+                  tiles[j].EncounterRate = 0;
+                  tiles[j].DamageRate = 0;
+                  tiles[j].IsPassable = true;
+                  tiles[j].TextureIndex = newTextureIndex;
+                  tiles[j].WalkSpeed = TileWalkSpeed.Normal;
+               }
+            }
+
+            tiles.Add( new() );
+            tiles[j].EncounterRate = tileMap.Tiles[i].EncounterRate;
+            tiles[j].DamageRate = tileMap.Tiles[i].DamageRate;
+            tiles[j].IsPassable = tileMap.Tiles[i].IsPassable;
+            tiles[j].TextureIndex = tileMap.Tiles[i].TextureIndex;
+            tiles[j].WalkSpeed = tileMap.Tiles[i].WalkSpeed;
+         }
+
+         // move portal destinations from other tile maps
+         for ( int k = 0; k < TileMaps.Count; k++ )
+         {
+            foreach ( var portal in TileMaps[k].Portals )
+            {
+               if ( portal.DestTileMapIndex == tileMap.Index )
+               {
+                  uint row = portal.DestTileIndex / tileMap.TilesX;
+                  uint prevCol = portal.DestTileIndex % tileMap.TilesX;
+                  portal.DestTileIndex = ( row * ( tileMap.TilesX + count ) ) + ( prevCol + count );
+               }
+            }
+         }
+
+         tileMap.TilesX += count;
+
+         // portals should all be shifted right (setting TilesX assumes we padded on the right)
+         for ( int k = 0; k < tileMap.Portals.Count; k++ )
+         {
+            tileMap.Portals[k].SourceTileIndex += count;
+         }
+
+         // move static sprites as well (same rules apply)
+         for ( int k = 0; k < tileMap.StaticSprites.Count; k++ )
+         {
+            tileMap.StaticSprites[k].TileIndex += count;
+         }
+
+         // copy new tiles over
+         tileMap.Tiles.Clear();
+         foreach ( var tile in tiles )
+         {
+            tileMap.Tiles.Add( tile );
+         }
+      }
+
+      // TODO: move this to a utility or something
+      private void PadRightOfTileMap( TileMapViewModel tileMap, uint count, uint newTextureIndex )
+      {
+         int rows = (int)( tileMap.TilesY );
+         int cols = (int)( tileMap.TilesX );
+         List<TileViewModel> tiles = [];
+
+         for ( int i = 0, j = 0; i < ( rows * cols ); i++ )
+         {
+            tiles.Add( new() );
+            tiles[j].EncounterRate = tileMap.Tiles[i].EncounterRate;
+            tiles[j].DamageRate = tileMap.Tiles[i].DamageRate;
+            tiles[j].IsPassable = tileMap.Tiles[i].IsPassable;
+            tiles[j].TextureIndex = tileMap.Tiles[i].TextureIndex;
+            tiles[j].WalkSpeed = tileMap.Tiles[i].WalkSpeed;
+            j++;
+
+            if ( ( i > 0 ) && ( ( i + 1 ) % cols == 0 ) )
+            {
+               for ( int k = 0; k < count; k++, j++ )
+               {
+                  tiles.Add( new() );
+                  tiles[j].EncounterRate = 0;
+                  tiles[j].DamageRate = 0;
+                  tiles[j].IsPassable = true;
+                  tiles[j].TextureIndex = newTextureIndex;
+                  tiles[j].WalkSpeed = TileWalkSpeed.Normal;
+               }
+            }
+         }
+
+         // move portal destinations from other tile maps
+         for ( int k = 0; k < TileMaps.Count; k++ )
+         {
+            foreach ( var portal in TileMaps[k].Portals )
+            {
+               if ( portal.DestTileMapIndex == tileMap.Index )
+               {
+                  uint row = portal.DestTileIndex / tileMap.TilesX;
+                  uint prevCol = portal.DestTileIndex % tileMap.TilesX;
+                  portal.DestTileIndex = ( row * ( tileMap.TilesX + count ) ) + prevCol;
+               }
+            }
+         }
+
+         // this will move portals and static sprites
+         tileMap.TilesX += count;
+
+         // copy new tiles over
+         tileMap.Tiles.Clear();
+         foreach ( var tile in tiles )
+         {
+            tileMap.Tiles.Add( tile );
+         }
+      }
+
+      // TODO: move this to a utility or something
+      private void PadTopOfTileMap( TileMapViewModel tileMap, uint count, uint newTextureIndex )
+      {
+         int rows = (int)( tileMap.TilesY );
+         int cols = (int)( tileMap.TilesX );
+         int tilesToPad = (int)( cols * count );
+         List<TileViewModel> tiles = [];
+
+         for ( int i = 0; i < ( cols * rows ) + tilesToPad; i++ )
+         {
+            tiles.Add( new() );
+
+            if ( i < tilesToPad )
+            {
+               tiles[i].EncounterRate = 0;
+               tiles[i].DamageRate = 0;
+               tiles[i].IsPassable = true;
+               tiles[i].TextureIndex = newTextureIndex;
+               tiles[i].WalkSpeed = TileWalkSpeed.Normal;
+            }
+            else
+            {
+               tiles[i].EncounterRate = tileMap.Tiles[i - tilesToPad].EncounterRate;
+               tiles[i].DamageRate = tileMap.Tiles[i - tilesToPad].DamageRate;
+               tiles[i].IsPassable = tileMap.Tiles[i - tilesToPad].IsPassable;
+               tiles[i].TextureIndex = tileMap.Tiles[i - tilesToPad].TextureIndex;
+               tiles[i].WalkSpeed = tileMap.Tiles[i - tilesToPad].WalkSpeed;
+            }
+         }
+
+         tileMap.TilesY += count;
+
+         // move portals
+         for ( int k = 0; k < tileMap.Portals.Count; k++ )
+         {
+            tileMap.Portals[k].SourceTileIndex += (uint)tilesToPad;
+         }
+
+         // move static sprites
+         for ( int k = 0; k < tileMap.StaticSprites.Count; k++ )
+         {
+            tileMap.StaticSprites[k].TileIndex += (uint)tilesToPad;
+         }
+
+         // move portal destinations from other tile maps
+         for ( int k = 0; k < TileMaps.Count; k++ )
+         {
+            foreach ( var portal in TileMaps[k].Portals )
+            {
+               if ( portal.DestTileMapIndex == tileMap.Index )
+               {
+                  portal.DestTileIndex += (uint)tilesToPad;
+               }
+            }
+         }
+
+         // copy new tiles over
+         tileMap.Tiles.Clear();
+         foreach ( var tile in tiles )
+         {
+            tileMap.Tiles.Add( tile );
+         }
+      }
+
+      // TODO: move this to a utility or something
+      private void PadBottomOfTileMap( TileMapViewModel tileMap, uint count, uint newTextureIndex )
+      {
+         int rows = (int)( tileMap.TilesY );
+         int cols = (int)( tileMap.TilesX );
+         int tilesToPad = (int)( cols * count );
+         List<TileViewModel> tiles = [];
+
+         for ( int i = 0; i < ( cols * rows ) + tilesToPad; i++ )
+         {
+            tiles.Add( new() );
+
+            if ( i >= ( cols * rows ) )
+            {
+               tiles[i].EncounterRate = 0;
+               tiles[i].DamageRate = 0;
+               tiles[i].IsPassable = true;
+               tiles[i].TextureIndex = newTextureIndex;
+               tiles[i].WalkSpeed = TileWalkSpeed.Normal;
+            }
+            else
+            {
+               tiles[i].EncounterRate = tileMap.Tiles[i].EncounterRate;
+               tiles[i].DamageRate = tileMap.Tiles[i].DamageRate;
+               tiles[i].IsPassable = tileMap.Tiles[i].IsPassable;
+               tiles[i].TextureIndex = tileMap.Tiles[i].TextureIndex;
+               tiles[i].WalkSpeed = tileMap.Tiles[i].WalkSpeed;
+            }
+         }
+
+         tileMap.TilesY += count;
+
+         // copy new tiles over
+         tileMap.Tiles.Clear();
+         foreach ( var tile in tiles )
+         {
+            tileMap.Tiles.Add( tile );
+         }
+      }
+
       private void RenameSelectedTileMap()
       {
          if ( SelectedTileMap is not null )
