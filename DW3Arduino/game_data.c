@@ -414,31 +414,31 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 5, 282, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
          TileMap_LoadPortalData( tileMap->portals + 0, 48, 6, 140, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 1, 282, 9, 94, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 282, 9, 106, Direction_Left );
          memcpy( tileMap->tiles, g_mapTiles8, sizeof( u16 ) * 312 );
          break;
       case 9: // Aliahan Castle Prison Main
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 12, 11, False, False, True, False, 3, 0, 2, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 12, 13, False, False, True, False, 3, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 4, 94, True );
-         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 22, 63, False );
-         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 22, 68, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 4, 106, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 22, 75, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 22, 80, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         TileMap_LoadPortalData( tileMap->portals + 0, 94, 8, 282, Direction_Right );
-         TileMap_LoadPortalData( tileMap->portals + 1, 122, 10, 14, Direction_Down );
-         memcpy( tileMap->tiles, g_mapTiles9, sizeof( u16 ) * 132 );
+         TileMap_LoadPortalData( tileMap->portals + 0, 106, 8, 282, Direction_Right );
+         TileMap_LoadPortalData( tileMap->portals + 1, 146, 10, 14, Direction_Down );
+         memcpy( tileMap->tiles, g_mapTiles9, sizeof( u16 ) * 156 );
          break;
       case 10: // Aliahan Castle Prison Hallway
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 12, 3, False, False, True, False, 2, 0, 2, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 12, 5, False, False, True, False, 2, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 20, 17, False );
-         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 5, 22, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 20, 29, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 5, 34, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         TileMap_LoadPortalData( tileMap->portals + 0, 2, 9, 110, Direction_Up );
-         TileMap_LoadPortalData( tileMap->portals + 1, 22, 19, 1887, Direction_Left );
-         memcpy( tileMap->tiles, g_mapTiles10, sizeof( u16 ) * 36 );
+         TileMap_LoadPortalData( tileMap->portals + 0, 2, 9, 134, Direction_Up );
+         TileMap_LoadPortalData( tileMap->portals + 1, 34, 19, 1887, Direction_Left );
+         memcpy( tileMap->tiles, g_mapTiles10, sizeof( u16 ) * 60 );
          break;
       case 11: // Aliahan Castle Throne Room
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
@@ -561,7 +561,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 11, 12, 613, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
          TileMap_LoadPortalData( tileMap->portals + 0, 2219, 18, 21, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 1, 1887, 10, 22, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 1887, 10, 34, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 2, 153, 12, 1001, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 3, 558, 20, 39, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 4, 612, 20, 47, Direction_Left );

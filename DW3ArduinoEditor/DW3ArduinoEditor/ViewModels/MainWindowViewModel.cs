@@ -223,8 +223,13 @@ namespace DW3ArduinoEditor.ViewModels
          // MUFFINS: temp code
          //foreach ( var tileMap in TileMaps )
          //{
-         //   if ( tileMap.Index == 8 )
+         //   int tileMapIndex = 10;
+         //   uint newTextureIndex = 19;
+
+         //   if ( tileMap.Index == tileMapIndex )
          //   {
+         //      int rows = (int)( tileMap.TilesY );
+         //      int cols = (int)( tileMap.TilesX );
          //      List<TileViewModel> tiles = new List<TileViewModel>();
 
          //      // new left and right tiles
@@ -260,26 +265,26 @@ namespace DW3ArduinoEditor.ViewModels
          //      //tileMap.TilesX += 2;
 
          //      // new top and bottom tiles
-         //      for ( int i = 0; i < ( 12 * 24 ) + ( 12 * 2 ); i++ )
+         //      for ( int i = 0; i < ( cols * rows ) + ( cols * 2 ); i++ )
          //      {
          //         tiles.Add( new() );
 
          //         // new top row
-         //         if ( i < 12 || i >= ( ( 12 * 24 ) + 12 ) )
+         //         if ( i < cols || i >= ( ( cols * rows ) + cols ) )
          //         {
          //            tiles[i].EncounterRate = 0;
          //            tiles[i].DamageRate = 0;
          //            tiles[i].IsPassable = true;
-         //            tiles[i].TextureIndex = 19;
+         //            tiles[i].TextureIndex = newTextureIndex;
          //            tiles[i].WalkSpeed = TileWalkSpeed.Normal;
          //         }
          //         else
          //         {
-         //            tiles[i].EncounterRate = tileMap.Tiles[i - 12].EncounterRate;
-         //            tiles[i].DamageRate = tileMap.Tiles[i - 12].DamageRate;
-         //            tiles[i].IsPassable = tileMap.Tiles[i - 12].IsPassable;
-         //            tiles[i].TextureIndex = tileMap.Tiles[i - 12].TextureIndex;
-         //            tiles[i].WalkSpeed = tileMap.Tiles[i - 12].WalkSpeed;
+         //            tiles[i].EncounterRate = tileMap.Tiles[i - cols].EncounterRate;
+         //            tiles[i].DamageRate = tileMap.Tiles[i - cols].DamageRate;
+         //            tiles[i].IsPassable = tileMap.Tiles[i - cols].IsPassable;
+         //            tiles[i].TextureIndex = tileMap.Tiles[i - cols].TextureIndex;
+         //            tiles[i].WalkSpeed = tileMap.Tiles[i - cols].WalkSpeed;
          //         }
          //      }
 
@@ -288,13 +293,13 @@ namespace DW3ArduinoEditor.ViewModels
          //      // move portals for new top row
          //      for ( int k = 0; k < tileMap.Portals.Count; k++ )
          //      {
-         //         tileMap.Portals[k].SourceTileIndex += 12;
+         //         tileMap.Portals[k].SourceTileIndex += (uint)cols;
          //      }
 
          //      // move static sprites for new top row
          //      for ( int k = 0; k < tileMap.StaticSprites.Count; k++ )
          //      {
-         //         tileMap.StaticSprites[k].TileIndex += 12;
+         //         tileMap.StaticSprites[k].TileIndex += (uint)cols;
          //      }
 
          //      // portals that go into this map
@@ -302,9 +307,9 @@ namespace DW3ArduinoEditor.ViewModels
          //      {
          //         foreach ( var portal in TileMaps[k].Portals )
          //         {
-         //            if ( portal.DestTileMapIndex == 8 )
+         //            if ( portal.DestTileMapIndex == tileMapIndex )
          //            {
-         //               portal.DestTileIndex += 12;
+         //               portal.DestTileIndex += (uint)cols;
          //            }
          //         }
          //      }
