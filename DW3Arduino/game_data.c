@@ -389,7 +389,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadPortalData( tileMap->portals + 1, 944, 1, 152, Direction_Down );
          TileMap_LoadPortalData( tileMap->portals + 2, 945, 1, 153, Direction_Down );
          TileMap_LoadPortalData( tileMap->portals + 3, 946, 1, 153, Direction_Down );
-         TileMap_LoadPortalData( tileMap->portals + 4, 128, 7, 39, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 4, 128, 7, 46, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 5, 141, 8, 30, Direction_Right );
          TileMap_LoadPortalData( tileMap->portals + 6, 315, 11, 408, Direction_Left );
          tileMap->edgePortal.destTileMapIndex = 1; tileMap->edgePortal.destTileIndex = 152; tileMap->edgePortal.destDirection = Direction_Down;
@@ -397,15 +397,15 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 7: // Aliahan Castle 1F NW
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 10, 6, False, False, False, False, 4, 0, 1, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 12, 6, False, False, False, False, 4, 0, 1, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 10, 11, False );
-         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 11, 12, False );
-         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 16, 25, True );
-         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 3, 17, 26, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 10, 14, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 1, 11, 15, False );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 2, 16, 30, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 3, 17, 31, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         TileMap_LoadPortalData( tileMap->portals + 0, 39, 6, 129, Direction_Right );
-         memcpy( tileMap->tiles, g_mapTiles7, sizeof( u16 ) * 60 );
+         TileMap_LoadPortalData( tileMap->portals + 0, 47, 6, 129, Direction_Right );
+         memcpy( tileMap->tiles, g_mapTiles7, sizeof( u16 ) * 72 );
          break;
       case 8: // Aliahan Castle 1F Hallway
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );

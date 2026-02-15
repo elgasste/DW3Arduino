@@ -223,47 +223,61 @@ namespace DW3ArduinoEditor.ViewModels
          // MUFFINS: temp code
          //foreach ( var tileMap in TileMaps )
          //{
-         //   if ( tileMap.Index == 6 ) // Aliahan castle 1f (originally 30x30)
+         //   if ( tileMap.Index == 7 )
          //   {
          //      List<TileViewModel> tiles = new List<TileViewModel>();
-         //      int j = 0;
 
          //      // copy tile data
-         //      for ( int i = 0; i < 960; i++ )
+         //      for ( int i = 0, k = 0, r = 0; r < 6; r++ )
          //      {
          //         tiles.Add( new() );
+         //         tiles[k].EncounterRate = 0;
+         //         tiles[k].DamageRate = 0;
+         //         tiles[k].IsPassable = true;
+         //         tiles[k].TextureIndex = 0;
+         //         tiles[k].WalkSpeed = TileWalkSpeed.Normal;
+         //         k++;
 
-         //         if ( i < 30 )
+         //         for ( int j = 0; j < 10; j++, i++, k++ )
          //         {
-         //            // new top row
-         //            tiles[i].EncounterRate = 0;
-         //            tiles[i].DamageRate = 0;
-         //            tiles[i].IsPassable = true;
-         //            tiles[i].TextureIndex = 0;
-         //            tiles[i].WalkSpeed = TileWalkSpeed.Normal;
+         //            tiles.Add( new() );
+         //            tiles[k].EncounterRate = tileMap.Tiles[i].EncounterRate;
+         //            tiles[k].DamageRate = tileMap.Tiles[i].DamageRate;
+         //            tiles[k].IsPassable = tileMap.Tiles[i].IsPassable;
+         //            tiles[k].TextureIndex = tileMap.Tiles[i].TextureIndex;
+         //            tiles[k].WalkSpeed = tileMap.Tiles[i].WalkSpeed;
          //         }
-         //         else
+
+         //         for ( int s = 0; s < tileMap.StaticSprites.Count; s++ )
          //         {
-         //            tiles[i].EncounterRate = tileMap.Tiles[i - 30].EncounterRate;
-         //            tiles[i].DamageRate = tileMap.Tiles[i - 30].DamageRate;
-         //            tiles[i].IsPassable = tileMap.Tiles[i - 30].IsPassable;
-         //            tiles[i].TextureIndex = tileMap.Tiles[i - 30].TextureIndex;
-         //            tiles[i].WalkSpeed = tileMap.Tiles[i - 30].WalkSpeed;
+         //            if ( tileMap.StaticSprites[s].TileIndex < ( 10 * r ) && tileMap.StaticSprites[s].TileIndex >= i )
+         //            {
+         //               tileMap.StaticSprites[s].TileIndex += (uint)( r * 2 );
+         //            }
          //         }
+
+         //         tiles.Add( new() );
+         //         tiles[k].EncounterRate = 0;
+         //         tiles[k].DamageRate = 0;
+         //         tiles[k].IsPassable = true;
+         //         tiles[k].TextureIndex = 0;
+         //         tiles[k].WalkSpeed = TileWalkSpeed.Normal;
+         //         k++;
          //      }
-         //      tileMap.TilesY++;
+
+         //      tileMap.TilesX += 2;
 
          //      // move portals for top row
-         //      for ( int k = 0; k < tileMap.Portals.Count; k++ )
-         //      {
-         //         tileMap.Portals[k].SourceTileIndex += 30;
-         //      }
+         //      //for ( int k = 0; k < tileMap.Portals.Count; k++ )
+         //      //{
+         //      //   tileMap.Portals[k].SourceTileIndex += 30;
+         //      //}
 
          //      // MUFFINS: move static sprites for top row
-         //      for ( int k = 0; k < tileMap.StaticSprites.Count; k++ )
-         //      {
-         //         tileMap.StaticSprites[k].TileIndex += 30;
-         //      }
+         //      //for ( int k = 0; k < tileMap.StaticSprites.Count; k++ )
+         //      //{
+         //      //   tileMap.StaticSprites[k].TileIndex += 30;
+         //      //}
 
          //      // MUFFINS: move any portals that go into this map
          //      //for ( int k = 0; k < TileMaps.Count; k++ )
