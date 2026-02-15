@@ -219,6 +219,72 @@ namespace DW3ArduinoEditor.ViewModels
             StaticSpriteTextureSets = [];
             ActiveSpriteTextureSets = [];
          }
+
+         // MUFFINS: temp code
+         //foreach ( var tileMap in TileMaps )
+         //{
+         //   if ( tileMap.Index == 6 ) // Aliahan castle 1f (originally 30x30)
+         //   {
+         //      List<TileViewModel> tiles = new List<TileViewModel>();
+         //      int j = 0;
+
+         //      // copy tile data
+         //      for ( int i = 0; i < 960; i++ )
+         //      {
+         //         tiles.Add( new() );
+
+         //         if ( i < 30 )
+         //         {
+         //            // new top row
+         //            tiles[i].EncounterRate = 0;
+         //            tiles[i].DamageRate = 0;
+         //            tiles[i].IsPassable = true;
+         //            tiles[i].TextureIndex = 0;
+         //            tiles[i].WalkSpeed = TileWalkSpeed.Normal;
+         //         }
+         //         else
+         //         {
+         //            tiles[i].EncounterRate = tileMap.Tiles[i - 30].EncounterRate;
+         //            tiles[i].DamageRate = tileMap.Tiles[i - 30].DamageRate;
+         //            tiles[i].IsPassable = tileMap.Tiles[i - 30].IsPassable;
+         //            tiles[i].TextureIndex = tileMap.Tiles[i - 30].TextureIndex;
+         //            tiles[i].WalkSpeed = tileMap.Tiles[i - 30].WalkSpeed;
+         //         }
+         //      }
+         //      tileMap.TilesY++;
+
+         //      // move portals for top row
+         //      for ( int k = 0; k < tileMap.Portals.Count; k++ )
+         //      {
+         //         tileMap.Portals[k].SourceTileIndex += 30;
+         //      }
+
+         //      // MUFFINS: move static sprites for top row
+         //      for ( int k = 0; k < tileMap.StaticSprites.Count; k++ )
+         //      {
+         //         tileMap.StaticSprites[k].TileIndex += 30;
+         //      }
+
+         //      // MUFFINS: move any portals that go into this map
+         //      //for ( int k = 0; k < TileMaps.Count; k++ )
+         //      //{
+         //      //   foreach ( var portal in TileMaps[k].Portals )
+         //      //   {
+         //      //      if ( portal.DestTileMapIndex == 6 )
+         //      //      {
+         //      //         portal.DestTileIndex += 30;
+         //      //      }
+         //      //   }
+         //      //}
+
+         //      // copy new tiles over
+         //      tileMap.Tiles.Clear();
+         //      foreach ( var tile in tiles )
+         //      {
+         //         tileMap.Tiles.Add( tile );
+         //      }
+         //   }
+         //}
       }
 
       private void RenameSelectedTileMap()
