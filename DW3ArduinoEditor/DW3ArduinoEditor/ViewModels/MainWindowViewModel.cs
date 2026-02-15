@@ -219,16 +219,6 @@ namespace DW3ArduinoEditor.ViewModels
             StaticSpriteTextureSets = [];
             ActiveSpriteTextureSets = [];
          }
-
-         // MUFFINS: temp code
-         //foreach ( var tileMap in TileMaps )
-         //{
-         //   if ( tileMap.Index == 13 )
-         //   {
-         //      PadTopOfTileMap( tileMap, 1, 8 );
-         //      PadBottomOfTileMap( tileMap, 1, 8 );
-         //   }
-         //}
       }
 
       // TODO: move this to a utility or something
