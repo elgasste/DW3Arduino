@@ -288,7 +288,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          ActiveSprite_Init( tileMap->activeSprites + 0, 0, 2, 4, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 0, 548, 2, 107, Direction_Up );
          TileMap_LoadPortalData( tileMap->portals + 1, 549, 2, 108, Direction_Up );
-         TileMap_LoadPortalData( tileMap->portals + 2, 913, 4, 17, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 2, 879, 4, 22, Direction_Up );
          TileMap_LoadPortalData( tileMap->portals + 3, 152, 6, 914, Direction_Up );
          TileMap_LoadPortalData( tileMap->portals + 4, 153, 6, 915, Direction_Up );
          tileMap->edgePortal.destTileMapIndex = 0; tileMap->edgePortal.destTileIndex = 55980; tileMap->edgePortal.destDirection = Direction_Down;
@@ -336,13 +336,13 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          break;
       case 4: // Aliahan House 1F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadInitialData( tileMap, 5, 4, False, False, False, False, 1, 0, 2, False, 0, 0 );
+         TileMap_LoadInitialData( tileMap, 5, 6, False, False, False, False, 1, 0, 2, False, 0, 0 );
          TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, 1 );
-         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 4, 8, True );
+         TileMap_LoadStaticSpriteData( tileMap->staticSprites + 0, 4, 13, True );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         TileMap_LoadPortalData( tileMap->portals + 0, 17, 1, 913, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 1, 8, 5, 14, Direction_Left );
-         memcpy( tileMap->tiles, g_mapTiles4, sizeof( u16 ) * 20 );
+         TileMap_LoadPortalData( tileMap->portals + 0, 27, 1, 913, Direction_Down );
+         TileMap_LoadPortalData( tileMap->portals + 1, 13, 5, 14, Direction_Right );
+         memcpy( tileMap->tiles, g_mapTiles4, sizeof( u16 ) * 30 );
          break;
       case 5: // Aliahan House 2F
          TileMap_LoadTileTexturesFromSetIndex( tileMap, 1 );
@@ -355,7 +355,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 4, 13, 37, True );
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 5, 14, 36, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
-         TileMap_LoadPortalData( tileMap->portals + 0, 14, 4, 8, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 0, 14, 4, 13, Direction_Left );
          memcpy( tileMap->tiles, g_mapTiles5, sizeof( u16 ) * 64 );
          break;
       case 6: // Aliahan Castle 1F Main
@@ -561,7 +561,7 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          TileMap_LoadStaticSpriteData( tileMap->staticSprites + 11, 12, 613, False );
          TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, 0 );
          TileMap_LoadPortalData( tileMap->portals + 0, 2219, 18, 21, Direction_Left );
-         TileMap_LoadPortalData( tileMap->portals + 1, 1887, 10, 34, Direction_Left );
+         TileMap_LoadPortalData( tileMap->portals + 1, 1887, 10, 34, Direction_Right );
          TileMap_LoadPortalData( tileMap->portals + 2, 153, 12, 1001, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 3, 558, 20, 39, Direction_Left );
          TileMap_LoadPortalData( tileMap->portals + 4, 612, 20, 47, Direction_Left );

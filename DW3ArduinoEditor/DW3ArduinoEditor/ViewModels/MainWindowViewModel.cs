@@ -223,7 +223,7 @@ namespace DW3ArduinoEditor.ViewModels
          // MUFFINS: temp code
          //foreach ( var tileMap in TileMaps )
          //{
-         //   int tileMapIndex = 10;
+         //   int tileMapIndex = 4;
          //   uint newTextureIndex = 19;
 
          //   if ( tileMap.Index == tileMapIndex )
