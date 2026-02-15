@@ -223,73 +223,91 @@ namespace DW3ArduinoEditor.ViewModels
          // MUFFINS: temp code
          //foreach ( var tileMap in TileMaps )
          //{
-         //   if ( tileMap.Index == 7 )
+         //   if ( tileMap.Index == 8 )
          //   {
          //      List<TileViewModel> tiles = new List<TileViewModel>();
 
-         //      // copy tile data
-         //      for ( int i = 0, k = 0, r = 0; r < 6; r++ )
+         //      // new left and right tiles
+         //      //for ( int i = 0, k = 0, r = 0; r < 24; r++ )
+         //      //{
+         //      //   tiles.Add( new() );
+         //      //   tiles[k].EncounterRate = 0;
+         //      //   tiles[k].DamageRate = 0;
+         //      //   tiles[k].IsPassable = true;
+         //      //   tiles[k].TextureIndex = 19;
+         //      //   tiles[k].WalkSpeed = TileWalkSpeed.Normal;
+         //      //   k++;
+
+         //      //   for ( int j = 0; j < 10; j++, i++, k++ )
+         //      //   {
+         //      //      tiles.Add( new() );
+         //      //      tiles[k].EncounterRate = tileMap.Tiles[i].EncounterRate;
+         //      //      tiles[k].DamageRate = tileMap.Tiles[i].DamageRate;
+         //      //      tiles[k].IsPassable = tileMap.Tiles[i].IsPassable;
+         //      //      tiles[k].TextureIndex = tileMap.Tiles[i].TextureIndex;
+         //      //      tiles[k].WalkSpeed = tileMap.Tiles[i].WalkSpeed;
+         //      //   }
+
+         //      //   tiles.Add( new() );
+         //      //   tiles[k].EncounterRate = 0;
+         //      //   tiles[k].DamageRate = 0;
+         //      //   tiles[k].IsPassable = true;
+         //      //   tiles[k].TextureIndex = 19;
+         //      //   tiles[k].WalkSpeed = TileWalkSpeed.Normal;
+         //      //   k++;
+         //      //}
+
+         //      //tileMap.TilesX += 2;
+
+         //      // new top and bottom tiles
+         //      for ( int i = 0; i < ( 12 * 24 ) + ( 12 * 2 ); i++ )
          //      {
          //         tiles.Add( new() );
-         //         tiles[k].EncounterRate = 0;
-         //         tiles[k].DamageRate = 0;
-         //         tiles[k].IsPassable = true;
-         //         tiles[k].TextureIndex = 0;
-         //         tiles[k].WalkSpeed = TileWalkSpeed.Normal;
-         //         k++;
 
-         //         for ( int j = 0; j < 10; j++, i++, k++ )
+         //         // new top row
+         //         if ( i < 12 || i >= ( ( 12 * 24 ) + 12 ) )
          //         {
-         //            tiles.Add( new() );
-         //            tiles[k].EncounterRate = tileMap.Tiles[i].EncounterRate;
-         //            tiles[k].DamageRate = tileMap.Tiles[i].DamageRate;
-         //            tiles[k].IsPassable = tileMap.Tiles[i].IsPassable;
-         //            tiles[k].TextureIndex = tileMap.Tiles[i].TextureIndex;
-         //            tiles[k].WalkSpeed = tileMap.Tiles[i].WalkSpeed;
+         //            tiles[i].EncounterRate = 0;
+         //            tiles[i].DamageRate = 0;
+         //            tiles[i].IsPassable = true;
+         //            tiles[i].TextureIndex = 19;
+         //            tiles[i].WalkSpeed = TileWalkSpeed.Normal;
          //         }
-
-         //         for ( int s = 0; s < tileMap.StaticSprites.Count; s++ )
+         //         else
          //         {
-         //            if ( tileMap.StaticSprites[s].TileIndex < ( 10 * r ) && tileMap.StaticSprites[s].TileIndex >= i )
-         //            {
-         //               tileMap.StaticSprites[s].TileIndex += (uint)( r * 2 );
-         //            }
+         //            tiles[i].EncounterRate = tileMap.Tiles[i - 12].EncounterRate;
+         //            tiles[i].DamageRate = tileMap.Tiles[i - 12].DamageRate;
+         //            tiles[i].IsPassable = tileMap.Tiles[i - 12].IsPassable;
+         //            tiles[i].TextureIndex = tileMap.Tiles[i - 12].TextureIndex;
+         //            tiles[i].WalkSpeed = tileMap.Tiles[i - 12].WalkSpeed;
          //         }
-
-         //         tiles.Add( new() );
-         //         tiles[k].EncounterRate = 0;
-         //         tiles[k].DamageRate = 0;
-         //         tiles[k].IsPassable = true;
-         //         tiles[k].TextureIndex = 0;
-         //         tiles[k].WalkSpeed = TileWalkSpeed.Normal;
-         //         k++;
          //      }
 
-         //      tileMap.TilesX += 2;
+         //      tileMap.TilesY += 2;
 
-         //      // move portals for top row
-         //      //for ( int k = 0; k < tileMap.Portals.Count; k++ )
-         //      //{
-         //      //   tileMap.Portals[k].SourceTileIndex += 30;
-         //      //}
+         //      // move portals for new top row
+         //      for ( int k = 0; k < tileMap.Portals.Count; k++ )
+         //      {
+         //         tileMap.Portals[k].SourceTileIndex += 12;
+         //      }
 
-         //      // MUFFINS: move static sprites for top row
-         //      //for ( int k = 0; k < tileMap.StaticSprites.Count; k++ )
-         //      //{
-         //      //   tileMap.StaticSprites[k].TileIndex += 30;
-         //      //}
+         //      // move static sprites for new top row
+         //      for ( int k = 0; k < tileMap.StaticSprites.Count; k++ )
+         //      {
+         //         tileMap.StaticSprites[k].TileIndex += 12;
+         //      }
 
-         //      // MUFFINS: move any portals that go into this map
-         //      //for ( int k = 0; k < TileMaps.Count; k++ )
-         //      //{
-         //      //   foreach ( var portal in TileMaps[k].Portals )
-         //      //   {
-         //      //      if ( portal.DestTileMapIndex == 6 )
-         //      //      {
-         //      //         portal.DestTileIndex += 30;
-         //      //      }
-         //      //   }
-         //      //}
+         //      // portals that go into this map
+         //      for ( int k = 0; k < TileMaps.Count; k++ )
+         //      {
+         //         foreach ( var portal in TileMaps[k].Portals )
+         //         {
+         //            if ( portal.DestTileMapIndex == 8 )
+         //            {
+         //               portal.DestTileIndex += 12;
+         //            }
+         //         }
+         //      }
 
          //      // copy new tiles over
          //      tileMap.Tiles.Clear();
