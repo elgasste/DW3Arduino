@@ -74,7 +74,7 @@ internal void Physics_MoveEntities( Game_t* game )
                }
 
                deltaRemaining -= delta;
-               pixelsRemaining -= delta;
+               pixelsRemaining -= sign;
             }
 
             // move remaining sub-pixels
@@ -113,7 +113,7 @@ internal void Physics_MoveEntities( Game_t* game )
                }
 
                deltaRemaining -= delta;
-               pixelsRemaining -= (i32)delta;
+               pixelsRemaining -= sign;
             }
 
             // move remaining sub-pixels
