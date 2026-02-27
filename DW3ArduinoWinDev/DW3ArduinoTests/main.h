@@ -1,6 +1,25 @@
 #if !defined( TEST_MAIN_H )
 #define TEST_MAIN_H
 
+// test_game.c
+void Game_Init_Always_InitializesClock( void );
+void Game_Init_Always_InitializesScreen( void );
+void Game_Init_Always_InitializesInput( void );
+void Game_Init_Always_InitializesAnimationChain( void );
+void Game_Init_Always_InitializesTileMap( void );
+void Game_Init_Always_InitializesViewports( void );
+void Game_Tic_Always_RendersGame( void );
+void Game_Tic_AnimationChainIsRunning_TicsAnimationChain( void );
+void Game_Tic_AnimationChainIsNotRunning_DoesNotTicAnimationChain( void );
+void Game_Tic_AnimationChainBlocksInput_DoesNotHandleInput( void );
+void Game_Tic_AnimationChainIsNotBlockingInput_HandlesInput( void );
+void Game_Tic_AnimationChainPausesAction_DoesNotPerformActions( void );
+void Game_TicByState_GameStateIsOverworldActive_UpdatesDayFilterIntensity( void );
+void Game_TicByState_GameStateIsOverworldAndNotActive_DoesNotUpdateDayFilterIntensity( void );
+void Game_TicByState_GameStateIsOverworld_TicsTileMap( void );
+void Game_TicByState_GameStateIsOverworld_TicsPhysics( void );
+void Game_TicByState_GameStateIsOverworld_ClampsViewportToEntity( void );
+
 // test_input.c
 void Input_Init_Always_SetsAllStatesToFalse( void );
 void Input_AnyButtonPressed_NoButtonsPressed_ReturnsFalse( void );

@@ -14,6 +14,25 @@ int main( int argc, char** argv )
 {
    UNITY_BEGIN();
 
+   // test_game.c
+   RUN_TEST( Game_Init_Always_InitializesClock );
+   RUN_TEST( Game_Init_Always_InitializesScreen );
+   RUN_TEST( Game_Init_Always_InitializesInput );
+   RUN_TEST( Game_Init_Always_InitializesAnimationChain );
+   RUN_TEST( Game_Init_Always_InitializesTileMap );
+   RUN_TEST( Game_Init_Always_InitializesViewports );
+   RUN_TEST( Game_Tic_Always_RendersGame );
+   RUN_TEST( Game_Tic_AnimationChainIsRunning_TicsAnimationChain );
+   RUN_TEST( Game_Tic_AnimationChainIsNotRunning_DoesNotTicAnimationChain );
+   RUN_TEST( Game_Tic_AnimationChainBlocksInput_DoesNotHandleInput );
+   RUN_TEST( Game_Tic_AnimationChainIsNotBlockingInput_HandlesInput );
+   RUN_TEST( Game_Tic_AnimationChainPausesAction_DoesNotPerformActions );
+   RUN_TEST( Game_TicByState_GameStateIsOverworldActive_UpdatesDayFilterIntensity );
+   RUN_TEST( Game_TicByState_GameStateIsOverworldAndNotActive_DoesNotUpdateDayFilterIntensity );
+   RUN_TEST( Game_TicByState_GameStateIsOverworld_TicsTileMap );
+   RUN_TEST( Game_TicByState_GameStateIsOverworld_TicsPhysics );
+   RUN_TEST( Game_TicByState_GameStateIsOverworld_ClampsViewportToEntity );
+
    // test_input.c
    RUN_TEST( Input_Init_Always_SetsAllStatesToFalse );
    RUN_TEST( Input_AnyButtonPressed_NoButtonsPressed_ReturnsFalse );

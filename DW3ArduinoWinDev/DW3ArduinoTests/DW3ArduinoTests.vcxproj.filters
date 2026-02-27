@@ -72,6 +72,42 @@
     <ClCompile Include="mock_random.c">
       <Filter>DW3 Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test_game.c">
+      <Filter>Test Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\game.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mock_main.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mock_clock.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\animation.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mock_game_data.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\physics.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\render.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mock_storage.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\utility.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\screen.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mock_win_screen.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -81,6 +117,9 @@
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="mock_random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_clock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
