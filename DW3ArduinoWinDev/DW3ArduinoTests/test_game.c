@@ -244,5 +244,126 @@ void Game_Tic_AnimationChainIsNotBlockingInput_HandlesInput( void )
    }
 }
 
-// TODO: this is where the different game state actions will go
-//void Game_Tic_AnimationChainDoesNotPauseAction_
+void Game_Tic_AnimationChainPausesAction_DoesNotPerformActions( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->daylightFactor = DAY_FACTOR_HIGH_CUTOFF + 1.0f;
+      game->screen.dayFilterIntensity = 0.0f;
+      AnimationChain_Push( &game->animationChain, AnimationType_Pause, 1.0f );
+      AnimationChain_Start( &game->animationChain );
+
+      TEST_ASSERT_EQUAL( True, game->animationChain.isRunning );
+      TEST_ASSERT_EQUAL( True, AnimationChain_PausesAction( &game->animationChain ) );
+
+      Game_Tic( game );
+
+      TEST_ASSERT_EQUAL( 0.0f, game->screen.dayFilterIntensity );
+
+      GameUtil_DeleteGame( game );
+   }
+}
+
+void Game_TicByState_GameStateIsOverworldActive_UpdatesDayFilterIntensity( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->tileMap.isUnderground = False;
+      game->daylightFactor = 1.0f;
+      game->screen.dayFilterIntensity = 0.0f;
+
+      Game_Tic( game );
+
+      TEST_ASSERT_EQUAL( 1.0f, game->screen.dayFilterIntensity );
+
+      GameUtil_DeleteGame( game );
+   }
+}
+
+void Game_TicByState_GameStateIsOverworldAndNotActive_DoesNotUpdateDayFilterIntensity( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Inactive;
+      game->tileMap.isUnderground = False;
+      game->daylightFactor = 1.0f;
+      game->screen.dayFilterIntensity = 0.0f;
+
+      Game_Tic( game );
+
+      TEST_ASSERT_EQUAL( 0.0f, game->screen.dayFilterIntensity );
+
+      GameUtil_DeleteGame( game );
+   }
+}
+
+void Game_TicByState_GameStateIsOverworld_TicsTileMap( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->players[0].entity->sprite->frameSeconds = 0.0f;
+
+      Game_Tic( game );
+
+      TEST_ASSERT_EQUAL( CLOCK_FRAME_SECONDS, game->players[0].entity->sprite->frameSeconds );
+
+      GameUtil_DeleteGame( game );
+   }
+}
+
+void Game_TicByState_GameStateIsOverworld_TicsPhysics( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+   i32 expected;
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->players[0].entity->pos.x = UNITS_PER_PIXEL;
+      game->input.buttonStates[InputButton_Left].down = True;
+      expected = UNITS_PER_PIXEL - TileMap_GetTileVelocity( &game->tileMap, game->players->entity->tileIndex );
+
+      Game_Tic( game );
+
+      TEST_ASSERT_EQUAL( expected, game->players[0].entity->pos.x );
+
+      GameUtil_DeleteGame( game );
+   }
+}
+
+void Game_TicByState_GameStateIsOverworld_ClampsViewportToEntity( void )
+{
+   i32 xPos, yPos;
+   Vector4i32_t oldV;
+   Game_t* game = GameUtil_CreateSimpleGame();
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      oldV = game->tileMap.viewport;
+      xPos = ( game->tileMap.tilesX / 2 ) * TILEMAP_TILE_SIZE_UNITS;
+      yPos = ( game->tileMap.tilesY / 2 ) * TILEMAP_TILE_SIZE_UNITS;
+      game->players[0].entity->pos.x = xPos;
+      game->players[0].entity->pos.y = yPos;
+
+      Game_Tic( game );
+
+      TEST_ASSERT_NOT_EQUAL( oldV.x, game->tileMap.viewport.x );
+      TEST_ASSERT_NOT_EQUAL( oldV.y, game->tileMap.viewport.y );
+      TEST_ASSERT_EQUAL( xPos + ( ( game->players[0].entity->pos.w / 2 ) ) - ( game->tileMap.viewport.w / 2 ), game->tileMap.viewport.x );
+      TEST_ASSERT_EQUAL( yPos + ( ( game->players[0].entity->pos.h / 2 ) ) - ( game->tileMap.viewport.h / 2 ), game->tileMap.viewport.y );
+
+      GameUtil_DeleteGame( game );
+   }
+}

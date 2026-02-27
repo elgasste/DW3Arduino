@@ -30,10 +30,16 @@ Game_t* GameUtil_CreateSimpleGame()
    game->tileMap.viewport.w = GAMEUTIL_DEFAULT_TILEMAP_VIEWPORT_W;
    game->tileMap.viewport.h = GAMEUTIL_DEFAULT_TILEMAP_VIEWPORT_H;
 
+   for ( i = 0; i < game->tileMap.tilesX * game->tileMap.tilesY; i++ )
+   {
+      TILE_MAKE_PASSABLE( game->tileMap.tiles[i] );
+   }
+
    for ( i = 0; i < MAX_PLAYERS; i++ )
    {
       game->players[i].name[0] = '\n';
       game->players[i].playerClass = ( i == 0 ) ? PlayerClass_Hero : PlayerClass_Wizard;
+      game->players[i].moveHistoryIndex = 0;
       game->tileMap.playerEntities[i].pos.x = 0;
       game->tileMap.playerEntities[i].pos.y = 0;
       game->tileMap.playerEntities[i].pos.w = GENERIC_ENTITY_WIDTH;

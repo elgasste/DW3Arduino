@@ -1,6 +1,7 @@
 #include "game.h"
 #include "random.h"
 
+internal void Game_TicByState( Game_t* game );
 internal u32 Game_GetPlayerCount( Game_t* game );
 internal void Game_HandlePlayerMoved( Game_t* game );
 internal void Game_AnchorRearPlayers( Game_t* game );
@@ -59,24 +60,29 @@ void Game_Tic( Game_t* game )
    
    if ( !AnimationChain_PausesAction( &game->animationChain ) )
    {
-      if ( game->state < GameState_Intro_Count )
-      {
-         // TODO: tic intro stuff
-      }
-      else if ( game->state < GameState_Overworld_Count )
-      {
-         if ( game->state == GameState_Overworld_Active )
-         {
-            Game_UpdateDayFilterIntensity( game );
-         }
-
-         TileMap_Tic( &game->tileMap );
-         Physics_Tic( game );
-         TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
-      }
+      Game_TicByState( game );
    }
 
    Render_DrawGame( game );
+}
+
+internal void Game_TicByState( Game_t* game )
+{
+   if ( game->state < GameState_Intro_Count )
+   {
+      // TODO: tic intro stuff
+   }
+   else if ( game->state < GameState_Overworld_Count )
+   {
+      if ( game->state == GameState_Overworld_Active )
+      {
+         Game_UpdateDayFilterIntensity( game );
+      }
+
+      TileMap_Tic( &game->tileMap );
+      Physics_Tic( game );
+      TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );
+   }
 }
 
 internal u32 Game_GetPlayerCount( Game_t* game )

@@ -13,6 +13,12 @@ void Game_Tic_AnimationChainIsRunning_TicsAnimationChain( void );
 void Game_Tic_AnimationChainIsNotRunning_DoesNotTicAnimationChain( void );
 void Game_Tic_AnimationChainBlocksInput_DoesNotHandleInput( void );
 void Game_Tic_AnimationChainIsNotBlockingInput_HandlesInput( void );
+void Game_Tic_AnimationChainPausesAction_DoesNotPerformActions( void );
+void Game_TicByState_GameStateIsOverworldActive_UpdatesDayFilterIntensity( void );
+void Game_TicByState_GameStateIsOverworldAndNotActive_DoesNotUpdateDayFilterIntensity( void );
+void Game_TicByState_GameStateIsOverworld_TicsTileMap( void );
+void Game_TicByState_GameStateIsOverworld_TicsPhysics( void );
+void Game_TicByState_GameStateIsOverworld_ClampsViewportToEntity( void );
 
 // test_input.c
 void Input_Init_Always_SetsAllStatesToFalse( void );

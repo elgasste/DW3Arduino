@@ -12,6 +12,8 @@
 #define TILE_GET_ENCOUNTER_RATE( tile )         ( ( EncounterRate_t  )( ( ( tile ) >> 8  ) & 0x03 ) )
 #define TILE_GET_DAMAGE_RATE( tile )            ( ( TileDamageRate_t )( ( ( tile ) >> 10 ) & 0x03 ) )
 
+#define TILE_MAKE_PASSABLE( tile )              ( tile |= 0x20 )
+
 typedef struct Entity_t Entity_t;
 typedef struct Player_t Player_t;
 
