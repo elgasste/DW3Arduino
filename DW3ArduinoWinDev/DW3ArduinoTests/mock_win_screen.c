@@ -1,4 +1,4 @@
-#include <game.h>
+#include "screen.h"
 
 void Screen_Blit( Screen_t* screen )
 {

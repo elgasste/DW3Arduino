@@ -21,6 +21,11 @@ int main( int argc, char** argv )
    RUN_TEST( Game_Init_Always_InitializesAnimationChain );
    RUN_TEST( Game_Init_Always_InitializesTileMap );
    RUN_TEST( Game_Init_Always_InitializesViewports );
+   RUN_TEST( Game_Tic_Always_RendersGame );
+   RUN_TEST( Game_Tic_AnimationChainIsRunning_TicsAnimationChain );
+   RUN_TEST( Game_Tic_AnimationChainIsNotRunning_DoesNotTicAnimationChain );
+   RUN_TEST( Game_Tic_AnimationChainBlocksInput_DoesNotHandleInput );
+   RUN_TEST( Game_Tic_AnimationChainIsNotBlockingInput_HandlesInput );
 
    //// test_input.c
    //RUN_TEST( Input_Init_Always_SetsAllStatesToFalse );

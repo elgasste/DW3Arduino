@@ -84,9 +84,6 @@
     <ClCompile Include="mock_clock.c">
       <Filter>DW3 Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\DW3Arduino\screen.c">
-      <Filter>DW3 Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\DW3Arduino\animation.c">
       <Filter>DW3 Source Files</Filter>
     </ClCompile>
@@ -105,7 +102,10 @@
     <ClCompile Include="..\..\DW3Arduino\utility.c">
       <Filter>DW3 Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mock_screen.c">
+    <ClCompile Include="..\..\DW3Arduino\screen.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mock_win_screen.c">
       <Filter>DW3 Source Files</Filter>
     </ClCompile>
   </ItemGroup>

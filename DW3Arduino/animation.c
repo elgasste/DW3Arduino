@@ -70,6 +70,9 @@ void AnimationChain_Tic( AnimationChain_t* chain )
          case AnimationType_ActiveFadeIn:
             Animation_TicFadeIn( animation, chain->screen );
             break;
+         default:
+            chain->isRunning = False;
+            break;
       }
 
       if ( animation->elapsedSeconds > animation->totalSeconds )

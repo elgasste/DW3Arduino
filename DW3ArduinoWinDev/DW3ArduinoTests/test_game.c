@@ -1,7 +1,7 @@
 #include <unity.h>
 #include <game.h>
 
-#include "main.h"
+#include "game_util.h"
 #include "mock_clock.h"
 #include "mock_random.h"
 
@@ -142,3 +142,107 @@ void Game_Init_Always_InitializesViewports( void )
       free( game );
    }
 }
+
+void Game_Tic_Always_RendersGame( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+
+   if ( game )
+   {
+      game->animationChain.isRunning = False;
+      game->state = GameState_Count;
+      Screen_WipeColor( &game->screen, SCREEN_COLOR16_BLUE );
+
+      TEST_ASSERT_EQUAL( SCREEN_COLOR16_BLUE, game->screen.buffer[0] );
+
+      Game_Tic( game );
+
+      TEST_ASSERT_EQUAL( SCREEN_COLOR16_BLACK, game->screen.buffer[0] );
+
+      GameUtil_DeleteGame( game );
+   }
+}
+
+void Game_Tic_AnimationChainIsRunning_TicsAnimationChain( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+
+   if ( game )
+   {
+      AnimationChain_Push( &game->animationChain, AnimationType_Count, 0.0f );
+      AnimationChain_Start( &game->animationChain );
+
+      TEST_ASSERT_EQUAL( True, game->animationChain.isRunning );
+
+      Game_Tic( game );
+
+      TEST_ASSERT_EQUAL( False, game->animationChain.isRunning );
+
+      GameUtil_DeleteGame( game );
+   }
+}
+
+void Game_Tic_AnimationChainIsNotRunning_DoesNotTicAnimationChain( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+
+   if ( game )
+   {
+      game->animationChain.curAnimation = 0;
+      game->animationChain.animations[0].elapsedSeconds = 1.0f;
+
+      TEST_ASSERT_EQUAL( False, game->animationChain.isRunning );
+
+      Game_Tic( game );
+
+      TEST_ASSERT_EQUAL( 1.0f, game->animationChain.animations[0].elapsedSeconds );
+
+      GameUtil_DeleteGame( game );
+   }
+}
+
+void Game_Tic_AnimationChainBlocksInput_DoesNotHandleInput( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Left].down = True;
+      game->tileMap.playerSprites[0].direction = Direction_Down;
+      AnimationChain_Push( &game->animationChain, AnimationType_Pause, 1.0f );
+      AnimationChain_Start( &game->animationChain );
+
+      TEST_ASSERT_EQUAL( True, game->animationChain.isRunning );
+      TEST_ASSERT_EQUAL( True, AnimationChain_BlocksInput( &game->animationChain ) );
+
+      Game_Tic( game );
+
+      TEST_ASSERT_EQUAL( Direction_Down, game->tileMap.playerSprites[0].direction );
+
+      GameUtil_DeleteGame( game );
+   }
+}
+
+void Game_Tic_AnimationChainIsNotBlockingInput_HandlesInput( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->input.buttonStates[InputButton_Left].down = True;
+      game->tileMap.playerSprites[0].direction = Direction_Down;
+
+      TEST_ASSERT_EQUAL( False, game->animationChain.isRunning );
+
+      Game_Tic( game );
+
+      TEST_ASSERT_EQUAL( Direction_Left, game->tileMap.playerSprites[0].direction );
+
+      GameUtil_DeleteGame( game );
+   }
+}
+
+// TODO: this is where the different game state actions will go
+//void Game_Tic_AnimationChainDoesNotPauseAction_

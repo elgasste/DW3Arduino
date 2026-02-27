@@ -143,8 +143,8 @@
     <ClCompile Include="mock_game_data.c" />
     <ClCompile Include="mock_main.c" />
     <ClCompile Include="mock_random.c" />
-    <ClCompile Include="mock_screen.c" />
     <ClCompile Include="mock_storage.c" />
+    <ClCompile Include="mock_win_screen.c" />
     <ClCompile Include="test_game.c" />
     <ClCompile Include="test_input.c" />
     <ClCompile Include="test_npc.c" />

@@ -8,6 +8,11 @@ void Game_Init_Always_InitializesInput( void );
 void Game_Init_Always_InitializesAnimationChain( void );
 void Game_Init_Always_InitializesTileMap( void );
 void Game_Init_Always_InitializesViewports( void );
+void Game_Tic_Always_RendersGame( void );
+void Game_Tic_AnimationChainIsRunning_TicsAnimationChain( void );
+void Game_Tic_AnimationChainIsNotRunning_DoesNotTicAnimationChain( void );
+void Game_Tic_AnimationChainBlocksInput_DoesNotHandleInput( void );
+void Game_Tic_AnimationChainIsNotBlockingInput_HandlesInput( void );
 
 // test_input.c
 void Input_Init_Always_SetsAllStatesToFalse( void );
