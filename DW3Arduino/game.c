@@ -260,8 +260,7 @@ internal Bool_t Game_TryEnterPortal( Game_t* game )
 
 internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
 {
-   i32 newPosX, newPosY;
-   u32 i;
+   i32 newPosX, newPosY, i;
    u32 destTileMapIndex = portal->destTileMapIndex;
    u32 destTileIndex = portal->destTileIndex;
    Direction_t destDirection = portal->destDirection;
@@ -270,11 +269,15 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
    TileMap_LoadFromIndex( &game->tileMap, destTileMapIndex );
    TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
 
-   for ( i = 0; i < game->playerCount; i++ )
+   for ( i = 0; i < (i32)game->playerCount; i++ )
    {
       player = game->players + i;
       TileMap_CenterEntityOnTile( &game->tileMap, game->tileMap.playerEntities + i, destTileIndex );
       ActiveSprite_SetDirection( game->tileMap.playerSprites + i, destDirection );
+
+      // this ensures the sprites will be drawn in the correct Z-order on arrival
+      player->entity->pos.y += ( destDirection == Direction_Up ) ? i : ( destDirection == Direction_Down ) ? -i : 0;
+
       Player_ResetChaining( player );
    }
 
