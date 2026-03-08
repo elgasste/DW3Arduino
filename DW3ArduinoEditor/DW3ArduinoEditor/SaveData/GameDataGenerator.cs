@@ -76,6 +76,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteActiveSpriteTextureIndexesFunction( fs );
          WritePlayerSpritesFunction( fs );
          WriteTileMapFunction( fs );
+         WriteLoadEnemyFunction( fs );
          WriteGameResetFunction( fs );
       }
 
@@ -448,6 +449,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataActiveSpriteTexturesHeaderFileName ) );
          WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataPlayerSpriteTexturesHeaderFileName ) );
          WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataTileMapsHeaderFileName ) );
+         WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataEnemyHeaderFileName ) );
          WriteToFileStream( fs, "#include \"game.h\"\n" );
          WriteToFileStream( fs, "#include \"random.h\"\n\n" );
          WriteToFileStream( fs, "internal void TileMap_LoadTileTexturesFromSetIndex( TileMap_t* tileMap, u32 index );\n" );
@@ -680,6 +682,15 @@ namespace DW3ArduinoEditor.SaveData
          }
                   
          WriteToFileStream( fs, "   }\n" );
+         WriteToFileStream( fs, "}\n" );
+      }
+
+      private void WriteLoadEnemyFunction( FileStream fs )
+      {
+         WriteToFileStream( fs, "\nvoid Enemy_LoadFromId( Enemy_t* enemy, u32 id )\n" );
+         WriteToFileStream( fs, "{\n" );
+         WriteToFileStream( fs, "   UNUSED_PARAM( enemy );\n" );
+         WriteToFileStream( fs, "   UNUSED_PARAM( id );\n" );
          WriteToFileStream( fs, "}\n" );
       }
 

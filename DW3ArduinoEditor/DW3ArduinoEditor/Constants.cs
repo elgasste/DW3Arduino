@@ -16,6 +16,7 @@ namespace DW3ArduinoEditor
       public const string GameDataActiveSpriteTexturesHeaderFileName = "active_sprite_textures.h";
       public const string GameDataPlayerSpriteTexturesHeaderFileName = "player_sprite_textures.h";
       public const string GameDataTileMapsHeaderFileName = "tile_maps.h";
+      public const string GameDataEnemyHeaderFileName = "enemy.h";
 
       public const string SaveDataFilePath = AssetsBasePath + "EditorData.json";
       public const string GameDataSourceFilePath = OutputBasePath + "game_data.c";

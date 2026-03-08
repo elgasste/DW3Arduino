@@ -6,6 +6,7 @@
 #include "active_sprite_textures.h"
 #include "player_sprite_textures.h"
 #include "tile_maps.h"
+#include "enemy.h"
 #include "game.h"
 #include "random.h"
 
@@ -602,6 +603,12 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
          memcpy( tileMap->tiles, g_mapTiles22, sizeof( u16 ) * 1496 );
          break;
    }
+}
+
+void Enemy_LoadFromId( Enemy_t* enemy, u32 id )
+{
+   UNUSED_PARAM( enemy );
+   UNUSED_PARAM( id );
 }
 
 void Game_Reset( Game_t* game )
