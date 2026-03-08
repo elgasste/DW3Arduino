@@ -695,7 +695,7 @@ namespace DW3ArduinoEditor.SaveData
 
          WriteToFileStream( fs, "   for ( i = 0; i < MAX_PLAYERS; i++ )\n" );
          WriteToFileStream( fs, "   {\n" );
-         WriteToFileStream( fs, "      game->players[i].name[0] = '\\n';\n" );
+         WriteToFileStream( fs, "      Player_Init( game->players + i );\n" );
          WriteToFileStream( fs, string.Format( "      game->players[i].playerClass = ( i == 0 ) ? PlayerClass_{0} : PlayerClass_{1};\n", PlayerClass.Hero.ToString(), PlayerClass.Soldier.ToString() ) );
          WriteToFileStream( fs, "      game->players[i].entity = game->tileMap.playerEntities + i;\n" );
          WriteToFileStream( fs, "      game->players[i].entity->sprite = game->tileMap.playerSprites + i;\n" );

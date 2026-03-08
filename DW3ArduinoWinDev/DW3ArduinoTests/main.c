@@ -32,6 +32,11 @@ int main( int argc, char** argv )
    RUN_TEST( Game_TicByState_GameStateIsOverworld_TicsTileMap );
    RUN_TEST( Game_TicByState_GameStateIsOverworld_TicsPhysics );
    RUN_TEST( Game_TicByState_GameStateIsOverworld_ClampsViewportToEntity );
+   RUN_TEST( Game_HandlePlayerMoved_Always_UpdatesFrontPlayerMoveHistory );
+   RUN_TEST( Game_HandlePlayerMoved_FrontPlayerMoveHistoryIndexOverflow_ChainsNextPlayer );
+   RUN_TEST( Game_HandlePlayerMoved_Always_AnchorsRearPlayers );
+   RUN_TEST( Game_HandlePlayerMoved_TileMapAffectsDaylight_IncrementsDaylightFactor );
+   RUN_TEST( Game_HandlePlayerMoved_SteppedOnDifferentTile_StepsOnTile );
 
    // test_input.c
    RUN_TEST( Input_Init_Always_SetsAllStatesToFalse );

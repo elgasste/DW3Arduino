@@ -367,3 +367,113 @@ void Game_TicByState_GameStateIsOverworld_ClampsViewportToEntity( void )
       GameUtil_DeleteGame( game );
    }
 }
+
+void Game_HandlePlayerMoved_Always_UpdatesFrontPlayerMoveHistory( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->players[0].entity->pos.x = 500;
+      game->players[0].entity->pos.y = 400;
+      game->players[0].entity->velocity.x = 100;
+      game->players[0].entity->velocity.y = 400;
+      game->players[0].entity->sprite->direction = Direction_Right;
+
+      Game_Tic( game );
+
+      TEST_ASSERT_EQUAL( 600, game->players[0].moveHistory[0].newPos.x );
+      TEST_ASSERT_EQUAL( 800, game->players[0].moveHistory[0].newPos.y );
+      TEST_ASSERT_EQUAL( Direction_Right, game->players[0].moveHistory[0].newDir );
+      TEST_ASSERT_EQUAL( 1, game->players[0].moveHistoryIndex );
+
+      GameUtil_DeleteGame( game );
+   }
+}
+
+void Game_HandlePlayerMoved_FrontPlayerMoveHistoryIndexOverflow_ChainsNextPlayer( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->players[0].moveHistoryIndex = PLAYER_MOVE_HISTORY_SIZE - 1;
+      game->players[0].entity->velocity.x = 100;
+      game->players[0].entity->velocity.y = 400;
+
+      TEST_ASSERT_EQUAL( False, game->players[0].chainNextPlayer );
+
+      Game_Tic( game );
+
+      TEST_ASSERT_EQUAL( True, game->players[0].chainNextPlayer );
+      TEST_ASSERT_EQUAL( 0, game->players[0].moveHistoryIndex );
+
+      GameUtil_DeleteGame( game );
+   }
+}
+
+// TODO: this is just here for reference
+
+//internal void Game_HandlePlayerMoved( Game_t* game )
+//{
+//   u32 tileIndex;
+//   Player_t* frontPlayer = game->players;
+//
+//   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newPos.x = frontPlayer->entity->pos.x;
+//   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newPos.y = frontPlayer->entity->pos.y;
+//   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newDir = frontPlayer->entity->sprite->direction;
+//   frontPlayer->moveHistoryIndex++;
+//
+//   if ( frontPlayer->moveHistoryIndex >= PLAYER_MOVE_HISTORY_SIZE )
+//   {
+//      frontPlayer->chainNextPlayer = True;
+//      frontPlayer->moveHistoryIndex = 0;
+//   }
+//
+//   Game_AnchorRearPlayers( game );
+//
+//   if ( game->tileMap.affectsDaylight )
+//   {
+//      Game_IncrementDaylightFactor( game );
+//   }
+//
+//   tileIndex = TileMap_GetTileIndexAtPosition( &game->tileMap,
+//                                               ( game->players->entity->pos.x + ( game->players->entity->pos.w / 2 ) ),
+//                                               ( game->players->entity->pos.y + ( game->players->entity->pos.h / 2 ) ) );
+//
+//   if ( tileIndex != game->players->entity->tileIndex )
+//   {
+//      Game_SteppedOnTile( game, tileIndex );
+//   }
+//}
+
+void Game_HandlePlayerMoved_Always_AnchorsRearPlayers( void )
+{
+   Game_t* game = GameUtil_CreateSimpleGame();
+
+   if ( game )
+   {
+      game->state = GameState_Overworld_Active;
+      game->players[0].moveHistoryIndex = PLAYER_MOVE_HISTORY_SIZE - 1;
+      game->players[0].entity->velocity.x = 100;
+      game->players[0].entity->velocity.y = 400;
+
+      Game_Tic( game );
+
+      // TODO: woof, figure this one out
+
+      GameUtil_DeleteGame( game );
+   }
+}
+
+void Game_HandlePlayerMoved_TileMapAffectsDaylight_IncrementsDaylightFactor( void )
+{
+   // TODO
+}
+
+void Game_HandlePlayerMoved_SteppedOnDifferentTile_StepsOnTile( void )
+{
+   // TODO
+}

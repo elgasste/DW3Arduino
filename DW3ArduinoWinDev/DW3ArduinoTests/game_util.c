@@ -37,7 +37,7 @@ Game_t* GameUtil_CreateSimpleGame()
 
    for ( i = 0; i < MAX_PLAYERS; i++ )
    {
-      game->players[i].name[0] = '\n';
+      Player_Init( game->players + i );
       game->players[i].playerClass = ( i == 0 ) ? PlayerClass_Hero : PlayerClass_Wizard;
       game->players[i].moveHistoryIndex = 0;
       game->tileMap.playerEntities[i].pos.x = 0;
