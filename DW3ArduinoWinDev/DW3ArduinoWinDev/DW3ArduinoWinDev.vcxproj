@@ -149,6 +149,7 @@
     <ClInclude Include="..\..\DW3Arduino\game.h" />
     <ClInclude Include="..\..\DW3Arduino\sprite.h" />
     <ClInclude Include="..\..\DW3Arduino\static_sprite_textures.h" />
+    <ClInclude Include="..\..\DW3Arduino\battle_stats.h" />
     <ClInclude Include="..\..\DW3Arduino\strings.h" />
     <ClInclude Include="..\..\DW3Arduino\text_bit_fields.h" />
     <ClInclude Include="..\..\DW3Arduino\tile_map.h" />

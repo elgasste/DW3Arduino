@@ -4,6 +4,7 @@
 #include "common.h"
 #include "vector.h"
 #include "tile_map.h"
+#include "battle_stats.h"
 
 typedef struct Entity_t Entity_t;
 
@@ -19,6 +20,7 @@ typedef struct Player_t
 {
    PlayerClass_t playerClass;
    Entity_t* entity;
+   BattleStats_t stats;
 
    char name[PLAYER_MAX_NAME_LENGTH + 1];
 

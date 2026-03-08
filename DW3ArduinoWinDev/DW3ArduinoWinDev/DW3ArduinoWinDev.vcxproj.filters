@@ -150,6 +150,9 @@
     <ClInclude Include="cJSON\cJSON.h">
       <Filter>cJSON</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\battle_stats.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
