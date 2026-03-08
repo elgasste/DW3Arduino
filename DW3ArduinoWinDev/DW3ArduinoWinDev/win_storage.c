@@ -10,6 +10,7 @@ internal Bool_t Storage_LoadPlayersFromJSON( Game_t* game, cJSON* node );
 internal Bool_t Storage_FindJSONItem32i( cJSON* node, i32* val, const char* itemName );
 internal Bool_t Storage_FindJSONArray( cJSON* node, cJSON** val, const char* itemName );
 internal Bool_t Storage_FindJSONItemString( cJSON* node, char** val, const char* itemName );
+internal Bool_t Storage_FindJSONItemObject( cJSON* node, cJSON** val, const char* itemName );
 
 Bool_t Storage_SaveGame( Game_t* game )
 {
@@ -134,7 +135,7 @@ Bool_t Storage_DeleteSlot( u32 slot )
 internal Bool_t Storage_WritePlayersJSON( Game_t* game, cJSON* node )
 {
    u32 i;
-   cJSON *playerCount, *players, *player, *name, *playerClass;
+   cJSON *playerCount, *players, *player, *name, *playerClass, *stats, *hp, *mp;
 
    // player count object
    playerCount = cJSON_CreateNumber( game->playerCount );
@@ -167,6 +168,24 @@ internal Bool_t Storage_WritePlayersJSON( Game_t* game, cJSON* node )
       if ( playerClass == 0 )
          return False;
       cJSON_AddItemToObject( player, JSON_PLAYER_CLASS, playerClass );
+
+      // player stats object
+      stats = cJSON_CreateObject();
+      if ( stats == 0 )
+         return False;
+      cJSON_AddItemToObject( player, JSON_PLAYER_STATS, stats );
+
+      // player stats - hit points
+      hp = cJSON_CreateNumber( game->players[i].stats.hp );
+      if ( hp == 0 )
+         return False;
+      cJSON_AddItemToObject( stats, JSON_PLAYER_STATS_HP, hp );
+
+      // player stats - magic points
+      mp = cJSON_CreateNumber( game->players[i].stats.mp );
+      if ( mp == 0 )
+         return False;
+      cJSON_AddItemToObject( stats, JSON_PLAYER_STATS_MP, mp );
    }
 
    return True;
@@ -194,9 +213,8 @@ internal Bool_t Storage_LoadGameFromJSONString( Game_t* game, const char* jsonSt
 
 internal Bool_t Storage_LoadPlayersFromJSON( Game_t* game, cJSON* node )
 {
-   i32 i;
-   i32 playerCount, playerClass;
-   cJSON *players, *player;
+   i32 i, playerCount, playerClass, hp, mp;
+   cJSON *players, *player, *stats;
    char* playerName;
 
    // player count
@@ -220,6 +238,7 @@ internal Bool_t Storage_LoadPlayersFromJSON( Game_t* game, cJSON* node )
          return False;
       if ( !Validate_PlayerName( playerName ) )
          return False;
+
       strcpy( game->players[i].name, playerName );
 
       // player class
@@ -227,8 +246,22 @@ internal Bool_t Storage_LoadPlayersFromJSON( Game_t* game, cJSON* node )
          return False;
       if ( !Validate_PlayerClass( playerClass ) )
          return False;
+
       game->players[i].playerClass = (PlayerClass_t)playerClass;
 
+      // player stats
+      if ( !Storage_FindJSONItemObject( player->child, &stats, JSON_PLAYER_STATS ) || !stats || !stats->child )
+         return False;
+      if ( !Storage_FindJSONItem32i( stats->child, &hp, JSON_PLAYER_STATS_HP ) )
+         return False;
+      if ( !Storage_FindJSONItem32i( stats->child, &mp, JSON_PLAYER_STATS_MP ) )
+         return False;
+      if ( !Validate_PlayerStats( (u32)hp, (u32)mp ) )
+         return False;
+      game->players[i].stats.hp = (u32)hp;
+      game->players[i].stats.mp = (u32)mp;
+
+      // next player
       player = player->next;
    }
 
@@ -283,6 +316,24 @@ internal Bool_t Storage_FindJSONItemString( cJSON* node, char** val, const char*
       if ( cJSON_IsString( item ) && strcmp( item->string, itemName ) == 0 )
       {
          *val = item->valuestring;
+         return True;
+      }
+
+      item = item->next;
+   }
+
+   return False;
+}
+
+internal Bool_t Storage_FindJSONItemObject( cJSON* node, cJSON** val, const char* itemName )
+{
+   cJSON* item = node;
+
+   while ( item != 0 )
+   {
+      if ( cJSON_IsObject( item ) && strcmp( item->string, itemName ) == 0 )
+      {
+         *val = item;
          return True;
       }
 

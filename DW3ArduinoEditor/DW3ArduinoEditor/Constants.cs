@@ -41,6 +41,12 @@ namespace DW3ArduinoEditor
       public const int MaxPlayers = 4;
       public const int PlayerMaxNameLength = 8;
 
+      public const string PlayerBaseName = "Dorkel";
+      public const int PlayerBaseHp = 12;
+      public const int PlayerBaseMp = 0;
+
+      public const int EnemyMaxNameLength = 24;
+
       public const int ClockFps = 60;
 
       public const int MaxAnimations = 32;

@@ -2,7 +2,7 @@
 
 void Player_Init( Player_t* player )
 {
-   player->name[0] = '\n';
+   player->name[0] = '\0';
    Player_ResetChaining( player );
 }
 

@@ -37,3 +37,11 @@ Bool_t Validate_SingleHero( Game_t* game )
 
    return heroFound;
 }
+
+Bool_t Validate_PlayerStats( u32 hp, u32 mp )
+{
+   UNUSED_PARAM( hp );
+   UNUSED_PARAM( mp );
+
+   return True;
+}

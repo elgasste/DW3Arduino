@@ -59,6 +59,7 @@ Bool_t Validate_PlayerCount( i32 count );
 Bool_t Validate_PlayerName( const char* name );
 Bool_t Validate_PlayerClass( i32 playerClass );
 Bool_t Validate_SingleHero( Game_t* game );
+Bool_t Validate_PlayerStats( u32 hp, u32 mp );
 
 #if defined( __cplusplus )
 }

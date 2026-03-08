@@ -99,6 +99,17 @@ internal Bool_t Storage_WritePlayers( Game_t* game )
       sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, game->saveSlot, subkey );
       if ( kv_set( key, &( game->players[i].playerClass ), sizeof( PlayerClass_t ), 0 ) != MBED_SUCCESS )
          return False;
+
+      // player stats
+      sprintf( subkey, KVSTORE_PLAYER_STATS_HP_KEY, i );
+      sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, game->saveSlot, subkey );
+      if ( kv_set( key, &( game->players[i].stats.hp ), sizeof( u32 ), 0 ) != MBED_SUCCESS )
+         return False;
+
+      sprintf( subkey, KVSTORE_PLAYER_STATS_MP_KEY, i );
+      sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, game->saveSlot, subkey );
+      if ( kv_set( key, &( game->players[i].stats.mp ), sizeof( u32 ), 0 ) != MBED_SUCCESS )
+         return False;
    }
 
    return True;
@@ -106,7 +117,7 @@ internal Bool_t Storage_WritePlayers( Game_t* game )
 
 internal Bool_t Storage_ReadPlayers( Game_t* game, u32 slot )
 {
-   u32 i, playerCount;
+   u32 i, playerCount, hp, mp;
    PlayerClass_t playerClass;
    int result;
    char key[64];
@@ -143,6 +154,20 @@ internal Bool_t Storage_ReadPlayers( Game_t* game, u32 slot )
       if ( !Validate_PlayerClass( (i32)playerClass ) )
          return False;
       game->players[i].playerClass = playerClass;
+
+      // player stats
+      sprintf( subkey, KVSTORE_PLAYER_STATS_HP_KEY, i );
+      sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, slot, subkey );
+      if ( kv_get_info( key, &info ) != MBED_SUCCESS || kv_get( key, &hp, sizeof( u32 ), 0 ) != MBED_SUCCESS )
+         return False;
+      sprintf( subkey, KVSTORE_PLAYER_STATS_MP_KEY, i );
+      sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, slot, subkey );
+      if ( kv_get_info( key, &info ) != MBED_SUCCESS || kv_get( key, &mp, sizeof( u32 ), 0 ) != MBED_SUCCESS )
+         return False;
+      if ( !Validate_PlayerStats( hp, mp ) )
+         return False;
+      game->players[i].stats.hp = hp;
+      game->players[i].stats.mp = mp;
    }
 
    if ( !Validate_SingleHero( game ) )

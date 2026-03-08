@@ -621,6 +621,9 @@ void Game_Reset( Game_t* game )
    for ( i = 0; i < MAX_PLAYERS; i++ )
    {
       Player_Init( game->players + i );
+      strcpy( game->players[i].name, "Dorkel" );
+      game->players[i].stats.hp = 12;
+      game->players[i].stats.mp = 0;
       game->players[i].playerClass = ( i == 0 ) ? PlayerClass_Hero : PlayerClass_Soldier;
       game->players[i].entity = game->tileMap.playerEntities + i;
       game->players[i].entity->sprite = game->tileMap.playerSprites + i;

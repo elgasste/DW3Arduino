@@ -93,7 +93,8 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "#define MAX_SAVE_SLOTS                          {0}\n\n", Constants.MaxSaveSlots ) );
 
          WriteToFileStream( fs, string.Format( "#define MAX_PLAYERS                             {0}\n", Constants.MaxPlayers ) );
-         WriteToFileStream( fs, string.Format( "#define PLAYER_MAX_NAME_LENGTH                  {0}\n\n", Constants.PlayerMaxNameLength ) );
+         WriteToFileStream( fs, string.Format( "#define PLAYER_MAX_NAME_LENGTH                  {0}\n", Constants.PlayerMaxNameLength ) );
+         WriteToFileStream( fs, string.Format( "#define ENEMY_MAX_NAME_LENGTH                  {0}\n\n", Constants.EnemyMaxNameLength ) );
 
          WriteToFileStream( fs, string.Format( "#define CLOCK_FPS                               {0}\n", Constants.ClockFps ) );
          WriteToFileStream( fs, string.Format( "#define CLOCK_FRAME_MICROSECONDS                {0}\n", (int)( ( 1.0 / Constants.ClockFps ) * 1000000 ) ) );
@@ -707,6 +708,9 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "   for ( i = 0; i < MAX_PLAYERS; i++ )\n" );
          WriteToFileStream( fs, "   {\n" );
          WriteToFileStream( fs, "      Player_Init( game->players + i );\n" );
+         WriteToFileStream( fs, string.Format( "      strcpy( game->players[i].name, \"{0}\" );\n", Constants.PlayerBaseName ) );
+         WriteToFileStream( fs, string.Format( "      game->players[i].stats.hp = {0};\n", Constants.PlayerBaseHp ) );
+         WriteToFileStream( fs, string.Format( "      game->players[i].stats.mp = {0};\n", Constants.PlayerBaseMp ) );
          WriteToFileStream( fs, string.Format( "      game->players[i].playerClass = ( i == 0 ) ? PlayerClass_{0} : PlayerClass_{1};\n", PlayerClass.Hero.ToString(), PlayerClass.Soldier.ToString() ) );
          WriteToFileStream( fs, "      game->players[i].entity = game->tileMap.playerEntities + i;\n" );
          WriteToFileStream( fs, "      game->players[i].entity->sprite = game->tileMap.playerSprites + i;\n" );

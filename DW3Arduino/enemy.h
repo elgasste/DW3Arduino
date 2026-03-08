@@ -4,8 +4,6 @@
 #include "common.h"
 #include "battle_stats.h"
 
-#define ENEMY_MAX_NAME_LENGTH    31
-
 typedef struct Enemy_t
 {
    char name[ENEMY_MAX_NAME_LENGTH + 1];
