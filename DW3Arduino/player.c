@@ -1,5 +1,11 @@
 #include "player.h"
 
+void Player_Init( Player_t* player )
+{
+   player->name[0] = '\n';
+   Player_ResetChaining( player );
+}
+
 void Player_ResetChaining( Player_t* player )
 {
    player->chainNextPlayer = False;

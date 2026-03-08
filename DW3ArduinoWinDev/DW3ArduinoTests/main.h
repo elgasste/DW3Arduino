@@ -19,6 +19,11 @@ void Game_TicByState_GameStateIsOverworldAndNotActive_DoesNotUpdateDayFilterInte
 void Game_TicByState_GameStateIsOverworld_TicsTileMap( void );
 void Game_TicByState_GameStateIsOverworld_TicsPhysics( void );
 void Game_TicByState_GameStateIsOverworld_ClampsViewportToEntity( void );
+void Game_HandlePlayerMoved_Always_UpdatesFrontPlayerMoveHistory( void );
+void Game_HandlePlayerMoved_FrontPlayerMoveHistoryIndexOverflow_ChainsNextPlayer( void );
+void Game_HandlePlayerMoved_Always_AnchorsRearPlayers( void );
+void Game_HandlePlayerMoved_TileMapAffectsDaylight_IncrementsDaylightFactor( void );
+void Game_HandlePlayerMoved_SteppedOnDifferentTile_StepsOnTile( void );
 
 // test_input.c
 void Input_Init_Always_SetsAllStatesToFalse( void );

@@ -32,6 +32,7 @@ Player_t;
 extern "C" {
 #endif
 
+void Player_Init( Player_t* player );
 void Player_ResetChaining( Player_t* player );
 void Player_ApplyTileDamage( Player_t* player );
 
