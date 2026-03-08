@@ -607,8 +607,8 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
 
 void Enemy_LoadFromId( Enemy_t* enemy, u32 id )
 {
-   UNUSED_PARAM( enemy );
    UNUSED_PARAM( id );
+   enemy->name[0] = '\0';
 }
 
 void Game_Reset( Game_t* game )

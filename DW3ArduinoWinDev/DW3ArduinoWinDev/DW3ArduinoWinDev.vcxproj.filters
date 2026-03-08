@@ -67,6 +67,9 @@
     <ClCompile Include="..\..\DW3Arduino\validate_save.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\battle.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\DW3Arduino\clock.h">
@@ -154,6 +157,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\DW3Arduino\enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\battle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

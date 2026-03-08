@@ -689,8 +689,8 @@ namespace DW3ArduinoEditor.SaveData
       {
          WriteToFileStream( fs, "\nvoid Enemy_LoadFromId( Enemy_t* enemy, u32 id )\n" );
          WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, "   UNUSED_PARAM( enemy );\n" );
          WriteToFileStream( fs, "   UNUSED_PARAM( id );\n" );
+         WriteToFileStream( fs, "   enemy->name[0] = '\\0';\n" );
          WriteToFileStream( fs, "}\n" );
       }
 
