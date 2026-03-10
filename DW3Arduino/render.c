@@ -226,6 +226,7 @@ internal void Render_DrawOverworldStatsWindow( Game_t* game )
 {
    u32 i, x;
    char str[4];
+   u16 textColor = game->overworldStatsWindow.textColor;
 
    char playerName[OVERWORLD_STATS_WINDOW_PLAYER_NAME_LENGTH + 1];
    Screen_DrawWindow( &game->screen, &game->overworldStatsWindow );
@@ -237,20 +238,20 @@ internal void Render_DrawOverworldStatsWindow( Game_t* game )
 
       x = game->overworldStatsWindow.pos.x + ( SCREEN_TEXT_TILE_SIZE * ( ( OVERWORLD_STATS_WINDOW_PLAYER_WIDTH * i ) + 1 ) );
 
-      Screen_DrawText( &game->screen, playerName, x, game->overworldStatsWindow.pos.y, WINDOW_TEXT_COLOR );
+      Screen_DrawText( &game->screen, playerName, x, game->overworldStatsWindow.pos.y, textColor );
 
-      Screen_DrawText( &game->screen, "H", x, game->overworldStatsWindow.pos.y + ( 2 * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+      Screen_DrawText( &game->screen, "H", x, game->overworldStatsWindow.pos.y + ( 2 * SCREEN_TEXT_TILE_SIZE ), textColor );
       sprintf( str, "%3u", game->players[i].stats.hp );
-      Screen_DrawText( &game->screen, str, x + SCREEN_TEXT_TILE_SIZE, game->overworldStatsWindow.pos.y + ( 2 * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+      Screen_DrawText( &game->screen, str, x + SCREEN_TEXT_TILE_SIZE, game->overworldStatsWindow.pos.y + ( 2 * SCREEN_TEXT_TILE_SIZE ), textColor );
 
-      Screen_DrawText( &game->screen, "M", x, game->overworldStatsWindow.pos.y + ( 4 * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+      Screen_DrawText( &game->screen, "M", x, game->overworldStatsWindow.pos.y + ( 4 * SCREEN_TEXT_TILE_SIZE ), textColor );
       sprintf( str, "%3u", game->players[i].stats.mp );
-      Screen_DrawText( &game->screen, str, x + SCREEN_TEXT_TILE_SIZE, game->overworldStatsWindow.pos.y + ( 4 * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+      Screen_DrawText( &game->screen, str, x + SCREEN_TEXT_TILE_SIZE, game->overworldStatsWindow.pos.y + ( 4 * SCREEN_TEXT_TILE_SIZE ), textColor );
 
       Player_GetClassAbbrStr( game->players + i, str );
-      Screen_DrawText( &game->screen, str, x, game->overworldStatsWindow.pos.y + ( 6 * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+      Screen_DrawText( &game->screen, str, x, game->overworldStatsWindow.pos.y + ( 6 * SCREEN_TEXT_TILE_SIZE ), textColor );
       sprintf( str, "%2u", game->players[i].level );
-      Screen_DrawText( &game->screen, str, x + ( 2 * SCREEN_TEXT_TILE_SIZE ), game->overworldStatsWindow.pos.y + ( 6 * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+      Screen_DrawText( &game->screen, str, x + ( 2 * SCREEN_TEXT_TILE_SIZE ), game->overworldStatsWindow.pos.y + ( 6 * SCREEN_TEXT_TILE_SIZE ), textColor );
    }
 }
 

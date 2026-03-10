@@ -7,6 +7,7 @@ internal void Game_HandlePlayerMoved( Game_t* game );
 internal void Game_AnchorRearPlayers( Game_t* game );
 internal void Game_IncrementDaylightFactor( Game_t* game );
 internal void Game_UpdateDayFilterIntensity( Game_t* game );
+internal void Game_UpdateWindowTextColors( Game_t* game );
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex );
 internal Bool_t Game_TryEnterPortal( Game_t* game );
 internal void Game_EnterPortal( Game_t* game, Portal_t* portal );
@@ -45,6 +46,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    game->overworldStatsWindow.pos.h = OVERWORLD_STATS_WINDOW_Y_OFFSET - 2;
    game->overworldStatsWindow.pos.x = ( SCREEN_WIDTH - ( OVERWORLD_STATS_WINDOW_X_OFFSET * SCREEN_TEXT_TILE_SIZE ) ) - ( OVERWORLD_STATS_WINDOW_PLAYER_WIDTH * SCREEN_TEXT_TILE_SIZE * game->playerCount );
    game->overworldStatsWindow.pos.y = ( SCREEN_HEIGHT - ( OVERWORLD_STATS_WINDOW_Y_OFFSET * SCREEN_TEXT_TILE_SIZE ) );
+   game->overworldStatsWindow.textColor = WINDOW_TEXT_COLOR_DAY;
    game->overworldInactivitySeconds = 0.0f;
 
    game->state = GameState_Overworld_Active;
@@ -203,6 +205,36 @@ internal void Game_UpdateDayFilterIntensity( Game_t* game )
    {
       game->screen.dayFilterIntensity = DAY_FACTOR_UNDERGROUND_THRESHOLD;
    }
+
+   Game_UpdateWindowTextColors( game );
+}
+
+internal void Game_UpdateWindowTextColors( Game_t* game )
+{
+   u16 color, nightR, nightB, nightG, adjR, adjG, adjB;
+
+   if ( game->daylightFactor < DAY_FACTOR_LOW_CUTOFF )
+   {
+      color = WINDOW_TEXT_COLOR_NIGHT;
+   }
+   else if ( game->daylightFactor > DAY_FACTOR_HIGH_CUTOFF )
+   {
+      color = WINDOW_TEXT_COLOR_DAY;
+   }
+   else
+   {
+      nightR = ( WINDOW_TEXT_COLOR_NIGHT & 0xF800 ) >> 11;
+      nightG = ( WINDOW_TEXT_COLOR_NIGHT & 0x7E0 ) >> 5;
+      nightB = ( WINDOW_TEXT_COLOR_NIGHT & 0x1F ) >> 0;
+
+      adjR = (u16)( ( ( ( WINDOW_TEXT_COLOR_DAY & 0xF800 ) >> 11 ) - nightR ) * game->screen.dayFilterIntensity );
+      adjG = (u16)( ( ( ( WINDOW_TEXT_COLOR_DAY & 0x7E0 ) >> 5 ) - nightG ) * game->screen.dayFilterIntensity );
+      adjB = (u16)( ( ( ( WINDOW_TEXT_COLOR_DAY & 0x1F ) >> 0 ) - nightB ) * game->screen.dayFilterIntensity );
+
+      color = ( ( nightR + adjR ) << 11 ) | ( ( nightG + adjG ) << 5 ) | ( ( nightB + adjB ) << 0 );
+   }
+
+   game->overworldStatsWindow.textColor = color;
 }
 
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )

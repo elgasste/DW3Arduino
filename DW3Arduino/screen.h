@@ -11,6 +11,7 @@
 #define SCREEN_COLOR16_MAGENTA                  0xF81F
 #define SCREEN_COLOR16_YELLOW                   0xFFE0
 #define SCREEN_COLOR16_WHITE                    0xFFFF
+#define SCREEN_COLOR16_NIGHTBLUE                0x651F
 
 typedef struct Window_t Window_t;
 
