@@ -41,6 +41,12 @@ void Game_Init( Game_t* game, u16* screenBuffer )
       Game_Reset( game );
    }
 
+   game->overworldStatsWindow.pos.w = 2 + ( OVERWORLD_STATS_WINDOW_PLAYER_WIDTH * game->playerCount );
+   game->overworldStatsWindow.pos.h = OVERWORLD_STATS_WINDOW_Y_OFFSET - 2;
+   game->overworldStatsWindow.pos.x = ( SCREEN_WIDTH - ( OVERWORLD_STATS_WINDOW_X_OFFSET * SCREEN_TEXT_TILE_SIZE ) ) - ( OVERWORLD_STATS_WINDOW_PLAYER_WIDTH * SCREEN_TEXT_TILE_SIZE * game->playerCount );
+   game->overworldStatsWindow.pos.y = ( SCREEN_HEIGHT - ( OVERWORLD_STATS_WINDOW_Y_OFFSET * SCREEN_TEXT_TILE_SIZE ) );
+   game->overworldInactivitySeconds = 0.0f;
+
    game->state = GameState_Overworld_Active;
 }
 

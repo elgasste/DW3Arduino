@@ -2,6 +2,6 @@
 
 void Battle_Generate( Battle_t* battle )
 {
-   // MUFFINS
+   // TODO
    UNUSED_PARAM( battle );
 }

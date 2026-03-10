@@ -5,6 +5,7 @@ internal void Render_DrawTileMapLayer( Game_t* game, void ( *layerFunc )( Game_t
 internal void Render_DrawTileMapSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffsetPixels, i32 yOffsetPixels );
 internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffsetPixels, i32 yOffsetPixels );
 internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffsetPixels, i32 yOffsetPixels );
+internal void Render_DrawOverworldStatsWindow( Game_t* game );
 internal void Render_SortEntities( Entity_t* entities, u32 entityCount, Entity_t** sortedEntities, u32* sortCount, Bool_t reverseOrder );
 internal void Render_SortEntity( Entity_t* entity, Entity_t** sortedEntities, u32* sortCount );
 internal void Render_DrawSortedEntities( Game_t* game, Entity_t** sortedEntities, u32 entityCount, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffsetPixels, i32 yOffsetPixels );
@@ -22,6 +23,11 @@ void Render_DrawGame( Game_t* game )
       Render_DrawTileMapLayer( game, Render_DrawTileMapSection );
       Render_DrawTileMapLayer( game, Render_DrawStaticSpritesInSection );
       Render_DrawTileMapLayer( game, Render_DrawEntitiesInSection );
+
+      if ( game->state == GameState_Overworld_Inactive )
+      {
+         Render_DrawOverworldStatsWindow( game );
+      }
    }
 
    Screen_Blit( &game->screen );
@@ -214,6 +220,38 @@ internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw
    Render_SortEntities( game->tileMap.playerEntities, game->playerCount, sortedEntities, &sortCount, True );
 
    Render_DrawSortedEntities( game, sortedEntities, sortCount, vx, vy, vw, vh, xOffsetPixels, yOffsetPixels );
+}
+
+internal void Render_DrawOverworldStatsWindow( Game_t* game )
+{
+   u32 i, x;
+   char str[4];
+
+   char playerName[OVERWORLD_STATS_WINDOW_PLAYER_NAME_LENGTH + 1];
+   Screen_DrawWindow( &game->screen, &game->overworldStatsWindow );
+
+   for ( i = 0; i < game->playerCount; i++ )
+   {
+      strncpy( playerName, game->players[i].name, OVERWORLD_STATS_WINDOW_PLAYER_NAME_LENGTH );
+      playerName[OVERWORLD_STATS_WINDOW_PLAYER_NAME_LENGTH] = '\0';
+
+      x = game->overworldStatsWindow.pos.x + ( SCREEN_TEXT_TILE_SIZE * ( ( OVERWORLD_STATS_WINDOW_PLAYER_WIDTH * i ) + 1 ) );
+
+      Screen_DrawText( &game->screen, playerName, x, game->overworldStatsWindow.pos.y, WINDOW_TEXT_COLOR );
+
+      Screen_DrawText( &game->screen, "H", x, game->overworldStatsWindow.pos.y + ( 2 * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+      sprintf( str, "%3u", game->players[i].stats.hp );
+      Screen_DrawText( &game->screen, str, x + SCREEN_TEXT_TILE_SIZE, game->overworldStatsWindow.pos.y + ( 2 * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+
+      Screen_DrawText( &game->screen, "M", x, game->overworldStatsWindow.pos.y + ( 4 * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+      sprintf( str, "%3u", game->players[i].stats.mp );
+      Screen_DrawText( &game->screen, str, x + SCREEN_TEXT_TILE_SIZE, game->overworldStatsWindow.pos.y + ( 4 * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+
+      Player_GetClassAbbrStr( game->players + i, str );
+      Screen_DrawText( &game->screen, str, x, game->overworldStatsWindow.pos.y + ( 6 * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+      sprintf( str, "%2u", game->players[i].level );
+      Screen_DrawText( &game->screen, str, x + ( 2 * SCREEN_TEXT_TILE_SIZE ), game->overworldStatsWindow.pos.y + ( 6 * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+   }
 }
 
 internal void Render_SortEntities( Entity_t* entities, u32 entityCount, Entity_t** sortedEntities, u32* sortCount, Bool_t reverseOrder )

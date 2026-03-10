@@ -22,6 +22,7 @@ Game_t* GameUtil_CreateSimpleGame()
       return 0;
    }
 
+   game->playerCount = 1;
    Game_Init( game, screenBuffer );
 
    game->tileMap.wraps = False;
@@ -54,7 +55,6 @@ Game_t* GameUtil_CreateSimpleGame()
       ActiveSprite_Init( &game->tileMap.playerSprites[i], i, 0, 0, Direction_Down );
    }
 
-   game->playerCount = 1;
    game->players->entity = game->tileMap.playerEntities;
    game->players->entity->sprite = game->tileMap.playerSprites;
    TileMap_ClampViewportToEntity( &game->tileMap, game->tileMap.playerEntities );

@@ -1,4 +1,5 @@
 #include "screen.h"
+#include "window.h"
 
 internal i8 Screen_GetCharTileIndexFromChar( const char c );
 
@@ -238,6 +239,37 @@ void Screen_DrawText( Screen_t* screen, const char* text, u32 x, u32 y, u16 colo
 
       x += 8;
    }
+}
+
+void Screen_DrawWindow( Screen_t* screen, Window_t* window )
+{
+   u32 i;
+
+   // corners
+   Screen_DrawChar( screen, SCREEN_MENU_BORDER_CHAR_TOPLEFT, window->pos.x, window->pos.y, WINDOW_TEXT_COLOR );
+   Screen_DrawChar( screen, SCREEN_MENU_BORDER_CHAR_TOPRIGHT, window->pos.x + ( ( window->pos.w - 1 ) * SCREEN_TEXT_TILE_SIZE ), window->pos.y, WINDOW_TEXT_COLOR );
+   Screen_DrawChar( screen, SCREEN_MENU_BORDER_CHAR_BOTTOMLEFT, window->pos.x, window->pos.y + ( ( window->pos.h - 1 ) * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+   Screen_DrawChar( screen, SCREEN_MENU_BORDER_CHAR_BOTTOMRIGHT, window->pos.x + ( ( window->pos.w - 1 ) * SCREEN_TEXT_TILE_SIZE ), window->pos.y + ( ( window->pos.h - 1 ) * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+
+   // top/bottom border
+   for ( i = 0; i < window->pos.w - 2; i++ )
+   {
+      Screen_DrawChar( screen, SCREEN_MENU_BORDER_CHAR_TOP, window->pos.x + ( ( 1 + i ) * SCREEN_TEXT_TILE_SIZE ), window->pos.y, WINDOW_TEXT_COLOR );
+      Screen_DrawChar( screen, SCREEN_MENU_BORDER_CHAR_BOTTOM, window->pos.x + ( ( 1 + i ) * SCREEN_TEXT_TILE_SIZE ), window->pos.y + ( ( window->pos.h - 1 ) * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+   }
+
+   // left/right border
+   for ( i = 0; i < window->pos.h - 2; i++ )
+   {
+      Screen_DrawChar( screen, SCREEN_MENU_BORDER_CHAR_LEFT, window->pos.x, window->pos.y + ( ( 1 + i ) * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+      Screen_DrawChar( screen, SCREEN_MENU_BORDER_CHAR_RIGHT, window->pos.x + ( ( window->pos.w - 1 ) * SCREEN_TEXT_TILE_SIZE ), window->pos.y + ( ( 1 + i ) * SCREEN_TEXT_TILE_SIZE ), WINDOW_TEXT_COLOR );
+   }
+
+   // inner window
+   Screen_DrawRect( screen,
+                    (i32)window->pos.x + SCREEN_TEXT_TILE_SIZE, (i32)window->pos.y + SCREEN_TEXT_TILE_SIZE,
+                    (i32)( ( window->pos.w - 2 ) * SCREEN_TEXT_TILE_SIZE ), (i32)( ( window->pos.h - 2 ) * SCREEN_TEXT_TILE_SIZE ),
+                    WINDOW_BACKGROUND_COLOR );
 }
 
 internal i8 Screen_GetCharTileIndexFromChar( const char c )

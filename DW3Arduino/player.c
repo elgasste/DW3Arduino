@@ -3,6 +3,9 @@
 void Player_Init( Player_t* player )
 {
    player->name[0] = '\0';
+   player->level = 1;
+   player->stats.hp = PLAYER_STATS_DEFAULT_HP;
+   player->stats.mp = PLAYER_STATS_DEFAULT_MP;
    Player_ResetChaining( player );
 }
 
@@ -21,5 +24,22 @@ void Player_ApplyTileDamage( Player_t* player )
       case TileDamageRate_Medium: return;
       case TileDamageRate_High: return;
       default: return;
+   }
+}
+
+void Player_GetClassAbbrStr( Player_t* player, char* str )
+{
+   switch ( player->playerClass )
+   {
+      case PlayerClass_Hero: strcpy( str, STR_PLAYER_CLASS_ABBR_HERO ); break;
+      case PlayerClass_Soldier: strcpy( str, STR_PLAYER_CLASS_ABBR_SOLDIER ); break;
+      case PlayerClass_Pilgrim: strcpy( str, STR_PLAYER_CLASS_ABBR_PILGRIM ); break;
+      case PlayerClass_Wizard: strcpy( str, STR_PLAYER_CLASS_ABBR_WIZARD ); break;
+      case PlayerClass_Fighter: strcpy( str, STR_PLAYER_CLASS_ABBR_FIGHTER ); break;
+      case PlayerClass_Merchant: strcpy( str, STR_PLAYER_CLASS_ABBR_MERCHANT ); break;
+      case PlayerClass_GoofOff: strcpy( str, STR_PLAYER_CLASS_ABBR_GOOFOFF ); break;
+      case PlayerClass_Sage: strcpy( str, STR_PLAYER_CLASS_ABBR_SAGE ); break;
+
+      default: strcpy( str, STR_PLAYER_CLASS_ABBR_UNKNOWN ); break;
    }
 }

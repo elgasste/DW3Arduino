@@ -6,6 +6,9 @@
 #include "tile_map.h"
 #include "battle_stats.h"
 
+#define PLAYER_STATS_DEFAULT_HP        10
+#define PLAYER_STATS_DEFAULT_MP        0
+
 typedef struct Entity_t Entity_t;
 
 typedef struct PlayerMovement_t
@@ -23,6 +26,7 @@ typedef struct Player_t
    BattleStats_t stats;
 
    char name[PLAYER_MAX_NAME_LENGTH + 1];
+   u32 level;
 
    PlayerMovement_t moveHistory[PLAYER_MOVE_HISTORY_SIZE];
    u32 moveHistoryIndex;
@@ -37,6 +41,7 @@ extern "C" {
 void Player_Init( Player_t* player );
 void Player_ResetChaining( Player_t* player );
 void Player_ApplyTileDamage( Player_t* player );
+void Player_GetClassAbbrStr( Player_t* player, char* str );
 
 #if defined( __cplusplus )
 }
