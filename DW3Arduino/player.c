@@ -3,7 +3,6 @@
 void Player_Init( Player_t* player )
 {
    player->name[0] = '\0';
-   player->level = 1;
    player->stats.hp = PLAYER_STATS_DEFAULT_HP;
    player->stats.mp = PLAYER_STATS_DEFAULT_MP;
    Player_ResetChaining( player );
@@ -42,4 +41,11 @@ void Player_GetClassAbbrStr( Player_t* player, char* str )
 
       default: strcpy( str, STR_PLAYER_CLASS_ABBR_UNKNOWN ); break;
    }
+}
+
+u32 Player_GetLevel( Player_t* player )
+{
+   // TODO: put the experience tables in the Editor and auto-generate them
+   UNUSED_PARAM( player );
+   return 1;
 }

@@ -42,6 +42,30 @@ void Game_Init( Game_t* game, u16* screenBuffer )
       Game_Reset( game );
    }
 
+   // TODO: I'm also leaving this here for testing save files on both platforms
+   // game->playerCount = 4;
+   // strcpy( game->players[0].name, "Garameth" );
+   // game->players[0].playerClass = PlayerClass_Hero;
+   // game->players[0].exp = 0;
+   // game->players[0].stats.hp = 12;
+   // game->players[0].stats.mp = 0;
+   // strcpy( game->players[1].name, "Conan" );
+   // game->players[1].playerClass = PlayerClass_Soldier;
+   // game->players[1].exp = 0;
+   // game->players[1].stats.hp = 16;
+   // game->players[1].stats.mp = 0;
+   // strcpy( game->players[2].name, "Merlin" );
+   // game->players[2].playerClass = PlayerClass_Wizard;
+   // game->players[2].exp = 0;
+   // game->players[2].stats.hp = 8;
+   // game->players[2].stats.mp = 0;
+   // strcpy( game->players[3].name, "Dorkel" );
+   // game->players[3].playerClass = PlayerClass_GoofOff;
+   // game->players[3].exp = 0;
+   // game->players[3].stats.hp = 6;
+   // game->players[3].stats.mp = 0;
+   // Storage_SaveGame( game );
+
    game->overworldStatsWindow.pos.w = 2 + ( OVERWORLD_STATS_WINDOW_PLAYER_WIDTH * game->playerCount );
    game->overworldStatsWindow.pos.h = OVERWORLD_STATS_WINDOW_Y_OFFSET - 2;
    game->overworldStatsWindow.pos.x = ( SCREEN_WIDTH - ( OVERWORLD_STATS_WINDOW_X_OFFSET * SCREEN_TEXT_TILE_SIZE ) ) - ( OVERWORLD_STATS_WINDOW_PLAYER_WIDTH * SCREEN_TEXT_TILE_SIZE * game->playerCount );

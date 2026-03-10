@@ -213,7 +213,7 @@ internal Bool_t Storage_LoadGameFromJSONString( Game_t* game, const char* jsonSt
 
 internal Bool_t Storage_LoadPlayersFromJSON( Game_t* game, cJSON* node )
 {
-   i32 i, playerCount, playerClass, hp, mp;
+   i32 i, playerCount, playerClass, playerExp, hp, mp;
    cJSON *players, *player, *stats;
    char* playerName;
 
@@ -246,8 +246,14 @@ internal Bool_t Storage_LoadPlayersFromJSON( Game_t* game, cJSON* node )
          return False;
       if ( !Validate_PlayerClass( playerClass ) )
          return False;
-
       game->players[i].playerClass = (PlayerClass_t)playerClass;
+
+      // player experience
+      if ( !Storage_FindJSONItem32i( player->child, &playerExp, JSON_PLAYER_EXP ) )
+         return False;
+      if ( !Validate_PlayerExp( playerExp ) )
+         return False;
+      game->players[i].exp = (u32)playerExp;
 
       // player stats
       if ( !Storage_FindJSONItemObject( player->child, &stats, JSON_PLAYER_STATS ) || !stats || !stats->child )

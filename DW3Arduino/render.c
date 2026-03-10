@@ -250,7 +250,7 @@ internal void Render_DrawOverworldStatsWindow( Game_t* game )
 
       Player_GetClassAbbrStr( game->players + i, str );
       Screen_DrawText( &game->screen, str, x, game->overworldStatsWindow.pos.y + ( 6 * SCREEN_TEXT_TILE_SIZE ), textColor );
-      sprintf( str, "%2u", game->players[i].level );
+      sprintf( str, "%2u", Player_GetLevel( game->players + i ) );
       Screen_DrawText( &game->screen, str, x + ( 2 * SCREEN_TEXT_TILE_SIZE ), game->overworldStatsWindow.pos.y + ( 6 * SCREEN_TEXT_TILE_SIZE ), textColor );
    }
 }
