@@ -1,5 +1,4 @@
 #include "player.h"
-#include "tables.h"
 
 void Player_Init( Player_t* player )
 {

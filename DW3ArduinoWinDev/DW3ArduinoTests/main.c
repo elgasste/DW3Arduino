@@ -99,7 +99,11 @@ int main( int argc, char** argv )
    RUN_TEST( Npc_Tic_FacingDownAndNotMovingDownAndNotMovingLeftAndNotMovingUp_SetsDirectionToRight );
 
    // test_player.c
-   RUN_TEST( Player_ResetChaining_ResetsParameters );
+   RUN_TEST( Player_ResetChaining_Always_ResetsParameters );
+   RUN_TEST( Player_UpdateLevel_NoExperience_SetsCorrectLevel );
+   RUN_TEST( Player_UpdateLevel_MaxExperience_SetsCorrectLevel );
+   RUN_TEST( Player_UpdateLevel_MidExperienceAlmostNextLevel_SetsCorrectLevel );
+   RUN_TEST( Player_UpdateLevel_MidExperienceExactlyNextLevel_SetsCorrectLevel );
 
    // test_sprite.c
    RUN_TEST( ActiveSprite_Init_Always_InitializesParameters );

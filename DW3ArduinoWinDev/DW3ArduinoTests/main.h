@@ -86,7 +86,11 @@ void Npc_Tic_FacingDownAndNotMovingDownAndNotMovingLeftAndMovingUp_SetsDirection
 void Npc_Tic_FacingDownAndNotMovingDownAndNotMovingLeftAndNotMovingUp_SetsDirectionToRight( void );
 
 // test_player.c
-void Player_ResetChaining_ResetsParameters( void );
+void Player_ResetChaining_Always_ResetsParameters( void );
+void Player_UpdateLevel_NoExperience_SetsCorrectLevel( void );
+void Player_UpdateLevel_MaxExperience_SetsCorrectLevel( void );
+void Player_UpdateLevel_MidExperienceAlmostNextLevel_SetsCorrectLevel( void );
+void Player_UpdateLevel_MidExperienceExactlyNextLevel_SetsCorrectLevel( void );
 
 // test_sprite.c
 void ActiveSprite_Init_Always_InitializesParameters( void );

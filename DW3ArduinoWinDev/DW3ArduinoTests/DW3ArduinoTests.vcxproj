@@ -134,6 +134,7 @@
     <ClCompile Include="..\..\DW3Arduino\render.c" />
     <ClCompile Include="..\..\DW3Arduino\screen.c" />
     <ClCompile Include="..\..\DW3Arduino\sprite.c" />
+    <ClCompile Include="..\..\DW3Arduino\tables.c" />
     <ClCompile Include="..\..\DW3Arduino\tile_map.c" />
     <ClCompile Include="..\..\DW3Arduino\utility.c" />
     <ClCompile Include="..\..\DW3Arduino\validate_save.c" />

@@ -108,6 +108,9 @@
     <ClCompile Include="mock_win_screen.c">
       <Filter>DW3 Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\DW3Arduino\tables.c">
+      <Filter>DW3 Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
