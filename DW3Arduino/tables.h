@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-// TODO: auto-generate this entire file and the associated .c file
+// MUFFINS: auto-generate this tables.h and tables.c
 
 #define TABLE_CLASS_EXP_TABLE_SIZE     98
 
