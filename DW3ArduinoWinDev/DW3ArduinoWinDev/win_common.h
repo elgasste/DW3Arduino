@@ -16,6 +16,10 @@
 #define JSON_PLAYERS                      "players"
 #define JSON_PLAYER_NAME                  "name"
 #define JSON_PLAYER_CLASS                 "class"
+#define JSON_PLAYER_EXP                   "exp"
+#define JSON_PLAYER_STATS                 "stats"
+#define JSON_PLAYER_STATS_HP              "hp"
+#define JSON_PLAYER_STATS_MP              "mp"
 
 #define JSON_ERROR_ROOT                   "error creating JSON root object"
 #define JSON_ERROR_PLAYERS                "error creating JSON player objects"

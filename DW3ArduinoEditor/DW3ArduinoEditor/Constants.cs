@@ -16,6 +16,7 @@ namespace DW3ArduinoEditor
       public const string GameDataActiveSpriteTexturesHeaderFileName = "active_sprite_textures.h";
       public const string GameDataPlayerSpriteTexturesHeaderFileName = "player_sprite_textures.h";
       public const string GameDataTileMapsHeaderFileName = "tile_maps.h";
+      public const string GameDataEnemyHeaderFileName = "enemy.h";
 
       public const string SaveDataFilePath = AssetsBasePath + "EditorData.json";
       public const string GameDataSourceFilePath = OutputBasePath + "game_data.c";
@@ -39,6 +40,12 @@ namespace DW3ArduinoEditor
 
       public const int MaxPlayers = 4;
       public const int PlayerMaxNameLength = 8;
+
+      public const string PlayerBaseName = "Dorkel";
+      public const int PlayerBaseHp = 12;
+      public const int PlayerBaseMp = 0;
+
+      public const int EnemyMaxNameLength = 24;
 
       public const int ClockFps = 60;
 

@@ -135,8 +135,12 @@
   <ItemGroup>
     <ClInclude Include="..\..\DW3Arduino\active_sprite_textures.h" />
     <ClInclude Include="..\..\DW3Arduino\animation.h" />
+    <ClInclude Include="..\..\DW3Arduino\battle.h" />
     <ClInclude Include="..\..\DW3Arduino\clock.h" />
     <ClInclude Include="..\..\DW3Arduino\common.h" />
+    <ClInclude Include="..\..\DW3Arduino\tables.h" />
+    <ClInclude Include="..\..\DW3Arduino\window.h" />
+    <ClInclude Include="..\..\DW3Arduino\enemy.h" />
     <ClInclude Include="..\..\DW3Arduino\entity.h" />
     <ClInclude Include="..\..\DW3Arduino\enums.h" />
     <ClInclude Include="..\..\DW3Arduino\gen_common.h" />
@@ -149,6 +153,7 @@
     <ClInclude Include="..\..\DW3Arduino\game.h" />
     <ClInclude Include="..\..\DW3Arduino\sprite.h" />
     <ClInclude Include="..\..\DW3Arduino\static_sprite_textures.h" />
+    <ClInclude Include="..\..\DW3Arduino\battle_stats.h" />
     <ClInclude Include="..\..\DW3Arduino\strings.h" />
     <ClInclude Include="..\..\DW3Arduino\text_bit_fields.h" />
     <ClInclude Include="..\..\DW3Arduino\tile_map.h" />
@@ -163,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\DW3Arduino\animation.c" />
+    <ClCompile Include="..\..\DW3Arduino\battle.c" />
     <ClCompile Include="..\..\DW3Arduino\game.c" />
     <ClCompile Include="..\..\DW3Arduino\game_data.c" />
     <ClCompile Include="..\..\DW3Arduino\input.c" />

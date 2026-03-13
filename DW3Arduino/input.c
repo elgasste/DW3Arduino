@@ -94,6 +94,23 @@ internal void Input_HandleOverworldGeneral( Game_t* game )
    Bool_t rightIsDown = game->input.buttonStates[InputButton_Right].down;
    Bool_t downIsDown = game->input.buttonStates[InputButton_Down].down;
 
+   // check if we need to show/hide the overworld stats
+   if ( leftIsDown || upIsDown || rightIsDown || downIsDown )
+   {
+      game->state = GameState_Overworld_Active;
+      game->overworldInactivitySeconds = 0.0f;
+   }
+   else if ( game->state == GameState_Overworld_Active )
+   {
+      game->overworldInactivitySeconds += CLOCK_FRAME_SECONDS;
+
+      if ( game->overworldInactivitySeconds > OVERWORLD_INACTIVITY_STATS_THRESHOLD )
+      {
+         game->state = GameState_Overworld_Inactive;
+      }
+   }
+
+   // update the front player's velocity
    if ( leftIsDown && !rightIsDown )
    {
       entity->velocity.x = -velocity;

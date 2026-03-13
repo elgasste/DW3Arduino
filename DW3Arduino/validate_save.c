@@ -17,6 +17,11 @@ Bool_t Validate_PlayerClass( i32 playerClass )
    return ( playerClass >= 0 && playerClass < PlayerClass_Count ) ? True : False;
 }
 
+Bool_t Validate_PlayerExp( i32 exp )
+{
+   return ( exp <= PLAYER_MAX_EXPERIENCE ) ? True : False;
+}
+
 Bool_t Validate_SingleHero( Game_t* game )
 {
    u32 i;
@@ -36,4 +41,16 @@ Bool_t Validate_SingleHero( Game_t* game )
    }
 
    return heroFound;
+}
+
+Bool_t Validate_PlayerStats( u32 hp, u32 mp )
+{
+   UNUSED_PARAM( mp );
+
+   if ( hp < 1 )
+   {
+      return False;
+   }
+
+   return True;
 }

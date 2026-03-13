@@ -9,6 +9,7 @@
       Fighter,
       Merchant,
       GoofOff,
+      Sage,
 
       Count
    }

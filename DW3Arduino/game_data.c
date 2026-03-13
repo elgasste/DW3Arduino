@@ -6,6 +6,7 @@
 #include "active_sprite_textures.h"
 #include "player_sprite_textures.h"
 #include "tile_maps.h"
+#include "enemy.h"
 #include "game.h"
 #include "random.h"
 
@@ -604,6 +605,12 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
    }
 }
 
+void Enemy_LoadFromId( Enemy_t* enemy, u32 id )
+{
+   UNUSED_PARAM( id );
+   enemy->name[0] = '\0';
+}
+
 void Game_Reset( Game_t* game )
 {
    u32 i;
@@ -614,6 +621,9 @@ void Game_Reset( Game_t* game )
    for ( i = 0; i < MAX_PLAYERS; i++ )
    {
       Player_Init( game->players + i );
+      strcpy( game->players[i].name, "Dorkel" );
+      game->players[i].stats.hp = 12;
+      game->players[i].stats.mp = 0;
       game->players[i].playerClass = ( i == 0 ) ? PlayerClass_Hero : PlayerClass_Soldier;
       game->players[i].entity = game->tileMap.playerEntities + i;
       game->players[i].entity->sprite = game->tileMap.playerSprites + i;

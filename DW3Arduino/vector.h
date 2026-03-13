@@ -26,4 +26,13 @@ typedef struct Vector4i32_t
 }
 Vector4i32_t;
 
+typedef struct Vector4u32_t
+{
+   u32 x;
+   u32 y;
+   u32 w;
+   u32 h;
+}
+Vector4u32_t;
+
 #endif // VECTOR_H

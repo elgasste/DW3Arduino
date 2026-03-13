@@ -8,6 +8,17 @@
 #include "animation.h"
 #include "tile_map.h"
 #include "player.h"
+#include "window.h"
+
+// TODO: auto-generate this from Editor
+#define OVERWORLD_INACTIVITY_STATS_THRESHOLD                1.0f
+
+// TODO: auto-generate this from Editor
+#define OVERWORLD_STATS_WINDOW_X_OFFSET                     7
+#define OVERWORLD_STATS_WINDOW_Y_OFFSET                     10
+#define OVERWORLD_STATS_WINDOW_PLAYER_WIDTH                 5
+#define OVERWORLD_STATS_WINDOW_PLAYER_NAME_LENGTH           4
+#define OVERWORLD_STATS_WINDOW_PLAYER_CLASS_ABBR_LENGTH     2
 
 typedef struct Game_t
 {
@@ -21,6 +32,9 @@ typedef struct Game_t
 
    Player_t players[MAX_PLAYERS];
    u32 playerCount;
+
+   Window_t overworldStatsWindow;
+   r32 overworldInactivitySeconds;
 
    GameState_t state;
    Bool_t isAM;
@@ -58,7 +72,9 @@ Bool_t Storage_DeleteSlot( u32 slot );
 Bool_t Validate_PlayerCount( i32 count );
 Bool_t Validate_PlayerName( const char* name );
 Bool_t Validate_PlayerClass( i32 playerClass );
+Bool_t Validate_PlayerExp( i32 exp );
 Bool_t Validate_SingleHero( Game_t* game );
+Bool_t Validate_PlayerStats( u32 hp, u32 mp );
 
 #if defined( __cplusplus )
 }

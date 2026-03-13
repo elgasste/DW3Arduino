@@ -11,6 +11,9 @@
 #define SCREEN_COLOR16_MAGENTA                  0xF81F
 #define SCREEN_COLOR16_YELLOW                   0xFFE0
 #define SCREEN_COLOR16_WHITE                    0xFFFF
+#define SCREEN_COLOR16_NIGHTBLUE                0x651F
+
+typedef struct Window_t Window_t;
 
 typedef struct Screen_t
 {
@@ -42,6 +45,7 @@ void Screen_DrawBoundedBuffer8( Screen_t* screen, u8* buffer,
                                 i32 leftBound, i32 topBound, i32 rightBound, i32 bottomBound );
 void Screen_DrawChar( Screen_t* screen, char c, u32 x, u32 y, u16 color );
 void Screen_DrawText( Screen_t* screen, const char* text, u32 x, u32 y, u16 color );
+void Screen_DrawWindow( Screen_t* screen, Window_t* window );
 
 // game_data.c
 void Screen_LoadPalette( Screen_t* screen );

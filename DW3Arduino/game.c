@@ -7,6 +7,7 @@ internal void Game_HandlePlayerMoved( Game_t* game );
 internal void Game_AnchorRearPlayers( Game_t* game );
 internal void Game_IncrementDaylightFactor( Game_t* game );
 internal void Game_UpdateDayFilterIntensity( Game_t* game );
+internal void Game_UpdateWindowTextColors( Game_t* game );
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex );
 internal Bool_t Game_TryEnterPortal( Game_t* game );
 internal void Game_EnterPortal( Game_t* game, Portal_t* portal );
@@ -40,6 +41,37 @@ void Game_Init( Game_t* game, u16* screenBuffer )
       Program_Log( "save data failed to load" );
       Game_Reset( game );
    }
+
+   // TODO: I'm also leaving this here for testing save files on both platforms
+   // game->playerCount = 4;
+   // strcpy( game->players[0].name, "Garameth" );
+   // game->players[0].playerClass = PlayerClass_Hero;
+   // game->players[0].exp = 0;
+   // game->players[0].stats.hp = 12;
+   // game->players[0].stats.mp = 0;
+   // strcpy( game->players[1].name, "Conan" );
+   // game->players[1].playerClass = PlayerClass_Soldier;
+   // game->players[1].exp = 0;
+   // game->players[1].stats.hp = 16;
+   // game->players[1].stats.mp = 0;
+   // strcpy( game->players[2].name, "Merlin" );
+   // game->players[2].playerClass = PlayerClass_Wizard;
+   // game->players[2].exp = 0;
+   // game->players[2].stats.hp = 8;
+   // game->players[2].stats.mp = 0;
+   // strcpy( game->players[3].name, "Dorkel" );
+   // game->players[3].playerClass = PlayerClass_GoofOff;
+   // game->players[3].exp = 0;
+   // game->players[3].stats.hp = 6;
+   // game->players[3].stats.mp = 0;
+   // Storage_SaveGame( game );
+
+   game->overworldStatsWindow.pos.w = 2 + ( OVERWORLD_STATS_WINDOW_PLAYER_WIDTH * game->playerCount );
+   game->overworldStatsWindow.pos.h = OVERWORLD_STATS_WINDOW_Y_OFFSET - 2;
+   game->overworldStatsWindow.pos.x = ( SCREEN_WIDTH - ( OVERWORLD_STATS_WINDOW_X_OFFSET * SCREEN_TEXT_TILE_SIZE ) ) - ( OVERWORLD_STATS_WINDOW_PLAYER_WIDTH * SCREEN_TEXT_TILE_SIZE * game->playerCount );
+   game->overworldStatsWindow.pos.y = ( SCREEN_HEIGHT - ( OVERWORLD_STATS_WINDOW_Y_OFFSET * SCREEN_TEXT_TILE_SIZE ) );
+   game->overworldStatsWindow.textColor = WINDOW_TEXT_COLOR_DAY;
+   game->overworldInactivitySeconds = 0.0f;
 
    game->state = GameState_Overworld_Active;
 }
@@ -197,6 +229,36 @@ internal void Game_UpdateDayFilterIntensity( Game_t* game )
    {
       game->screen.dayFilterIntensity = DAY_FACTOR_UNDERGROUND_THRESHOLD;
    }
+
+   Game_UpdateWindowTextColors( game );
+}
+
+internal void Game_UpdateWindowTextColors( Game_t* game )
+{
+   u16 color, nightR, nightB, nightG, adjR, adjG, adjB;
+
+   if ( game->daylightFactor < DAY_FACTOR_LOW_CUTOFF )
+   {
+      color = WINDOW_TEXT_COLOR_NIGHT;
+   }
+   else if ( game->daylightFactor > DAY_FACTOR_HIGH_CUTOFF )
+   {
+      color = WINDOW_TEXT_COLOR_DAY;
+   }
+   else
+   {
+      nightR = ( WINDOW_TEXT_COLOR_NIGHT & 0xF800 ) >> 11;
+      nightG = ( WINDOW_TEXT_COLOR_NIGHT & 0x7E0 ) >> 5;
+      nightB = ( WINDOW_TEXT_COLOR_NIGHT & 0x1F ) >> 0;
+
+      adjR = (u16)( ( ( ( WINDOW_TEXT_COLOR_DAY & 0xF800 ) >> 11 ) - nightR ) * game->screen.dayFilterIntensity );
+      adjG = (u16)( ( ( ( WINDOW_TEXT_COLOR_DAY & 0x7E0 ) >> 5 ) - nightG ) * game->screen.dayFilterIntensity );
+      adjB = (u16)( ( ( ( WINDOW_TEXT_COLOR_DAY & 0x1F ) >> 0 ) - nightB ) * game->screen.dayFilterIntensity );
+
+      color = ( ( nightR + adjR ) << 11 ) | ( ( nightG + adjG ) << 5 ) | ( ( nightB + adjB ) << 0 );
+   }
+
+   game->overworldStatsWindow.textColor = color;
 }
 
 internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )

@@ -9,6 +9,7 @@
 
 #define MAX_PLAYERS                             4
 #define PLAYER_MAX_NAME_LENGTH                  8
+#define ENEMY_MAX_NAME_LENGTH                  24
 
 #define CLOCK_FPS                               60
 #define CLOCK_FRAME_MICROSECONDS                16666
