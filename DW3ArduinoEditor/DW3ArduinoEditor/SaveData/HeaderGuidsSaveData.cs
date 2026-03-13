@@ -10,6 +10,8 @@ namespace DW3ArduinoEditor.SaveData
       public string ActiveSpriteTexturesHeaderGuid { get; set; } = string.Empty;
       public string PlayerSpriteTexturesHeaderGuid { get; set; } = string.Empty;
       public string MapTilesHeaderGuid { get; set; } = string.Empty;
+      public string TablesHeaderGuid { get; set; } = string.Empty;
+      public string TablesSourceGuid { get; set; } = string.Empty;
 
       public HeaderGuidsSaveData() { }
 
@@ -21,6 +23,8 @@ namespace DW3ArduinoEditor.SaveData
          ActiveSpriteTexturesHeaderGuid= viewModel.ActiveSpriteTexturesHeaderGuid;
          PlayerSpriteTexturesHeaderGuid = viewModel.PlayerSpriteTexturesHeaderGuid;
          MapTilesHeaderGuid = viewModel.MapTilesHeaderGuid;
+         TablesHeaderGuid = viewModel.TablesHeaderGuid;
+         TablesSourceGuid = viewModel.TablesSourceGuid;
       }
    }
 }

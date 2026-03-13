@@ -46,6 +46,20 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _mapTilesHeaderGuid, value );
       }
 
+      private string _tablesHeaderGuid = string.Empty;
+      public string TablesHeaderGuid
+      {
+         get => _tablesHeaderGuid;
+         set => SetProperty( ref _tablesHeaderGuid, value );
+      }
+
+      private string _tablesSourceGuid = string.Empty;
+      public string TablesSourceGuid
+      {
+         get => _tablesSourceGuid;
+         set => SetProperty( ref _tablesSourceGuid, value );
+      }
+
       public HeaderGuidsViewModel()
       {
          TextBitFieldsHeaderGuid = Guid.NewGuid().ToString( "N" ).ToUpper();
@@ -54,6 +68,8 @@ namespace DW3ArduinoEditor.ViewModels
          ActiveSpriteTexturesHeaderGuid = Guid.NewGuid().ToString( "N" ).ToUpper();
          PlayerSpriteTexturesHeaderGuid = Guid.NewGuid().ToString( "N" ).ToUpper();
          MapTilesHeaderGuid = Guid.NewGuid().ToString( "N" ).ToUpper();
+         TablesHeaderGuid = Guid.NewGuid().ToString( "N" ).ToUpper();
+         TablesSourceGuid = Guid.NewGuid().ToString( "N" ).ToUpper();
       }
 
       public HeaderGuidsViewModel( HeaderGuidsSaveData saveData )
@@ -61,9 +77,11 @@ namespace DW3ArduinoEditor.ViewModels
          TextBitFieldsHeaderGuid = saveData.TextBitFieldsHeaderGuid;
          TileTexturesHeaderGuid = saveData.TileTexturesHeaderGuid;
          StaticSpriteTexturesHeaderGuid = saveData.StaticSpriteTexturesHeaderGuid;
-         ActiveSpriteTexturesHeaderGuid = saveData .ActiveSpriteTexturesHeaderGuid;
-         PlayerSpriteTexturesHeaderGuid= saveData .PlayerSpriteTexturesHeaderGuid;
-         MapTilesHeaderGuid = saveData .MapTilesHeaderGuid;
+         ActiveSpriteTexturesHeaderGuid = saveData.ActiveSpriteTexturesHeaderGuid;
+         PlayerSpriteTexturesHeaderGuid = saveData.PlayerSpriteTexturesHeaderGuid;
+         MapTilesHeaderGuid = saveData.MapTilesHeaderGuid;
+         TablesHeaderGuid = saveData.TablesHeaderGuid;
+         TablesSourceGuid = saveData.TablesSourceGuid;
       }
    }
 }

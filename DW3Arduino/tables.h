@@ -1,12 +1,12 @@
-#if !defined( TABLES_H )
-#define TABLES_H
+// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!
+
+#if !defined( GEN_80EAD6DDDFAB40528956008E40E714CA_H )
+#define GEN_80EAD6DDDFAB40528956008E40E714CA_H
 
 #include "common.h"
 
-// MUFFINS: auto-generate this tables.h and tables.c
-
-#define TABLE_CLASS_EXP_TABLE_SIZE     98
+#define TABLE_CLASS_EXP_TABLE_SIZE 98
 
 extern const u32 g_playerClassExpTables[8][TABLE_CLASS_EXP_TABLE_SIZE];
 
-#endif // TABLES_H
+#endif // GEN_223573DB457D4380965E0B1AC08E6C4E_H
