@@ -236,7 +236,7 @@ internal void Render_DrawOverworldStatsWindow( Game_t* game )
       strncpy( playerName, game->players[i].name, OVERWORLD_STATS_WINDOW_PLAYER_NAME_LENGTH );
       playerName[OVERWORLD_STATS_WINDOW_PLAYER_NAME_LENGTH] = '\0';
 
-      x = game->overworldStatsWindow.pos.x + ( SCREEN_TEXT_TILE_SIZE * ( ( OVERWORLD_STATS_WINDOW_PLAYER_WIDTH * i ) + 1 ) );
+      x = game->overworldStatsWindow.pos.x + ( SCREEN_TEXT_TILE_SIZE * ( ( OVERWORLD_STATS_WINDOW_SECTION_WIDTH * i ) + 1 ) );
 
       Screen_DrawText( &game->screen, playerName, x, game->overworldStatsWindow.pos.y, textColor );
 

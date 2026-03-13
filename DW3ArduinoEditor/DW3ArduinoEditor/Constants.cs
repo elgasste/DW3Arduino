@@ -38,6 +38,14 @@ namespace DW3ArduinoEditor
       public const string PlayerSpriteTexturePoolImagePath = AssetsBasePath + "textures\\player_sprite_texture_pool.png";
       public const string TextTilesFilePath = AssetsBasePath + "text_tiles.png";
 
+      public const float OverworldInactivityStatsThreshold = 1.0f;
+
+      public const int OverworldStatsWindowXOffset = 7;
+      public const int OverworldStatsWindowYOffset = 10;
+      public const int OverworldStatsWindowSectionWidth = 5;
+      public const int OverworldStatsWindowPlayerNameLength = 4;
+      public const int OverworldStatsWindowPlayerClassAbbrLegnth = 2;
+
       public const int UnitsPerPixel = 100;
 
       public const int MaxSaveSlots = 3;
