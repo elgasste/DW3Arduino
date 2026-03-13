@@ -80,6 +80,8 @@ namespace DW3ArduinoEditor
       public const int GenericEntityWidth = 12 * UnitsPerPixel;
       public const int GenericEntityHeight = 12 * UnitsPerPixel;
 
+      public const int PlayerDefaultHp = 10;
+      public const int PlayerDefaultMp = 0;
       public const int PlayerMoveHistorySize = 16;
       public const int PlayerSpriteXOffsetPixels = 2;
       public const int PlayerSpriteYOffsetPixels = 4;

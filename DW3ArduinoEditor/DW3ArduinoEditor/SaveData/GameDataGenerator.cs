@@ -103,7 +103,11 @@ namespace DW3ArduinoEditor.SaveData
 
          WriteToFileStream( fs, string.Format( "#define MAX_PLAYERS                                            {0}\n", Constants.MaxPlayers ) );
          WriteToFileStream( fs, string.Format( "#define PLAYER_MAX_NAME_LENGTH                                 {0}\n", Constants.PlayerMaxNameLength ) );
-         WriteToFileStream( fs, string.Format( "#define ENEMY_MAX_NAME_LENGTH                                  {0}\n\n", Constants.EnemyMaxNameLength ) );
+         WriteToFileStream( fs, string.Format( "#define ENEMY_MAX_NAME_LENGTH                                  {0}\n", Constants.EnemyMaxNameLength ) );
+         WriteToFileStream( fs, string.Format( "#define PLAYER_STATS_DEFAULT_HP                                {0}\n", Constants.PlayerDefaultHp ) );
+         WriteToFileStream( fs, string.Format( "#define PLAYER_STATS_DEFAULT_MP                                {0}\n", Constants.PlayerDefaultMp ) );
+         WriteToFileStream( fs, string.Format( "#define PLAYER_MAX_EXPERIENCE                                  {0}\n", Constants.PlayerMaxExp ) );
+         WriteToFileStream( fs, string.Format( "#define PLAYER_MAX_LEVEL                                       {0}\n\n", _gameSaveData?.PlayerClassExpTables[0].ExpTable.Count + 1 ) );
 
          WriteToFileStream( fs, string.Format( "#define CLOCK_FPS                                              {0}\n", Constants.ClockFps ) );
          WriteToFileStream( fs, string.Format( "#define CLOCK_FRAME_MICROSECONDS                               {0}\n", (int)( ( 1.0 / Constants.ClockFps ) * 1000000 ) ) );
