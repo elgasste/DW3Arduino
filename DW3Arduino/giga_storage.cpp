@@ -169,6 +169,7 @@ internal Bool_t Storage_ReadPlayers( Game_t* game, u32 slot )
       if ( !Validate_PlayerExp( (i32)exp ) )
          return False;
       game->players[i].exp = exp;
+      Player_UpdateLevel( game->players + i );
 
       // player stats
       sprintf( subkey, KVSTORE_PLAYER_STATS_HP_KEY, i );

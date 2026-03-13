@@ -1,10 +1,14 @@
 #include "player.h"
+#include "tables.h"
 
 void Player_Init( Player_t* player )
 {
    player->name[0] = '\0';
+   player->playerClass = PlayerClass_Soldier;
    player->stats.hp = PLAYER_STATS_DEFAULT_HP;
    player->stats.mp = PLAYER_STATS_DEFAULT_MP;
+   player->exp = 0;
+   player->level = 1;
    Player_ResetChaining( player );
 }
 
@@ -45,7 +49,20 @@ void Player_GetClassAbbrStr( Player_t* player, char* str )
 
 u32 Player_GetLevel( Player_t* player )
 {
-   // TODO: put the experience tables in the Editor and auto-generate them
-   UNUSED_PARAM( player );
-   return 1;
+   u32 i;
+
+   for ( i = 0; i < TABLE_CLASS_EXP_TABLE_SIZE; i++ )
+   {
+      if ( player->exp < g_playerClassExpTables[player->playerClass][i] )
+      {
+         return i + 1;
+      }
+   }
+
+   return TABLE_CLASS_EXP_TABLE_SIZE + 1;
+}
+
+void Player_UpdateLevel( Player_t* player )
+{
+   player->level = Player_GetLevel( player );
 }

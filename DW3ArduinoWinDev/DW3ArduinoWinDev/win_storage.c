@@ -254,6 +254,7 @@ internal Bool_t Storage_LoadPlayersFromJSON( Game_t* game, cJSON* node )
       if ( !Validate_PlayerExp( playerExp ) )
          return False;
       game->players[i].exp = (u32)playerExp;
+      Player_UpdateLevel( game->players + i );
 
       // player stats
       if ( !Storage_FindJSONItemObject( player->child, &stats, JSON_PLAYER_STATS ) || !stats || !stats->child )

@@ -138,6 +138,7 @@
     <ClInclude Include="..\..\DW3Arduino\battle.h" />
     <ClInclude Include="..\..\DW3Arduino\clock.h" />
     <ClInclude Include="..\..\DW3Arduino\common.h" />
+    <ClInclude Include="..\..\DW3Arduino\tables.h" />
     <ClInclude Include="..\..\DW3Arduino\window.h" />
     <ClInclude Include="..\..\DW3Arduino\enemy.h" />
     <ClInclude Include="..\..\DW3Arduino\entity.h" />

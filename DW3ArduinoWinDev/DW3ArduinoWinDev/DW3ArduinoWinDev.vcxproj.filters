@@ -165,6 +165,9 @@
     <ClInclude Include="..\..\DW3Arduino\window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\DW3Arduino\tables.h">
+      <Filter>Game Data Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
