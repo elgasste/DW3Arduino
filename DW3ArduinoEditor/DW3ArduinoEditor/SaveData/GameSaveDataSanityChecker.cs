@@ -234,12 +234,22 @@ namespace DW3ArduinoEditor.SaveData
             throw new Exception( string.Format( "Player class experience tables has {0} entries, but should have {1}", tables.Count, (int)PlayerClass.Count ) );
          }
 
+         // MUFFINS: make sure every player class is represented
+         List<PlayerClass> classesFound = [];
+
          foreach ( var table in tables )
          {
             if ( table.ExpTable.Count != Constants.PlayerMaxLevel - 1 )
             {
                throw new Exception( string.Format( "Player experience table for class {0} has {1} entries, but should have {2}", table.PlayerClass.ToString(), table.ExpTable.Count, Constants.PlayerMaxLevel - 1 ) );
             }
+
+            if ( classesFound.Contains( table.PlayerClass ) )
+            {
+               throw new Exception( string.Format( "Player experience table contains multiple entries for class {0}", table.PlayerClass.ToString() ) );
+            }
+
+            classesFound.Add( table.PlayerClass );
          }
       }
    }
