@@ -66,9 +66,9 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    // game->players[3].stats.mp = 0;
    // Storage_SaveGame( game );
 
-   game->overworldStatsWindow.pos.w = 2 + ( OVERWORLD_STATS_WINDOW_PLAYER_WIDTH * game->playerCount );
+   game->overworldStatsWindow.pos.w = 2 + ( OVERWORLD_STATS_WINDOW_SECTION_WIDTH * game->playerCount );
    game->overworldStatsWindow.pos.h = OVERWORLD_STATS_WINDOW_Y_OFFSET - 2;
-   game->overworldStatsWindow.pos.x = ( SCREEN_WIDTH - ( OVERWORLD_STATS_WINDOW_X_OFFSET * SCREEN_TEXT_TILE_SIZE ) ) - ( OVERWORLD_STATS_WINDOW_PLAYER_WIDTH * SCREEN_TEXT_TILE_SIZE * game->playerCount );
+   game->overworldStatsWindow.pos.x = ( SCREEN_WIDTH - ( OVERWORLD_STATS_WINDOW_X_OFFSET * SCREEN_TEXT_TILE_SIZE ) ) - ( OVERWORLD_STATS_WINDOW_SECTION_WIDTH * SCREEN_TEXT_TILE_SIZE * game->playerCount );
    game->overworldStatsWindow.pos.y = ( SCREEN_HEIGHT - ( OVERWORLD_STATS_WINDOW_Y_OFFSET * SCREEN_TEXT_TILE_SIZE ) );
    game->overworldStatsWindow.textColor = WINDOW_TEXT_COLOR_DAY;
    game->overworldInactivitySeconds = 0.0f;

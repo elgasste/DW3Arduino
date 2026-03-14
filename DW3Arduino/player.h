@@ -7,12 +7,6 @@
 #include "battle_stats.h"
 #include "tables.h"
 
-#define PLAYER_STATS_DEFAULT_HP        10
-#define PLAYER_STATS_DEFAULT_MP        0
-
-#define PLAYER_MAX_EXPERIENCE          9999999
-#define PLAYER_MAX_LEVEL               ( TABLE_CLASS_EXP_TABLE_SIZE + 1 )
-
 typedef struct Entity_t Entity_t;
 
 typedef struct PlayerMovement_t

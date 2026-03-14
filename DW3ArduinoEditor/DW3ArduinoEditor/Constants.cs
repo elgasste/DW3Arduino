@@ -17,6 +17,8 @@ namespace DW3ArduinoEditor
       public const string GameDataPlayerSpriteTexturesHeaderFileName = "player_sprite_textures.h";
       public const string GameDataTileMapsHeaderFileName = "tile_maps.h";
       public const string GameDataEnemyHeaderFileName = "enemy.h";
+      public const string GameDataTablesHeaderFileName = "tables.h";
+      public const string GameDataTablesSourceFileName = "tables.c";
 
       public const string SaveDataFilePath = AssetsBasePath + "EditorData.json";
       public const string GameDataSourceFilePath = OutputBasePath + "game_data.c";
@@ -27,12 +29,22 @@ namespace DW3ArduinoEditor
       public const string GameDataActiveSpriteTexturesHeaderPath = OutputBasePath + GameDataActiveSpriteTexturesHeaderFileName;
       public const string GameDataPlayerSpriteTexturesHeaderPath = OutputBasePath + GameDataPlayerSpriteTexturesHeaderFileName;
       public const string GameDataTileMapsHeaderPath = OutputBasePath + GameDataTileMapsHeaderFileName;
+      public const string GameDataTablesHeaderPath = OutputBasePath + GameDataTablesHeaderFileName;
+      public const string GameDataTablesSourcePath = OutputBasePath + GameDataTablesSourceFileName;
 
       public const string TileTexturePoolImagePath = AssetsBasePath + "textures\\tile_texture_pool.png";
       public const string StaticSpriteTexturePoolImagePath = AssetsBasePath + "textures\\static_sprite_texture_pool.png";
       public const string ActiveSpriteTexturePoolImagePath = AssetsBasePath + "textures\\active_sprite_texture_pool.png";
       public const string PlayerSpriteTexturePoolImagePath = AssetsBasePath + "textures\\player_sprite_texture_pool.png";
       public const string TextTilesFilePath = AssetsBasePath + "text_tiles.png";
+
+      public const float OverworldInactivityStatsThreshold = 1.0f;
+
+      public const int OverworldStatsWindowXOffset = 7;
+      public const int OverworldStatsWindowYOffset = 10;
+      public const int OverworldStatsWindowSectionWidth = 5;
+      public const int OverworldStatsWindowPlayerNameLength = 4;
+      public const int OverworldStatsWindowPlayerClassAbbrLegnth = 2;
 
       public const int UnitsPerPixel = 100;
 
@@ -68,9 +80,13 @@ namespace DW3ArduinoEditor
       public const int GenericEntityWidth = 12 * UnitsPerPixel;
       public const int GenericEntityHeight = 12 * UnitsPerPixel;
 
+      public const int PlayerDefaultHp = 10;
+      public const int PlayerDefaultMp = 0;
       public const int PlayerMoveHistorySize = 16;
       public const int PlayerSpriteXOffsetPixels = 2;
       public const int PlayerSpriteYOffsetPixels = 4;
+      public const int PlayerMaxExp = 9999999;
+      public const int PlayerMaxLevel = 99;
 
       public const int ScreenWidth = 256;
       public const int ScreenHeight = 224;
@@ -122,7 +138,9 @@ namespace DW3ArduinoEditor
       public const int ActiveSpriteTextureSetSize = 16;
       public const float ActiveSpriteFrameTotalSeconds = 0.35f;
 
-      public const string GeneratedFileHeaderMessage = "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n";
+      public const int BattleMaxEnemies = 8;
+
+      public const string GeneratedFileMessage = "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n";
 
       public const int EditorTileSize = 32;
    }

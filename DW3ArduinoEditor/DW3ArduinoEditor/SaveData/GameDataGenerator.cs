@@ -65,6 +65,8 @@ namespace DW3ArduinoEditor.SaveData
          WriteActiveSpriteTexturesHeader( Constants.GameDataActiveSpriteTexturesHeaderPath, "active", _activeSpriteTexturePool, _gameSaveData?.HeaderGuids.ActiveSpriteTexturesHeaderGuid );
          WriteActiveSpriteTexturesHeader( Constants.GameDataPlayerSpriteTexturesHeaderPath, "player", _playerSpriteTexturePool, _gameSaveData?.HeaderGuids.PlayerSpriteTexturesHeaderGuid );
          WriteTileMapsHeader( Constants.GameDataTileMapsHeaderPath );
+         WriteTablesHeader( Constants.GameDataTablesHeaderPath );
+         WriteTablesSource( Constants.GameDataTablesSourcePath );
 
          using FileStream fs = File.Create( Constants.GameDataSourceFilePath );
          WriteHeaderSection( fs );
@@ -84,93 +86,107 @@ namespace DW3ArduinoEditor.SaveData
       {
          using FileStream fs = File.Create( Constants.GameDataCommonHeaderPath );
 
-         WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
+         WriteToFileStream( fs, Constants.GeneratedFileMessage );
          WriteToFileStream( fs, string.Format( "#if !defined( {0} )\n", Constants.GameDataCommonHeaderDefine ) );
          WriteToFileStream( fs, string.Format( "#define {0}\n\n", Constants.GameDataCommonHeaderDefine ) );
 
-         WriteToFileStream( fs, string.Format( "#define UNITS_PER_PIXEL                         {0}\n\n", Constants.UnitsPerPixel ) );
+         WriteToFileStream( fs, string.Format( "#define OVERWORLD_INACTIVITY_STATS_THRESHOLD                   {0:F2}f\n\n", Constants.OverworldInactivityStatsThreshold ) );
 
-         WriteToFileStream( fs, string.Format( "#define MAX_SAVE_SLOTS                          {0}\n\n", Constants.MaxSaveSlots ) );
+         WriteToFileStream( fs, string.Format( "#define OVERWORLD_STATS_WINDOW_X_OFFSET                        {0}\n", Constants.OverworldStatsWindowXOffset ) );
+         WriteToFileStream( fs, string.Format( "#define OVERWORLD_STATS_WINDOW_Y_OFFSET                        {0}\n", Constants.OverworldStatsWindowYOffset ) );
+         WriteToFileStream( fs, string.Format( "#define OVERWORLD_STATS_WINDOW_SECTION_WIDTH                   {0}\n", Constants.OverworldStatsWindowSectionWidth ) );
+         WriteToFileStream( fs, string.Format( "#define OVERWORLD_STATS_WINDOW_PLAYER_NAME_LENGTH              {0}\n", Constants.OverworldStatsWindowPlayerNameLength ) );
+         WriteToFileStream( fs, string.Format( "#define OVERWORLD_STATS_WINDOW_PLAYER_CLASS_ABBR_LENGTH        {0}\n\n", Constants.OverworldStatsWindowPlayerClassAbbrLegnth ) );
 
-         WriteToFileStream( fs, string.Format( "#define MAX_PLAYERS                             {0}\n", Constants.MaxPlayers ) );
-         WriteToFileStream( fs, string.Format( "#define PLAYER_MAX_NAME_LENGTH                  {0}\n", Constants.PlayerMaxNameLength ) );
-         WriteToFileStream( fs, string.Format( "#define ENEMY_MAX_NAME_LENGTH                  {0}\n\n", Constants.EnemyMaxNameLength ) );
+         WriteToFileStream( fs, string.Format( "#define UNITS_PER_PIXEL                                        {0}\n\n", Constants.UnitsPerPixel ) );
 
-         WriteToFileStream( fs, string.Format( "#define CLOCK_FPS                               {0}\n", Constants.ClockFps ) );
-         WriteToFileStream( fs, string.Format( "#define CLOCK_FRAME_MICROSECONDS                {0}\n", (int)( ( 1.0 / Constants.ClockFps ) * 1000000 ) ) );
-         WriteToFileStream( fs, string.Format( "#define CLOCK_FRAME_SECONDS                     {0:F8}f\n\n", 1.0 / Constants.ClockFps ) );
+         WriteToFileStream( fs, string.Format( "#define MAX_SAVE_SLOTS                                         {0}\n\n", Constants.MaxSaveSlots ) );
 
-         WriteToFileStream( fs, string.Format( "#define ANIMATION_CHAIN_MAX_ANIMATIONS          {0}\n\n", Constants.MaxAnimations ) );
+         WriteToFileStream( fs, string.Format( "#define MAX_PLAYERS                                            {0}\n", Constants.MaxPlayers ) );
+         WriteToFileStream( fs, string.Format( "#define PLAYER_MAX_NAME_LENGTH                                 {0}\n", Constants.PlayerMaxNameLength ) );
+         WriteToFileStream( fs, string.Format( "#define ENEMY_MAX_NAME_LENGTH                                  {0}\n", Constants.EnemyMaxNameLength ) );
+         WriteToFileStream( fs, string.Format( "#define PLAYER_STATS_DEFAULT_HP                                {0}\n", Constants.PlayerDefaultHp ) );
+         WriteToFileStream( fs, string.Format( "#define PLAYER_STATS_DEFAULT_MP                                {0}\n", Constants.PlayerDefaultMp ) );
+         WriteToFileStream( fs, string.Format( "#define PLAYER_MAX_EXPERIENCE                                  {0}\n", Constants.PlayerMaxExp ) );
+         WriteToFileStream( fs, string.Format( "#define PLAYER_MAX_LEVEL                                       {0}\n\n", _gameSaveData?.PlayerClassExpTables[0].ExpTable.Count + 1 ) );
 
-         WriteToFileStream( fs, string.Format( "#define DAY_FACTOR_TOTAL_SECONDS                {0:F2}f\n", Constants.DayFactorTotalSeconds ) );
-         WriteToFileStream( fs, string.Format( "#define DAY_FACTOR_LOW_CUTOFF                   {0:F2}f\n", Constants.DayFactorLowCutoff ) );
-         WriteToFileStream( fs, string.Format( "#define DAY_FACTOR_HIGH_CUTOFF                  {0:F2}f\n", Constants.DayFactorHighCutoff ) );
-         WriteToFileStream( fs, string.Format( "#define DAY_FACTOR_UNDERGROUND_THRESHOLD        {0:F2}f\n\n", Constants.DayFactorUndergroundThreshold ) );
+         WriteToFileStream( fs, string.Format( "#define CLOCK_FPS                                              {0}\n", Constants.ClockFps ) );
+         WriteToFileStream( fs, string.Format( "#define CLOCK_FRAME_MICROSECONDS                               {0}\n", (int)( ( 1.0 / Constants.ClockFps ) * 1000000 ) ) );
+         WriteToFileStream( fs, string.Format( "#define CLOCK_FRAME_SECONDS                                    {0:F8}f\n\n", 1.0 / Constants.ClockFps ) );
 
-         WriteToFileStream( fs, string.Format( "#define ENCOUNTER_CHANCE_LOW                    {0}   // 1 out of {0} chance\n", Constants.EncounterChanceLow ) );
-         WriteToFileStream( fs, string.Format( "#define ENCOUNTER_CHANCE_MEDIUM                 {0}   // 1 out of {0} chance\n", Constants.EncounterChanceMedium ) );
-         WriteToFileStream( fs, string.Format( "#define ENCOUNTER_CHANCE_HIGH                   {0}   // 1 out of {0} chance\n\n", Constants.EncounterChanceHigh ) );
+         WriteToFileStream( fs, string.Format( "#define ANIMATION_CHAIN_MAX_ANIMATIONS                         {0}\n\n", Constants.MaxAnimations ) );
 
-         WriteToFileStream( fs, string.Format( "#define GENERIC_ENTITY_WIDTH                    {0}\n", Constants.GenericEntityWidth ) );
-         WriteToFileStream( fs, string.Format( "#define GENERIC_ENTITY_HEIGHT                   {0}\n\n", Constants.GenericEntityHeight ) );
+         WriteToFileStream( fs, string.Format( "#define DAY_FACTOR_TOTAL_SECONDS                               {0:F2}f\n", Constants.DayFactorTotalSeconds ) );
+         WriteToFileStream( fs, string.Format( "#define DAY_FACTOR_LOW_CUTOFF                                  {0:F2}f\n", Constants.DayFactorLowCutoff ) );
+         WriteToFileStream( fs, string.Format( "#define DAY_FACTOR_HIGH_CUTOFF                                 {0:F2}f\n", Constants.DayFactorHighCutoff ) );
+         WriteToFileStream( fs, string.Format( "#define DAY_FACTOR_UNDERGROUND_THRESHOLD                       {0:F2}f\n\n", Constants.DayFactorUndergroundThreshold ) );
 
-         WriteToFileStream( fs, string.Format( "#define NPC_MIN_ACTION_SECONDS                  {0}\n", Constants.NpcMinActionSeconds ) );
-         WriteToFileStream( fs, string.Format( "#define NPC_MAX_ACTION_SECONDS                  {0}\n", Constants.NpcMaxActionSeconds ) );
-         WriteToFileStream( fs, string.Format( "#define NPC_MIN_VELOCITY                        {0}    // units per frame\n", Constants.NpcMinVelocity ) );
-         WriteToFileStream( fs, string.Format( "#define NPC_MAX_VELOCITY                        {0}\n\n", Constants.NpcMaxVelocity ) );
+         WriteToFileStream( fs, string.Format( "#define ENCOUNTER_CHANCE_LOW                                   {0}   // 1 out of {0} chance\n", Constants.EncounterChanceLow ) );
+         WriteToFileStream( fs, string.Format( "#define ENCOUNTER_CHANCE_MEDIUM                                {0}   // 1 out of {0} chance\n", Constants.EncounterChanceMedium ) );
+         WriteToFileStream( fs, string.Format( "#define ENCOUNTER_CHANCE_HIGH                                  {0}   // 1 out of {0} chance\n\n", Constants.EncounterChanceHigh ) );
 
-         WriteToFileStream( fs, string.Format( "#define PLAYER_MOVE_HISTORY_SIZE                {0}\n\n", Constants.PlayerMoveHistorySize ) );
+         WriteToFileStream( fs, string.Format( "#define GENERIC_ENTITY_WIDTH                                   {0}\n", Constants.GenericEntityWidth ) );
+         WriteToFileStream( fs, string.Format( "#define GENERIC_ENTITY_HEIGHT                                  {0}\n\n", Constants.GenericEntityHeight ) );
 
-         WriteToFileStream( fs, string.Format( "#define SCREEN_WIDTH                            {0}\n", Constants.ScreenWidth ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_HEIGHT                           {0}\n", Constants.ScreenHeight ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_PIXELS                           {0}\n", Constants.ScreenWidth * Constants.ScreenHeight ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_PALETTE_SIZE                     {0}\n", Constants.ScreenPaletteSize ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_TEXT_TILE_COUNT                  {0}\n", Constants.ScreenTextTileCount ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_TEXT_TILE_SIZE                   {0}\n", Constants.ScreenTextTileSize ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_COLOR16_TRANSPARENT              0x{0}\n", Constants.ScreenTransparentColor.ToString( "X4" ) ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_TOPLEFT         {0}\n", Constants.ScreenMenuBorderCharTopLeft ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_TOPRIGHT        {0}\n", Constants.ScreenMenuBorderCharTopRight ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_BOTTOMLEFT      {0}\n", Constants.ScreenMenuBorderCharBottomLeft ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_BOTTOMRIGHT     {0}\n", Constants.ScreenMenuBorderCharBottomRight ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_LEFT            {0}\n", Constants.ScreenMenuBorderCharLeft ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_TOP             {0}\n", Constants.ScreenMenuBorderCharTop ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_RIGHT           {0}\n", Constants.ScreenMenuBorderCharRight ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_BOTTOM          {0}\n", Constants.ScreenMenuBorderCharBottom ) );
-         WriteToFileStream( fs, string.Format( "#define SCREEN_DOWNWARD_CARAT_CHAR              {0}\n\n", Constants.ScreenDownwardCaratChar ) );
+         WriteToFileStream( fs, string.Format( "#define NPC_MIN_ACTION_SECONDS                                 {0}\n", Constants.NpcMinActionSeconds ) );
+         WriteToFileStream( fs, string.Format( "#define NPC_MAX_ACTION_SECONDS                                 {0}\n", Constants.NpcMaxActionSeconds ) );
+         WriteToFileStream( fs, string.Format( "#define NPC_MIN_VELOCITY                                       {0}    // units per frame\n", Constants.NpcMinVelocity ) );
+         WriteToFileStream( fs, string.Format( "#define NPC_MAX_VELOCITY                                       {0}\n\n", Constants.NpcMaxVelocity ) );
 
-         WriteToFileStream( fs, string.Format( "#define STATIC_SPRITE_SIZE_PIXELS               {0}\n", Constants.StaticSpriteTextureSize ) );
-         WriteToFileStream( fs, string.Format( "#define STATIC_SPRITE_SIZE_UNITS                {0}\n\n", Constants.StaticSpriteTextureSize * Constants.UnitsPerPixel ) );
+         WriteToFileStream( fs, string.Format( "#define PLAYER_MOVE_HISTORY_SIZE                               {0}\n\n", Constants.PlayerMoveHistorySize ) );
 
-         WriteToFileStream( fs, string.Format( "#define ACTIVE_SPRITE_TEXTURE_WIDTH             {0}\n", Constants.ActiveSpriteTextureWidth ) );
-         WriteToFileStream( fs, string.Format( "#define ACTIVE_SPRITE_TEXTURE_HEIGHT            {0}\n", Constants.ActiveSpriteTextureHeight ) );
-         WriteToFileStream( fs, string.Format( "#define ACTIVE_SPRITE_FRAME_SIZE                {0}\n", Constants.ActiveSpriteFrameSize ) );
-         WriteToFileStream( fs, string.Format( "#define ACTIVE_SPRITE_FRAME_PIXELS              {0}\n", Constants.ActiveSpriteFrameSize * Constants.ActiveSpriteFrameSize ) );
-         WriteToFileStream( fs, string.Format( "#define ACTIVE_SPRITE_FRAMES                    2\n", Constants.ActiveSpriteFrames ) );
-         WriteToFileStream( fs, string.Format( "#define ACTIVE_SPRITE_FRAME_TOTAL_SECONDS       {0}f\n\n", Constants.ActiveSpriteFrameTotalSeconds ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_WIDTH                                           {0}\n", Constants.ScreenWidth ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_HEIGHT                                          {0}\n", Constants.ScreenHeight ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_PIXELS                                          {0}\n", Constants.ScreenWidth * Constants.ScreenHeight ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_PALETTE_SIZE                                    {0}\n", Constants.ScreenPaletteSize ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_TEXT_TILE_COUNT                                 {0}\n", Constants.ScreenTextTileCount ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_TEXT_TILE_SIZE                                  {0}\n", Constants.ScreenTextTileSize ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_COLOR16_TRANSPARENT                             0x{0}\n", Constants.ScreenTransparentColor.ToString( "X4" ) ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_TOPLEFT                        {0}\n", Constants.ScreenMenuBorderCharTopLeft ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_TOPRIGHT                       {0}\n", Constants.ScreenMenuBorderCharTopRight ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_BOTTOMLEFT                     {0}\n", Constants.ScreenMenuBorderCharBottomLeft ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_BOTTOMRIGHT                    {0}\n", Constants.ScreenMenuBorderCharBottomRight ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_LEFT                           {0}\n", Constants.ScreenMenuBorderCharLeft ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_TOP                            {0}\n", Constants.ScreenMenuBorderCharTop ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_RIGHT                          {0}\n", Constants.ScreenMenuBorderCharRight ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_MENU_BORDER_CHAR_BOTTOM                         {0}\n", Constants.ScreenMenuBorderCharBottom ) );
+         WriteToFileStream( fs, string.Format( "#define SCREEN_DOWNWARD_CARAT_CHAR                             {0}\n\n", Constants.ScreenDownwardCaratChar ) );
 
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_TILE_SIZE_PIXELS                {0}\n", Constants.TileSizePixels ) );
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_TILE_SIZE_UNITS                 {0}\n", Constants.TileSizePixels * Constants.UnitsPerPixel ) );
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_TILE_TEXTURES               {0}\n", Constants.TileTextureSetSize ) );
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_STATIC_SPRITE_TEXTURES      {0}\n", Constants.StaticSpriteTextureSetSize ) );
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_STATIC_SPRITES              {0}\n", Constants.TileMapMaxStaticSprites ) );
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_ACTIVE_SPRITE_TEXTURES      {0}\n", Constants.TileMapMaxActiveSprites ) );
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_ACTIVE_SPRITES              {0}\n", Constants.TileMapMaxActiveSprites ) );
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_PORTALS                     {0}\n", Constants.TileMapMaxPortals ) );
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_ENTITIES                    {0}\n", Constants.TileMapMaxEntities ) );
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_NPCS                        {0}\n", Constants.TileMapMaxNpcs ) );
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_TILES_X                     {0}\n", Constants.TileMapMaxTilesX ) );
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_TILES_Y                     {0}\n", Constants.TileMapMaxTilesY ) );
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_SWAP_FADE_SECONDS               {0}f\n", Constants.TileMapSwapFadeSeconds ) );
-         WriteToFileStream( fs, string.Format( "#define TILEMAP_SWAP_PAUSE_SECONDS              {0}f\n\n", Constants.TileMapSwapPauseSeconds ) );
+         WriteToFileStream( fs, string.Format( "#define STATIC_SPRITE_SIZE_PIXELS                              {0}\n", Constants.StaticSpriteTextureSize ) );
+         WriteToFileStream( fs, string.Format( "#define STATIC_SPRITE_SIZE_UNITS                               {0}\n\n", Constants.StaticSpriteTextureSize * Constants.UnitsPerPixel ) );
 
-         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_NORMAL                  {0}   // units per frame\n", Constants.TileWalkSpeedNormal ) );
-         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_SLOW                    {0}\n", Constants.TileWalkSpeedSlow ) );
-         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_VERY_SLOW               {0}\n", Constants.TileWalkSpeedVerySlow ) );
-         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_CRAWL                   {0}\n", Constants.TileWalkSpeedCrawl ) );
-         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_DIAGONAL_NORMAL         {0}\n", Constants.TileWalkSpeedDiagonalNormal ) );
-         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_DIAGONAL_SLOW           {0}\n", Constants.TileWalkSpeedDiagonalSlow ) );
-         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_DIAGONAL_VERY_SLOW      {0}\n", Constants.TileWalkSpeedDiagonalVerySlow ) );
-         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_DIAGONAL_CRAWL          {0}\n\n", Constants.TileWalkSpeedDiagonalCrawl ) );
+         WriteToFileStream( fs, string.Format( "#define ACTIVE_SPRITE_TEXTURE_WIDTH                            {0}\n", Constants.ActiveSpriteTextureWidth ) );
+         WriteToFileStream( fs, string.Format( "#define ACTIVE_SPRITE_TEXTURE_HEIGHT                           {0}\n", Constants.ActiveSpriteTextureHeight ) );
+         WriteToFileStream( fs, string.Format( "#define ACTIVE_SPRITE_FRAME_SIZE                               {0}\n", Constants.ActiveSpriteFrameSize ) );
+         WriteToFileStream( fs, string.Format( "#define ACTIVE_SPRITE_FRAME_PIXELS                             {0}\n", Constants.ActiveSpriteFrameSize * Constants.ActiveSpriteFrameSize ) );
+         WriteToFileStream( fs, string.Format( "#define ACTIVE_SPRITE_FRAMES                                   2\n", Constants.ActiveSpriteFrames ) );
+         WriteToFileStream( fs, string.Format( "#define ACTIVE_SPRITE_FRAME_TOTAL_SECONDS                      {0}f\n\n", Constants.ActiveSpriteFrameTotalSeconds ) );
+
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_TILE_SIZE_PIXELS                               {0}\n", Constants.TileSizePixels ) );
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_TILE_SIZE_UNITS                                {0}\n", Constants.TileSizePixels * Constants.UnitsPerPixel ) );
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_TILE_TEXTURES                              {0}\n", Constants.TileTextureSetSize ) );
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_STATIC_SPRITE_TEXTURES                     {0}\n", Constants.StaticSpriteTextureSetSize ) );
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_STATIC_SPRITES                             {0}\n", Constants.TileMapMaxStaticSprites ) );
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_ACTIVE_SPRITE_TEXTURES                     {0}\n", Constants.TileMapMaxActiveSprites ) );
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_ACTIVE_SPRITES                             {0}\n", Constants.TileMapMaxActiveSprites ) );
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_PORTALS                                    {0}\n", Constants.TileMapMaxPortals ) );
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_ENTITIES                                   {0}\n", Constants.TileMapMaxEntities ) );
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_NPCS                                       {0}\n", Constants.TileMapMaxNpcs ) );
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_TILES_X                                    {0}\n", Constants.TileMapMaxTilesX ) );
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_MAX_TILES_Y                                    {0}\n", Constants.TileMapMaxTilesY ) );
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_SWAP_FADE_SECONDS                              {0}f\n", Constants.TileMapSwapFadeSeconds ) );
+         WriteToFileStream( fs, string.Format( "#define TILEMAP_SWAP_PAUSE_SECONDS                             {0}f\n\n", Constants.TileMapSwapPauseSeconds ) );
+
+         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_NORMAL                                 {0}   // units per frame\n", Constants.TileWalkSpeedNormal ) );
+         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_SLOW                                   {0}\n", Constants.TileWalkSpeedSlow ) );
+         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_VERY_SLOW                              {0}\n", Constants.TileWalkSpeedVerySlow ) );
+         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_CRAWL                                  {0}\n", Constants.TileWalkSpeedCrawl ) );
+         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_DIAGONAL_NORMAL                        {0}\n", Constants.TileWalkSpeedDiagonalNormal ) );
+         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_DIAGONAL_SLOW                          {0}\n", Constants.TileWalkSpeedDiagonalSlow ) );
+         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_DIAGONAL_VERY_SLOW                     {0}\n", Constants.TileWalkSpeedDiagonalVerySlow ) );
+         WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_DIAGONAL_CRAWL                         {0}\n\n", Constants.TileWalkSpeedDiagonalCrawl ) );
+
+         WriteToFileStream( fs, string.Format( "#define BATTLE_MAX_ENEMIES                                     {0}\n\n", Constants.BattleMaxEnemies ) );
 
          WriteToFileStream( fs, string.Format( "#endif // {0}\n", Constants.GameDataCommonHeaderDefine ) );
       }
@@ -204,7 +220,7 @@ namespace DW3ArduinoEditor.SaveData
 
          using FileStream fs = File.Create( Constants.GameDataTextBitFieldsHeaderPath );
 
-         WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
+         WriteToFileStream( fs, Constants.GeneratedFileMessage );
          WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", _gameSaveData?.HeaderGuids.TextBitFieldsHeaderGuid ) );
          WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.TextBitFieldsHeaderGuid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
@@ -248,7 +264,7 @@ namespace DW3ArduinoEditor.SaveData
       {
          using FileStream fs = File.Create( Constants.GameDataTileTexturesHeaderPath );
 
-         WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
+         WriteToFileStream( fs, Constants.GeneratedFileMessage );
          WriteToFileStream( fs, string.Format( "#if !defined( GEN{0}_H )\n", _gameSaveData?.HeaderGuids.TileTexturesHeaderGuid ) );
          WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.TileTexturesHeaderGuid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
@@ -293,7 +309,7 @@ namespace DW3ArduinoEditor.SaveData
       {
          using FileStream fs = File.Create( Constants.GameDataStaticSpriteTexturesHeaderPath );
 
-         WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
+         WriteToFileStream( fs, Constants.GeneratedFileMessage );
          WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", _gameSaveData?.HeaderGuids.StaticSpriteTexturesHeaderGuid ) );
          WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.StaticSpriteTexturesHeaderGuid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
@@ -337,7 +353,7 @@ namespace DW3ArduinoEditor.SaveData
       {
          using FileStream fs = File.Create( headerPath );
 
-         WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage  );
+         WriteToFileStream( fs, Constants.GeneratedFileMessage  );
          WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", guid ) );
          WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", guid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
@@ -402,7 +418,7 @@ namespace DW3ArduinoEditor.SaveData
       {
          using FileStream fs = File.Create( headerPath );
 
-         WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
+         WriteToFileStream( fs, Constants.GeneratedFileMessage );
          WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", _gameSaveData?.HeaderGuids.MapTilesHeaderGuid ) );
          WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.MapTilesHeaderGuid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
@@ -441,9 +457,63 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.MapTilesHeaderGuid ) );
       }
 
+      private void WriteTablesHeader( string headerPath )
+      {
+         using FileStream fs = File.Create( headerPath );
+
+         WriteToFileStream( fs, Constants.GeneratedFileMessage );
+         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", _gameSaveData?.HeaderGuids.TablesHeaderGuid ) );
+         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.TablesHeaderGuid ) );
+
+         WriteToFileStream( fs, "#include \"common.h\"\n\n" );
+         WriteToFileStream( fs, string.Format( "#define TABLE_CLASS_EXP_TABLE_SIZE {0}\n\n", Constants.PlayerMaxLevel - 1 ) );
+
+         WriteToFileStream( fs, string.Format( "extern const u32 g_playerClassExpTables[8][TABLE_CLASS_EXP_TABLE_SIZE];\n\n", PlayerClass.Count ) );
+
+         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.MapTilesHeaderGuid ) );
+      }
+
+      private void WriteTablesSource( string sourcePath )
+      {
+         using FileStream fs = File.Create( sourcePath );
+
+         WriteToFileStream( fs, Constants.GeneratedFileMessage );
+         WriteToFileStream( fs, string.Format( "#include \"{0}\"\n\n", Constants.GameDataTablesHeaderFileName ) );
+
+         WriteToFileStream( fs, string.Format( "const u32 g_playerClassExpTables[{0}][TABLE_CLASS_EXP_TABLE_SIZE] = {{\n", (int)PlayerClass.Count ) );
+
+         for( int i = 0; i < (int)PlayerClass.Count; i++ )
+         {
+            WriteToFileStream( fs, "   { " );
+
+            for ( int j = 0; j < _gameSaveData?.PlayerClassExpTables[i].ExpTable.Count; j++ )
+            {
+               WriteToFileStream( fs, string.Format( "{0}", _gameSaveData?.PlayerClassExpTables[i].ExpTable[j].ToString() ) );
+
+               if ( j < _gameSaveData?.PlayerClassExpTables[i].ExpTable.Count - 1 )
+               {
+                  WriteToFileStream( fs, "," );
+               }
+
+               WriteToFileStream( fs, " " );
+            }
+
+            WriteToFileStream( fs, "}" );
+
+            if ( i < (int)PlayerClass.Count - 1 )
+            {
+               WriteToFileStream( fs, "," );
+            }
+
+            WriteToFileStream( fs, "\n" );
+         }
+
+         WriteToFileStream( fs, "};\n" );
+      }
+
       private void WriteHeaderSection( FileStream fs )
       {
-         WriteToFileStream( fs, Constants.GeneratedFileHeaderMessage );
+         WriteToFileStream( fs, Constants.GeneratedFileMessage );
          WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataTextBitFieldsHeaderFileName ) );
          WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataTileTexturesHeaderFileName ) );
          WriteToFileStream( fs, string.Format( "#include \"{0}\"\n", Constants.GameDataStaticSpriteTexturesHeaderFileName ) );

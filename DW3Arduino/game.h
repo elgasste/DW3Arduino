@@ -10,16 +10,6 @@
 #include "player.h"
 #include "window.h"
 
-// TODO: auto-generate this from Editor
-#define OVERWORLD_INACTIVITY_STATS_THRESHOLD                1.0f
-
-// TODO: auto-generate this from Editor
-#define OVERWORLD_STATS_WINDOW_X_OFFSET                     7
-#define OVERWORLD_STATS_WINDOW_Y_OFFSET                     10
-#define OVERWORLD_STATS_WINDOW_PLAYER_WIDTH                 5
-#define OVERWORLD_STATS_WINDOW_PLAYER_NAME_LENGTH           4
-#define OVERWORLD_STATS_WINDOW_PLAYER_CLASS_ABBR_LENGTH     2
-
 typedef struct Game_t
 {
    Clock_t clock;

@@ -4,8 +4,6 @@
 #include "common.h"
 #include "enemy.h"
 
-#define BATTLE_MAX_ENEMIES    8
-
 typedef struct Battle_t
 {
    Enemy_t enemies[BATTLE_MAX_ENEMIES];
