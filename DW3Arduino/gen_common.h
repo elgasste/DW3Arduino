@@ -3,11 +3,14 @@
 #if !defined( GEN_COMMON_H )
 #define GEN_COMMON_H
 
+#define OVERWORLD_INACTIVITY_STATS_THRESHOLD                   1.00f
+
 #define OVERWORLD_STATS_WINDOW_X_OFFSET                        7
 #define OVERWORLD_STATS_WINDOW_Y_OFFSET                        10
 #define OVERWORLD_STATS_WINDOW_SECTION_WIDTH                   5
 #define OVERWORLD_STATS_WINDOW_PLAYER_NAME_LENGTH              4
 #define OVERWORLD_STATS_WINDOW_PLAYER_CLASS_ABBR_LENGTH        2
+
 #define UNITS_PER_PIXEL                                        100
 
 #define MAX_SAVE_SLOTS                                         3
@@ -95,5 +98,7 @@
 #define TILE_WALK_SPEED_DIAGONAL_SLOW                          60
 #define TILE_WALK_SPEED_DIAGONAL_VERY_SLOW                     40
 #define TILE_WALK_SPEED_DIAGONAL_CRAWL                         20
+
+#define BATTLE_MAX_ENEMIES                                     8
 
 #endif // GEN_COMMON_H

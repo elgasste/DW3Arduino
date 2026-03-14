@@ -90,12 +90,13 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "#if !defined( {0} )\n", Constants.GameDataCommonHeaderDefine ) );
          WriteToFileStream( fs, string.Format( "#define {0}\n\n", Constants.GameDataCommonHeaderDefine ) );
 
-         // MUFFINS
+         WriteToFileStream( fs, string.Format( "#define OVERWORLD_INACTIVITY_STATS_THRESHOLD                   {0:F2}f\n\n", Constants.OverworldInactivityStatsThreshold ) );
+
          WriteToFileStream( fs, string.Format( "#define OVERWORLD_STATS_WINDOW_X_OFFSET                        {0}\n", Constants.OverworldStatsWindowXOffset ) );
          WriteToFileStream( fs, string.Format( "#define OVERWORLD_STATS_WINDOW_Y_OFFSET                        {0}\n", Constants.OverworldStatsWindowYOffset ) );
          WriteToFileStream( fs, string.Format( "#define OVERWORLD_STATS_WINDOW_SECTION_WIDTH                   {0}\n", Constants.OverworldStatsWindowSectionWidth ) );
          WriteToFileStream( fs, string.Format( "#define OVERWORLD_STATS_WINDOW_PLAYER_NAME_LENGTH              {0}\n", Constants.OverworldStatsWindowPlayerNameLength ) );
-         WriteToFileStream( fs, string.Format( "#define OVERWORLD_STATS_WINDOW_PLAYER_CLASS_ABBR_LENGTH        {0}\n", Constants.OverworldStatsWindowPlayerClassAbbrLegnth ) );
+         WriteToFileStream( fs, string.Format( "#define OVERWORLD_STATS_WINDOW_PLAYER_CLASS_ABBR_LENGTH        {0}\n\n", Constants.OverworldStatsWindowPlayerClassAbbrLegnth ) );
 
          WriteToFileStream( fs, string.Format( "#define UNITS_PER_PIXEL                                        {0}\n\n", Constants.UnitsPerPixel ) );
 
@@ -184,6 +185,8 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_DIAGONAL_SLOW                          {0}\n", Constants.TileWalkSpeedDiagonalSlow ) );
          WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_DIAGONAL_VERY_SLOW                     {0}\n", Constants.TileWalkSpeedDiagonalVerySlow ) );
          WriteToFileStream( fs, string.Format( "#define TILE_WALK_SPEED_DIAGONAL_CRAWL                         {0}\n\n", Constants.TileWalkSpeedDiagonalCrawl ) );
+
+         WriteToFileStream( fs, string.Format( "#define BATTLE_MAX_ENEMIES                                     {0}\n\n", Constants.BattleMaxEnemies ) );
 
          WriteToFileStream( fs, string.Format( "#endif // {0}\n", Constants.GameDataCommonHeaderDefine ) );
       }

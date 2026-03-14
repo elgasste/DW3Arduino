@@ -138,6 +138,8 @@ namespace DW3ArduinoEditor
       public const int ActiveSpriteTextureSetSize = 16;
       public const float ActiveSpriteFrameTotalSeconds = 0.35f;
 
+      public const int BattleMaxEnemies = 8;
+
       public const string GeneratedFileMessage = "// THIS FILE IS AUTO-GENERATED, PLEASE DO NOT MODIFY!\n\n";
 
       public const int EditorTileSize = 32;
