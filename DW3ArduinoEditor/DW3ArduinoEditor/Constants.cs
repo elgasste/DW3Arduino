@@ -35,6 +35,8 @@
       public const string ActiveSpriteTexturePoolImagePath = AssetsBasePath + "textures\\active_sprite_texture_pool.png";
       public const string PlayerSpriteTexturePoolMaleImagePath = AssetsBasePath + "textures\\player_sprite_texture_pool_male.png";
       public const string PlayerSpriteTexturePoolFemaleImagePath = AssetsBasePath + "textures\\player_sprite_texture_pool_female.png";
+      public const string ShipSpriteTexturesImagePath = AssetsBasePath + "textures\\ship_sprite_textures.png";
+      public const string RamiaSpriteTexturesImagePath = AssetsBasePath + "textures\\ramia_sprite_textures.png";
       public const string TextTilesFilePath = AssetsBasePath + "text_tiles.png";
 
       public const float OverworldInactivityStatsThreshold = 1.0f;
