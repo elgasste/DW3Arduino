@@ -100,6 +100,12 @@ internal Bool_t Storage_WritePlayers( Game_t* game )
       if ( kv_set( key, &( game->players[i].playerClass ), sizeof( PlayerClass_t ), 0 ) != MBED_SUCCESS )
          return False;
 
+      // player gender
+      sprintf( subkey, KVSTORE_PLAYER_GENDER_KEY, i );
+      sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, game->saveSlot, subkey );
+      if ( kv_set( key, &( game->players[i].gender ), sizeof( Gender_t ), 0 ) != MBED_SUCCESS )
+         return False;
+
       // player experience
       sprintf( subkey, KVSTORE_PLAYER_EXP_KEY, i );
       sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, game->saveSlot, subkey );
@@ -125,6 +131,7 @@ internal Bool_t Storage_ReadPlayers( Game_t* game, u32 slot )
 {
    u32 i, playerCount, exp, hp, mp;
    PlayerClass_t playerClass;
+   Gender_t playerGender;
    int result;
    char key[64];
    char subkey[64];
@@ -160,6 +167,15 @@ internal Bool_t Storage_ReadPlayers( Game_t* game, u32 slot )
       if ( !Validate_PlayerClass( (i32)playerClass ) )
          return False;
       game->players[i].playerClass = playerClass;
+
+      // player gender
+      sprintf( subkey, KVSTORE_PLAYER_GENDER_KEY, i );
+      sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, slot, subkey );
+      if ( kv_get_info( key, &info ) != MBED_SUCCESS || kv_get( key, &playerGender, sizeof( Gender_t ), 0 ) != MBED_SUCCESS )
+         return False;
+      if ( !Validate_PlayerGender( (i32)playerGender ) )
+         return False;
+      game->players[i].gender = playerGender;
 
       // player experience
       sprintf( subkey, KVSTORE_PLAYER_EXP_KEY, i );

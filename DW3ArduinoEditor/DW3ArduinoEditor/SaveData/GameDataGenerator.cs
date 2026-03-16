@@ -681,8 +681,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "   u32 i;\n\n" );
          WriteToFileStream( fs, "   for ( i = 0; i < tileMap->getPlayerCountFunc( tileMap->playerCountProvider ); i++ )\n" );
          WriteToFileStream( fs, "   {\n" );
-         // MUFFINS: this will depend on the player's gender
-         WriteToFileStream( fs, string.Format( "      memcpy( tileMap->playerSpriteTextures + i, g_playerSpriteTexturePoolFemale[tileMap->players[i].playerClass], sizeof( u8 ) * {0} );\n", Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
+         WriteToFileStream( fs, string.Format( "      memcpy( tileMap->playerSpriteTextures + i, ( tileMap->players[i].gender == Gender_Male ) ? g_playerSpriteTexturePoolMale[tileMap->players[i].playerClass] : g_playerSpriteTexturePoolFemale[tileMap->players[i].playerClass], sizeof( u8 ) * {0} );\n", Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
          WriteToFileStream( fs, string.Format( "      TileMap_LoadActiveSpriteData( tileMap->playerSprites + i, i, {0}, {1}, Direction_Down );\n", Constants.PlayerSpriteXOffsetPixels, Constants.PlayerSpriteYOffsetPixels ) );
          WriteToFileStream( fs, "   }\n" );
          WriteToFileStream( fs, "}\n" );

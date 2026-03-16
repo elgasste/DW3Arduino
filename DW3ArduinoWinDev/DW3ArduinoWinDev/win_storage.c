@@ -135,7 +135,7 @@ Bool_t Storage_DeleteSlot( u32 slot )
 internal Bool_t Storage_WritePlayersJSON( Game_t* game, cJSON* node )
 {
    u32 i;
-   cJSON *playerCount, *players, *player, *name, *playerClass, *stats, *hp, *mp;
+   cJSON *playerCount, *players, *player, *name, *playerClass, *playerGender, *playerExp, *stats, *hp, *mp;
 
    // player count object
    playerCount = cJSON_CreateNumber( game->playerCount );
@@ -168,6 +168,18 @@ internal Bool_t Storage_WritePlayersJSON( Game_t* game, cJSON* node )
       if ( playerClass == 0 )
          return False;
       cJSON_AddItemToObject( player, JSON_PLAYER_CLASS, playerClass );
+
+      // player gender
+      playerGender = cJSON_CreateNumber( game->players[i].gender );
+      if ( playerGender == 0 )
+         return False;
+      cJSON_AddItemToObject( player, JSON_PLAYER_GENDER, playerGender );
+
+      // player experience
+      playerExp = cJSON_CreateNumber( game->players[i].exp );
+      if ( playerExp == 0 )
+         return False;
+      cJSON_AddItemToObject( player, JSON_PLAYER_EXP, playerExp );
 
       // player stats object
       stats = cJSON_CreateObject();
@@ -213,7 +225,7 @@ internal Bool_t Storage_LoadGameFromJSONString( Game_t* game, const char* jsonSt
 
 internal Bool_t Storage_LoadPlayersFromJSON( Game_t* game, cJSON* node )
 {
-   i32 i, playerCount, playerClass, playerExp, hp, mp;
+   i32 i, playerCount, playerClass, playerGender, playerExp, hp, mp;
    cJSON *players, *player, *stats;
    char* playerName;
 
@@ -247,6 +259,13 @@ internal Bool_t Storage_LoadPlayersFromJSON( Game_t* game, cJSON* node )
       if ( !Validate_PlayerClass( playerClass ) )
          return False;
       game->players[i].playerClass = (PlayerClass_t)playerClass;
+
+      // player gender
+      if ( !Storage_FindJSONItem32i( player->child, &playerGender, JSON_PLAYER_GENDER ) )
+         return False;
+      if ( !Validate_PlayerGender( playerGender ) )
+         return False;
+      game->players[i].gender = (Gender_t)playerGender;
 
       // player experience
       if ( !Storage_FindJSONItem32i( player->child, &playerExp, JSON_PLAYER_EXP ) )

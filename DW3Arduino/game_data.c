@@ -243,7 +243,7 @@ void TileMap_LoadPlayerSprites( TileMap_t* tileMap )
 
    for ( i = 0; i < tileMap->getPlayerCountFunc( tileMap->playerCountProvider ); i++ )
    {
-      memcpy( tileMap->playerSpriteTextures + i, g_playerSpriteTexturePoolFemale[tileMap->players[i].playerClass], sizeof( u8 ) * 2048 );
+      memcpy( tileMap->playerSpriteTextures + i, ( tileMap->players[i].gender == Gender_Male ) ? g_playerSpriteTexturePoolMale[tileMap->players[i].playerClass] : g_playerSpriteTexturePoolFemale[tileMap->players[i].playerClass], sizeof( u8 ) * 2048 );
       TileMap_LoadActiveSpriteData( tileMap->playerSprites + i, i, 2, 4, Direction_Down );
    }
 }

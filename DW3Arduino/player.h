@@ -20,6 +20,7 @@ PlayerMovement_t;
 typedef struct Player_t
 {
    PlayerClass_t playerClass;
+   Gender_t gender;
    Entity_t* entity;
    BattleStats_t stats;
 

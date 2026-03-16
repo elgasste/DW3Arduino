@@ -4,6 +4,7 @@ void Player_Init( Player_t* player )
 {
    player->name[0] = '\0';
    player->playerClass = PlayerClass_Soldier;
+   player->gender = Gender_Male;
    player->stats.hp = PLAYER_STATS_DEFAULT_HP;
    player->stats.mp = PLAYER_STATS_DEFAULT_MP;
    player->exp = 0;

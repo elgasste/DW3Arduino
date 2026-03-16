@@ -240,7 +240,6 @@ namespace DW3ArduinoEditor.SaveData
             throw new Exception( string.Format( "Player class experience tables has {0} entries, but should have {1}", tables.Count, (int)PlayerClass.Count ) );
          }
 
-         // MUFFINS: make sure every player class is represented
          List<PlayerClass> classesFound = [];
 
          foreach ( var table in tables )

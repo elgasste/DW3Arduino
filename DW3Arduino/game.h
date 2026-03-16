@@ -59,9 +59,11 @@ Bool_t Storage_LoadGame( Game_t* game, u32 slot );
 Bool_t Storage_DeleteSlot( u32 slot );
 
 // validate_save.c
+// TODO: some of these should probably be combined
 Bool_t Validate_PlayerCount( i32 count );
 Bool_t Validate_PlayerName( const char* name );
 Bool_t Validate_PlayerClass( i32 playerClass );
+Bool_t Validate_PlayerGender( i32 playerGender );
 Bool_t Validate_PlayerExp( i32 exp );
 Bool_t Validate_SingleHero( Game_t* game );
 Bool_t Validate_PlayerStats( u32 hp, u32 mp );
