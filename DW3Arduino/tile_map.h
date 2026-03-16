@@ -11,6 +11,7 @@
 #define TILE_GET_WALKING_SPEED( tile )          ( ( ( tile ) >> 6 ) & 0x03 )
 #define TILE_GET_ENCOUNTER_RATE( tile )         ( ( EncounterRate_t  )( ( ( tile ) >> 8  ) & 0x03 ) )
 #define TILE_GET_DAMAGE_RATE( tile )            ( ( TileDamageRate_t )( ( ( tile ) >> 10 ) & 0x03 ) )
+#define TILE_GET_IS_LAND( tile )                ( ( ( tile ) >> 12 ) & 0x01 )
 
 #define TILE_MAKE_PASSABLE( tile )              ( tile |= 0x20 )
 
@@ -44,7 +45,8 @@ typedef struct TileMap_t
    // bits 6-7:   walking speed
    // bits 8-9:   encounter rate
    // bits 10-11: damage rate
-   // bits 12-15: reserved
+   // bit  12:    is land
+   // bits 13-15: reserved
    u16 tiles[TILEMAP_MAX_TILES_X * TILEMAP_MAX_TILES_Y];
    u32 tilesX;
    u32 tilesY;

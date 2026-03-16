@@ -41,9 +41,9 @@ namespace DW3ArduinoEditor.ViewModels
       public int HorizontalBridgeTextureIndex { get; private set; } = -1;
       public int VerticalBridgeTextureIndex { get; private set; } = -1;
       public int ShoalTextureIndex { get; private set; } = -1;
-      public uint ShoreTextureStartIndex { get; private set; }
+      public int ShoreTextureStartIndex { get; private set; }
 
-      public TextureSetViewModel( ITextureImageProvider textureImageProvider, uint index, string name, int waterTextureIndex, uint shoreTextureStartIndex )
+      public TextureSetViewModel( ITextureImageProvider textureImageProvider, uint index, string name, int waterTextureIndex, int shoreTextureStartIndex )
       {
          _textureImageProvider = textureImageProvider;
          Index = index;

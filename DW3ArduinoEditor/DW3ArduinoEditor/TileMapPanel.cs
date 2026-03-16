@@ -636,9 +636,10 @@ namespace DW3ArduinoEditor
       }
 
       private bool TileTextureIsWater( int tileIndex ) => ( SelectedTileMap.Tiles[tileIndex].TextureIndex == SelectedTileTextureSet.WaterTextureIndex ||
-                                                            ( SelectedTileMap.Tiles[tileIndex].TextureIndex >= SelectedTileTextureSet.ShoreTextureStartIndex &&
-                                                              SelectedTileMap.Tiles[tileIndex].TextureIndex < SelectedTileTextureSet.ShoreTextureStartIndex + (uint)ShoreType.Count ) ||
-                                                            SelectedTileMap.Tiles[tileIndex].TextureIndex == SelectedTileTextureSet.ShoalTextureIndex );
+                                                            SelectedTileMap.Tiles[tileIndex].TextureIndex == SelectedTileTextureSet.ShoalTextureIndex ||
+                                                            ( SelectedTileTextureSet.ShoreTextureStartIndex >= 0 &&
+                                                              SelectedTileMap.Tiles[tileIndex].TextureIndex >= SelectedTileTextureSet.ShoreTextureStartIndex &&
+                                                              SelectedTileMap.Tiles[tileIndex].TextureIndex < SelectedTileTextureSet.ShoreTextureStartIndex + (uint)ShoreType.Count ) );
 
       private bool TileTextureIsWaterOrFloating( int tileIndex ) => TileTextureIsWater( tileIndex ) ||
                                                                     SelectedTileMap.Tiles[tileIndex].TextureIndex == SelectedTileTextureSet.HorizontalBridgeTextureIndex ||
@@ -660,8 +661,8 @@ namespace DW3ArduinoEditor
             shoreType = ShoreType.LeftTopRightBottom;
          }
 
-         var textureIndex = SelectedTileTextureSet.ShoreTextureStartIndex + (uint)shoreType;
-         SelectedTileMap.Tiles[tileIndex].TextureIndex = textureIndex;
+         var textureIndex = SelectedTileTextureSet.ShoreTextureStartIndex + (int)shoreType;
+         SelectedTileMap.Tiles[tileIndex].TextureIndex = (uint)textureIndex;
          DrawTileBitmap( (int)textureIndex, col, row, _bitmap );
       }
 

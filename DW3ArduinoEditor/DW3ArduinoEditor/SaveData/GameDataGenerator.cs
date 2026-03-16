@@ -66,7 +66,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteTileTexturesHeader();
          WriteStaticSpriteTexturesHeader();
          WriteActiveSpriteTexturesHeader();
-         WritePlayerSPriteTexturesHeader();
+         WritePlayerSpriteTexturesHeader();
          WriteTileMapsHeader( Constants.GameDataTileMapsHeaderPath );
          WriteTablesHeader( Constants.GameDataTablesHeaderPath );
          WriteTablesSource( Constants.GameDataTablesSourcePath );
@@ -352,7 +352,6 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.StaticSpriteTexturesHeaderGuid ) );
       }
 
-      // MUFFINS: test both of these
       private void WriteActiveSpriteTexturesHeader()
       {
          using FileStream fs = File.Create( Constants.GameDataActiveSpriteTexturesHeaderPath );
@@ -367,7 +366,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.ActiveSpriteTexturesHeaderGuid ) );
       }
 
-      private void WritePlayerSPriteTexturesHeader()
+      private void WritePlayerSpriteTexturesHeader()
       {
          using FileStream fs = File.Create( Constants.GameDataPlayerSpriteTexturesHeaderPath );
 
@@ -457,12 +456,25 @@ namespace DW3ArduinoEditor.SaveData
 
                for ( int j = 0; j < _gameSaveData.TileMaps[i].Tiles.Count; j++ )
                {
+                  var tile = _gameSaveData.TileMaps[i].Tiles[j];
+                  var textureSet = _gameSaveData.TileTextureSets[(int)_gameSaveData.TileMaps[i].TileTextureSetIndex];
+                  bool isLand = true;
+
+                  if ( tile.TextureIndex == textureSet.WaterTextureIndex ||
+                       ( textureSet.ShoreTextureStartIndex >= 0 &&
+                         tile.TextureIndex >= textureSet.ShoreTextureStartIndex &&
+                         tile.TextureIndex < ( textureSet.ShoreTextureStartIndex + (int)ShoreType.Count ) ) )
+                  {
+                     isLand = false;
+                  }
+
                   var tileValue = (ushort) (
-                     ( _gameSaveData.TileMaps[i].Tiles[j].TextureIndex ) |
-                     ( _gameSaveData.TileMaps[i].Tiles[j].IsPassable ? ( (uint)0x1 << 5 ) : 0x0 ) |
-                     ( (uint)_gameSaveData.TileMaps[i].Tiles[j].WalkSpeed << 6 ) |
-                     ( (uint)_gameSaveData.TileMaps[i].Tiles[j].EncounterRate << 8 ) |
-                     ( (uint)_gameSaveData.TileMaps[i].Tiles[j].DamageRate << 10 )
+                     ( tile.TextureIndex ) |
+                     ( tile.IsPassable ? ( (uint)0x1 << 5 ) : 0x0 ) |
+                     ( (uint)tile.WalkSpeed << 6 ) |
+                     ( (uint)tile.EncounterRate << 8 ) |
+                     ( (uint)tile.DamageRate << 10 ) |
+                     ( isLand ? ( (uint)0x1 << 12 ) : 0x0 )
                   );
 
                   WriteToFileStream( fs, string.Format( "0x{0}", tileValue.ToString( "X4" ) ) );

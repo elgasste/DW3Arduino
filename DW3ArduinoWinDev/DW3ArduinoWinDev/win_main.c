@@ -220,7 +220,7 @@ internal void DrawDiagnostics( HDC* dcMem )
    HFONT oldFont;
 
    // backdrop
-   DrawTranslucentRectangle( *dcMem, 0, 0, 360, 260, RGB( 0, 0, 128 ), 200 );
+   DrawTranslucentRectangle( *dcMem, 0, 0, 360, 276, RGB( 0, 0, 128 ), 200 );
 
    oldFont = (HFONT)SelectObject( *dcMem, g_winGlobals.hFont );
 
@@ -283,6 +283,10 @@ internal void DrawDiagnostics( HDC* dcMem )
    r.top += 16;
 
    sprintf_s( str, STRING_SIZE_DEFAULT, "      Tile Index: %u", g_winGlobals.game.players->entity->tileIndex );
+   DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
+   r.top += 16;
+
+   sprintf_s( str, STRING_SIZE_DEFAULT, "       Tile Type: %s", TILE_GET_IS_LAND( g_winGlobals.game.tileMap.tiles[g_winGlobals.game.players->entity->tileIndex] ) ? "Land" : "Water" );
    DrawTextA( *dcMem, str, -1, &r, DT_SINGLELINE | DT_NOCLIP );
    r.top += 16;
 

@@ -11,7 +11,7 @@ namespace DW3ArduinoEditor.SaveData
       public int HorizontalBridgeTextureIndex { get; set; }
       public int VerticalBridgeTextureIndex { get; set; }
       public int ShoalTextureIndex { get; set; }
-      public uint ShoreTextureStartIndex { get; set; }
+      public int ShoreTextureStartIndex { get; set; }
 
       public TextureSetSaveData() { }
 
