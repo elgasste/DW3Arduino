@@ -16,6 +16,7 @@
 #define JSON_PLAYERS                      "players"
 #define JSON_PLAYER_NAME                  "name"
 #define JSON_PLAYER_CLASS                 "class"
+#define JSON_PLAYER_GENDER                "gender"
 #define JSON_PLAYER_EXP                   "exp"
 #define JSON_PLAYER_STATS                 "stats"
 #define JSON_PLAYER_STATS_HP              "hp"

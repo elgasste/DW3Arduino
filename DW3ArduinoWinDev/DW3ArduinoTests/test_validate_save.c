@@ -65,6 +65,27 @@ void Validate_PlayerClass_GoodClass_ReturnsTrue( void )
    TEST_ASSERT_EQUAL( True, result );
 }
 
+void Validate_PlayerGender_TooLow_ReturnsFalse( void )
+{
+   Bool_t result = Validate_PlayerGender( -1 );
+
+   TEST_ASSERT_EQUAL( False, result );
+}
+
+void Validate_PlayerGender_TooHigh_ReturnsFalse( void )
+{
+   Bool_t result = Validate_PlayerGender( (i32)Gender_Count );
+
+   TEST_ASSERT_EQUAL( False, result );
+}
+
+void Validate_PlayerGender_GoodGender_ReturnsTrue( void )
+{
+   Bool_t result = Validate_PlayerGender( (i32)Gender_Count - 1 );
+
+   TEST_ASSERT_EQUAL( True, result );
+}
+
 void Validate_SingleHero_NoHeroes_ReturnsFalse( void )
 {
    Game_t* game = GameUtil_CreateSimpleGame();

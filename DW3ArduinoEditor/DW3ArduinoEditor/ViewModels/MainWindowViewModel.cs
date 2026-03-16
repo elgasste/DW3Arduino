@@ -19,7 +19,8 @@ namespace DW3ArduinoEditor.ViewModels
       public TileTexturePool TileTexturePool { get; private set; } = new();
       public StaticSpriteTexturePool StaticSpriteTexturePool { get; private set; } = new();
       private readonly ActiveSpriteTexturePool _activeSpriteTexturePool = new();
-      private readonly ActiveSpriteTexturePool _playerSpriteTexturePool = new();
+      private readonly ActiveSpriteTexturePool _playerSpriteTexturePoolMale = new();
+      private readonly ActiveSpriteTexturePool _playerSpriteTexturePoolFemale = new();
 
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
       public ObservableCollection<TextureSetViewModel> TileTextureSets { get; } = [];
@@ -157,7 +158,8 @@ namespace DW3ArduinoEditor.ViewModels
 
          try
          {
-            _playerSpriteTexturePool = new( Constants.PlayerSpriteTexturePoolImagePath, _palette );
+            _playerSpriteTexturePoolMale = new( Constants.PlayerSpriteTexturePoolMaleImagePath, _palette );
+            _playerSpriteTexturePoolFemale = new( Constants.PlayerSpriteTexturePoolFemaleImagePath, _palette );
          }
          catch ( Exception ex )
          {
@@ -180,7 +182,8 @@ namespace DW3ArduinoEditor.ViewModels
                                                       TileTexturePool.TilePaletteIndexes.Count,
                                                       StaticSpriteTexturePool.StaticSpritePaletteIndexes.Count,
                                                       _activeSpriteTexturePool.ActiveSpritePaletteIndexes.Count,
-                                                      _playerSpriteTexturePool.ActiveSpritePaletteIndexes.Count );
+                                                      _playerSpriteTexturePoolMale.ActiveSpritePaletteIndexes.Count,
+                                                      _playerSpriteTexturePoolFemale.ActiveSpritePaletteIndexes.Count );
 
                _gameStartup = new( saveData.GameStartup );
                _headerGuids = new( saveData.HeaderGuids );
@@ -605,7 +608,7 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( _gameStartup, _headerGuids, TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets, PlayerClassExpTables ), _palette, TileTexturePool, StaticSpriteTexturePool, _activeSpriteTexturePool, _playerSpriteTexturePool );
+         generator.WriteGameDataSourceFile( new( _gameStartup, _headerGuids, TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets, PlayerClassExpTables ), _palette, TileTexturePool, StaticSpriteTexturePool, _activeSpriteTexturePool, _playerSpriteTexturePoolMale, _playerSpriteTexturePoolFemale );
          MessageBox.Show( "Game data source file has been written." );
       }
 

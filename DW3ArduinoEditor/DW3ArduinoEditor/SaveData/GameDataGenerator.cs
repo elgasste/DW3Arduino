@@ -42,28 +42,31 @@ namespace DW3ArduinoEditor.SaveData
       private TileTexturePool? _tileTexturePool;
       private StaticSpriteTexturePool? _staticSpriteTexturePool;
       private ActiveSpriteTexturePool? _activeSpriteTexturePool;
-      private ActiveSpriteTexturePool? _playerSpriteTexturePool;
+      private ActiveSpriteTexturePool? _playerSpriteTexturePoolMale;
+      private ActiveSpriteTexturePool? _playerSpriteTexturePoolFemale;
 
       public void WriteGameDataSourceFile( GameSaveData? saveData,
                                            Palette? palette,
                                            TileTexturePool? tileTexturePool,
                                            StaticSpriteTexturePool? staticSpriteTexturePool,
                                            ActiveSpriteTexturePool? activeSpriteTexturePool,
-                                           ActiveSpriteTexturePool? playerSpriteTexturePool )
+                                           ActiveSpriteTexturePool? playerSpriteTexturePoolMale,
+                                           ActiveSpriteTexturePool? playerSpriteTexturePoolFemale )
       {
          _gameSaveData = saveData;
          _palette = palette;
          _tileTexturePool = tileTexturePool;
          _staticSpriteTexturePool = staticSpriteTexturePool;
          _activeSpriteTexturePool = activeSpriteTexturePool;
-         _playerSpriteTexturePool = playerSpriteTexturePool;
+         _playerSpriteTexturePoolMale = playerSpriteTexturePoolMale;
+         _playerSpriteTexturePoolFemale = playerSpriteTexturePoolFemale;
 
          WriteCommonHeader();
          WriteTextBitFieldsHeader();
          WriteTileTexturesHeader();
          WriteStaticSpriteTexturesHeader();
-         WriteActiveSpriteTexturesHeader( Constants.GameDataActiveSpriteTexturesHeaderPath, "active", _activeSpriteTexturePool, _gameSaveData?.HeaderGuids.ActiveSpriteTexturesHeaderGuid );
-         WriteActiveSpriteTexturesHeader( Constants.GameDataPlayerSpriteTexturesHeaderPath, "player", _playerSpriteTexturePool, _gameSaveData?.HeaderGuids.PlayerSpriteTexturesHeaderGuid );
+         WriteActiveSpriteTexturesHeader();
+         WritePlayerSPriteTexturesHeader();
          WriteTileMapsHeader( Constants.GameDataTileMapsHeaderPath );
          WriteTablesHeader( Constants.GameDataTablesHeaderPath );
          WriteTablesSource( Constants.GameDataTablesSourcePath );
@@ -349,16 +352,39 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.StaticSpriteTexturesHeaderGuid ) );
       }
 
-      private void WriteActiveSpriteTexturesHeader( string headerPath, string spriteType, ActiveSpriteTexturePool? pool, string? guid )
+      // MUFFINS: test both of these
+      private void WriteActiveSpriteTexturesHeader()
       {
-         using FileStream fs = File.Create( headerPath );
+         using FileStream fs = File.Create( Constants.GameDataActiveSpriteTexturesHeaderPath );
 
-         WriteToFileStream( fs, Constants.GeneratedFileMessage  );
-         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", guid ) );
-         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", guid ) );
+         WriteToFileStream( fs, Constants.GeneratedFileMessage );
+         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", _gameSaveData?.HeaderGuids.ActiveSpriteTexturesHeaderGuid ) );
+         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.ActiveSpriteTexturesHeaderGuid ) );
          WriteToFileStream( fs, "#include \"common.h\"\n\n" );
 
-         WriteToFileStream( fs, string.Format( "const u8 g_{0}SpriteTexturePool[{1}][{2}] = {{\n", spriteType, pool?.ActiveSpritePaletteIndexes.Count, Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
+         WriteActiveSpriteTexturesSection( fs, "g_activeSpriteTexturePool", _activeSpriteTexturePool );
+
+         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.ActiveSpriteTexturesHeaderGuid ) );
+      }
+
+      private void WritePlayerSPriteTexturesHeader()
+      {
+         using FileStream fs = File.Create( Constants.GameDataPlayerSpriteTexturesHeaderPath );
+
+         WriteToFileStream( fs, Constants.GeneratedFileMessage );
+         WriteToFileStream( fs, string.Format( "#if !defined( GEN_{0}_H )\n", _gameSaveData?.HeaderGuids.PlayerSpriteTexturesHeaderGuid ) );
+         WriteToFileStream( fs, string.Format( "#define GEN_{0}_H\n\n", _gameSaveData?.HeaderGuids.PlayerSpriteTexturesHeaderGuid ) );
+         WriteToFileStream( fs, "#include \"common.h\"\n\n" );
+
+         WriteActiveSpriteTexturesSection( fs, "g_playerSpriteTexturePoolMale", _playerSpriteTexturePoolMale );
+         WriteActiveSpriteTexturesSection( fs, "g_playerSpriteTexturePoolFemale", _playerSpriteTexturePoolFemale );
+
+         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.PlayerSpriteTexturesHeaderGuid ) );
+      }
+
+      private void WriteActiveSpriteTexturesSection( FileStream fs, string poolName, ActiveSpriteTexturePool? pool )
+      {
+         WriteToFileStream( fs, string.Format( "const u8 {0}[{1}][{2}] = {{\n", poolName, pool?.ActiveSpritePaletteIndexes.Count, Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
 
          if ( pool is not null )
          {
@@ -408,10 +434,9 @@ namespace DW3ArduinoEditor.SaveData
 
                WriteToFileStream( fs, "\n" );
             }
-         }
 
-         WriteToFileStream( fs, "};\n\n" );
-         WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", guid ) );
+            WriteToFileStream( fs, "};\n\n" );
+         }
       }
 
       private void WriteTileMapsHeader( string headerPath )
@@ -656,7 +681,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "   u32 i;\n\n" );
          WriteToFileStream( fs, "   for ( i = 0; i < tileMap->getPlayerCountFunc( tileMap->playerCountProvider ); i++ )\n" );
          WriteToFileStream( fs, "   {\n" );
-         WriteToFileStream( fs, string.Format( "      memcpy( tileMap->playerSpriteTextures + i, g_playerSpriteTexturePool[tileMap->players[i].playerClass], sizeof( u8 ) * {0} );\n", Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
+         WriteToFileStream( fs, string.Format( "      memcpy( tileMap->playerSpriteTextures + i, ( tileMap->players[i].gender == Gender_Male ) ? g_playerSpriteTexturePoolMale[tileMap->players[i].playerClass] : g_playerSpriteTexturePoolFemale[tileMap->players[i].playerClass], sizeof( u8 ) * {0} );\n", Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
          WriteToFileStream( fs, string.Format( "      TileMap_LoadActiveSpriteData( tileMap->playerSprites + i, i, {0}, {1}, Direction_Down );\n", Constants.PlayerSpriteXOffsetPixels, Constants.PlayerSpriteYOffsetPixels ) );
          WriteToFileStream( fs, "   }\n" );
          WriteToFileStream( fs, "}\n" );

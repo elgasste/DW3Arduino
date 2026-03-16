@@ -9,16 +9,22 @@ namespace DW3ArduinoEditor.SaveData
                                       int tileTexturePoolCount,
                                       int staticSpriteTexturePoolCount,
                                       int activeSpriteTexturePoolCount,
-                                      int playerSpriteTexturePoolCount )
+                                      int playerSpriteTexturePoolMaleCount,
+                                      int playerSpriteTexturePoolFemaleCount )
       {
          CheckHeaderGuids( saveData.HeaderGuids );
          CheckTextureSets( saveData.TileTextureSets, "Tile", Constants.TileTextureSetSize, tileTexturePoolCount );
          CheckTextureSets( saveData.StaticSpriteTextureSets, "Static sprite", Constants.StaticSpriteTextureSetSize, staticSpriteTexturePoolCount );
          CheckTextureSets( saveData.ActiveSpriteTextureSets, "Active sprite", Constants.ActiveSpriteTextureSetSize, activeSpriteTexturePoolCount );
 
-         if ( playerSpriteTexturePoolCount != (int)PlayerClass.Count )
+         if ( playerSpriteTexturePoolMaleCount != (int)PlayerClass.Count )
          {
-            throw new Exception( "Player sprite texture count doesn't match the number of player classes" );
+            throw new Exception( "Male player sprite texture count doesn't match the number of player classes" );
+         }
+
+         if ( playerSpriteTexturePoolFemaleCount != (int)PlayerClass.Count )
+         {
+            throw new Exception( "Female player sprite texture count doesn't match the number of player classes" );
          }
 
          CheckTileMaps( saveData.TileMaps, saveData.TileTextureSets, saveData.StaticSpriteTextureSets.Count, saveData.ActiveSpriteTextureSets.Count );
@@ -234,7 +240,6 @@ namespace DW3ArduinoEditor.SaveData
             throw new Exception( string.Format( "Player class experience tables has {0} entries, but should have {1}", tables.Count, (int)PlayerClass.Count ) );
          }
 
-         // MUFFINS: make sure every player class is represented
          List<PlayerClass> classesFound = [];
 
          foreach ( var table in tables )

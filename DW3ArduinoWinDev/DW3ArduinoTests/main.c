@@ -156,6 +156,9 @@ int main( int argc, char** argv )
    RUN_TEST( Validate_PlayerClass_TooLow_ReturnsFalse );
    RUN_TEST( Validate_PlayerClass_TooHigh_ReturnsFalse );
    RUN_TEST( Validate_PlayerClass_GoodClass_ReturnsTrue );
+   RUN_TEST( Validate_PlayerGender_TooLow_ReturnsFalse );
+   RUN_TEST( Validate_PlayerGender_TooHigh_ReturnsFalse );
+   RUN_TEST( Validate_PlayerGender_GoodGender_ReturnsTrue );
    RUN_TEST( Validate_SingleHero_NoHeroes_ReturnsFalse );
    RUN_TEST( Validate_SingleHero_MultipleHeroes_ReturnsFalse );
    RUN_TEST( Validate_SingleHero_OneHero_ReturnsTrue );

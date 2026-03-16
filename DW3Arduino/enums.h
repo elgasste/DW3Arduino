@@ -3,6 +3,15 @@
 
 #include "common.h"
 
+typedef enum Gender_t
+{
+   Gender_Male = 0,
+   Gender_Female,
+
+   Gender_Count
+}
+Gender_t;
+
 typedef enum Direction_t
 {
    Direction_Left = 0,

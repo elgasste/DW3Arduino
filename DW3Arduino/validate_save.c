@@ -17,6 +17,11 @@ Bool_t Validate_PlayerClass( i32 playerClass )
    return ( playerClass >= 0 && playerClass < PlayerClass_Count ) ? True : False;
 }
 
+Bool_t Validate_PlayerGender( i32 gender )
+{
+   return ( gender >= 0 && gender < Gender_Count ) ? True : False;
+}
+
 Bool_t Validate_PlayerExp( i32 exp )
 {
    return ( exp <= PLAYER_MAX_EXPERIENCE ) ? True : False;
