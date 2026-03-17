@@ -209,11 +209,16 @@ internal void Physics_MoveEntities( Game_t* game )
    }
 }
 
-// MUFFINS: update this to check if we're on land
 internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t* entity, i32 sign, Bool_t horizontal )
 {
    u16 tile;
    i32 i, start, end, side;
+
+   // Ramia only ever runs into the edge of the screen
+   if ( entity == tileMap->playerEntities && tileMap->playerIsOnRamia )
+   {
+      return False;
+   }
 
    if ( horizontal )
    {
@@ -247,8 +252,13 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
             else // no horizontal wrapping
                tile = tileMap->tiles[side + ( i * tileMap->tilesX )];
 
-         if ( !TILE_GET_IS_PASSABLE( tile ) || !TILE_GET_IS_LAND( tile ) )
+         if ( !TILE_GET_IS_PASSABLE( tile ) )
          {
+            return True;
+         }
+         else if ( entity == tileMap->playerEntities && tileMap->playerIsOnShip == TILE_GET_IS_LAND( tile ) )
+         {
+            // the player can collide with either land or water, depending on whether they're on the ship
             return True;
          }
       }
@@ -285,8 +295,13 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
             else // no vertical wrapping
                tile = tileMap->tiles[i + ( side * tileMap->tilesX )];
 
-         if ( !TILE_GET_IS_PASSABLE( tile ) || !TILE_GET_IS_LAND( tile ) )
+         if ( !TILE_GET_IS_PASSABLE( tile ) )
          {
+            return True;
+         }
+         else if ( entity == tileMap->playerEntities && tileMap->playerIsOnShip == TILE_GET_IS_LAND( tile ) )
+         {
+            // the player can collide with either land or water, depending on whether they're on the ship
             return True;
          }
       }
@@ -300,6 +315,12 @@ internal Bool_t Physics_EntityCollidesWithRigidBodies( TileMap_t* tileMap, Entit
    i32 sx, sy;
    u32 i;
    Entity_t* rigidEntity;
+
+   // Ramia only ever runs into the edge of the screen
+   if ( entity == tileMap->playerEntities && tileMap->playerIsOnRamia )
+   {
+      return False;
+   }
 
    // check player entities
    for ( i = 0, rigidEntity = tileMap->playerEntities; i < tileMap->getPlayerCountFunc( tileMap->playerCountProvider ); i++, rigidEntity++ )

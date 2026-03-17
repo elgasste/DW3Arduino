@@ -19,10 +19,20 @@ internal u32 getPlayerCountFunc_Mock2( Game_t* game )
    return 2;
 }
 
+internal Bool_t playerHasShip_Mock( Game_t* game )
+{
+   return False;
+}
+
+internal Bool_t playerHasRamia_Mock( Game_t* game )
+{
+   return False;
+}
+
 void TileMap_Init_Always_InitializesParameters( void )
 {
    Player_t player;
-   int playerCountProvider;
+   int playerCountProvider, playerHasShipProvider, playerHasRamiaProvider;
    TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
    TEST_ASSERT_NOT_NULL( tileMap );
 
@@ -33,11 +43,18 @@ void TileMap_Init_Always_InitializesParameters( void )
       tileMap->entityCount = 3;
       tileMap->npcCount = 4;
 
-      TileMap_Init( tileMap, &player, &getPlayerCountFunc_Mock1, &playerCountProvider );
+      TileMap_Init( tileMap, &player,
+                    &getPlayerCountFunc_Mock1, &playerCountProvider,
+                    &playerHasShip_Mock, &playerHasShipProvider,
+                    &playerHasRamia_Mock, &playerHasRamiaProvider );
 
       TEST_ASSERT_EQUAL( &player, tileMap->players );
       TEST_ASSERT_EQUAL( &getPlayerCountFunc_Mock1, tileMap->getPlayerCountFunc );
       TEST_ASSERT_EQUAL( &playerCountProvider, tileMap->playerCountProvider );
+      TEST_ASSERT_EQUAL( &playerHasShip_Mock, tileMap->playerHasShipFunc );
+      TEST_ASSERT_EQUAL( &playerHasShipProvider, tileMap->playerHasShipProvider );
+      TEST_ASSERT_EQUAL( &playerHasRamia_Mock, tileMap->playerHasRamiaFunc );
+      TEST_ASSERT_EQUAL( &playerHasRamiaProvider, tileMap->playerHasRamiaProvider );
 
       TEST_ASSERT_EQUAL( 0, tileMap->staticSpriteCount );
       TEST_ASSERT_EQUAL( 0, tileMap->activeSpriteCount );
@@ -319,6 +336,7 @@ void TileMap_GetTileVelocity_TileHasNormalSpeedFactor_ReturnsNormalWalkSpeed( vo
 
    if ( tileMap )
    {
+      tileMap->playerIsOnRamia = False;
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
       tileMap->tiles[22] = 0;
@@ -338,6 +356,7 @@ void TileMap_GetTileVelocity_TileHasSlowSpeedFactor_ReturnsSlowWalkSpeed( void )
 
    if ( tileMap )
    {
+      tileMap->playerIsOnRamia = False;
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
       tileMap->tiles[22] = 0x1 << 6;
@@ -357,6 +376,7 @@ void TileMap_GetTileVelocity_TileHasVerySlowSpeedFactor_ReturnsVerySlowWalkSpeed
 
    if ( tileMap )
    {
+      tileMap->playerIsOnRamia = False;
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
       tileMap->tiles[22] = 0x2 << 6;
@@ -376,12 +396,33 @@ void TileMap_GetTileVelocity_TileHasCrawlSpeedFactor_ReturnsCrawlWalkSpeed( void
 
    if ( tileMap )
    {
+      tileMap->playerIsOnRamia = False;
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
       tileMap->tiles[22] = 0x3 << 6;
       velocity = TileMap_GetTileVelocity( tileMap, 22 );
 
       TEST_ASSERT_EQUAL( TILE_WALK_SPEED_CRAWL, velocity );
+
+      free( tileMap );
+   }
+}
+
+void TileMap_GetTileVelocity_PlayerIsOnRamiaWithNonNormalSpeedFactor_ReturnsNormalWalkSpeed( void )
+{
+   i32 velocity;
+   TileMap_t* tileMap = (TileMap_t*)malloc( sizeof( TileMap_t ) );
+   TEST_ASSERT_NOT_NULL( tileMap );
+
+   if ( tileMap )
+   {
+      tileMap->playerIsOnRamia = True;
+      tileMap->tilesX = 10;
+      tileMap->tilesY = 10;
+      tileMap->tiles[22] = 0x3 << 6;
+      velocity = TileMap_GetTileVelocity( tileMap, 22 );
+
+      TEST_ASSERT_EQUAL( TILE_WALK_SPEED_NORMAL, velocity );
 
       free( tileMap );
    }

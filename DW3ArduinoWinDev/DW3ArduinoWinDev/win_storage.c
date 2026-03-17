@@ -4,8 +4,10 @@
 #include "win_common.h"
 #include "game.h"
 
+internal Bool_t Storage_WriteGameBaseJSON( Game_t* game, cJSON* node );
 internal Bool_t Storage_WritePlayersJSON( Game_t* game, cJSON* node );
 internal Bool_t Storage_LoadGameFromJSONString( Game_t* game, const char* jsonStr, const char* fileName );
+internal Bool_t Storage_LoadGameBaseFromJSON( Game_t* game, cJSON* node );
 internal Bool_t Storage_LoadPlayersFromJSON( Game_t* game, cJSON* node );
 internal Bool_t Storage_FindJSONItem32i( cJSON* node, i32* val, const char* itemName );
 internal Bool_t Storage_FindJSONArray( cJSON* node, cJSON** val, const char* itemName );
@@ -24,6 +26,13 @@ Bool_t Storage_SaveGame( Game_t* game )
    if ( root == 0 )
    {
       Program_Log( JSON_ERROR_ROOT );
+      return False;
+   }
+
+   if ( !Storage_WriteGameBaseJSON( game, root ) )
+   {
+      Program_Log( JSON_ERROR_GAME_BASE );
+      cJSON_Delete( root );
       return False;
    }
 
@@ -132,6 +141,25 @@ Bool_t Storage_DeleteSlot( u32 slot )
    return ( result == 0 ) ? True : False;
 }
 
+internal Bool_t Storage_WriteGameBaseJSON( Game_t* game, cJSON* node )
+{
+   cJSON *hasShip, *hasRamia;
+
+   // has-ship object
+   hasShip = cJSON_CreateNumber( game->hasShip );
+   if ( hasShip == 0 )
+      return False;
+   cJSON_AddItemToObject( node, JSON_HAS_SHIP, hasShip );
+
+   // has-ramia object
+   hasRamia = cJSON_CreateNumber( game->hasRamia );
+   if ( hasRamia == 0 )
+      return False;
+   cJSON_AddItemToObject( node, JSON_HAS_RAMIA, hasRamia );
+
+   return True;
+}
+
 internal Bool_t Storage_WritePlayersJSON( Game_t* game, cJSON* node )
 {
    u32 i;
@@ -217,10 +245,33 @@ internal Bool_t Storage_LoadGameFromJSONString( Game_t* game, const char* jsonSt
       return False;
    }
 
-   result = Storage_LoadPlayersFromJSON( game, root->child );
+   result = False;
+
+   if ( Storage_LoadGameBaseFromJSON( game, root->child ) &&
+        Storage_LoadPlayersFromJSON( game, root->child ) )
+   {
+      result = True;
+   }
 
    cJSON_Delete( root );
    return result;
+}
+
+internal Bool_t Storage_LoadGameBaseFromJSON( Game_t* game, cJSON* node )
+{
+   i32 hasShip, hasRamia;
+
+   // has-ship
+   if ( !Storage_FindJSONItem32i( node, &hasShip, JSON_HAS_SHIP ) )
+      return False;
+   game->hasShip = ( hasShip > 0 ) ? True : False;
+
+   // has-ramia
+   if ( !Storage_FindJSONItem32i( node, &hasRamia, JSON_HAS_RAMIA ) )
+      return False;
+   game->hasRamia = ( hasRamia > 0 ) ? True : False;
+
+   return True;
 }
 
 internal Bool_t Storage_LoadPlayersFromJSON( Game_t* game, cJSON* node )

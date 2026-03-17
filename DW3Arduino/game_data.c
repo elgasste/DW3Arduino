@@ -646,4 +646,7 @@ void Game_Reset( Game_t* game )
    game->isAM = False;
    game->daylightFactor = 1.0f; // noon
    game->screen.dayFilterIntensity = 1.0f;
+
+   game->hasShip = False;
+   game->hasRamia = False;
 }

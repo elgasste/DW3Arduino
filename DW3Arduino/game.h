@@ -30,6 +30,9 @@ typedef struct Game_t
    Bool_t isAM;
    r32 daylightFactor;
 
+   Bool_t hasShip;
+   Bool_t hasRamia;
+
    void ( *playerMovedCallback )( void* );
 }
 Game_t;

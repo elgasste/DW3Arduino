@@ -16,7 +16,9 @@
    if ( kv_remove( key ) == MBED_SUCCESS ) \
       result = True
 
+internal Bool_t Storage_WriteGameBase( Game_t* game );
 internal Bool_t Storage_WritePlayers( Game_t* game );
+internal Bool_t Storage_ReadGameBase( Game_t* game, u32 slot );
 internal Bool_t Storage_ReadPlayers( Game_t* game, u32 slot );
 
 // NOTE:
@@ -30,6 +32,12 @@ internal Bool_t Storage_ReadPlayers( Game_t* game, u32 slot );
 
 Bool_t Storage_SaveGame( Game_t* game )
 {
+   if ( !Storage_WriteGameBase( game ) )
+   {
+      Program_Log( KVSTORE_ERROR_GAME_BASE_WRITE );
+      return False;
+   }
+
    if ( !Storage_WritePlayers( game ) )
    {
       Program_Log( KVSTORE_ERROR_PLAYER_WRITE );
@@ -41,6 +49,12 @@ Bool_t Storage_SaveGame( Game_t* game )
 
 Bool_t Storage_LoadGame( Game_t* game, u32 slot )
 {
+   if ( !Storage_ReadGameBase( game, slot ) )
+   {
+      Program_Log( KVSTORE_ERROR_GAME_BASE_READ );
+      return False;
+   }
+
    if ( !Storage_ReadPlayers( game, slot ) )
    {
       Program_Log( KVSTORE_ERROR_PLAYER_READ );
@@ -58,6 +72,8 @@ Bool_t Storage_DeleteSlot( u32 slot )
    char msg[128];
    Bool_t result = False;
 
+   TRY_DELETING_GENERAL_KEY( KVSTORE_HAS_SHIP_KEY );
+   TRY_DELETING_GENERAL_KEY( KVSTORE_HAS_RAMIA_KEY );
    TRY_DELETING_GENERAL_KEY( KVSTORE_PLAYER_COUNT_KEY );
 
    for ( i = 0; i < MAX_PLAYERS; i++ )
@@ -73,6 +89,23 @@ Bool_t Storage_DeleteSlot( u32 slot )
    }
 
    return result;
+}
+
+internal Bool_t Storage_WriteGameBase( Game_t* game )
+{
+   char key[64];
+
+   // has-ship
+   sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, game->saveSlot, KVSTORE_HAS_SHIP_KEY );
+   if ( kv_set( key, &( game->hasShip ), sizeof( Bool_t ), 0 ) != MBED_SUCCESS )
+      return False;
+
+   // has-ramia
+   sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, game->saveSlot, KVSTORE_HAS_RAMIA_KEY );
+   if ( kv_set( key, &( game->hasRamia ), sizeof( Bool_t ), 0 ) != MBED_SUCCESS )
+      return False;
+
+   return True;
 }
 
 internal Bool_t Storage_WritePlayers( Game_t* game )
@@ -123,6 +156,27 @@ internal Bool_t Storage_WritePlayers( Game_t* game )
       if ( kv_set( key, &( game->players[i].stats.mp ), sizeof( u32 ), 0 ) != MBED_SUCCESS )
          return False;
    }
+
+   return True;
+}
+
+internal Bool_t Storage_ReadGameBase( Game_t* game, u32 slot )
+{
+   Bool_t hasShip, hasRamia;
+   char key[64];
+   kv_info_t info;
+
+   // has-ship
+   sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, slot, KVSTORE_HAS_SHIP_KEY );
+   if ( kv_get_info( key, &info ) != MBED_SUCCESS || kv_get( key, &hasShip, sizeof( Bool_t ), 0 ) != MBED_SUCCESS )
+      return False;
+   game->hasShip = ( hasShip > 0 ) ? True : False;
+
+   // has-ramia
+   sprintf( key, "%s_%d_%s", KVSTORE_KEY_PREFIX, slot, KVSTORE_HAS_RAMIA_KEY );
+   if ( kv_get_info( key, &info ) != MBED_SUCCESS || kv_get( key, &hasRamia, sizeof( Bool_t ), 0 ) != MBED_SUCCESS )
+      return False;
+   game->hasRamia = ( hasRamia > 0 ) ? True : False;
 
    return True;
 }

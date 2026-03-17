@@ -3,6 +3,8 @@
 
 internal void Game_TicByState( Game_t* game );
 internal u32 Game_GetPlayerCount( Game_t* game );
+internal Bool_t Game_PlayerHasShip( Game_t* game );
+internal Bool_t Game_PlayerHasRamia( Game_t* game );
 internal void Game_HandlePlayerMoved( Game_t* game );
 internal void Game_AnchorRearPlayers( Game_t* game );
 internal void Game_IncrementDaylightFactor( Game_t* game );
@@ -19,7 +21,7 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    Screen_Init( &game->screen, screenBuffer );
    Input_Init( &game->input );
    AnimationChain_Init( &game->animationChain, &game->screen );
-   TileMap_Init( &game->tileMap, game->players, &Game_GetPlayerCount, game );
+   TileMap_Init( &game->tileMap, game->players, &Game_GetPlayerCount, game, &Game_PlayerHasShip, game, &Game_PlayerHasRamia, game );
 
    game->tileMap.viewport.w = SCREEN_WIDTH * UNITS_PER_PIXEL;
    game->tileMap.viewport.h = SCREEN_HEIGHT * UNITS_PER_PIXEL;
@@ -43,32 +45,34 @@ void Game_Init( Game_t* game, u16* screenBuffer )
    }
 
    // TODO: I'm also leaving this here for testing save files on both platforms
-    /*game->playerCount = 4;
-    strcpy( game->players[0].name, "Garameth" );
-    game->players[0].playerClass = PlayerClass_Hero;
-    game->players[0].gender = Gender_Male;
-    game->players[0].exp = 0;
-    game->players[0].stats.hp = 12;
-    game->players[0].stats.mp = 0;
-    strcpy( game->players[1].name, "Conan" );
-    game->players[1].playerClass = PlayerClass_Soldier;
-    game->players[1].gender = Gender_Female;
-    game->players[1].exp = 0;
-    game->players[1].stats.hp = 16;
-    game->players[1].stats.mp = 0;
-    strcpy( game->players[2].name, "Merlin" );
-    game->players[2].playerClass = PlayerClass_Wizard;
-    game->players[2].gender = Gender_Female;
-    game->players[2].exp = 0;
-    game->players[2].stats.hp = 8;
-    game->players[2].stats.mp = 0;
-    strcpy( game->players[3].name, "Dorkel" );
-    game->players[3].playerClass = PlayerClass_GoofOff;
-    game->players[3].gender = Gender_Male;
-    game->players[3].exp = 0;
-    game->players[3].stats.hp = 6;
-    game->players[3].stats.mp = 0;
-    Storage_SaveGame( game );*/
+   /*game->hasShip = True;
+   game->hasRamia = True;
+   game->playerCount = 4;
+   strcpy( game->players[0].name, "Garameth" );
+   game->players[0].playerClass = PlayerClass_Hero;
+   game->players[0].gender = Gender_Male;
+   game->players[0].exp = 0;
+   game->players[0].stats.hp = 12;
+   game->players[0].stats.mp = 0;
+   strcpy( game->players[1].name, "Conan" );
+   game->players[1].playerClass = PlayerClass_Soldier;
+   game->players[1].gender = Gender_Female;
+   game->players[1].exp = 0;
+   game->players[1].stats.hp = 16;
+   game->players[1].stats.mp = 0;
+   strcpy( game->players[2].name, "Merlin" );
+   game->players[2].playerClass = PlayerClass_Wizard;
+   game->players[2].gender = Gender_Female;
+   game->players[2].exp = 0;
+   game->players[2].stats.hp = 8;
+   game->players[2].stats.mp = 0;
+   strcpy( game->players[3].name, "Dorkel" );
+   game->players[3].playerClass = PlayerClass_GoofOff;
+   game->players[3].gender = Gender_Male;
+   game->players[3].exp = 0;
+   game->players[3].stats.hp = 6;
+   game->players[3].stats.mp = 0;
+   Storage_SaveGame( game );*/
 
    game->overworldStatsWindow.pos.w = 2 + ( OVERWORLD_STATS_WINDOW_SECTION_WIDTH * game->playerCount );
    game->overworldStatsWindow.pos.h = OVERWORLD_STATS_WINDOW_Y_OFFSET - 2;
@@ -124,6 +128,16 @@ internal void Game_TicByState( Game_t* game )
 internal u32 Game_GetPlayerCount( Game_t* game )
 {
    return game->playerCount;
+}
+
+internal Bool_t Game_PlayerHasShip( Game_t* game )
+{
+   return game->hasShip;
+}
+
+internal Bool_t Game_PlayerHasRamia( Game_t* game )
+{
+   return game->hasRamia;
 }
 
 internal void Game_HandlePlayerMoved( Game_t* game )
@@ -272,20 +286,24 @@ internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
 
    frontPlayer->entity->tileIndex = tileIndex;
 
-   if ( Game_TryEnterPortal( game ) )
+   if ( !game->tileMap.playerIsOnRamia )
    {
-      return;
-   }
-   
-   tile = game->tileMap.tiles[tileIndex];
-   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].tileDamageRate = TILE_GET_DAMAGE_RATE( tile );
-   Player_ApplyTileDamage( frontPlayer );
+      if ( Game_TryEnterPortal( game ) )
+      {
+         return;
+      }
 
-   // TODO: check if the player has died
+      tile = game->tileMap.tiles[tileIndex];
+      frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].tileDamageRate = TILE_GET_DAMAGE_RATE( tile );
 
-   if ( Game_TryEncounter( game ) )
-   {
-      // TODO: battle!
+      Player_ApplyTileDamage( frontPlayer );
+
+      // TODO: check if the player has died
+
+      if ( Game_TryEncounter( game ) )
+      {
+         // TODO: battle!
+      }
    }
 }
 

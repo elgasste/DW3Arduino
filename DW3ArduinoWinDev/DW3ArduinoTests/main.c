@@ -132,6 +132,7 @@ int main( int argc, char** argv )
    RUN_TEST( TileMap_GetTileVelocity_TileHasSlowSpeedFactor_ReturnsSlowWalkSpeed );
    RUN_TEST( TileMap_GetTileVelocity_TileHasVerySlowSpeedFactor_ReturnsVerySlowWalkSpeed );
    RUN_TEST( TileMap_GetTileVelocity_TileHasCrawlSpeedFactor_ReturnsCrawlWalkSpeed );
+   RUN_TEST( TileMap_GetTileVelocity_PlayerIsOnRamiaWithNonNormalSpeedFactor_ReturnsNormalWalkSpeed );
    RUN_TEST( TileMap_GetTileDiagonalVelocity_NormalWalkSpeed_ReturnsNormalDiagonalSpeed );
    RUN_TEST( TileMap_GetTileDiagonalVelocity_SlowWalkSpeed_ReturnsNormalDiagonalSpeed );
    RUN_TEST( TileMap_GetTileDiagonalVelocity_VerySlowWalkSpeed_ReturnsNormalDiagonalSpeed );

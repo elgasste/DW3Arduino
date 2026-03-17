@@ -12,6 +12,8 @@
 #define VK_SHOWHITBOXES                   51    // 3
 
 #define JSON_SAVE_FILE_NAME               "save_%d.json"
+#define JSON_HAS_SHIP                     "hasShip"
+#define JSON_HAS_RAMIA                    "hasRamia"
 #define JSON_PLAYER_COUNT                 "playerCount"
 #define JSON_PLAYERS                      "players"
 #define JSON_PLAYER_NAME                  "name"
@@ -23,6 +25,7 @@
 #define JSON_PLAYER_STATS_MP              "mp"
 
 #define JSON_ERROR_ROOT                   "error creating JSON root object"
+#define JSON_ERROR_GAME_BASE              "error creating JSON game base objects"
 #define JSON_ERROR_PLAYERS                "error creating JSON player objects"
 #define JSON_ERROR_MALLOC                 "error allocating memory for reading save file contents"
 #define JSON_ERROR_FILE_OPEN_WRITE        "error opening JSON save file for writing: %s"

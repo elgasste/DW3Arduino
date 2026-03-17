@@ -2,16 +2,26 @@
 #include "entity.h"
 #include "utility.h"
 
-void TileMap_Init( TileMap_t* tileMap, Player_t* players, u32( *getPlayerCountFunc )( void* ), void* playerCountProvider )
+void TileMap_Init( TileMap_t* tileMap, Player_t* players,
+                   u32 ( *getPlayerCountFunc )( void* ), void* playerCountProvider,
+                   Bool_t ( *playerHasShipFunc )( void* ), void* playerHasShipProvider,
+                   Bool_t ( *playerHasRamiaFunc )( void* ), void* playerHasRamiaProvider )
 {
    tileMap->players = players;
    tileMap->getPlayerCountFunc = getPlayerCountFunc;
    tileMap->playerCountProvider = playerCountProvider;
+   tileMap->playerHasShipFunc = playerHasShipFunc;
+   tileMap->playerHasShipProvider = playerHasShipProvider;
+   tileMap->playerHasRamiaFunc = playerHasRamiaFunc;
+   tileMap->playerHasRamiaProvider = playerHasRamiaProvider;
 
    tileMap->staticSpriteCount = 0;
    tileMap->activeSpriteCount = 0;
    tileMap->entityCount = 0;
    tileMap->npcCount = 0;
+
+   tileMap->playerIsOnShip = False;
+   tileMap->playerIsOnRamia = False;
 }
 
 void TileMap_Tic( TileMap_t* tileMap )
@@ -132,12 +142,15 @@ i32 TileMap_GetTileVelocity( TileMap_t* tileMap, u32 tileIndex )
    u32 speedFactor = TILE_GET_WALKING_SPEED( tile );
    i32 velocity = TILE_WALK_SPEED_NORMAL;
 
-   switch ( speedFactor )
+   if ( !tileMap->playerIsOnRamia )
    {
-      case 0: velocity = TILE_WALK_SPEED_NORMAL; break;
-      case 1: velocity = TILE_WALK_SPEED_SLOW; break;
-      case 2: velocity = TILE_WALK_SPEED_VERY_SLOW; break;
-      case 3: velocity = TILE_WALK_SPEED_CRAWL; break;
+      switch ( speedFactor )
+      {
+         case 0: velocity = TILE_WALK_SPEED_NORMAL; break;
+         case 1: velocity = TILE_WALK_SPEED_SLOW; break;
+         case 2: velocity = TILE_WALK_SPEED_VERY_SLOW; break;
+         case 3: velocity = TILE_WALK_SPEED_CRAWL; break;
+      }
    }
 
    return velocity;

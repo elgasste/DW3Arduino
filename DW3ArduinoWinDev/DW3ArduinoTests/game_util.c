@@ -34,6 +34,7 @@ Game_t* GameUtil_CreateSimpleGame()
    for ( i = 0; i < game->tileMap.tilesX * game->tileMap.tilesY; i++ )
    {
       TILE_MAKE_PASSABLE( game->tileMap.tiles[i] );
+      TILE_MAKE_LAND( game->tileMap.tiles[i] );
    }
 
    for ( i = 0; i < MAX_PLAYERS; i++ )
