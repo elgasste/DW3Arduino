@@ -215,7 +215,7 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
    i32 i, start, end, side;
 
    // Ramia only ever runs into the edge of the screen
-   if ( entity == tileMap->playerEntities && tileMap->playerIsOnRamia )
+   if ( entity == tileMap->playerEntities && tileMap->isOnRamia )
    {
       return False;
    }
@@ -256,7 +256,7 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
          {
             return True;
          }
-         else if ( entity == tileMap->playerEntities && tileMap->playerIsOnShip == TILE_GET_IS_LAND( tile ) )
+         else if ( entity == tileMap->playerEntities && tileMap->isOnShip == TILE_GET_IS_LAND( tile ) )
          {
             // the player can collide with either land or water, depending on whether they're on the ship
             return True;
@@ -299,7 +299,7 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
          {
             return True;
          }
-         else if ( entity == tileMap->playerEntities && tileMap->playerIsOnShip == TILE_GET_IS_LAND( tile ) )
+         else if ( entity == tileMap->playerEntities && tileMap->isOnShip == TILE_GET_IS_LAND( tile ) )
          {
             // the player can collide with either land or water, depending on whether they're on the ship
             return True;
@@ -317,7 +317,7 @@ internal Bool_t Physics_EntityCollidesWithRigidBodies( TileMap_t* tileMap, Entit
    Entity_t* rigidEntity;
 
    // Ramia only ever runs into the edge of the screen
-   if ( entity == tileMap->playerEntities && tileMap->playerIsOnRamia )
+   if ( entity == tileMap->playerEntities && tileMap->isOnRamia )
    {
       return False;
    }

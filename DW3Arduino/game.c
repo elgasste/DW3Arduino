@@ -286,7 +286,7 @@ internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
 
    frontPlayer->entity->tileIndex = tileIndex;
 
-   if ( !game->tileMap.playerIsOnRamia )
+   if ( !game->tileMap.isOnRamia )
    {
       if ( Game_TryEnterPortal( game ) )
       {

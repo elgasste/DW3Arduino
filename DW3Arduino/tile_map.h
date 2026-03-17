@@ -61,32 +61,39 @@ typedef struct TileMap_t
 
    StaticSprite_t staticSprites[TILEMAP_MAX_STATIC_SPRITES];
    u32 staticSpriteCount;
-
    ActiveSprite_t activeSprites[TILEMAP_MAX_ACTIVE_SPRITES];
    u32 activeSpriteCount;
-
    ActiveSprite_t playerSprites[MAX_PLAYERS];
    Entity_t playerEntities[MAX_PLAYERS];
 
    // MUFFINS
    //
-   // - add shipSprite
-   // - add ramiaSprite
+   // - add ship sprite
+   // - add ramia sprite
+   // - keep track of the ship's tile index
+   //    - it'll be the same as the player's when you're on the ship, but keep track of it when off the ship
+   // - keep track of ramia's tile index
+   // - if you step on the ship's tile index, board the ship
+   // - if you're on the ship and you step on a passable non-water index, disembark the ship
+   //    - this is more complicated than it seems, it'll probably need to be incorporated into tile collision detection
+   //       - maybe add a collision callback?
+   // - if you're on ramia's tile index and you press A, board ramia
+   // - if you're on ramia, you don't need to hold down the direction keys
+   // - if you're on ramia and you press A, disembark as long as you're on passable land and not on a portal
 
-   Bool_t playerIsOnShip;
-   Bool_t playerIsOnRamia;
+   Bool_t isOnShip;
+   Bool_t isOnRamia;
 
    Player_t* players;
    u32 ( *getPlayerCountFunc )( void* );
    void* playerCountProvider;
-   Bool_t ( *playerHasShipFunc )( void* );
-   void* playerHasShipProvider;
-   Bool_t ( *playerHasRamiaFunc )( void* );
-   void* playerHasRamiaProvider;
+   Bool_t ( *hasShipFunc )( void* );
+   void* hasShipProvider;
+   Bool_t ( *hasRamiaFunc )( void* );
+   void* hasRamiaProvider;
 
    Portal_t portals[TILEMAP_MAX_PORTALS];
    u32 portalCount;
-
    Bool_t hasEdgePortal;
    Portal_t edgePortal;
 
@@ -104,8 +111,8 @@ extern "C" {
 
 void TileMap_Init( TileMap_t* tileMap, Player_t* players,
                    u32 ( *getPlayerCountFunc )( void* ), void* playerCountProvider,
-                   Bool_t ( *playerHasShipFunc )( void* ), void* playerHasShipProvider,
-                   Bool_t ( *playerHasRamiaFunc )( void* ), void* playerHasRamiaProvider );
+                   Bool_t ( *hasShipFunc )( void* ), void* hasShipProvider,
+                   Bool_t ( *hasRamiaFunc )( void* ), void* hasRamiaProvider );
 void TileMap_Tic( TileMap_t* tileMap );
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity );
 void TileMap_CenterEntityOnTile( TileMap_t* tileMap, Entity_t* entity, u32 tileIndex );
