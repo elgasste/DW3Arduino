@@ -3,7 +3,7 @@
 #if !defined( GEN_COMMON_H )
 #define GEN_COMMON_H
 
-#define OVERWORLD_INACTIVITY_STATS_THRESHOLD                   1.00f
+#define OVERWORLD_INACTIVITY_STATS_THRESHOLD                   2.00f
 
 #define OVERWORLD_STATS_WINDOW_X_OFFSET                        7
 #define OVERWORLD_STATS_WINDOW_Y_OFFSET                        10

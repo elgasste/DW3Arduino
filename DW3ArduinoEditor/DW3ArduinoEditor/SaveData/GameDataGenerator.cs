@@ -839,7 +839,11 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, "   TileMap_ClampViewportToEntity( &game->tileMap, game->players->entity );\n" );
          WriteToFileStream( fs, "   game->isAM = False;\n" );
          WriteToFileStream( fs, "   game->daylightFactor = 1.0f; // noon\n" );
-         WriteToFileStream( fs, "   game->screen.dayFilterIntensity = 1.0f;\n" );
+         WriteToFileStream( fs, "   game->screen.dayFilterIntensity = 1.0f;\n\n" );
+
+         WriteToFileStream( fs, "   game->hasShip = False;\n" );
+         WriteToFileStream( fs, "   game->hasRamia = False;\n" );
+
          WriteToFileStream( fs, "}\n" );
       }
 

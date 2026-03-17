@@ -39,7 +39,7 @@
       public const string RamiaSpriteTexturesImagePath = AssetsBasePath + "textures\\ramia_sprite_textures.png";
       public const string TextTilesFilePath = AssetsBasePath + "text_tiles.png";
 
-      public const float OverworldInactivityStatsThreshold = 1.0f;
+      public const float OverworldInactivityStatsThreshold = 2.0f;
 
       public const int OverworldStatsWindowXOffset = 7;
       public const int OverworldStatsWindowYOffset = 10;
