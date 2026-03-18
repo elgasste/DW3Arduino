@@ -42,6 +42,16 @@ void TileMap_Tic( TileMap_t* tileMap )
    {
       ActiveSprite_Tic( tileMap->playerSprites + i );
    }
+
+   if ( tileMap->hasShipFunc( tileMap->hasShipProvider ) )
+   {
+      ActiveSprite_Tic( &tileMap->shipSprite );
+   }
+
+   if ( tileMap->hasRamiaFunc( tileMap->hasRamiaProvider ) )
+   {
+      ActiveSprite_Tic( &tileMap->ramiaSprite );
+   }
 }
 
 void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )

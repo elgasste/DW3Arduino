@@ -213,10 +213,21 @@ internal void Render_DrawStaticSpritesInSection( Game_t* game, i32 vx, i32 vy, i
 
 internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw, i32 vh, i32 xOffsetPixels, i32 yOffsetPixels )
 {
-   Entity_t* sortedEntities[TILEMAP_MAX_ENTITIES + MAX_PLAYERS];
+   Entity_t* sortedEntities[TILEMAP_MAX_ENTITIES + MAX_PLAYERS + 2];
    u32 sortCount = 0;
 
    Render_SortEntities( game->tileMap.entities, game->tileMap.entityCount, sortedEntities, &sortCount, False );
+
+   if ( game->hasShip )
+   {
+      Render_SortEntities( &game->tileMap.shipEntity, 1, sortedEntities, &sortCount, False );
+   }
+
+   if ( game->hasRamia )
+   {
+      Render_SortEntities( &game->tileMap.ramiaEntity, 1, sortedEntities, &sortCount, False );
+   }
+
    Render_SortEntities( game->tileMap.playerEntities, game->playerCount, sortedEntities, &sortCount, True );
 
    Render_DrawSortedEntities( game, sortedEntities, sortCount, vx, vy, vw, vh, xOffsetPixels, yOffsetPixels );
@@ -339,7 +350,10 @@ internal void Render_DrawSortedEntities( Game_t* game, Entity_t** sortedEntities
 
          if ( !textures )
          {
-            textures = game->tileMap.activeSpriteTextures;
+            textures =
+               ( entity == &game->tileMap.shipEntity ) ? &game->tileMap.shipSpriteTextures :
+               ( entity == &game->tileMap.ramiaEntity ) ? &game->tileMap.ramiaSpriteTextures :
+               game->tileMap.activeSpriteTextures;
          }
 
          xPixels = entity->pos.x / UNITS_PER_PIXEL;

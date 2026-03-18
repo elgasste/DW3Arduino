@@ -710,11 +710,13 @@ namespace DW3ArduinoEditor.SaveData
 
       private void WriteShipAndRamiaSpritesFunction( FileStream fs )
       {
-         WriteToFileStream(fs, "\nvoid TileMap_LoadShipAndRamiaSprites( TileMap_t* tileMap )\n");
-         WriteToFileStream(fs, "{\n");
-         WriteToFileStream(fs, string.Format("   memcpy( &tileMap->shipSpriteTextures, g_shipSpriteTexturePool, sizeof( u8 ) * {0} );\n", Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
-         WriteToFileStream(fs, string.Format("   memcpy( &tileMap->ramiaSpriteTextures, g_ramiaSpriteTexturePool, sizeof( u8 ) * {0} );\n", Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight));
-         WriteToFileStream(fs, "}\n");
+         WriteToFileStream( fs, "\nvoid TileMap_LoadShipAndRamiaSprites( TileMap_t* tileMap )\n" );
+         WriteToFileStream( fs, "{\n" );
+         WriteToFileStream( fs, string.Format( "   memcpy( &tileMap->shipSpriteTextures, g_shipSpriteTexturePool[0], sizeof( u8 ) * {0} );\n", Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
+         WriteToFileStream( fs, string.Format( "   TileMap_LoadActiveSpriteData( &tileMap->shipSprite, 0, {0}, {1}, Direction_Right );\n", Constants.PlayerSpriteXOffsetPixels, Constants.PlayerSpriteYOffsetPixels ) );
+         WriteToFileStream( fs, string.Format( "   memcpy( &tileMap->ramiaSpriteTextures, g_ramiaSpriteTexturePool[0], sizeof( u8 ) * {0} );\n", Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
+         WriteToFileStream( fs, string.Format( "   TileMap_LoadActiveSpriteData( &tileMap->ramiaSprite, 0, {0}, {1}, Direction_Down );\n", Constants.PlayerSpriteXOffsetPixels, Constants.PlayerSpriteYOffsetPixels ) );
+         WriteToFileStream( fs, "}\n" );
       }
 
       private void WriteTileMapFunction( FileStream fs )
@@ -838,16 +840,29 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "      game->players[i].stats.mp = {0};\n", Constants.PlayerBaseMp ) );
          WriteToFileStream( fs, string.Format( "      game->players[i].playerClass = ( i == 0 ) ? PlayerClass_{0} : PlayerClass_{1};\n", PlayerClass.Hero.ToString(), PlayerClass.Soldier.ToString() ) );
          WriteToFileStream( fs, "      game->players[i].entity = game->tileMap.playerEntities + i;\n" );
-         WriteToFileStream( fs, "      game->players[i].entity->sprite = game->tileMap.playerSprites + i;\n" );
-         WriteToFileStream( fs, string.Format( "      TileMap_CenterEntityOnTile( &game->tileMap, game->players[i].entity, {0} );\n", _gameSaveData?.GameStartup.PlayerStartTileIndex ) );
          WriteToFileStream( fs, string.Format( "      game->players[i].entity->pos.w = {0};\n", Constants.GenericEntityWidth ) );
          WriteToFileStream( fs, string.Format( "      game->players[i].entity->pos.h = {0};\n", Constants.GenericEntityHeight ) );
          WriteToFileStream( fs, "      game->players[i].entity->prevPos = game->players[0].entity->pos;\n" );
          WriteToFileStream( fs, "      game->players[i].entity->velocity.x = 0;\n" );
          WriteToFileStream( fs, "      game->players[i].entity->velocity.y = 0;\n" );
+         WriteToFileStream( fs, "      game->players[i].entity->sprite = game->tileMap.playerSprites + i;\n" );
+         WriteToFileStream( fs, string.Format("      TileMap_CenterEntityOnTile( &game->tileMap, game->players[i].entity, {0} );\n", _gameSaveData?.GameStartup.PlayerStartTileIndex ) );
          WriteToFileStream( fs, "   }\n\n" );
 
-         WriteToFileStream( fs, "   TileMap_LoadPlayerSprites( &game->tileMap );\n\n" );
+         WriteToFileStream( fs, "   TileMap_LoadPlayerSprites( &game->tileMap );\n" );
+         WriteToFileStream( fs, "   TileMap_LoadShipAndRamiaSprites( &game->tileMap );\n\n" );
+
+         WriteToFileStream( fs, "   game->tileMap.shipEntity.sprite = &game->tileMap.shipSprite;\n" );
+         WriteToFileStream( fs, string.Format("   game->tileMap.shipEntity.pos.w = {0};\n", Constants.GenericEntityWidth ) );
+         WriteToFileStream( fs, string.Format("   game->tileMap.shipEntity.pos.h = {0};\n", Constants.GenericEntityHeight ) );
+         WriteToFileStream( fs, "   game->tileMap.shipEntity.prevPos = game->tileMap.shipEntity.pos;\n" );
+         WriteToFileStream( fs, string.Format("   TileMap_CenterEntityOnTile( &game->tileMap, &game->tileMap.shipEntity, {0} );\n\n", 56232 ) );
+
+         WriteToFileStream( fs, "   game->tileMap.ramiaEntity.sprite = &game->tileMap.ramiaSprite;\n" );
+         WriteToFileStream( fs, string.Format("   game->tileMap.ramiaEntity.pos.w = {0};\n", Constants.GenericEntityWidth ) );
+         WriteToFileStream( fs, string.Format("   game->tileMap.ramiaEntity.pos.h = {0};\n", Constants.GenericEntityHeight ) );
+         WriteToFileStream( fs, "   game->tileMap.ramiaEntity.prevPos = game->tileMap.ramiaEntity.pos;\n" );
+         WriteToFileStream( fs, string.Format("   TileMap_CenterEntityOnTile( &game->tileMap, &game->tileMap.ramiaEntity, {0} );\n\n", 56234 ) );
 
          WriteToFileStream( fs, "   for ( i = 0; i < MAX_PLAYERS; i++ )\n" );
          WriteToFileStream( fs, "   {\n" );

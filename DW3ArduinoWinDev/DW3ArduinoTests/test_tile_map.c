@@ -74,6 +74,8 @@ void TileMap_Tic_Always_TicsNpcs( void )
    if ( tileMap )
    {
       tileMap->getPlayerCountFunc = getPlayerCountFunc_Mock0;
+      tileMap->hasShipFunc = hasShip_Mock;
+      tileMap->hasRamiaFunc = hasRamia_Mock;
       tileMap->npcCount = 2;
       tileMap->activeSpriteCount = 0;
 
@@ -100,6 +102,8 @@ void TileMap_Tic_Always_TicsActiveSprites( void )
    if ( tileMap )
    {
       tileMap->getPlayerCountFunc = getPlayerCountFunc_Mock0;
+      tileMap->hasShipFunc = hasShip_Mock;
+      tileMap->hasRamiaFunc = hasRamia_Mock;
       tileMap->npcCount = 0;
       tileMap->activeSpriteCount = 1;
       tileMap->activeSprites[0].frameSeconds = 0.0f;
@@ -120,6 +124,8 @@ void TileMap_Tic_Always_TicsPlayerSprites( void )
    if ( tileMap )
    {
       tileMap->getPlayerCountFunc = getPlayerCountFunc_Mock2;
+      tileMap->hasShipFunc = hasShip_Mock;
+      tileMap->hasRamiaFunc = hasRamia_Mock;
       tileMap->npcCount = 0;
       tileMap->activeSpriteCount = 0;
       tileMap->playerSprites[0].frameSeconds = 0.0f;

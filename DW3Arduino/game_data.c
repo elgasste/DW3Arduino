@@ -250,8 +250,10 @@ void TileMap_LoadPlayerSprites( TileMap_t* tileMap )
 
 void TileMap_LoadShipAndRamiaSprites( TileMap_t* tileMap )
 {
-   memcpy( &tileMap->shipSpriteTextures, g_shipSpriteTexturePool, sizeof( u8 ) * 2048 );
-   memcpy( &tileMap->ramiaSpriteTextures, g_ramiaSpriteTexturePool, sizeof( u8 ) * 2048 );
+   memcpy( &tileMap->shipSpriteTextures, g_shipSpriteTexturePool[0], sizeof( u8 ) * 2048 );
+   TileMap_LoadActiveSpriteData( &tileMap->shipSprite, 0, 2, 4, Direction_Right );
+   memcpy( &tileMap->ramiaSpriteTextures, g_ramiaSpriteTexturePool[0], sizeof( u8 ) * 2048 );
+   TileMap_LoadActiveSpriteData( &tileMap->ramiaSprite, 0, 2, 4, Direction_Down );
 }
 
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
@@ -632,16 +634,29 @@ void Game_Reset( Game_t* game )
       game->players[i].stats.mp = 0;
       game->players[i].playerClass = ( i == 0 ) ? PlayerClass_Hero : PlayerClass_Soldier;
       game->players[i].entity = game->tileMap.playerEntities + i;
-      game->players[i].entity->sprite = game->tileMap.playerSprites + i;
-      TileMap_CenterEntityOnTile( &game->tileMap, game->players[i].entity, 56746 );
       game->players[i].entity->pos.w = 1200;
       game->players[i].entity->pos.h = 1200;
       game->players[i].entity->prevPos = game->players[0].entity->pos;
       game->players[i].entity->velocity.x = 0;
       game->players[i].entity->velocity.y = 0;
+      game->players[i].entity->sprite = game->tileMap.playerSprites + i;
+      TileMap_CenterEntityOnTile( &game->tileMap, game->players[i].entity, 56746 );
    }
 
    TileMap_LoadPlayerSprites( &game->tileMap );
+   TileMap_LoadShipAndRamiaSprites( &game->tileMap );
+
+   game->tileMap.shipEntity.sprite = &game->tileMap.shipSprite;
+   game->tileMap.shipEntity.pos.w = 1200;
+   game->tileMap.shipEntity.pos.h = 1200;
+   game->tileMap.shipEntity.prevPos = game->tileMap.shipEntity.pos;
+   TileMap_CenterEntityOnTile( &game->tileMap, &game->tileMap.shipEntity, 56232 );
+
+   game->tileMap.ramiaEntity.sprite = &game->tileMap.ramiaSprite;
+   game->tileMap.ramiaEntity.pos.w = 1200;
+   game->tileMap.ramiaEntity.pos.h = 1200;
+   game->tileMap.ramiaEntity.prevPos = game->tileMap.ramiaEntity.pos;
+   TileMap_CenterEntityOnTile( &game->tileMap, &game->tileMap.ramiaEntity, 56234 );
 
    for ( i = 0; i < MAX_PLAYERS; i++ )
    {
