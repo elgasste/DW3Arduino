@@ -72,9 +72,7 @@ typedef struct TileMap_t
 
    // MUFFINS
    //
-   // - keep track of the ship's tile index
-   //    - it'll be the same as the player's when you're on the ship, but keep track of it when off the ship
-   // - keep track of ramia's tile index
+   // - when the you're on the ship or ramia, update the tile index when moving
    // - if you step on the ship's tile index, board the ship
    // - if you're on the ship and you step on a passable non-water index, disembark the ship
    //    - this is more complicated than it seems, it'll probably need to be incorporated into tile collision detection
@@ -84,7 +82,9 @@ typedef struct TileMap_t
    // - if you're on ramia and you press A, disembark as long as you're on passable land and not on a portal
 
    Bool_t isOnShip;
+   u32 shipTileIndex;
    Bool_t isOnRamia;
+   u32 ramiaTileIndex;
 
    Player_t* players;
    u32 ( *getPlayerCountFunc )( void* );

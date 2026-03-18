@@ -21,7 +21,9 @@ void TileMap_Init( TileMap_t* tileMap, Player_t* players,
    tileMap->npcCount = 0;
 
    tileMap->isOnShip = False;
+   tileMap->shipTileIndex = 0;
    tileMap->isOnRamia = False;
+   tileMap->ramiaTileIndex = 0;
 }
 
 void TileMap_Tic( TileMap_t* tileMap )

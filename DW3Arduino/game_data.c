@@ -650,13 +650,15 @@ void Game_Reset( Game_t* game )
    game->tileMap.shipEntity.pos.w = 1200;
    game->tileMap.shipEntity.pos.h = 1200;
    game->tileMap.shipEntity.prevPos = game->tileMap.shipEntity.pos;
-   TileMap_CenterEntityOnTile( &game->tileMap, &game->tileMap.shipEntity, 56232 );
+   game->tileMap.shipTileIndex = 56232;
+   TileMap_CenterEntityOnTile( &game->tileMap, &game->tileMap.shipEntity, game->tileMap.shipTileIndex );
 
    game->tileMap.ramiaEntity.sprite = &game->tileMap.ramiaSprite;
    game->tileMap.ramiaEntity.pos.w = 1200;
    game->tileMap.ramiaEntity.pos.h = 1200;
    game->tileMap.ramiaEntity.prevPos = game->tileMap.ramiaEntity.pos;
-   TileMap_CenterEntityOnTile( &game->tileMap, &game->tileMap.ramiaEntity, 56234 );
+   game->tileMap.ramiaTileIndex = 56234;
+   TileMap_CenterEntityOnTile( &game->tileMap, &game->tileMap.ramiaEntity, game->tileMap.ramiaTileIndex );
 
    for ( i = 0; i < MAX_PLAYERS; i++ )
    {
