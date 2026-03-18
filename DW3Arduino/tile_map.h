@@ -40,6 +40,8 @@ typedef struct TileMap_t
    StaticSpriteTexture_t staticSpriteTextures[TILEMAP_MAX_STATIC_SPRITE_TEXTURES];
    ActiveSpriteTexture_t activeSpriteTextures[TILEMAP_MAX_ACTIVE_SPRITE_TEXTURES];
    ActiveSpriteTexture_t playerSpriteTextures[MAX_PLAYERS];
+   ActiveSpriteTexture_t shipSpriteTextures;
+   ActiveSpriteTexture_t ramiaSpriteTextures;
 
    // bits 0-4:   tile texture index
    // bit  5:     is passable
@@ -65,11 +67,11 @@ typedef struct TileMap_t
    u32 activeSpriteCount;
    ActiveSprite_t playerSprites[MAX_PLAYERS];
    Entity_t playerEntities[MAX_PLAYERS];
+   ActiveSprite_t shipSprite;
+   ActiveSprite_t ramiaSprite;
 
    // MUFFINS
    //
-   // - add ship sprite
-   // - add ramia sprite
    // - keep track of the ship's tile index
    //    - it'll be the same as the player's when you're on the ship, but keep track of it when off the ship
    // - keep track of ramia's tile index
@@ -124,6 +126,7 @@ i32 TileMap_GetTileDiagonalVelocity( i32 regularVelocity );
 
 // game_data.c
 void TileMap_LoadPlayerSprites( TileMap_t* tileMap );
+void TileMap_LoadShipAndRamiaSprites( TileMap_t* tileMap );
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index );
 
 #if defined( __cplusplus )

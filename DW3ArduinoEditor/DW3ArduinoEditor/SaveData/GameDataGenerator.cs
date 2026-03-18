@@ -44,6 +44,8 @@ namespace DW3ArduinoEditor.SaveData
       private ActiveSpriteTexturePool? _activeSpriteTexturePool;
       private ActiveSpriteTexturePool? _playerSpriteTexturePoolMale;
       private ActiveSpriteTexturePool? _playerSpriteTexturePoolFemale;
+      private ActiveSpriteTexturePool? _shipSpriteTexturePool;
+      private ActiveSpriteTexturePool? _ramiaSpriteTexturePool;
 
       public void WriteGameDataSourceFile( GameSaveData? saveData,
                                            Palette? palette,
@@ -51,7 +53,9 @@ namespace DW3ArduinoEditor.SaveData
                                            StaticSpriteTexturePool? staticSpriteTexturePool,
                                            ActiveSpriteTexturePool? activeSpriteTexturePool,
                                            ActiveSpriteTexturePool? playerSpriteTexturePoolMale,
-                                           ActiveSpriteTexturePool? playerSpriteTexturePoolFemale )
+                                           ActiveSpriteTexturePool? playerSpriteTexturePoolFemale,
+                                           ActiveSpriteTexturePool? shipSpriteTexturePool,
+                                           ActiveSpriteTexturePool? ramiaSpriteTexturePool )
       {
          _gameSaveData = saveData;
          _palette = palette;
@@ -60,6 +64,8 @@ namespace DW3ArduinoEditor.SaveData
          _activeSpriteTexturePool = activeSpriteTexturePool;
          _playerSpriteTexturePoolMale = playerSpriteTexturePoolMale;
          _playerSpriteTexturePoolFemale = playerSpriteTexturePoolFemale;
+         _shipSpriteTexturePool = shipSpriteTexturePool;
+         _ramiaSpriteTexturePool = ramiaSpriteTexturePool;
 
          WriteCommonHeader();
          WriteTextBitFieldsHeader();
@@ -80,6 +86,7 @@ namespace DW3ArduinoEditor.SaveData
          WriteStaticSpriteTextureIndexesFunction( fs );
          WriteActiveSpriteTextureIndexesFunction( fs );
          WritePlayerSpritesFunction( fs );
+         WriteShipAndRamiaSpritesFunction( fs );
          WriteTileMapFunction( fs );
          WriteLoadEnemyFunction( fs );
          WriteGameResetFunction( fs );
@@ -377,6 +384,8 @@ namespace DW3ArduinoEditor.SaveData
 
          WriteActiveSpriteTexturesSection( fs, "g_playerSpriteTexturePoolMale", _playerSpriteTexturePoolMale );
          WriteActiveSpriteTexturesSection( fs, "g_playerSpriteTexturePoolFemale", _playerSpriteTexturePoolFemale );
+         WriteActiveSpriteTexturesSection( fs, "g_shipSpriteTexturePool", _shipSpriteTexturePool );
+         WriteActiveSpriteTexturesSection( fs, "g_ramiaSpriteTexturePool", _ramiaSpriteTexturePool );
 
          WriteToFileStream( fs, string.Format( "#endif // GEN_{0}_H\n", _gameSaveData?.HeaderGuids.PlayerSpriteTexturesHeaderGuid ) );
       }
@@ -697,6 +706,15 @@ namespace DW3ArduinoEditor.SaveData
          WriteToFileStream( fs, string.Format( "      TileMap_LoadActiveSpriteData( tileMap->playerSprites + i, i, {0}, {1}, Direction_Down );\n", Constants.PlayerSpriteXOffsetPixels, Constants.PlayerSpriteYOffsetPixels ) );
          WriteToFileStream( fs, "   }\n" );
          WriteToFileStream( fs, "}\n" );
+      }
+
+      private void WriteShipAndRamiaSpritesFunction( FileStream fs )
+      {
+         WriteToFileStream(fs, "\nvoid TileMap_LoadShipAndRamiaSprites( TileMap_t* tileMap )\n");
+         WriteToFileStream(fs, "{\n");
+         WriteToFileStream(fs, string.Format("   memcpy( &tileMap->shipSpriteTextures, g_shipSpriteTexturePool, sizeof( u8 ) * {0} );\n", Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight ) );
+         WriteToFileStream(fs, string.Format("   memcpy( &tileMap->ramiaSpriteTextures, g_ramiaSpriteTexturePool, sizeof( u8 ) * {0} );\n", Constants.ActiveSpriteTextureWidth * Constants.ActiveSpriteTextureHeight));
+         WriteToFileStream(fs, "}\n");
       }
 
       private void WriteTileMapFunction( FileStream fs )

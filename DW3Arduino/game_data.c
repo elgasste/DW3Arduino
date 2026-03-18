@@ -248,6 +248,12 @@ void TileMap_LoadPlayerSprites( TileMap_t* tileMap )
    }
 }
 
+void TileMap_LoadShipAndRamiaSprites( TileMap_t* tileMap )
+{
+   memcpy( &tileMap->shipSpriteTextures, g_shipSpriteTexturePool, sizeof( u8 ) * 2048 );
+   memcpy( &tileMap->ramiaSpriteTextures, g_ramiaSpriteTexturePool, sizeof( u8 ) * 2048 );
+}
+
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
 {
    switch( index )

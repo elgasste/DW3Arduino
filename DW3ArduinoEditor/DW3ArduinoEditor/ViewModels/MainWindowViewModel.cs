@@ -21,6 +21,8 @@ namespace DW3ArduinoEditor.ViewModels
       private readonly ActiveSpriteTexturePool _activeSpriteTexturePool = new();
       private readonly ActiveSpriteTexturePool _playerSpriteTexturePoolMale = new();
       private readonly ActiveSpriteTexturePool _playerSpriteTexturePoolFemale = new();
+      private readonly ActiveSpriteTexturePool _shipSpriteTexturePool = new();
+      private readonly ActiveSpriteTexturePool _ramiaSpriteTexturePool = new();
 
       public ObservableCollection<TileMapViewModel> TileMaps { get; } = [];
       public ObservableCollection<TextureSetViewModel> TileTextureSets { get; } = [];
@@ -160,6 +162,8 @@ namespace DW3ArduinoEditor.ViewModels
          {
             _playerSpriteTexturePoolMale = new( Constants.PlayerSpriteTexturePoolMaleImagePath, _palette );
             _playerSpriteTexturePoolFemale = new( Constants.PlayerSpriteTexturePoolFemaleImagePath, _palette );
+            _shipSpriteTexturePool = new( Constants.ShipSpriteTexturePoolImagePath, _palette );
+            _ramiaSpriteTexturePool = new( Constants.RamiaSpriteTexturePoolImagePath, _palette );
          }
          catch ( Exception ex )
          {
@@ -608,7 +612,7 @@ namespace DW3ArduinoEditor.ViewModels
       private void WriteGameDataSource()
       {
          var generator = new GameDataGenerator();
-         generator.WriteGameDataSourceFile( new( _gameStartup, _headerGuids, TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets, PlayerClassExpTables ), _palette, TileTexturePool, StaticSpriteTexturePool, _activeSpriteTexturePool, _playerSpriteTexturePoolMale, _playerSpriteTexturePoolFemale );
+         generator.WriteGameDataSourceFile( new( _gameStartup, _headerGuids, TileMaps, TileTextureSets, StaticSpriteTextureSets, ActiveSpriteTextureSets, PlayerClassExpTables ), _palette, TileTexturePool, StaticSpriteTexturePool, _activeSpriteTexturePool, _playerSpriteTexturePoolMale, _playerSpriteTexturePoolFemale, _shipSpriteTexturePool, _ramiaSpriteTexturePool );
          MessageBox.Show( "Game data source file has been written." );
       }
 
