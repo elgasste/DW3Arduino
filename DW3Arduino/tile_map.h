@@ -72,12 +72,15 @@ typedef struct TileMap_t
 
    // MUFFINS
    //
-   // - when the you're on the ship or ramia, update the tile index when moving
+   // - if the you're on ramia/ship, update the tile index for the player AND ship/ramia when moving
    // - if you step on the ship's tile index, board the ship
+   //    - this will involve checking whether the ship is on a water tile in collision detection
+   //    - add an animation for this
    // - if you're on the ship and you step on a passable non-water index, disembark the ship
-   //    - this is more complicated than it seems, it'll probably need to be incorporated into tile collision detection
-   //       - maybe add a collision callback?
+   //    - same as getting on the ship in the first place
+   //    - add an animation for this
    // - if you're on ramia's tile index and you press A, board ramia
+   //    - use the same animation as boarding the ship for this
    // - if you're on ramia, you don't need to hold down the direction keys
    // - if you're on ramia and you press A, disembark as long as you're on passable land and not on a portal
 
