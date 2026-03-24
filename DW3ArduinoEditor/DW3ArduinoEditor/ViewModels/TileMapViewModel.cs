@@ -173,6 +173,20 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _hasEncounters, value );
       }
 
+      private bool _allowsShip;
+      public bool AllowsShip
+      {
+         get => _allowsShip;
+         set => SetProperty( ref _allowsShip, value );
+      }
+
+      private bool _allowsRamia;
+      public bool AllowsRamia
+      {
+         get => _allowsRamia;
+         set => SetProperty( ref _allowsRamia, value );
+      }
+
       private PortalViewModel? _edgePortal;
       public PortalViewModel? EdgePortal
       {
@@ -188,6 +202,8 @@ namespace DW3ArduinoEditor.ViewModels
                                bool affectsDaylight,
                                bool isUnderground,
                                bool hasEncounters,
+                               bool allowsShip,
+                               bool allowsRamia,
                                uint tileTextureSetIndex,
                                uint staticSpriteTextureSetIndex,
                                uint activeSpriteTextureSetIndex )
@@ -200,6 +216,8 @@ namespace DW3ArduinoEditor.ViewModels
          _affectsDaylight = affectsDaylight;
          _isUnderground = isUnderground;
          _hasEncounters = hasEncounters;
+         _allowsShip = allowsShip;
+         _allowsRamia = allowsRamia;
          _tileTextureSetIndex = tileTextureSetIndex;
          _staticSpriteTextureSetIndex = staticSpriteTextureSetIndex;
          _activeSpriteTextureSetIndex = activeSpriteTextureSetIndex;
@@ -220,6 +238,8 @@ namespace DW3ArduinoEditor.ViewModels
          _affectsDaylight = saveData.AffectsDaylight;
          _isUnderground = saveData.IsUnderground;
          _hasEncounters = saveData.HasEncounters;
+         _allowsShip = saveData.AllowsShip;
+         _allowsRamia = saveData.AllowsRamia;
          _tileTextureSetIndex = saveData.TileTextureSetIndex;
          _staticSpriteTextureSetIndex = saveData.StaticSpriteTextureSetIndex;
          _activeSpriteTextureSetIndex = saveData.ActiveSpriteTextureSetIndex;

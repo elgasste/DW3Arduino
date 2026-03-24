@@ -20,6 +20,13 @@ void TileMap_Init( TileMap_t* tileMap, Player_t* players,
    tileMap->entityCount = 0;
    tileMap->npcCount = 0;
 
+   tileMap->wraps = False;
+   tileMap->affectsDaylight = False;
+   tileMap->isUnderground = False;
+   tileMap->hasEncounters = False;
+   tileMap->allowsShip = False;
+   tileMap->allowsRamia = False;
+
    tileMap->isOnShip = False;
    tileMap->shipTileIndex = 0;
    tileMap->isOnRamia = False;

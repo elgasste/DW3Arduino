@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DW3ArduinoEditor"
         mc:Ignorable="d"
         Title="Add New Tile Map"
-        Height="254"
+        Height="306"
         Width="300"
         ResizeMode="NoResize">
    <Grid>
@@ -16,6 +16,8 @@
          <ColumnDefinition />
       </Grid.ColumnDefinitions>
       <Grid.RowDefinitions>
+         <RowDefinition Height="26" />
+         <RowDefinition Height="26" />
          <RowDefinition Height="26" />
          <RowDefinition Height="26" />
          <RowDefinition Height="26" />
@@ -108,9 +110,31 @@
            Margin="3"
            Text="Has Encounters" />
 
+      <!-- Allows Ship -->
+      <CheckBox x:Name="AllowsShipCheckBox"
+                Grid.Column="0"
+                Grid.Row="7"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"/>
+      <TextBlock Grid.Column="1"
+                 Grid.Row="7"
+                 Margin="3"
+                 Text="Allows Ship" />
+
+      <!-- Allows Ramia -->
+      <CheckBox x:Name="AllowsRamiaCheckBox"
+                Grid.Column="0"
+                Grid.Row="8"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"/>
+      <TextBlock Grid.Column="1"
+                 Grid.Row="8"
+                 Margin="3"
+                 Text="Allows Ramia" />
+
       <!-- Create/Cancel buttons -->
       <StackPanel Grid.Column="0"
-                  Grid.Row="7"
+                  Grid.Row="9"
                   Grid.ColumnSpan="2"
                   Orientation="Horizontal"
                   HorizontalAlignment="Right"

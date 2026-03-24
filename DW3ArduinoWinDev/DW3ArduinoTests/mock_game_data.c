@@ -21,6 +21,20 @@ void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index )
    UNUSED_PARAM( index );
 }
 
+Bool_t TileMap_AllowsShip( u32 index )
+{
+   UNUSED_PARAM( index );
+
+   return False;
+}
+
+Bool_t TileMap_AllowsRamia( u32 index )
+{
+   UNUSED_PARAM( index );
+   
+   return False;
+}
+
 void Game_Reset( Game_t* game )
 {
    UNUSED_PARAM( game );

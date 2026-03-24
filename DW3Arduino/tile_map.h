@@ -53,10 +53,14 @@ typedef struct TileMap_t
    u16 tiles[TILEMAP_MAX_TILES_X * TILEMAP_MAX_TILES_Y];
    u32 tilesX;
    u32 tilesY;
+
+   // TODO: these and other flags in here can be consolidated into a single u32
    Bool_t wraps;
    Bool_t affectsDaylight;
    Bool_t isUnderground;
    Bool_t hasEncounters;
+   Bool_t allowsShip;
+   Bool_t allowsRamia;
 
    Vector4i32_t viewport;
    Vector2u32_t viewportScreenPos;
@@ -133,6 +137,8 @@ i32 TileMap_GetTileDiagonalVelocity( i32 regularVelocity );
 void TileMap_LoadPlayerSprites( TileMap_t* tileMap );
 void TileMap_LoadShipAndRamiaSprites( TileMap_t* tileMap );
 void TileMap_LoadFromIndex( TileMap_t* tileMap, u32 index );
+Bool_t TileMap_AllowsShip( u32 index );
+Bool_t TileMap_AllowsRamia( u32 index );
 
 #if defined( __cplusplus )
 }

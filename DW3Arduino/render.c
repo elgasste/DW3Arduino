@@ -218,12 +218,12 @@ internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw
 
    Render_SortEntities( game->tileMap.entities, game->tileMap.entityCount, sortedEntities, &sortCount, False );
 
-   if ( game->hasShip )
+   if ( game->hasShip && game->tileMap.allowsShip )
    {
       Render_SortEntities( &game->tileMap.shipEntity, 1, sortedEntities, &sortCount, False );
    }
 
-   if ( game->hasRamia )
+   if ( game->hasRamia && game->tileMap.allowsRamia )
    {
       Render_SortEntities( &game->tileMap.ramiaEntity, 1, sortedEntities, &sortCount, False );
    }

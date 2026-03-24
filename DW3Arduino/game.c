@@ -310,7 +310,7 @@ internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
 internal Bool_t Game_TryEnterPortal( Game_t* game )
 {
    u32 i;
-   Portal_t* checkPortal, * foundPortal = 0;
+   Portal_t *checkPortal, *foundPortal = 0;
 
    // check regular portals first
    for ( i = 0, checkPortal = game->tileMap.portals; i < game->tileMap.portalCount; i++, checkPortal++ )
@@ -326,6 +326,13 @@ internal Bool_t Game_TryEnterPortal( Game_t* game )
    if ( !foundPortal && game->tileMap.hasEdgePortal && TileMap_TileIndexIsEdgeTile( &game->tileMap, game->players->entity->tileIndex ) )
    {
       foundPortal = &game->tileMap.edgePortal;
+   }
+
+   if ( foundPortal &&
+        ( ( game->tileMap.isOnShip && !TileMap_AllowsShip( foundPortal->destTileMapIndex ) ) ||
+          ( game->tileMap.isOnRamia && !TileMap_AllowsRamia( foundPortal->destTileMapIndex ) ) ) )
+   {
+      foundPortal = 0;
    }
 
    if ( foundPortal )
@@ -352,6 +359,16 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
 
    TileMap_LoadFromIndex( &game->tileMap, destTileMapIndex );
    TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
+
+   if ( game->tileMap.isOnShip && !game->tileMap.allowsShip )
+   {
+      game->tileMap.isOnShip = False;
+   }
+
+   if ( game->tileMap.isOnRamia && !game->tileMap.allowsRamia )
+   {
+      game->tileMap.isOnRamia = False;
+   }
 
    for ( i = 0; i < (i32)game->playerCount; i++ )
    {

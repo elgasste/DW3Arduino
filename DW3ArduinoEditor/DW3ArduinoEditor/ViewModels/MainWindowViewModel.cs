@@ -491,6 +491,8 @@ namespace DW3ArduinoEditor.ViewModels
                                                    window.NewAffectsDaylight,
                                                    window.NewIsUnderground,
                                                    window.NewHasEncounters,
+                                                   window.NewAllowsShip,
+                                                   window.NewAllowsRamia,
                                                    TileTextureSets[0].Index,
                                                    StaticSpriteTextureSets[0].Index,
                                                    ActiveSpriteTextureSets[0].Index );

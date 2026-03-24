@@ -121,9 +121,17 @@
                                VerticalAlignment="Center"
                                IsChecked="{Binding SelectedTileMap.IsUnderground, Mode=TwoWay}"/>
                      <CheckBox Content="Has Encounters"
-                               Margin="10,5,0,10"
+                               Margin="10,5,0,0"
                                VerticalAlignment="Center"
                                IsChecked="{Binding SelectedTileMap.HasEncounters, Mode=TwoWay}"/>
+                     <CheckBox Content="Allows Ship"
+                               Margin="10,5,0,0"
+                               VerticalAlignment="Center"
+                               IsChecked="{Binding SelectedTileMap.AllowsShip, Mode=TwoWay}"/>
+                     <CheckBox Content="Allows Ramia"
+                               Margin="10,5,0,10"
+                               VerticalAlignment="Center"
+                               IsChecked="{Binding SelectedTileMap.AllowsRamia, Mode=TwoWay}"/>
 
                      <!-- Tile Map Texture Selector -->
                      <ListBox x:Name="tileSelectionListView"
