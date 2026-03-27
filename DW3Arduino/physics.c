@@ -137,7 +137,7 @@ internal void Physics_MoveEntities( Game_t* game )
       // clamp to tile map boundaries, or wrap if possible
       if ( entity->pos.x < 0 )
       {
-         if ( game->tileMap.wraps )
+         if ( TILEMAP_WRAPS( game->tileMap.flags ) )
          {
             entity->pos.x = (i32)( game->tileMap.tilesX * TILEMAP_TILE_SIZE_UNITS ) + entity->pos.x;
          }
@@ -148,7 +148,7 @@ internal void Physics_MoveEntities( Game_t* game )
       }
       else
       {
-         if ( game->tileMap.wraps )
+         if ( TILEMAP_WRAPS( game->tileMap.flags ) )
          {
             if ( entity->pos.x >= (i32)( game->tileMap.tilesX * TILEMAP_TILE_SIZE_UNITS ) )
             {
@@ -166,7 +166,7 @@ internal void Physics_MoveEntities( Game_t* game )
 
       if ( entity->pos.y < 0 )
       {
-         if ( game->tileMap.wraps )
+         if ( TILEMAP_WRAPS( game->tileMap.flags ) )
          {
             entity->pos.y = (i32)( game->tileMap.tilesY * TILEMAP_TILE_SIZE_UNITS ) + entity->pos.y;
          }
@@ -177,7 +177,7 @@ internal void Physics_MoveEntities( Game_t* game )
       }
       else
       {
-         if ( game->tileMap.wraps )
+         if ( TILEMAP_WRAPS( game->tileMap.flags ) )
          {
             if ( entity->pos.y >= (i32)( game->tileMap.tilesY * TILEMAP_TILE_SIZE_UNITS ) )
             {
@@ -215,7 +215,7 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
    i32 i, start, end, side;
 
    // Ramia only ever runs into the edge of the screen
-   if ( entity == tileMap->playerEntities && tileMap->isOnRamia )
+   if ( entity == tileMap->playerEntities && TILEMAP_PARTY_IS_ON_RAMIA( tileMap->flags ) )
    {
       return False;
    }
@@ -256,7 +256,7 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
          {
             return True;
          }
-         else if ( entity == tileMap->playerEntities && tileMap->isOnShip == TILE_GET_IS_LAND( tile ) )
+         else if ( entity == tileMap->playerEntities && TILEMAP_PARTY_IS_ON_SHIP( tileMap->flags ) == TILE_GET_IS_LAND( tile ) )
          {
             // the player can collide with either land or water, depending on whether they're on the ship
             return True;
@@ -299,7 +299,7 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
          {
             return True;
          }
-         else if ( entity == tileMap->playerEntities && tileMap->isOnShip == TILE_GET_IS_LAND( tile ) )
+         else if ( entity == tileMap->playerEntities && TILEMAP_PARTY_IS_ON_SHIP( tileMap->flags ) == TILE_GET_IS_LAND( tile ) )
          {
             // the player can collide with either land or water, depending on whether they're on the ship
             return True;
@@ -317,7 +317,7 @@ internal Bool_t Physics_EntityCollidesWithRigidBodies( TileMap_t* tileMap, Entit
    Entity_t* rigidEntity;
 
    // Ramia only ever runs into the edge of the screen
-   if ( entity == tileMap->playerEntities && tileMap->isOnRamia )
+   if ( entity == tileMap->playerEntities && TILEMAP_PARTY_IS_ON_RAMIA( tileMap->flags ) )
    {
       return False;
    }
@@ -374,7 +374,7 @@ internal Bool_t Physics_EntityCollidesWithRigidBody( TileMap_t* tileMap, Entity_
    {
       if ( sign < 0 ) // moving left
       {
-         if ( tileMap->wraps )
+         if ( TILEMAP_WRAPS( tileMap->flags ) )
          {
             if ( entityPos.x < 0 ) // entity is wrapping leftward
                entityPos.x = mapW + entityPos.x;
@@ -400,7 +400,7 @@ internal Bool_t Physics_EntityCollidesWithRigidBody( TileMap_t* tileMap, Entity_
       }
       else // moving right
       {
-         if ( tileMap->wraps )
+         if ( TILEMAP_WRAPS( tileMap->flags ) )
          {
             if ( entityPos.x + entityPos.w >= mapW ) // entity is wrapping rightward
                entityPos.x = -( mapW - entityPos.x );
@@ -429,7 +429,7 @@ internal Bool_t Physics_EntityCollidesWithRigidBody( TileMap_t* tileMap, Entity_
    {
       if ( sign < 0 ) // moving up
       {
-         if ( tileMap->wraps )
+         if ( TILEMAP_WRAPS( tileMap->flags ) )
          {
             if ( entityPos.y < 0 ) // entity is wrapping upward
                entityPos.y = mapH + entityPos.y;
@@ -455,7 +455,7 @@ internal Bool_t Physics_EntityCollidesWithRigidBody( TileMap_t* tileMap, Entity_
       }
       else // moving down
       {
-         if ( tileMap->wraps )
+         if ( TILEMAP_WRAPS( tileMap->flags ) )
          {
             if ( entityPos.y + entityPos.h >= mapH ) // entity is wrapping downward
                entityPos.y = -( mapH - entityPos.y );

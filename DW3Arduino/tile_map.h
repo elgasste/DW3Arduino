@@ -6,6 +6,26 @@
 #include "entity.h"
 #include "npc.h"
 
+#define TILEMAP_WRAPS( f )                      ( ( ( f ) & 0x0001 ) >> 0 )
+#define TILEMAP_AFFECTS_DAYLIGHT( f )           ( ( ( f ) & 0x0002 ) >> 1 )
+#define TILEMAP_IS_UNDERGROUND( f )             ( ( ( f ) & 0x0004 ) >> 2 )
+#define TILEMAP_HAS_ENCOUNTERS( f )             ( ( ( f ) & 0x0008 ) >> 3 )
+#define TILEMAP_HAS_EDGE_PORTAL( f )            ( ( ( f ) & 0x0010 ) >> 4 )
+#define TILEMAP_ALLOWS_SHIP( f )                ( ( ( f ) & 0x0020 ) >> 5 )
+#define TILEMAP_ALLOWS_RAMIA( f )               ( ( ( f ) & 0x0040 ) >> 6 )
+#define TILEMAP_PARTY_IS_ON_SHIP( f )           ( ( ( f ) & 0x0080 ) >> 7 )
+#define TILEMAP_PARTY_IS_ON_RAMIA( f )          ( ( ( f ) & 0x0100 ) >> 8 )
+
+#define TILEMAP_TOGGLE_WRAPS( f )               ( ( f ) ^= ( (u16)0x1 << 0 ) )
+#define TILEMAP_TOGGLE_AFFECTS_DAYLIGHT( f )    ( ( f ) ^= ( (u16)0x1 << 1 ) )
+#define TILEMAP_TOGGLE_IS_UNDERGROUND( f )      ( ( f ) ^= ( (u16)0x1 << 2 ) )
+#define TILEMAP_TOGGLE_HAS_ENCOUNTERS( f )      ( ( f ) ^= ( (u16)0x1 << 3 ) )
+#define TILEMAP_TOGGLE_HAS_EDGE_PORTAL( f )     ( ( f ) ^= ( (u16)0x1 << 4 ) )
+#define TILEMAP_TOGGLE_ALLOWS_SHIP( f )         ( ( f ) ^= ( (u16)0x1 << 5 ) )
+#define TILEMAP_TOGGLE_ALLOWS_RAMIA( f )        ( ( f ) ^= ( (u16)0x1 << 6 ) )
+#define TILEMAP_TOGGLE_PARTY_IS_ON_SHIP( f )    ( ( f ) ^= ( (u16)0x1 << 7 ) )
+#define TILEMAP_TOGGLE_PARTY_IS_ON_RAMIA( f )   ( ( f ) ^= ( (u16)0x1 << 8 ) )
+
 #define TILE_GET_TEXTURE_INDEX( tile )          ( ( tile ) & 0x1F )
 #define TILE_GET_IS_PASSABLE( tile )            ( ( ( tile ) >> 5 ) & 0x01 )
 #define TILE_GET_WALKING_SPEED( tile )          ( ( ( tile ) >> 6 ) & 0x03 )
@@ -43,6 +63,17 @@ typedef struct TileMap_t
    ActiveSpriteTexture_t shipSpriteTextures;
    ActiveSpriteTexture_t ramiaSpriteTextures;
 
+   // bit 0: wraps
+   // bit 1: affects daylight
+   // bit 2: is underground
+   // bit 3: has encounters
+   // bit 4: has edge portal
+   // bit 5: allows ship
+   // bit 6: allows ramia
+   // bit 7: party is on ship
+   // bit 8: party is on ramia
+   u16 flags;
+
    // bits 0-4:   tile texture index
    // bit  5:     is passable
    // bits 6-7:   walking speed
@@ -53,14 +84,6 @@ typedef struct TileMap_t
    u16 tiles[TILEMAP_MAX_TILES_X * TILEMAP_MAX_TILES_Y];
    u32 tilesX;
    u32 tilesY;
-
-   // TODO: these and other flags in here can be consolidated into a single u32
-   Bool_t wraps;
-   Bool_t affectsDaylight;
-   Bool_t isUnderground;
-   Bool_t hasEncounters;
-   Bool_t allowsShip;
-   Bool_t allowsRamia;
 
    Vector4i32_t viewport;
    Vector2u32_t viewportScreenPos;
@@ -76,6 +99,9 @@ typedef struct TileMap_t
 
    // MUFFINS
    //
+   // x when loading a game, if you have ramia/ship, it should be placed on the correct tile
+   //    x tile map should have a ramia/ship default tile index
+   // - when going through a portal on ramia/ship, you should still be on ramia/ship when entering
    // - if the you're on ramia/ship, update the tile index for the player AND ship/ramia when moving
    // - if you step on the ship's tile index, board the ship
    //    - this will involve checking whether the ship is on a water tile in collision detection
@@ -88,9 +114,7 @@ typedef struct TileMap_t
    // - if you're on ramia, you don't need to hold down the direction keys
    // - if you're on ramia and you press A, disembark as long as you're on passable land and not on a portal
 
-   Bool_t isOnShip;
    u32 shipTileIndex;
-   Bool_t isOnRamia;
    u32 ramiaTileIndex;
 
    Player_t* players;
@@ -103,7 +127,6 @@ typedef struct TileMap_t
 
    Portal_t portals[TILEMAP_MAX_PORTALS];
    u32 portalCount;
-   Bool_t hasEdgePortal;
    Portal_t edgePortal;
 
    Entity_t entities[TILEMAP_MAX_ENTITIES];

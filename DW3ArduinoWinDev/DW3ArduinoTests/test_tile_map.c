@@ -230,7 +230,6 @@ void TileMap_TileIndexIsEdgeTile_TileIndexIsNotEdgeTile_ReturnsFalse( void )
    {
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
-      tileMap->wraps = False;
       result = TileMap_TileIndexIsEdgeTile( tileMap, 11 );
 
       TEST_ASSERT_EQUAL( False, result );
@@ -249,7 +248,7 @@ void TileMap_TileIndexIsEdgeTile_TileMapWraps_ReturnsFalse( void )
    {
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
-      tileMap->wraps = True;
+      TILEMAP_TOGGLE_WRAPS( tileMap->flags );
       result = TileMap_TileIndexIsEdgeTile( tileMap, 0 );
 
       TEST_ASSERT_EQUAL( False, result );
@@ -268,7 +267,6 @@ void TileMap_TileIndexIsEdgeTile_TileIndexIsLeftEdgeTile_ReturnsTrue( void )
    {
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
-      tileMap->wraps = False;
       result = TileMap_TileIndexIsEdgeTile( tileMap, 20 );
 
       TEST_ASSERT_EQUAL( True, result );
@@ -287,7 +285,6 @@ void TileMap_TileIndexIsEdgeTile_TileIndexIsTopEdgeTile_ReturnsTrue( void )
    {
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
-      tileMap->wraps = False;
       result = TileMap_TileIndexIsEdgeTile( tileMap, 5 );
 
       TEST_ASSERT_EQUAL( True, result );
@@ -306,7 +303,6 @@ void TileMap_TileIndexIsEdgeTile_TileIndexIsRightEdgeTile_ReturnsTrue( void )
    {
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
-      tileMap->wraps = False;
       result = TileMap_TileIndexIsEdgeTile( tileMap, 39 );
 
       TEST_ASSERT_EQUAL( True, result );
@@ -325,7 +321,6 @@ void TileMap_TileIndexIsEdgeTile_TileIndexIsBottomEdgeTile_ReturnsTrue( void )
    {
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
-      tileMap->wraps = False;
       result = TileMap_TileIndexIsEdgeTile( tileMap, 93 );
 
       TEST_ASSERT_EQUAL( True, result );
@@ -342,7 +337,6 @@ void TileMap_GetTileVelocity_TileHasNormalSpeedFactor_ReturnsNormalWalkSpeed( vo
 
    if ( tileMap )
    {
-      tileMap->isOnRamia = False;
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
       tileMap->tiles[22] = 0;
@@ -362,7 +356,6 @@ void TileMap_GetTileVelocity_TileHasSlowSpeedFactor_ReturnsSlowWalkSpeed( void )
 
    if ( tileMap )
    {
-      tileMap->isOnRamia = False;
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
       tileMap->tiles[22] = 0x1 << 6;
@@ -382,7 +375,6 @@ void TileMap_GetTileVelocity_TileHasVerySlowSpeedFactor_ReturnsVerySlowWalkSpeed
 
    if ( tileMap )
    {
-      tileMap->isOnRamia = False;
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
       tileMap->tiles[22] = 0x2 << 6;
@@ -402,7 +394,6 @@ void TileMap_GetTileVelocity_TileHasCrawlSpeedFactor_ReturnsCrawlWalkSpeed( void
 
    if ( tileMap )
    {
-      tileMap->isOnRamia = False;
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
       tileMap->tiles[22] = 0x3 << 6;
@@ -422,7 +413,7 @@ void TileMap_GetTileVelocity_PlayerIsOnRamiaWithNonNormalSpeedFactor_ReturnsNorm
 
    if ( tileMap )
    {
-      tileMap->isOnRamia = True;
+      TILEMAP_TOGGLE_PARTY_IS_ON_RAMIA( tileMap->flags );
       tileMap->tilesX = 10;
       tileMap->tilesY = 10;
       tileMap->tiles[22] = 0x3 << 6;
@@ -485,7 +476,7 @@ void TileMap_ClampViewportToEntity_EdgeOfMapAndTileMapWraps_ClampsToFocalEntity(
       tileMap->tilesY = 10;
       tileMap->viewport.w = 1000;
       tileMap->viewport.h = 1000;
-      tileMap->wraps = True;
+      TILEMAP_TOGGLE_WRAPS( tileMap->flags );
 
       TileMap_ClampViewportToEntity( tileMap, &entity );
 
@@ -511,7 +502,6 @@ void TileMap_ClampViewportToEntity_MapIsThinnerThanViewport_ClampsHorizontally( 
       tileMap->tilesY = 10;
       tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
       tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
-      tileMap->wraps = False;
 
       TileMap_ClampViewportToEntity( tileMap, &entity );
 
@@ -537,7 +527,6 @@ void TileMap_ClampViewportToEntity_MapIsShorterThanViewport_ClampsVertically( vo
       tileMap->tilesY = 10;
       tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
       tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
-      tileMap->wraps = False;
 
       TileMap_ClampViewportToEntity( tileMap, &entity );
 
@@ -563,7 +552,6 @@ void TileMap_ClampViewportToEntity_CloseToLeftEdge_ClampsToScreen( void )
       tileMap->tilesY = 50;
       tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
       tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
-      tileMap->wraps = False;
 
       TileMap_ClampViewportToEntity( tileMap, &entity );
 
@@ -589,7 +577,6 @@ void TileMap_ClampViewportToEntity_CloseToTopEdge_ClampsToScreen( void )
       tileMap->tilesY = 50;
       tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
       tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
-      tileMap->wraps = False;
 
       TileMap_ClampViewportToEntity( tileMap, &entity );
 
@@ -615,7 +602,6 @@ void TileMap_ClampViewportToEntity_CloseToRightEdge_ClampsToScreen( void )
       tileMap->tilesY = 50;
       tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
       tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
-      tileMap->wraps = False;
 
       TileMap_ClampViewportToEntity( tileMap, &entity );
 
@@ -641,7 +627,6 @@ void TileMap_ClampViewportToEntity_CloseToBottomEdge_ClampsToScreen( void )
       tileMap->tilesY = 50;
       tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
       tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
-      tileMap->wraps = False;
 
       TileMap_ClampViewportToEntity( tileMap, &entity );
 
@@ -667,7 +652,6 @@ void TileMap_ClampViewportToEntity_NotCloseToEdge_ClampsToEntity( void )
       tileMap->tilesY = 50;
       tileMap->viewport.w = TILEMAP_TILE_SIZE_UNITS * 20;
       tileMap->viewport.h = TILEMAP_TILE_SIZE_UNITS * 16;
-      tileMap->wraps = False;
 
       TileMap_ClampViewportToEntity( tileMap, &entity );
 

@@ -41,7 +41,7 @@ internal void Render_DrawTileMapLayer( Game_t* game, void ( *layerFunc )( Game_t
 
    layerFunc( game, viewport->x, viewport->y, viewport->w, viewport->h, 0, 0 );
 
-   if ( game->tileMap.wraps )
+   if ( TILEMAP_WRAPS( game->tileMap.flags ) )
    {
       mapW = game->tileMap.tilesX * TILEMAP_TILE_SIZE_UNITS;
       mapH = game->tileMap.tilesY * TILEMAP_TILE_SIZE_UNITS;
@@ -218,12 +218,12 @@ internal void Render_DrawEntitiesInSection( Game_t* game, i32 vx, i32 vy, i32 vw
 
    Render_SortEntities( game->tileMap.entities, game->tileMap.entityCount, sortedEntities, &sortCount, False );
 
-   if ( game->hasShip && game->tileMap.allowsShip )
+   if ( game->hasShip && TILEMAP_ALLOWS_SHIP( game->tileMap.flags ) )
    {
       Render_SortEntities( &game->tileMap.shipEntity, 1, sortedEntities, &sortCount, False );
    }
 
-   if ( game->hasRamia && game->tileMap.allowsRamia )
+   if ( game->hasRamia && TILEMAP_ALLOWS_RAMIA( game->tileMap.flags ) )
    {
       Render_SortEntities( &game->tileMap.ramiaEntity, 1, sortedEntities, &sortCount, False );
    }

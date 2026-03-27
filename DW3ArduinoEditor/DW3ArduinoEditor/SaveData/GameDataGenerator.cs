@@ -576,9 +576,9 @@ namespace DW3ArduinoEditor.SaveData
 
       private void WriteHelperFunctions( FileStream fs )
       {
-         WriteToFileStream( fs, "\ninternal void TileMap_LoadInitialData( TileMap_t* tm, u32 tx, u32 ty, Bool_t w, Bool_t d, Bool_t u, Bool_t he, Bool_t as, Bool_t ar, u32 ssc, u32 asc, u32 pc, Bool_t ep, u32 ec, u32 nc )\n" );
+         WriteToFileStream( fs, "\ninternal void TileMap_LoadInitialData( TileMap_t* tm, u32 tx, u32 ty, u32 ssc, u32 asc, u32 pc, u32 ec, u32 nc, u32 sti, u32 rti )\n" );
          WriteToFileStream( fs, "{\n" );
-         WriteToFileStream( fs, "   tm->tilesX = tx; tm->tilesY = ty; tm->wraps = w; tm->affectsDaylight = d; tm->isUnderground = u; tm->hasEncounters = he; tm->allowsShip = as; tm->allowsRamia = ar; tm->staticSpriteCount = ssc; tm->activeSpriteCount = asc; tm->portalCount = pc, tm->hasEdgePortal = ep, tm->entityCount = ec; tm->npcCount = nc;\n" );
+         WriteToFileStream( fs, "   tm->tilesX = tx; tm->tilesY = ty; tm->staticSpriteCount = ssc; tm->activeSpriteCount = asc; tm->portalCount = pc, tm->entityCount = ec; tm->npcCount = nc; tm->shipTileIndex = sti; tm->ramiaTileIndex = rti;\n" );
          WriteToFileStream( fs, "}\n" );
 
          WriteToFileStream( fs, "\ninternal void TileMap_LoadStaticSpriteData( StaticSprite_t* s, u32 txi, u32 ti, Bool_t p )\n" );
@@ -729,26 +729,35 @@ namespace DW3ArduinoEditor.SaveData
          for ( int i = 0; i < _gameSaveData?.TileMaps.Count; i++ )
          {
             WriteToFileStream( fs, string.Format( "      case {0}: // {1}\n", _gameSaveData.TileMaps[i].Index, _gameSaveData.TileMaps[i].Name ) );
-            WriteToFileStream( fs, string.Format( "         TileMap_LoadTileTexturesFromSetIndex( tileMap, {0} );\n", _gameSaveData.TileMaps[i].TileTextureSetIndex ) );
-            WriteToFileStream( fs, string.Format( "         TileMap_LoadInitialData( tileMap, {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13} );\n",
+            WriteToFileStream( fs, string.Format( "         TileMap_LoadTileTexturesFromSetIndex( tileMap, {0} );\n", _gameSaveData.TileMaps[i].TileTextureSetIndex ) );            
+            WriteToFileStream( fs, string.Format( "         TileMap_LoadInitialData( tileMap, {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8} );\n",
                _gameSaveData.TileMaps[i].TilesX,
                _gameSaveData.TileMaps[i].TilesY,
-               _gameSaveData.TileMaps[i].Wraps ? "True" : "False",
-               _gameSaveData.TileMaps[i].AffectsDaylight ? "True" : "False",
-               _gameSaveData.TileMaps[i].IsUnderground ? "True" : "False",
-               _gameSaveData.TileMaps[i].HasEncounters ? "True" : "False",
-               _gameSaveData.TileMaps[i].AllowsShip ? "True" : "False",
-               _gameSaveData.TileMaps[i].AllowsRamia ? "True" : "False",
                _gameSaveData.TileMaps[i].StaticSprites.Count,
                _gameSaveData.TileMaps[i].ActiveSprites.Count,
                _gameSaveData.TileMaps[i].Portals.Count,
-               _gameSaveData.TileMaps[i].EdgePortal is null ? "False" : "True",
                _gameSaveData.TileMaps[i].Entities.Count,
-               _gameSaveData.TileMaps[i].Npcs.Count ) );
+               _gameSaveData.TileMaps[i].Npcs.Count,
+               _gameSaveData.TileMaps[i].ShipDefaultTileIndex,
+               _gameSaveData.TileMaps[i].RamiaDefaultTileIndex ) );
 
-            WriteToFileStream( fs, string.Format( "         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, {0} );\n", _gameSaveData.TileMaps[i].StaticSpriteTextureSetIndex ) );
+            var flags = (UInt16)(
+               0 |
+               ( Convert.ToInt32( _gameSaveData?.TileMaps[i].Wraps ) << 0 ) |
+               ( Convert.ToInt32( _gameSaveData?.TileMaps[i].AffectsDaylight ) << 1 ) |
+               ( Convert.ToInt32( _gameSaveData?.TileMaps[i].IsUnderground ) << 2 ) |
+               ( Convert.ToInt32( _gameSaveData?.TileMaps[i].HasEncounters ) << 3 ) |
+               ( Convert.ToInt32( _gameSaveData?.TileMaps[i].EdgePortal is not null ) << 4 ) |
+               ( Convert.ToInt32( _gameSaveData?.TileMaps[i].AllowsShip ) << 5 ) |
+               ( Convert.ToInt32( _gameSaveData?.TileMaps[i].AllowsRamia ) << 6 )
+            );
 
-            for ( int j = 0; j < _gameSaveData.TileMaps[i].StaticSprites.Count; j++ )
+            // bits 7 and 8 are "on ship" and "on ramia" respectively, these should be preserved
+            WriteToFileStream( fs, string.Format( "         tileMap->flags = ( ( ( ( tileMap->flags >> 7 ) & 0x3 ) << 0x7 ) | 0x{0} );\n", flags.ToString( "X4" ) ) );
+
+            WriteToFileStream( fs, string.Format( "         TileMap_LoadStaticSpriteTexturesFromSetIndex( tileMap, {0} );\n", _gameSaveData?.TileMaps[i].StaticSpriteTextureSetIndex ) );
+
+            for ( int j = 0; j < _gameSaveData?.TileMaps[i].StaticSprites.Count; j++ )
             {
                WriteToFileStream( fs, string.Format( "         TileMap_LoadStaticSpriteData( tileMap->staticSprites + {0}, {1}, {2}, {3} );\n",
                   j,
@@ -757,9 +766,9 @@ namespace DW3ArduinoEditor.SaveData
                   _gameSaveData.TileMaps[i].StaticSprites[j].IsPassable ? "True" : "False" ) );
             }
 
-            WriteToFileStream( fs, string.Format( "         TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, {0} );\n", _gameSaveData.TileMaps[i].ActiveSpriteTextureSetIndex ) );
+            WriteToFileStream( fs, string.Format( "         TileMap_LoadActiveSpriteTexturesFromSetIndex( tileMap, {0} );\n", _gameSaveData?.TileMaps[i].ActiveSpriteTextureSetIndex ) );
 
-            for ( int j = 0; j < _gameSaveData.TileMaps[i].ActiveSprites.Count; j++ )
+            for ( int j = 0; j < _gameSaveData?.TileMaps[i].ActiveSprites.Count; j++ )
             {
                WriteToFileStream( fs, string.Format( "         ActiveSprite_Init( tileMap->activeSprites + {0}, {1}, {2}, {3}, Direction_{4} );\n",
                   j,
@@ -769,7 +778,7 @@ namespace DW3ArduinoEditor.SaveData
                   _gameSaveData.TileMaps[i].ActiveSprites[j].StartDirection.ToString() ) );
             }
 
-            for ( int j = 0; j < _gameSaveData.TileMaps[i].Portals.Count; j++ )
+            for ( int j = 0; j < _gameSaveData?.TileMaps[i].Portals.Count; j++ )
             {
                WriteToFileStream( fs, string.Format( "         TileMap_LoadPortalData( tileMap->portals + {0}, {1}, {2}, {3}, Direction_{4} );\n",
                   j,
@@ -779,7 +788,7 @@ namespace DW3ArduinoEditor.SaveData
                   _gameSaveData.TileMaps[i].Portals[j].DestDirection ) );
             }
 
-            if ( _gameSaveData.TileMaps[i].EdgePortal is not null )
+            if ( _gameSaveData?.TileMaps[i].EdgePortal is not null )
             {
                WriteToFileStream( fs, string.Format( "         tileMap->edgePortal.destTileMapIndex = {0}; tileMap->edgePortal.destTileIndex = {1}; tileMap->edgePortal.destDirection = Direction_{2};\n",
                   _gameSaveData.TileMaps[i].EdgePortal?.DestTileMapIndex,
@@ -787,7 +796,7 @@ namespace DW3ArduinoEditor.SaveData
                   _gameSaveData.TileMaps[i].EdgePortal?.DestDirection.ToString() ) );
             }
 
-            for ( int j = 0; j < _gameSaveData.TileMaps[i].Entities.Count; j++ )
+            for ( int j = 0; j < _gameSaveData?.TileMaps[i].Entities.Count; j++ )
             {
                WriteToFileStream( fs, string.Format( "         TileMap_LoadEntityData( tileMap->entities + {0}, {1}, {2}, {3}, {4}, tileMap->activeSprites + {5} );\n",
                   j,
@@ -798,7 +807,7 @@ namespace DW3ArduinoEditor.SaveData
                   _gameSaveData.TileMaps[i].Entities[j].SpriteIndex ) );
             }
 
-            for ( int j = 0; j < _gameSaveData.TileMaps[i].Npcs.Count; j++ )
+            for ( int j = 0; j < _gameSaveData?.TileMaps[i].Npcs.Count; j++ )
             {
                WriteToFileStream( fs, string.Format( "         Npc_Init( tileMap->npcs + {0}, tileMap->entities + {1}, Direction_{2}, {3} );\n",
                   j,
@@ -807,7 +816,7 @@ namespace DW3ArduinoEditor.SaveData
                   _gameSaveData.TileMaps[i].Npcs[j].Wanders ? "True" : "False" ) );
             }
 
-            WriteToFileStream( fs, string.Format( "         memcpy( tileMap->tiles, g_mapTiles{0}, sizeof( u16 ) * {1} );\n", _gameSaveData.TileMaps[i].Index, _gameSaveData.TileMaps[i].Tiles.Count ) );
+            WriteToFileStream( fs, string.Format( "         memcpy( tileMap->tiles, g_mapTiles{0}, sizeof( u16 ) * {1} );\n", _gameSaveData?.TileMaps?[i].Index, _gameSaveData?.TileMaps?[i].Tiles.Count ) );
             WriteToFileStream( fs, "         break;\n" );
          }
                   

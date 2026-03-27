@@ -1,6 +1,5 @@
 ﻿using DW3ArduinoEditor.SaveData;
 using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace DW3ArduinoEditor.ViewModels
 {
@@ -180,6 +179,20 @@ namespace DW3ArduinoEditor.ViewModels
          set => SetProperty( ref _allowsShip, value );
       }
 
+      private uint _shipDefaultTileIndex;
+      public uint ShipDefaultTileIndex
+      {
+         get => _shipDefaultTileIndex;
+         set => SetProperty( ref _shipDefaultTileIndex, value );
+      }
+
+      private uint _ramiaDefaultTileIndex;
+      public uint RamiaDefaultTileIndex
+      {
+         get => _ramiaDefaultTileIndex;
+         set => SetProperty( ref _ramiaDefaultTileIndex, value );
+      }
+
       private bool _allowsRamia;
       public bool AllowsRamia
       {
@@ -203,7 +216,9 @@ namespace DW3ArduinoEditor.ViewModels
                                bool isUnderground,
                                bool hasEncounters,
                                bool allowsShip,
+                               uint shipDefaultTileIndex,
                                bool allowsRamia,
+                               uint ramiaDefaultTileIndex,
                                uint tileTextureSetIndex,
                                uint staticSpriteTextureSetIndex,
                                uint activeSpriteTextureSetIndex )
@@ -217,7 +232,9 @@ namespace DW3ArduinoEditor.ViewModels
          _isUnderground = isUnderground;
          _hasEncounters = hasEncounters;
          _allowsShip = allowsShip;
+         _shipDefaultTileIndex = shipDefaultTileIndex;
          _allowsRamia = allowsRamia;
+         _ramiaDefaultTileIndex = ramiaDefaultTileIndex;
          _tileTextureSetIndex = tileTextureSetIndex;
          _staticSpriteTextureSetIndex = staticSpriteTextureSetIndex;
          _activeSpriteTextureSetIndex = activeSpriteTextureSetIndex;
@@ -239,7 +256,9 @@ namespace DW3ArduinoEditor.ViewModels
          _isUnderground = saveData.IsUnderground;
          _hasEncounters = saveData.HasEncounters;
          _allowsShip = saveData.AllowsShip;
+         _shipDefaultTileIndex = saveData.ShipDefaultTileIndex;
          _allowsRamia = saveData.AllowsRamia;
+         _ramiaDefaultTileIndex = saveData.RamiaDefaultTileIndex;
          _tileTextureSetIndex = saveData.TileTextureSetIndex;
          _staticSpriteTextureSetIndex = saveData.StaticSpriteTextureSetIndex;
          _activeSpriteTextureSetIndex = saveData.ActiveSpriteTextureSetIndex;

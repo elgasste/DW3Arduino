@@ -14,7 +14,9 @@ namespace DW3ArduinoEditor.Views
       public bool NewIsUnderground { get; private set; } = false;
       public bool NewHasEncounters { get; private set; } = false;
       public bool NewAllowsShip { get; private set; } = false;
+      public uint NewShipDefaultTileIndex { get; private set; }
       public bool NewAllowsRamia { get; private set; } = false;
+      public uint NewRamiaDefaultTileIndex { get; private set; }
 
       public AddNewTileMapWindow()
       {
@@ -72,7 +74,9 @@ namespace DW3ArduinoEditor.Views
          NewIsUnderground = IsUndergroundCheckBox.IsChecked ?? false;
          NewHasEncounters = HasEncountersCheckBox.IsChecked ?? false;
          NewAllowsShip = AllowsShipCheckBox.IsChecked ?? false;
+         NewShipDefaultTileIndex = 0;
          NewAllowsRamia = AllowsRamiaCheckBox.IsChecked ?? false;
+         NewRamiaDefaultTileIndex = 0;
          DialogResult = true;
          Close();
       }

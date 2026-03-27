@@ -13,7 +13,9 @@ namespace DW3ArduinoEditor.SaveData
       public bool IsUnderground { get; set; }
       public bool HasEncounters { get; set; }
       public bool AllowsShip {  get; set; }
+      public uint ShipDefaultTileIndex { get; set; }
       public bool AllowsRamia { get; set; }
+      public uint RamiaDefaultTileIndex { get; set; }
       public uint TileTextureSetIndex { get; set; }
       public uint StaticSpriteTextureSetIndex { get; set; }
       public uint ActiveSpriteTextureSetIndex { get; set; }
@@ -39,7 +41,9 @@ namespace DW3ArduinoEditor.SaveData
          IsUnderground = viewModel.IsUnderground;
          HasEncounters = viewModel.HasEncounters;
          AllowsShip = viewModel.AllowsShip;
+         ShipDefaultTileIndex = viewModel.ShipDefaultTileIndex;
          AllowsRamia = viewModel.AllowsRamia;
+         RamiaDefaultTileIndex = viewModel.RamiaDefaultTileIndex;
          TileTextureSetIndex = viewModel.TileTextureSetIndex;
          StaticSpriteTextureSetIndex = viewModel.StaticSpriteTextureSetIndex;
          ActiveSpriteTextureSetIndex = viewModel.ActiveSpriteTextureSetIndex;

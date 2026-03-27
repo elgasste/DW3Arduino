@@ -158,7 +158,7 @@ internal void Game_HandlePlayerMoved( Game_t* game )
 
    Game_AnchorRearPlayers( game );
 
-   if ( game->tileMap.affectsDaylight )
+   if ( TILEMAP_AFFECTS_DAYLIGHT( game->tileMap.flags ) )
    {
       Game_IncrementDaylightFactor( game );
    }
@@ -243,7 +243,7 @@ internal void Game_UpdateDayFilterIntensity( Game_t* game )
    }
 
    // if we're underground, don't go full-nighttime
-   if ( game->tileMap.isUnderground && game->screen.dayFilterIntensity < DAY_FACTOR_UNDERGROUND_THRESHOLD )
+   if ( TILEMAP_IS_UNDERGROUND( game->tileMap.flags ) && game->screen.dayFilterIntensity < DAY_FACTOR_UNDERGROUND_THRESHOLD )
    {
       game->screen.dayFilterIntensity = DAY_FACTOR_UNDERGROUND_THRESHOLD;
    }
@@ -286,7 +286,7 @@ internal void Game_SteppedOnTile( Game_t* game, u32 tileIndex )
 
    frontPlayer->entity->tileIndex = tileIndex;
 
-   if ( !game->tileMap.isOnRamia )
+   if ( !TILEMAP_PARTY_IS_ON_RAMIA( game->tileMap.flags ) )
    {
       if ( Game_TryEnterPortal( game ) )
       {
@@ -323,14 +323,15 @@ internal Bool_t Game_TryEnterPortal( Game_t* game )
    }
 
    // now check for edge portals
-   if ( !foundPortal && game->tileMap.hasEdgePortal && TileMap_TileIndexIsEdgeTile( &game->tileMap, game->players->entity->tileIndex ) )
+   if ( !foundPortal && TILEMAP_HAS_EDGE_PORTAL( game->tileMap.flags ) && TileMap_TileIndexIsEdgeTile( &game->tileMap, game->players->entity->tileIndex ) )
    {
       foundPortal = &game->tileMap.edgePortal;
    }
 
+   // if we're on the ship or ramia, and that's not allowed in the destination, don't allow it
    if ( foundPortal &&
-        ( ( game->tileMap.isOnShip && !TileMap_AllowsShip( foundPortal->destTileMapIndex ) ) ||
-          ( game->tileMap.isOnRamia && !TileMap_AllowsRamia( foundPortal->destTileMapIndex ) ) ) )
+        ( ( TILEMAP_PARTY_IS_ON_SHIP( game->tileMap.flags ) && !TileMap_AllowsShip( foundPortal->destTileMapIndex ) ) ||
+          ( TILEMAP_PARTY_IS_ON_RAMIA( game->tileMap.flags ) && !TileMap_AllowsRamia( foundPortal->destTileMapIndex ) ) ) )
    {
       foundPortal = 0;
    }
@@ -360,15 +361,17 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
    TileMap_LoadFromIndex( &game->tileMap, destTileMapIndex );
    TileMap_GetPositionOfTileIndex( &game->tileMap, destTileIndex, &newPosX, &newPosY );
 
-   if ( game->tileMap.isOnShip && !game->tileMap.allowsShip )
+   if ( TILEMAP_PARTY_IS_ON_SHIP( game->tileMap.flags ) && !TILEMAP_ALLOWS_SHIP( game->tileMap.flags ) )
    {
-      game->tileMap.isOnShip = False;
+      TILEMAP_TOGGLE_PARTY_IS_ON_SHIP( game->tileMap.flags );
    }
 
-   if ( game->tileMap.isOnRamia && !game->tileMap.allowsRamia )
+   if ( TILEMAP_PARTY_IS_ON_RAMIA( game->tileMap.flags ) && !TILEMAP_ALLOWS_RAMIA( game->tileMap.flags ) )
    {
-      game->tileMap.isOnRamia = False;
+      TILEMAP_TOGGLE_PARTY_IS_ON_RAMIA( game->tileMap.flags );
    }
+
+   // MUFFINS: if the party is on ramia/ship, set ramia/ship's tile index to the same as the player
 
    for ( i = 0; i < (i32)game->playerCount; i++ )
    {
@@ -390,7 +393,7 @@ internal Bool_t Game_TryEncounter( Game_t* game )
 {
    u16 tile;
 
-   if ( !game->tileMap.hasEncounters )
+   if ( !TILEMAP_HAS_ENCOUNTERS( game->tileMap.flags ) )
    {
       return False;
    }

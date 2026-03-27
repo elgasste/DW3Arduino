@@ -25,7 +25,6 @@ Game_t* GameUtil_CreateSimpleGame()
    game->playerCount = 1;
    Game_Init( game, screenBuffer );
 
-   game->tileMap.wraps = False;
    game->tileMap.tilesX = GAMEUTIL_DEFAULT_TILEMAP_TILES_X;
    game->tileMap.tilesY = GAMEUTIL_DEFAULT_TILEMAP_TILES_Y;
    game->tileMap.viewport.w = GAMEUTIL_DEFAULT_TILEMAP_VIEWPORT_W;

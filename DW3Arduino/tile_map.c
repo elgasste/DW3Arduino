@@ -20,16 +20,9 @@ void TileMap_Init( TileMap_t* tileMap, Player_t* players,
    tileMap->entityCount = 0;
    tileMap->npcCount = 0;
 
-   tileMap->wraps = False;
-   tileMap->affectsDaylight = False;
-   tileMap->isUnderground = False;
-   tileMap->hasEncounters = False;
-   tileMap->allowsShip = False;
-   tileMap->allowsRamia = False;
+   tileMap->flags = 0;
 
-   tileMap->isOnShip = False;
    tileMap->shipTileIndex = 0;
-   tileMap->isOnRamia = False;
    tileMap->ramiaTileIndex = 0;
 }
 
@@ -67,7 +60,7 @@ void TileMap_ClampViewportToEntity( TileMap_t* tileMap, Entity_t* entity )
 {
    i32 tileMapW, tileMapH;
 
-   if ( tileMap->wraps )
+   if ( TILEMAP_WRAPS( tileMap->flags ) )
    {
       // wrapping maps should always center on the focal entity
       tileMap->viewport.x = ( entity->pos.x + ( entity->pos.w / 2 ) ) - ( tileMap->viewport.w / 2 );
@@ -144,7 +137,7 @@ void TileMap_GetPositionOfTileIndex( TileMap_t* tileMap, u32 tileIndex, i32* x, 
 
 Bool_t TileMap_TileIndexIsEdgeTile( TileMap_t* tileMap, u32 tileIndex )
 {
-   if ( tileMap->wraps )
+   if ( TILEMAP_WRAPS( tileMap->flags ) )
    {
       return False;
    }
@@ -161,7 +154,7 @@ i32 TileMap_GetTileVelocity( TileMap_t* tileMap, u32 tileIndex )
    u32 speedFactor = TILE_GET_WALKING_SPEED( tile );
    i32 velocity = TILE_WALK_SPEED_NORMAL;
 
-   if ( !tileMap->isOnRamia )
+   if ( !TILEMAP_PARTY_IS_ON_RAMIA( tileMap->flags ) )
    {
       switch ( speedFactor )
       {

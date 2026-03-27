@@ -274,7 +274,6 @@ void Game_TicByState_GameStateIsOverworldActive_UpdatesDayFilterIntensity( void 
    if ( game )
    {
       game->state = GameState_Overworld_Active;
-      game->tileMap.isUnderground = False;
       game->daylightFactor = 1.0f;
       game->screen.dayFilterIntensity = 0.0f;
 
@@ -293,7 +292,6 @@ void Game_TicByState_GameStateIsOverworldAndNotActive_DoesNotUpdateDayFilterInte
    if ( game )
    {
       game->state = GameState_Overworld_Inactive;
-      game->tileMap.isUnderground = False;
       game->daylightFactor = 1.0f;
       game->screen.dayFilterIntensity = 0.0f;
 

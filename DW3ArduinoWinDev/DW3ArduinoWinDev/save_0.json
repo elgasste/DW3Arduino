@@ -1,0 +1,42 @@
+{
+	"hasShip":	1,
+	"hasRamia":	1,
+	"playerCount":	4,
+	"players":	[{
+			"name":	"Garameth",
+			"class":	0,
+			"gender":	0,
+			"exp":	0,
+			"stats":	{
+				"hp":	12,
+				"mp":	0
+			}
+		}, {
+			"name":	"Conan",
+			"class":	1,
+			"gender":	1,
+			"exp":	0,
+			"stats":	{
+				"hp":	16,
+				"mp":	0
+			}
+		}, {
+			"name":	"Merlin",
+			"class":	3,
+			"gender":	1,
+			"exp":	0,
+			"stats":	{
+				"hp":	8,
+				"mp":	0
+			}
+		}, {
+			"name":	"Dorkel",
+			"class":	6,
+			"gender":	0,
+			"exp":	0,
+			"stats":	{
+				"hp":	6,
+				"mp":	0
+			}
+		}]
+}
