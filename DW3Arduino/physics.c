@@ -212,6 +212,7 @@ internal void Physics_MoveEntities( Game_t* game )
 internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t* entity, i32 sign, Bool_t horizontal )
 {
    u16 tile;
+   u32 tileIndex;
    i32 i, start, end, side;
 
    // Ramia only ever runs into the edge of the screen
@@ -232,34 +233,37 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
       {
          if ( i < 0 ) // wrap to the bottom
             if ( side < 0 ) // wrap to the right
-               tile = tileMap->tiles[( tileMap->tilesX + side ) + ( ( tileMap->tilesY + i ) * tileMap->tilesX )];
+               tileIndex = ( tileMap->tilesX + side ) + ( ( tileMap->tilesY + i ) * tileMap->tilesX );
             else if ( side >= (i32)tileMap->tilesX ) // wrap to the left
-               tile = tileMap->tiles[( side - tileMap->tilesX ) + ( ( tileMap->tilesY + i ) * tileMap->tilesX )];
+               tileIndex = ( side - tileMap->tilesX ) + ( ( tileMap->tilesY + i ) * tileMap->tilesX );
             else // no horizontal wrapping
-               tile = tileMap->tiles[side + ( ( tileMap->tilesY + i ) * tileMap->tilesX )];
+               tileIndex = side + ( ( tileMap->tilesY + i ) * tileMap->tilesX );
          else if ( i >= (i32)tileMap->tilesY ) // wrap to the top
             if ( side < 0 ) // wrap to the right
-               tile = tileMap->tiles[( tileMap->tilesX + side ) + ( ( i - tileMap->tilesY ) * tileMap->tilesX )];
+               tileIndex = ( tileMap->tilesX + side ) + ( ( i - tileMap->tilesY ) * tileMap->tilesX );
             else if ( side >= (i32)tileMap->tilesX ) // wrap to the left
-               tile = tileMap->tiles[( side - tileMap->tilesX ) + ( ( i - tileMap->tilesY ) * tileMap->tilesX )];
+               tileIndex = ( side - tileMap->tilesX ) + ( ( i - tileMap->tilesY ) * tileMap->tilesX );
             else // no horizontal wrapping
-               tile = tileMap->tiles[side + ( ( i - tileMap->tilesY ) * tileMap->tilesX )];
+               tileIndex = side + ( ( i - tileMap->tilesY ) * tileMap->tilesX );
          else // no vertical wrapping
             if ( side < 0 ) // wrap to the right
-               tile = tileMap->tiles[( tileMap->tilesX + side ) + ( i * tileMap->tilesX )];
+               tileIndex = ( tileMap->tilesX + side ) + ( i * tileMap->tilesX );
             else if ( side >= (i32)tileMap->tilesX ) // wrap to the left
-               tile = tileMap->tiles[( side - tileMap->tilesX ) + ( i * tileMap->tilesX )];
+               tileIndex = ( side - tileMap->tilesX ) + ( i * tileMap->tilesX );
             else // no horizontal wrapping
-               tile = tileMap->tiles[side + ( i * tileMap->tilesX )];
+               tileIndex = side + ( i * tileMap->tilesX );
 
-         if ( !TILE_GET_IS_PASSABLE( tile ) )
-         {
+         tile = tileMap->tiles[tileIndex];
+
+         if ( !TILE_GET_IS_PASSABLE( tile ) ) {
             return True;
          }
-         else if ( entity == tileMap->playerEntities && TILEMAP_PARTY_IS_ON_SHIP( tileMap->flags ) == TILE_GET_IS_LAND( tile ) )
-         {
-            // the player can collide with either land or water, depending on whether they're on the ship
-            return True;
+         else if ( entity == tileMap->playerEntities ) {
+            if ( !TILEMAP_PARTY_IS_ON_SHIP( tileMap->flags ) &&
+                 tileMap->hasShipFunc(tileMap->hasShipProvider) && tileMap->shipEntity.tileIndex == tileIndex )
+               continue; // we're trying to board the ship
+            else if ( TILEMAP_PARTY_IS_ON_SHIP( tileMap->flags ) == TILE_GET_IS_LAND( tile ) )
+               return True; // allow moving on water with a ship, and moving on land on foot
          }
       }
    }
@@ -275,34 +279,37 @@ internal Bool_t Physics_EntityCollidesWithTileMap( TileMap_t* tileMap, Entity_t*
       {
          if ( i < 0 ) // wrap to the right
             if ( side < 0 ) // wrap to the bottom
-               tile = tileMap->tiles[( tileMap->tilesY + i ) + ( ( tileMap->tilesX + side ) * tileMap->tilesX )];
+               tileIndex = ( tileMap->tilesY + i ) + ( ( tileMap->tilesX + side ) * tileMap->tilesX );
             else if ( side >= (i32)tileMap->tilesY ) // wrap to the top
-               tile = tileMap->tiles[( tileMap->tilesY + i ) + ( ( side - tileMap->tilesX ) * tileMap->tilesX )];
+               tileIndex = ( tileMap->tilesY + i ) + ( ( side - tileMap->tilesX ) * tileMap->tilesX );
             else // no vertical wrapping
-               tile = tileMap->tiles[( tileMap->tilesY + i ) + ( side * tileMap->tilesX )];
+               tileIndex = ( tileMap->tilesY + i ) + ( side * tileMap->tilesX );
          else if ( i >= (i32)tileMap->tilesX ) // wrap to the left
             if ( side < 0 ) // wrap to the bottom
-               tile = tileMap->tiles[( i - tileMap->tilesY ) + ( ( tileMap->tilesX + side ) * tileMap->tilesX )];
+               tileIndex = ( i - tileMap->tilesY ) + ( ( tileMap->tilesX + side ) * tileMap->tilesX );
             else if ( side >= (i32)tileMap->tilesY ) // wrap to the top
-               tile = tileMap->tiles[( i - tileMap->tilesY ) + ( ( side - tileMap->tilesX ) * tileMap->tilesX )];
+               tileIndex = ( i - tileMap->tilesY ) + ( ( side - tileMap->tilesX ) * tileMap->tilesX );
             else // no vertical wrapping
-               tile = tileMap->tiles[( i - tileMap->tilesY ) + ( side * tileMap->tilesX )];
+               tileIndex = ( i - tileMap->tilesY ) + ( side * tileMap->tilesX );
          else // no horizontal wrapping
             if ( side < 0 ) // wrap to the bottom
-               tile = tileMap->tiles[i + ( ( tileMap->tilesY + side ) * tileMap->tilesX )];
+               tileIndex = i + ( ( tileMap->tilesY + side ) * tileMap->tilesX );
             else if ( side >= (i32)tileMap->tilesY ) // wrap to the top
-               tile = tileMap->tiles[i + ( ( side - tileMap->tilesY ) * tileMap->tilesX )];
+               tileIndex = i + ( ( side - tileMap->tilesY ) * tileMap->tilesX );
             else // no vertical wrapping
-               tile = tileMap->tiles[i + ( side * tileMap->tilesX )];
+               tileIndex = i + ( side * tileMap->tilesX );
 
-         if ( !TILE_GET_IS_PASSABLE( tile ) )
-         {
+         tile = tileMap->tiles[tileIndex];
+
+         if ( !TILE_GET_IS_PASSABLE( tile ) ) {
             return True;
          }
-         else if ( entity == tileMap->playerEntities && TILEMAP_PARTY_IS_ON_SHIP( tileMap->flags ) == TILE_GET_IS_LAND( tile ) )
-         {
-            // the player can collide with either land or water, depending on whether they're on the ship
-            return True;
+         else if ( entity == tileMap->playerEntities ) {
+            if ( !TILEMAP_PARTY_IS_ON_SHIP( tileMap->flags ) &&
+                 tileMap->hasShipFunc(tileMap->hasShipProvider) && tileMap->shipEntity.tileIndex == tileIndex )
+               continue; // we're trying to board the ship
+            else if ( TILEMAP_PARTY_IS_ON_SHIP( tileMap->flags ) == TILE_GET_IS_LAND( tile ) )
+               return True; // allow moving on water with a ship, and moving on land on foot
          }
       }
    }
