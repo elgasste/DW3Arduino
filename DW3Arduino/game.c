@@ -145,18 +145,29 @@ internal void Game_HandlePlayerMoved( Game_t* game )
    u32 tileIndex;
    Player_t* frontPlayer = game->players;
 
-   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newPos.x = frontPlayer->entity->pos.x;
-   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newPos.y = frontPlayer->entity->pos.y;
-   frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newDir = frontPlayer->entity->sprite->direction;
-   frontPlayer->moveHistoryIndex++;
-
-   if ( frontPlayer->moveHistoryIndex >= PLAYER_MOVE_HISTORY_SIZE )
+   if ( TILEMAP_PARTY_IS_ON_SHIP( game->tileMap.flags ) )
    {
-      frontPlayer->chainNextPlayer = True;
-      frontPlayer->moveHistoryIndex = 0;
+      game->tileMap.shipEntity.pos = frontPlayer->entity->pos;
    }
+   else if ( TILEMAP_PARTY_IS_ON_RAMIA( game->tileMap.flags ) )
+   {
+      game->tileMap.ramiaEntity.pos = frontPlayer->entity->pos;
+   }
+   else
+   {
+      frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newPos.x = frontPlayer->entity->pos.x;
+      frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newPos.y = frontPlayer->entity->pos.y;
+      frontPlayer->moveHistory[frontPlayer->moveHistoryIndex].newDir = frontPlayer->entity->sprite->direction;
+      frontPlayer->moveHistoryIndex++;
 
-   Game_AnchorRearPlayers( game );
+      if ( frontPlayer->moveHistoryIndex >= PLAYER_MOVE_HISTORY_SIZE )
+      {
+         frontPlayer->chainNextPlayer = True;
+         frontPlayer->moveHistoryIndex = 0;
+      }
+
+      Game_AnchorRearPlayers( game );
+   }
 
    if ( TILEMAP_AFFECTS_DAYLIGHT( game->tileMap.flags ) )
    {
