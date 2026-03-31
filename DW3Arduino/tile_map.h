@@ -101,10 +101,10 @@ typedef struct TileMap_t
    //
    // x when loading a game, if you have ramia/ship, it should be placed on the correct tile
    //    x tile map should have a ramia/ship default tile index
-   // - when going through a portal on ramia/ship, you should still be on ramia/ship when entering
+   // x when going through a portal on ramia/ship, you should still be on ramia/ship when entering
    // - if the you're on ramia/ship, update the tile index for the player AND ship/ramia when moving
    // - if you step on the ship's tile index, board the ship
-   //    - this will involve checking whether the ship is on a water tile in collision detection
+   //    x this will involve checking whether the ship is on a water tile in collision detection
    //    - add an animation for this
    // - if you're on the ship and you step on a passable non-water index, disembark the ship
    //    - same as getting on the ship in the first place

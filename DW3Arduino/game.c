@@ -371,13 +371,23 @@ internal void Game_EnterPortal( Game_t* game, Portal_t* portal )
       TILEMAP_TOGGLE_PARTY_IS_ON_RAMIA( game->tileMap.flags );
    }
 
-   // MUFFINS: if the party is on ramia/ship, set ramia/ship's tile index to the same as the player
-
    for ( i = 0; i < (i32)game->playerCount; i++ )
    {
       player = game->players + i;
       TileMap_CenterEntityOnTile( &game->tileMap, game->tileMap.playerEntities + i, destTileIndex );
       ActiveSprite_SetDirection( game->tileMap.playerSprites + i, destDirection );
+
+      if ( TILEMAP_PARTY_IS_ON_SHIP( game->tileMap.flags ) )
+      {
+         TileMap_CenterEntityOnTile( &game->tileMap, &game->tileMap.shipEntity, destTileIndex );
+         ActiveSprite_SetDirection( &game->tileMap.shipSprite, destDirection );
+      }
+
+      if ( TILEMAP_PARTY_IS_ON_RAMIA( game->tileMap.flags ) )
+      {
+         TileMap_CenterEntityOnTile( &game->tileMap, &game->tileMap.ramiaEntity, destTileIndex );
+         ActiveSprite_SetDirection( &game->tileMap.ramiaSprite, destDirection );
+      }
 
       // this ensures the sprites will be drawn in the correct Z-order on arrival
       player->entity->pos.y += ( destDirection == Direction_Up ) ? i : ( destDirection == Direction_Down ) ? -i : 0;
